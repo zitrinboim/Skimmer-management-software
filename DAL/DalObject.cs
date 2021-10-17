@@ -65,37 +65,17 @@ namespace DalObject
             {
                 customers[Config.CustomerIndex++] = new Customer()
                 {
+
                     id = random.Next(200000000, 399999999),
-                    phone = "05" + random.Next(0, 9) + "-" + random.Next(1000000, 9999999),
-                    name
+                    phone = "05" + (Convert.ToString(random.Next(0, 9)) + "-" + (Convert.ToString(random.Next(0000000, 9999999)),
+                    name =(names)random.Next(1, 10)
 
                 }
             }
 
 
         }
-        class GFG
-        {
-            static int MAX = 26;
-
-            // Returns a String of random alphabets of
-            // length n.
-            static String printRandomString(int n)
-            {
-                char[] alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
-                        'h', 'i', 'j', 'k', 'l', 'm', 'n',
-                        'o', 'p', 'q', 'r', 's', 't', 'u',
-                        'v', 'w', 'x', 'y', 'z' };
-
-                Random random = new Random();
-                String res = "";
-                for (int i = 0; i < n; i++)
-                    res = res + alphabet[(int)(random.Next(0, MAX))];
-
-                return res;
-            }
-
-        }
+    }
 }
 
 
