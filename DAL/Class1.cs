@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 
 namespace DAL
 {
@@ -9,7 +9,7 @@ namespace DAL
 
             public struct station
             {
-
+    
             }
         }
     }
