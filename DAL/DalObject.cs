@@ -24,8 +24,8 @@ namespace DalObject
             internal static int CustomerIndex = 0;
             internal static int ParcelIndex = 0;
 
-            internal static int DroneIdRun = 0;
-            internal static int StationIdRun = 0;
+            internal static int DroneIdRun = 1;
+            internal static int StationIdRun = 1;
 
         }
         public static void Initialize()
@@ -38,7 +38,7 @@ namespace DalObject
                     Id = Config.DroneIdRun++,
                     Model = "F40",
                     MaxWeight = (WeightCategories)random.Next(1, 4),
-                    battery = (double)random.Next(0, 100),
+                    battery = (double)random.Next(0, 101),
                     Status = (DroneStatuses)random.Next(1, 4)
                 };
             }
@@ -46,25 +46,64 @@ namespace DalObject
 
             stations[Config.StationIndex++] = new Station()
             {
-                ChargeSlots = random.Next(0, 10),
+                ChargeSlots = random.Next(1, 10),
                 Id = Config.StationIdRun++,
-                name = "central Station",
-                longitude= 34.748340,
-                lattitude
+                name = "central Station TLV",
+                longitude = 32.056811,
+                lattitude = 34.779302
             };
-            
+
+            stations[Config.StationIndex++] = new Station()
+            {
+                ChargeSlots = random.Next(1, 10),
+                Id = Config.StationIdRun++,
+                name = "central Station Jrusalem",
+                longitude = 31.788729,
+                lattitude = 35.202984
+            };
+            for (int i = 0; i < 10; i++)
+            {
+                customers[Config.CustomerIndex++] = new Customer()
+                {
+                    id = random.Next(200000000, 399999999),
+                    phone = "05" + random.Next(0, 9) + "-" + random.Next(1000000, 9999999),
+                    name
+
+                }
+            }
+
+
         }
-        
-        
+        class GFG
+        {
+            static int MAX = 26;
 
-    }
+            // Returns a String of random alphabets of
+            // length n.
+            static String printRandomString(int n)
+            {
+                char[] alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+                        'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                        'o', 'p', 'q', 'r', 's', 't', 'u',
+                        'v', 'w', 'x', 'y', 'z' };
+
+                Random random = new Random();
+                String res = "";
+                for (int i = 0; i < n; i++)
+                    res = res + alphabet[(int)(random.Next(0, MAX))];
+
+                return res;
+            }
+
+        }
 }
-    
 
-      
-            
 
-        
+
+
+
+
+
 
 
 
