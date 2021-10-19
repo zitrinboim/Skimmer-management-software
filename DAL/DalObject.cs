@@ -9,9 +9,21 @@ namespace DalObject
 {
     public class DalObject
     {
-        public DalObject() { DataSurce.Initialize(); }
+        public DalObject() => DataSurce.Initialize();
+        public void addStation()
+        {
+            Station temp;
+            Console.WriteLine("enter name to the station");
+            temp.name=Console.ReadLine();
+            Console.WriteLine("enter longitudes of the station ");
+            temp.longitude = Console.Read();
+            Console.WriteLine("enter Latitudes of the station ");
+            temp.lattitude=Console.Read();
+            Console.WriteLine("enter number of CargeSlots");
 
-        
-        
+        }
+
+
+
     }
 }
