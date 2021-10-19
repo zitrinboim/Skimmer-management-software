@@ -68,7 +68,7 @@ namespace DalObject
 
                     id = random.Next(200000000, 399999999),
                     phone = "05" + (Convert.ToString(random.Next(0, 9)) + "-" + (Convert.ToString(random.Next(0000000, 9999999)),
-                    name =(names)random.Next(1, 10)
+                    name = Convert.ToString((names)random.Next(1, 10));
 
                 }
             }
