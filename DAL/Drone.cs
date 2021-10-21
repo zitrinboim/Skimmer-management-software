@@ -15,6 +15,11 @@ namespace IDAL
             public WeightCategories MaxWeight { get; set; }
             public DroneStatuses Status { get; set; }
             public double battery { get; set; }
+            public override string ToString()
+            {
+                return string.Format("Drone\nID {0}\tModel {1}\tMax Weight {2}\tStatus {3}\tbattery {4}"
+                    , Id, Model, MaxWeight, Status, battery);
+            }
         }
     }
 }
