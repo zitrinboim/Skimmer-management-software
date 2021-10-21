@@ -6,24 +6,23 @@ using System.Threading.Tasks;
 
 
 
-    namespace IDAL
+namespace IDAL
+{
+    namespace DO
     {
-        namespace DO
+        public struct Parcel
         {
-            public struct parcel
-            {
-                public int Id;
-                //צריך לבדוק לגבי השדות של השולח והמקבל
-                public int SenderId;
-                public int TargetId;
-                public WeightCategories weight;
-                public Priorities priority;
-                public DateTime Requested;
-                public int DroneId;
-                public DateTime Scheduled;
-                public DateTime PickedUp;
-                public DateTime Delivered;
-            }
+            public int Id { get; set; }
+            public int SenderId { get; set; }
+            public int TargetId { get; set; }
+            public WeightCategories weight { get; set; }
+            public Priorities priority { get; set; }
+            public int DroneId { get; set; }
+            public DateTime Requested { get; set; }
+            public DateTime Scheduled { get; set; }
+            public DateTime PickedUp { get; set; }
+            public DateTime Delivered { get; set; }
         }
     }
+}
 

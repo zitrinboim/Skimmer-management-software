@@ -5,16 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-
-namespace DalObject
+namespace Dal
 {
-    static class DataSurce
+    static class DataSource
     {
         internal static Drone[] drones = new Drone[10];
         internal static Station[] stations = new Station[5];
-        internal static Customer[] customers = new Customer[100];
-        internal static parcel[] parcels = new parcel[1000];
+        internal static Customer[] Customers = new Customer[100];
+        internal static DroneCarge[] DroneCarges = new DroneCarge[10];
+        internal static Parcel[] Parcels = new Parcel[1000];
         //internal static List<Drone> drones = new List<Drone>();
         internal static string[] names = new string[] { "Reuben", "Simeon", "Levi", "Judah", "Issachar", "Zebulun", "Dan", "Naphtali", "Gad", "Asher", };
         internal static string[] phoneNumbers = new string[] { "050-4176977", "052-7184790", "058-4423540", "050-4106067", "052-7636475", };
@@ -24,12 +23,11 @@ namespace DalObject
             internal static int DroneIndex = 0;
             internal static int StationIndex = 0;
             internal static int CustomerIndex = 0;
+            internal static int DroneCargeIndex = 0;
             internal static int ParcelIndex = 0;
-
             internal static int DroneIdRun = 1;
             internal static int StationIdRun = 1;
             internal static int ParcelIdRun = 1;
-
         }
         public static void Initialize()
         {
@@ -66,7 +64,7 @@ namespace DalObject
             };
             for (int i = 0; i < 10; i++)
             {
-                customers[Config.CustomerIndex++] = new Customer()
+                Customers[Config.CustomerIndex++] = new Customer()
                 {
                     id = random.Next(200000000, 399999999),
                     name=names[random.Next(0,10)],
@@ -78,11 +76,11 @@ namespace DalObject
             }
             for (int i = 0; i < 10; i++)
             {
-                parcels[Config.ParcelIndex++] = new parcel()
+                Parcels[Config.ParcelIndex++] = new Parcel()
                 {
                     Id = Config.ParcelIdRun++,
-                    SenderId=customers[random.Next(0,10)].id,
-                    TargetId= customers[random.Next(0, 10)].id,
+                    SenderId=Customers[random.Next(0,10)].id,
+                    TargetId= Customers[random.Next(0, 10)].id,
                     weight=(WeightCategories)random.Next(1,4),
                     priority=(Priorities)random.Next(1,4),
                     DroneId=random.Next(1,6),

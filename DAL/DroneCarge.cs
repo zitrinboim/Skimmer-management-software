@@ -12,9 +12,9 @@ using System.Threading.Tasks;
         {
             public struct DroneCarge
             {
-                public int DroneID;
-                public int StationId;
-            }
+                public int DroneID { get; set; }
+            public int StationId { get; set; }
+        }
         }
     }
 

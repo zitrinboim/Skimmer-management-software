@@ -13,7 +13,7 @@ using System.Threading.Tasks;
             //האם צריך להכניס הכל בתוך  class.
             public enum WeightCategories { easy = 1, medium, heavy };
             public enum Priorities { normal = 1, fast, emergency };
-            public enum DroneStatuses { Available=1, maintenance, Busy };
+            public enum DroneStatuses { available=1, maintenance, busy };
         }
     }
 

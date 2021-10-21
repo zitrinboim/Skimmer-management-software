@@ -5,18 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-    namespace IDAL
+namespace IDAL
+{
+    namespace DO
     {
-        namespace DO
+        public struct Station
         {
-            public struct Station
-            {
-                public int Id;
-                public string name;
-                public double longitude;
-                public double lattitude;
-                public int ChargeSlots;
-            }
+            public int Id { get; set; }
+            public string name { get; set; }
+            public double longitude { get; set; }
+            public double lattitude { get; set; }
+            public int ChargeSlots { get; set; }
         }
     }
+}
 
