@@ -18,7 +18,7 @@ namespace Dal
         /// <param name="station"></param>
         /// <returns></true/false>
         public bool addStation(Station station)
-        {   
+        {
             int find = DataSource.stations.FindIndex(Station => Station.Id == station.Id);
             //Safety mechanism to prevent the overrun of an existing entity with the same ID.
             if (find <= 0)
@@ -65,7 +65,7 @@ namespace Dal
         /// </summary>
         /// <param name="parcel"></param>
         /// <returns></returns>
-        public int addParsel(Parcel parcel)
+        public int addParsel(Parcel parcel)//לזכור שבהשמה הראשונית של  (PARCEL) צריך הרחפן להיות 0.
         {
             DataSource.parcels.Add(parcel);
             return (DataSource.Config.ParcelIdRun++);
@@ -81,7 +81,7 @@ namespace Dal
             parcel.Scheduled = DateTime.Now;
         }
         /// <summary>
-        /// 
+        /// This function performs an update on packet collection by drone.
         /// </summary>
         /// <param name="parcel"></param>
         /// <param name="drone"></param>
@@ -90,57 +90,97 @@ namespace Dal
             drone.Status = DroneStatuses.busy;
             parcel.PickedUp = DateTime.Now;
         }
-
+        /// <summary>
+        /// This function performs an update on delivering a package to the customer.
+        /// </summary>
+        /// <param name="parcel"></param>
+        /// <param name="drone"></param>
         public void DeliveryPackageToCustomer(Parcel parcel, Drone drone)
         {
             parcel.Delivered = DateTime.Now;
             drone.Status = DroneStatuses.available;
         }
+        /// <summary>
+        /// This function performs an update of sending a drone for charging.
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <param name="station"></param>
         public void SendingDroneForCharging(Drone drone, Station station)//יש לזכור במיין להוסיף זימון להצגת תחנות פנויות
         {
             drone.Status = DroneStatuses.maintenance;
-            DataSource.droneCarges.Add(new DroneCarge() { DroneID = drone.Id, StationId = station.Id });
+            DataSource.droneCarges.Add(new DroneCarge() { DroneID = drone.Id, StationId = station.Id });//Create a new show from a class DroneCarge. 
         }
+        /// <summary>
+        /// This function updates the release of drone from charging.
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <returns></returns>
         public bool ReleaseDroneFromCharging(Drone drone)
         {
-            int index = DataSource.droneCarges.FindIndex(DroneCarge => DroneCarge.DroneID == drone.Id);
+            int index = DataSource.droneCarges.FindIndex(DroneCarge => DroneCarge.DroneID == drone.Id);//
             if (index != -1)
             {
+                //These lines add a free charging slot at the station where the charging was.
                 int stationIdToRelease = DataSource.droneCarges[index].StationId;
                 int indexStation = DataSource.stations.FindIndex(Station => Station.Id == stationIdToRelease);
                 Station tempStation = DataSource.stations.Find(Station => Station.Id == stationIdToRelease);
                 tempStation.ChargeSlots++;
                 DataSource.stations[indexStation] = tempStation;
-                DataSource.droneCarges.RemoveAt(index);
+
+                DataSource.droneCarges.RemoveAt(index);//Remove object from list.
+
                 drone.Status = DroneStatuses.available;
                 drone.battery = 100.0;
                 return true;
             }
             return false;
         }
+        /// <summary>
+        /// This function transmits the data of the requested station according to an identification number.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public Station? getStation(int Id)
         {
             Station? getStation = DataSource.stations.Find(Station => Station.Id == Id);
             return getStation != null ? getStation : null;
         }
-
+        /// <summary>
+        /// This function transmits the requested drone data according to an identification number.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public Drone? getDrone(int Id)
         {
             Drone? getDrone = DataSource.drones.Find(Drone => Drone.Id == Id);
             return getDrone != null ? getDrone : null;
         }
-
+        /// <summary>
+        /// This function transmits the requested customer data according to an identification number.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public Customer? getCustomer(int Id)
         {
             Customer? getCustomer = DataSource.customers.Find(Customer => Customer.Id == Id);
             return getCustomer != null ? getCustomer : null;
         }
-
+        /// <summary>
+        /// This function transmits the requested parcel data according to an identification number.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public Parcel? getParcel(int Id)
         {
             Parcel? getParcel = DataSource.parcels.Find(Parcel => Parcel.Id == Id);
             return getParcel != null ? getParcel : null;
         }
+        /// <summary>
+        /// This function serves as a template for data transfer of complete lists of any entity that be required.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ts"></param>
+        /// <returns></returns>
         public static List<T> getListTemplte<T>(List<T> ts) where T : struct
         {
             List<T> temp = new List<T>();
@@ -150,46 +190,66 @@ namespace Dal
             }
             return temp;
         }
-
+        /// <summary>
+        /// This function transmits data of all existing stations.
+        /// </summary>
+        /// <returns></returns>
         public List<Station> DisplaysIistOfBaseStations()
         {
             return getListTemplte<Station>(DataSource.stations);
         }
-
+        /// <summary>
+        /// This function transmits data of all existing drones.
+        /// </summary>
+        /// <returns></returns>
         public List<Drone> DisplaysTheListOfDrons()
         {
             return getListTemplte<Drone>(DataSource.drones);
         }
-
+        /// <summary>
+        /// This function transmits data of all existing customers.
+        /// </summary>
+        /// <returns></returns>
         public List<Customer> DisplaysIistOfCustomers()
         {
             return getListTemplte<Customer>(DataSource.customers);
         }
-
+        /// <summary>
+        /// This function transmits data of all existing parcels.
+        /// </summary>
+        /// <returns></returns>
         public List<Parcel> DisplaysIistOfparcels()
         {
             return getListTemplte<Parcel>(DataSource.parcels);
         }
-
+        /// <summary>
+        /// This function transmits data of all packages not yet associated with the drone.
+        /// </summary>
+        /// <returns></returns>
         public List<Parcel> GetUnassignedPackages()
         {
             List<Parcel> UnassignedPackages = new List<Parcel>();
 
-            for (int i = 0; i < DataSource.parcels.Count; i++)
+            DataSource.parcels.ForEach(delegate (Parcel parcel)
             {
-                UnassignedPackages.Add(DataSource.parcels.Find(Parcel => Parcel.DroneId == 0));
-            }
+                if (parcel.DroneId == 0)
+                    UnassignedPackages.Add(parcel);
+            });
             return UnassignedPackages;
         }
-
-        public List<Station> baseStationsWithAvailableChargingStations()
+        /// <summary>
+        /// This function transmits data of all stations that have free charging slots.
+        /// </summary>
+        /// <returns></returns>
+        public List<Station> stationsWithFreeChargingSlots()
         {
             List<Station> freeChargingSlots = new List<Station>();
 
-            for (int i = 0; i < DataSource.stations.Count; i++)
+            DataSource.stations.ForEach(delegate (Station station)
             {
-                freeChargingSlots.Add(DataSource.stations.Find(Station => Station.ChargeSlots > 0));
-            }
+                if (station.ChargeSlots > 0)
+                    freeChargingSlots.Add(station);
+            });
             return freeChargingSlots;
         }
     }
