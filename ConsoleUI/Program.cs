@@ -27,7 +27,6 @@ namespace ConsoleUI
                         Add.insertOptions();
                         break;
                     case Choices.UPDATING:
-
                         break;
                     case Choices.PISPLAY:
                         break;

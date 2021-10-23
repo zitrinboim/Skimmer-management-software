@@ -18,10 +18,10 @@ namespace ConsoleUI
             int choice;
             int.TryParse(Console.ReadLine(), out choice);
             EnumInsertOptions = (enumInsertOptions)choice;
-            Console.WriteLine("enter 1 to Adding a base station to the list of stations");
-            Console.WriteLine("enter 2 to Adding a drone to the list of existing drones");
-            Console.WriteLine("enter 3 to Admission of a new customer to the customer list");
-            Console.WriteLine("enter 4 to Receipt of package for shipment");
+            Console.WriteLine("enter 1 to adding a base station to the list of stations");
+            Console.WriteLine("enter 2 to adding a drone to the list of existing drones");
+            Console.WriteLine("enter 3 to admission of a new customer to the customer list");
+            Console.WriteLine("enter 4 to receipt of package for shipment");
             Console.WriteLine("enter 0 to EXIT");
 
             switch (EnumInsertOptions)
@@ -39,12 +39,11 @@ namespace ConsoleUI
                     ADD_PARCEL();
                     break;
                 case enumInsertOptions.EXIT:
-                    break;
+                    return;
                 default:
                     Console.WriteLine("ERROR!");
                     break;
             }
-
         }
         public static void ADD_STATION()
         {

@@ -143,34 +143,51 @@ namespace Dal
         /// <summary>
         /// This function performs an update of sending a drone for charging.
         /// </summary>
-        /// <param name="drone"></param>
-        /// <param name="station"></param>
-        public void SendingDroneForCharging(Drone drone, Station station)//יש לזכור במיין להוסיף זימון להצגת תחנות פנויות
+        /// <param name="droneId"></param>
+        /// <param name="stationId"></param>
+        /// <returns></returns>
+        public static bool SendingDroneForCharging(int droneId, int stationId)//יש לזכור במיין להוסיף זימון להצגת תחנות פנויות
         {
-            drone.Status = DroneStatuses.maintenance;
-            DataSource.droneCarges.Add(new DroneCarge() { DroneID = drone.Id, StationId = station.Id });//Create a new show from a class DroneCarge. 
+
+            Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
+            int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
+
+            if (droneFindIndex != -1)
+            {
+
+                droneFind.Status = DroneStatuses.maintenance;
+                DataSource.drones[droneFindIndex] = droneFind;
+                DataSource.droneCarges.Add(new DroneCarge() { DroneID = droneId, StationId = stationId });//Create a new show from a class DroneCarge. 
+                return true;
+            }
+            else
+                return false;
         }
         /// <summary>
         /// This function updates the release of drone from charging.
         /// </summary>
-        /// <param name="drone"></param>
+        /// <param name="droneId"></param>
         /// <returns></returns>
-        public bool ReleaseDroneFromCharging(Drone drone)
+        public static bool ReleaseDroneFromCharging(int droneId)
         {
-            int index = DataSource.droneCarges.FindIndex(DroneCarge => DroneCarge.DroneID == drone.Id);//
-            if (index != -1)
+            int indexDrone = DataSource.droneCarges.FindIndex(DroneCarge => DroneCarge.DroneID == droneId);//
+            if (indexDrone != -1)
             {
                 //These lines add a free charging slot at the station where the charging was.
-                int stationIdToRelease = DataSource.droneCarges[index].StationId;
+                int stationIdToRelease = DataSource.droneCarges[indexDrone].StationId;
                 int indexStation = DataSource.stations.FindIndex(Station => Station.Id == stationIdToRelease);
                 Station tempStation = DataSource.stations.Find(Station => Station.Id == stationIdToRelease);
                 tempStation.ChargeSlots++;
                 DataSource.stations[indexStation] = tempStation;
 
-                DataSource.droneCarges.RemoveAt(index);//Remove object from list.
+                DataSource.droneCarges.RemoveAt(indexDrone);//Remove object from list.
 
-                drone.Status = DroneStatuses.available;
-                drone.battery = 100.0;
+                //These lines Updates the status and battery after recharging.
+                Drone tempDrone = DataSource.drones.Find(Drone => Drone.Id == droneId);
+                tempDrone.Status = DroneStatuses.available;
+                tempDrone.battery = 100.0;
+                DataSource.drones[indexDrone] = tempDrone;
+
                 return true;
             }
             return false;
@@ -180,7 +197,7 @@ namespace Dal
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Station? getStation(int Id)
+        public static Station? getStation(int Id)
         {
             Station? getStation = DataSource.stations.Find(Station => Station.Id == Id);
             return getStation != null ? getStation : null;
@@ -190,7 +207,7 @@ namespace Dal
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Drone? getDrone(int Id)
+        public static Drone? getDrone(int Id)
         {
             Drone? getDrone = DataSource.drones.Find(Drone => Drone.Id == Id);
             return getDrone != null ? getDrone : null;
@@ -200,7 +217,7 @@ namespace Dal
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Customer? getCustomer(int Id)
+        public static Customer? getCustomer(int Id)
         {
             Customer? getCustomer = DataSource.customers.Find(Customer => Customer.Id == Id);
             return getCustomer != null ? getCustomer : null;
@@ -210,7 +227,7 @@ namespace Dal
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Parcel? getParcel(int Id)
+        public static Parcel? getParcel(int Id)
         {
             Parcel? getParcel = DataSource.parcels.Find(Parcel => Parcel.Id == Id);
             return getParcel != null ? getParcel : null;
@@ -234,7 +251,7 @@ namespace Dal
         /// This function transmits data of all existing stations.
         /// </summary>
         /// <returns></returns>
-        public List<Station> DisplaysIistOfBaseStations()
+        public static List<Station> DisplaysIistOfStations()
         {
             return getListTemplte<Station>(DataSource.stations);
         }
@@ -242,7 +259,7 @@ namespace Dal
         /// This function transmits data of all existing drones.
         /// </summary>
         /// <returns></returns>
-        public List<Drone> DisplaysTheListOfDrons()
+        public static List<Drone> DisplaysTheListOfDrons()
         {
             return getListTemplte<Drone>(DataSource.drones);
         }
@@ -250,7 +267,7 @@ namespace Dal
         /// This function transmits data of all existing customers.
         /// </summary>
         /// <returns></returns>
-        public List<Customer> DisplaysIistOfCustomers()
+        public static List<Customer> DisplaysIistOfCustomers()
         {
             return getListTemplte<Customer>(DataSource.customers);
         }
@@ -258,7 +275,7 @@ namespace Dal
         /// This function transmits data of all existing parcels.
         /// </summary>
         /// <returns></returns>
-        public List<Parcel> DisplaysIistOfparcels()
+        public static List<Parcel> DisplaysIistOfparcels()
         {
             return getListTemplte<Parcel>(DataSource.parcels);
         }
@@ -266,7 +283,7 @@ namespace Dal
         /// This function transmits data of all packages not yet associated with the drone.
         /// </summary>
         /// <returns></returns>
-        public List<Parcel> GetUnassignedPackages()
+        public static List<Parcel> GetUnassignedPackages()
         {
             List<Parcel> UnassignedPackages = new List<Parcel>();
 
@@ -281,7 +298,7 @@ namespace Dal
         /// This function transmits data of all stations that have free charging slots.
         /// </summary>
         /// <returns></returns>
-        public List<Station> stationsWithFreeChargingSlots()
+        public static List<Station> stationsWithFreeChargingSlots()
         {
             List<Station> freeChargingSlots = new List<Station>();
 
