@@ -33,7 +33,7 @@ namespace Dal
         /// </summary>
         /// <param name="drone"></param>
         /// <returns></returns>
-        public bool addDrone(Drone drone)
+        public static bool addDrone(Drone drone)
         {
             int find = DataSource.drones.FindIndex(Drone => Drone.Id == drone.Id);
             //Safety mechanism to prevent the overrun of an existing entity with the same ID.
@@ -49,7 +49,7 @@ namespace Dal
         /// </summary>
         /// <param name="customer"></param>
         /// <returns></returns>
-        public bool addCustomer(Customer customer)
+        public static bool addCustomer(Customer customer)
         {
             int find = DataSource.drones.FindIndex(Customer => Customer.Id == customer.Id);
             //Safety mechanism to prevent the overrun of an existing entity with the same ID.
@@ -65,40 +65,80 @@ namespace Dal
         /// </summary>
         /// <param name="parcel"></param>
         /// <returns></returns>
-        public int addParsel(Parcel parcel)//לזכור שבהשמה הראשונית של  (PARCEL) צריך הרחפן להיות 0.
+        public static int addParsel(Parcel parcel)
         {
+            parcel.Id = DataSource.Config.ParcelIdRun;
             DataSource.parcels.Add(parcel);
             return (DataSource.Config.ParcelIdRun++);
         }
         /// <summary>
         /// This function assigns a package to the drone.
         /// </summary>
-        /// <param name="parcel"></param>
-        /// <param name="drone"></param>
-        public void AssignPackageToDrone(Parcel parcel, Drone drone)
+        /// <param name="parcelId"></param>
+        /// <param name="droneId"></param>
+        /// <returns></returns>
+        public static bool AssignPackageToDrone(int parcelId, int droneId)
         {
-            parcel.DroneId = drone.Id;
-            parcel.Scheduled = DateTime.Now;
+            Parcel parcelFind = DataSource.parcels.Find(Parcel => Parcel.Id == parcelId);
+            int parcelFindIndex = DataSource.parcels.FindIndex(Parcel => Parcel.Id == parcelId);
+
+            if (parcelFindIndex != -1)
+            {
+                parcelFind.DroneId = droneId;
+                parcelFind.Scheduled = DateTime.Now;
+                DataSource.parcels[parcelFindIndex] = parcelFind;
+                return true;
+            }
+            else
+                return false;
         }
         /// <summary>
         /// This function performs an update on packet collection by drone.
         /// </summary>
-        /// <param name="parcel"></param>
-        /// <param name="drone"></param>
-        public void PackageCollectionByDrone(Parcel parcel, Drone drone)
+        /// <param name="parcelId"></param>
+        /// <param name="droneId"></param>
+        /// <returns></returns>
+        public static bool PackageCollectionByDrone(int parcelId, int droneId)
         {
-            drone.Status = DroneStatuses.busy;
-            parcel.PickedUp = DateTime.Now;
+            Parcel parcelFind = DataSource.parcels.Find(Parcel => Parcel.Id == parcelId);
+            int parcelFindIndex = DataSource.parcels.FindIndex(Parcel => Parcel.Id == parcelId);
+            Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
+            int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
+
+            if (parcelFindIndex != -1 && droneFindIndex != -1)
+            {
+                parcelFind.PickedUp = DateTime.Now;
+                DataSource.parcels[parcelFindIndex] = parcelFind;
+                droneFind.Status = DroneStatuses.busy;
+                DataSource.drones[droneFindIndex] = droneFind;
+                return true;
+            }
+            else
+                return false;
         }
         /// <summary>
         /// This function performs an update on delivering a package to the customer.
         /// </summary>
-        /// <param name="parcel"></param>
-        /// <param name="drone"></param>
-        public void DeliveryPackageToCustomer(Parcel parcel, Drone drone)
+        /// <param name="parcelId"></param>
+        /// <param name="droneId"></param>
+        /// <returns></returns>
+        public static bool DeliveryPackageToCustomer(int parcelId, int droneId)
         {
-            parcel.Delivered = DateTime.Now;
-            drone.Status = DroneStatuses.available;
+            Parcel parcelFind = DataSource.parcels.Find(Parcel => Parcel.Id == parcelId);
+            int parcelFindIndex = DataSource.parcels.FindIndex(Parcel => Parcel.Id == parcelId);
+            Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
+            int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
+
+            if (parcelFindIndex != -1 && droneFindIndex != -1)
+            {
+                parcelFind.Delivered = DateTime.Now;
+                DataSource.parcels[parcelFindIndex] = parcelFind;
+                droneFind.Status = DroneStatuses.available;
+                DataSource.drones[droneFindIndex] = droneFind;
+                return true;
+            }
+            else
+                return false;
         }
         /// <summary>
         /// This function performs an update of sending a drone for charging.

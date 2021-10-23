@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dal
 {
-    static class DataSource
+    public static class DataSource
     {
         internal static List<Drone> drones = new List<Drone>();
         internal static List<Station> stations = new List<Station>();
@@ -40,20 +40,21 @@ namespace Dal
 
             stations.Add(new Station()
             {
-                ChargeSlots = random.Next(1, 10),
                 Id = random.Next(1, 50),
                 name = "central Station TLV",
                 longitude = 32.056811,//32+ random.nextDouble()
-                lattitude = 34.779302
+                lattitude = 34.779302,
+                ChargeSlots = random.Next(1, 10)
             });
 
             stations.Add(new Station()
             {
-                ChargeSlots = random.Next(1, 10),
                 Id = random.Next(1, 50),
                 name = "central Station Jrusalem",
                 longitude = 31.788729,
-                lattitude = 35.202984
+                lattitude = 35.202984,
+                ChargeSlots = random.Next(1, 10)
+
             });
             for (int i = 0; i < 10; i++)
             {
