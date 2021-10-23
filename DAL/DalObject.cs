@@ -17,7 +17,7 @@ namespace Dal
         /// </summary>
         /// <param name="station"></param>
         /// <returns></true/false>
-        public bool addStation(Station station)
+        public static bool addStation(Station station)
         {
             int find = DataSource.stations.FindIndex(Station => Station.Id == station.Id);
             //Safety mechanism to prevent the overrun of an existing entity with the same ID.
