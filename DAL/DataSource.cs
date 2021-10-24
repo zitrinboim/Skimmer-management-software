@@ -77,7 +77,7 @@ namespace Dal
                     TargetId = customers[random.Next(0, 10)].Id,
                     weight = (WeightCategories)random.Next(1, 4),
                     priority = (Priorities)random.Next(1, 4),
-                    DroneId = random.Next(1, 6),
+                    DroneId = 0,
                     Requested = DateTime.Now.AddHours(random.Next(0, 3)),
                     Scheduled = DateTime.Now.AddHours(random.Next(5, 8)),
                     PickedUp = DateTime.Now.AddDays(1),

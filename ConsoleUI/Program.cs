@@ -10,11 +10,11 @@ namespace ConsoleUI
         public enum Choices { EXIT = 0, ADD, UPDATING, PISPLAY, LIST_VIEW };
         static void Main(string[] args)
         {
+            DalObject dalProgram = new DalObject();
             int choice;
             Choices choices;
             do
             {
-                DalObject dalProgram = new DalObject();
                 Console.WriteLine("enter 1 for insert options");
                 Console.WriteLine("enter 2 for update options");
                 Console.WriteLine("enter 3 for display options");

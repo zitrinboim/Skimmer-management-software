@@ -13,17 +13,17 @@ namespace ConsoleUI
         public enum enumInsertOptions { EXIT = 0, ADD_STATION, ADD_DRONE, ADD_CUSTOMER, ADD_PARCEL };
         public static void insertOptions()
         {
-
-            enumInsertOptions EnumInsertOptions;
-            int choice;
-            int.TryParse(Console.ReadLine(), out choice);
-            EnumInsertOptions = (enumInsertOptions)choice;
             Console.WriteLine("enter 1 to adding a base station to the list of stations");
             Console.WriteLine("enter 2 to adding a drone to the list of existing drones");
             Console.WriteLine("enter 3 to admission of a new customer to the customer list");
             Console.WriteLine("enter 4 to receipt of package for shipment");
             Console.WriteLine("enter 0 to EXIT");
 
+            enumInsertOptions EnumInsertOptions;
+            int choice;
+            int.TryParse(Console.ReadLine(), out choice);
+            EnumInsertOptions = (enumInsertOptions)choice;
+            
             switch (EnumInsertOptions)
             {
                 case enumInsertOptions.ADD_STATION:

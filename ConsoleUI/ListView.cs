@@ -91,6 +91,10 @@ namespace ConsoleUI
         public static void PARCELS_HAVE_NOT_DRONS()
         {
             List<Parcel> listToPrint = DalObject.GetUnassignedPackages();
+            if (listToPrint.Count()==0)
+            {
+                Console.WriteLine("There are no packages in the requested status");
+            }
             listToPrint.ForEach(delegate (Parcel parcel)
             {
                 string v = parcel.ToString();

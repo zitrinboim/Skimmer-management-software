@@ -68,11 +68,8 @@ namespace ConsoleUI
             Console.WriteLine("enter ID number of the parcel");
             int IdParcel;
             int.TryParse(Console.ReadLine(), out IdParcel);
-            Console.WriteLine("enter ID number of the drone");
-            int IdDrone;
-            int.TryParse(Console.ReadLine(), out IdDrone);
-
-            bool test = Dal.DalObject.PackageCollectionByDrone(IdParcel, IdDrone);
+           
+            bool test = Dal.DalObject.PackageCollectionByDrone(IdParcel);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
             else
@@ -93,7 +90,7 @@ namespace ConsoleUI
             else
                 Console.WriteLine("ERROR");
         }
-        public static void CARGING_DRONE()//לצרף את הזימון לפונקציה שמציגה היכן יש מקום פנוי לטעינה ולשנות את הקוד בהתאם
+        public static void CARGING_DRONE()
         {
             int num;
             Console.WriteLine("A list of all the stations where there is free space for charging will now be displayed." +

@@ -81,8 +81,9 @@ namespace Dal
         {
             Parcel parcelFind = DataSource.parcels.Find(Parcel => Parcel.Id == parcelId);
             int parcelFindIndex = DataSource.parcels.FindIndex(Parcel => Parcel.Id == parcelId);
+            int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
 
-            if (parcelFindIndex != -1)
+            if (parcelFindIndex != -1 && droneFindIndex != -1)
             {
                 parcelFind.DroneId = droneId;
                 parcelFind.Scheduled = DateTime.Now;
@@ -98,10 +99,11 @@ namespace Dal
         /// <param name="parcelId"></param>
         /// <param name="droneId"></param>
         /// <returns></returns>
-        public static bool PackageCollectionByDrone(int parcelId, int droneId)
+        public static bool PackageCollectionByDrone(int parcelId)
         {
             Parcel parcelFind = DataSource.parcels.Find(Parcel => Parcel.Id == parcelId);
             int parcelFindIndex = DataSource.parcels.FindIndex(Parcel => Parcel.Id == parcelId);
+            int droneId = parcelFind.DroneId;
             Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
             int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
 
@@ -146,17 +148,21 @@ namespace Dal
         /// <param name="droneId"></param>
         /// <param name="stationId"></param>
         /// <returns></returns>
-        public static bool SendingDroneForCharging(int droneId, int stationId)//יש לזכור במיין להוסיף זימון להצגת תחנות פנויות
+        public static bool SendingDroneForCharging(int droneId, int stationId)
         {
-
             Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
             int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
+            Station stationFind = DataSource.stations.Find(Station => Station.Id == stationId);
+            int stationFindIndex = DataSource.stations.FindIndex(Station => Station.Id == stationId);
 
-            if (droneFindIndex != -1)
+            if (droneFindIndex != -1 && stationFindIndex != -1)
             {
+                stationFind.ChargeSlots--;
+                DataSource.stations[stationFindIndex] = stationFind;
 
                 droneFind.Status = DroneStatuses.maintenance;
                 DataSource.drones[droneFindIndex] = droneFind;
+
                 DataSource.droneCarges.Add(new DroneCarge() { DroneID = droneId, StationId = stationId });//Create a new show from a class DroneCarge. 
                 return true;
             }
