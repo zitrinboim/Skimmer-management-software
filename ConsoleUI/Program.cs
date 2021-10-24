@@ -14,6 +14,7 @@ namespace ConsoleUI
             Choices choices;
             do
             {
+                DalObject dalProgram = new DalObject();
                 Console.WriteLine("enter 1 for insert options");
                 Console.WriteLine("enter 2 for update options");
                 Console.WriteLine("enter 3 for display options");
@@ -27,10 +28,13 @@ namespace ConsoleUI
                         Add.insertOptions();
                         break;
                     case Choices.UPDATING:
+                        Updating.UpdatingOptions();
                         break;
                     case Choices.PISPLAY:
+                        Pisplay.PisplayOptions();
                         break;
                     case Choices.LIST_VIEW:
+                        ListView.ListViewOptions();
                         break;
                     case Choices.EXIT:
                         Console.WriteLine("Thank you and goodbye");

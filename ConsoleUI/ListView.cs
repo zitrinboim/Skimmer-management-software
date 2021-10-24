@@ -13,12 +13,12 @@ namespace ConsoleUI
         public enum enumListViewOptions { EXIT = 0, LIST_STATIONS, LIST_DRONS, LIST_CUSTOMERS, LIST_PARCELS, PARCELS_HAVE_NOT_DRONS, STATIONS_WITH_AVAILABLE_CHARGING_SLOTS };
         public static void ListViewOptions()
         {
-            Console.WriteLine("enter 1 to  to view the list of stations");
-            Console.WriteLine("enter 2 to  to view the list of drons");
-            Console.WriteLine("enter 3 to  to view the list of customers");
-            Console.WriteLine("enter 4 to  to view the list of parcels");
-            Console.WriteLine("enter 5 to  to view the list of parcels that do not have an associated drone");
-            Console.WriteLine("enter 6 to  to view the list of stations that have free charging slots");
+            Console.WriteLine("enter 1 to view the list of stations");
+            Console.WriteLine("enter 2 to view the list of drons");
+            Console.WriteLine("enter 3 to view the list of customers");
+            Console.WriteLine("enter 4 to view the list of parcels");
+            Console.WriteLine("enter 5 to view the list of parcels that do not have an associated drone");
+            Console.WriteLine("enter 6 to view the list of stations that have free charging slots");
             Console.WriteLine("enter 0 to EXIT");
 
             enumListViewOptions enumUpdating;
@@ -57,7 +57,8 @@ namespace ConsoleUI
             List<Station> listToPrint = DalObject.DisplaysIistOfStations();
             listToPrint.ForEach(delegate (Station station)
             {
-                station.ToString();
+                string v = station.ToString();
+                Console.WriteLine(v);
             });
         }
         public static void LIST_DRONS()
@@ -65,7 +66,8 @@ namespace ConsoleUI
             List<Drone> listToPrint = DalObject.DisplaysTheListOfDrons();
             listToPrint.ForEach(delegate (Drone drone)
             {
-                drone.ToString();
+                string v = drone.ToString();
+                Console.WriteLine(v);
             });
         }
         public static void LIST_CUSTOMERS()
@@ -73,7 +75,8 @@ namespace ConsoleUI
             List<Customer> listToPrint = DalObject.DisplaysIistOfCustomers();
             listToPrint.ForEach(delegate (Customer customer)
             {
-                customer.ToString();
+                string v = customer.ToString();
+                Console.WriteLine(v);
             });
         }
         public static void LIST_PARCELS()
@@ -81,7 +84,8 @@ namespace ConsoleUI
             List<Parcel> listToPrint = DalObject.DisplaysIistOfparcels();
             listToPrint.ForEach(delegate (Parcel parcel)
             {
-                parcel.ToString();
+                string v = parcel.ToString();
+                Console.WriteLine(v);
             });
         }
         public static void PARCELS_HAVE_NOT_DRONS()
@@ -89,7 +93,8 @@ namespace ConsoleUI
             List<Parcel> listToPrint = DalObject.GetUnassignedPackages();
             listToPrint.ForEach(delegate (Parcel parcel)
             {
-                parcel.ToString();
+                string v = parcel.ToString();
+                Console.WriteLine(v);
             });
         }
         public static void STATIONS_WITH_AVAILABLE_CHARGING_SLOTS()
@@ -97,7 +102,8 @@ namespace ConsoleUI
             List<Station> listToPrint = DalObject.stationsWithFreeChargingSlots();
             listToPrint.ForEach(delegate (Station station)
             {
-                station.ToString();
+                string v = station.ToString();
+                Console.WriteLine(v);
             });
         }
     }

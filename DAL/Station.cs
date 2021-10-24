@@ -18,7 +18,7 @@ namespace IDAL
             public int ChargeSlots { get; set; }
             public override string ToString()
             {
-                return string.Format("Station\nID {0}\t Name {1} Location{2}\t {3}/{4} Charge slots {5} "
+                return string.Format("Station\nID {0}\t Name {1}\t longitude {2}\tlattitude {3}\t Charge slots {4} "
                     , Id, name, longitude, lattitude, ChargeSlots);
             }
         }
