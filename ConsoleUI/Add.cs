@@ -46,7 +46,7 @@ namespace ConsoleUI
             }
         }
         /// <summary>
-        /// 
+        /// This function picks up station values and creates an object of this type
         /// </summary>
         public static void ADD_STATION()
         {
@@ -72,6 +72,7 @@ namespace ConsoleUI
                 lattitude = lattitude,
                 ChargeSlots = ChargeSlots
             };
+            //Check the integrity of the input
             bool test = Dal.DalObject.addStation(station);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
@@ -79,7 +80,7 @@ namespace ConsoleUI
                 Console.WriteLine("ERROR");
         }
         /// <summary>
-        /// 
+        /// This function picks up drone values and creates an object of this type
         /// </summary>
         public static void ADD_DRONE()
         {
@@ -101,6 +102,7 @@ namespace ConsoleUI
                 Status = (DroneStatuses)1,
                 battery = 100.0
             };
+            //Check the integrity of the input
             bool test = Dal.DalObject.addDrone(drone);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
@@ -108,7 +110,7 @@ namespace ConsoleUI
                 Console.WriteLine("ERROR");
         }
         /// <summary>
-        /// 
+        /// This function picks up customer values and creates an object of this type
         /// </summary>
         public static void ADD_CUSTOMER()
         {
@@ -133,6 +135,7 @@ namespace ConsoleUI
                 longitude = longitude,
                 lattitude = lattitude
             };
+            //Check the integrity of the input
             bool test = Dal.DalObject.addCustomer(customer);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
@@ -140,7 +143,7 @@ namespace ConsoleUI
                 Console.WriteLine("ERROR");
         }
         /// <summary>
-        /// 
+        /// This function picks up parcel values and creates an object of this type
         /// </summary>
         public static void ADD_PARCEL()
         {

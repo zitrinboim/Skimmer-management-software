@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace Dal
 {
     public static class DataSource
-    {   //
+    {
+        //Create lists of program objects
         internal static List<Drone> drones = new List<Drone>();
         internal static List<Station> stations = new List<Station>();
         internal static List<Customer> customers = new List<Customer>();
@@ -18,12 +19,12 @@ namespace Dal
         internal static string[] names = new string[] { "Reuben", "Simeon", "Levi", "Judah", "Issachar", "Zebulun", "Dan", "Naphtali", "Gad", "Asher", };
         internal static string[] phoneNumbers = new string[] { "050-4176977", "052-7184790", "058-4423540", "050-4106067", "052-7636475", };
         
-        internal static class Config//
+        internal static class Config//Runner number for package IDs
         {
             internal static int ParcelIdRun = 1000;
         }
         /// <summary>
-        /// 
+        /// Function for filling the lists with random values for checking the correctness of the data
         /// </summary>
         public static void Initialize()
         {
@@ -44,7 +45,7 @@ namespace Dal
             {
                 Id = random.Next(1, 50),
                 name = "central Station TLV",
-                longitude = 32.056811,//32+ random.nextDouble()
+                longitude = 32.056811,
                 lattitude = 34.779302,
                 ChargeSlots = random.Next(1, 10)
             });
@@ -65,7 +66,6 @@ namespace Dal
                     Id = random.Next(200000000, 399999999),
                     name = names[random.Next(0, 10)],
                     phone = phoneNumbers[random.Next(0, 4)],
-                    /*"05" + (Convert.ToString(random.Next(0, 9)) + "-" + (Convert.ToString(random.Next(0000000, 9999999))*/
                     longitude = 32 + random.NextDouble(),
                     lattitude = 35 + random.NextDouble()
                 });
