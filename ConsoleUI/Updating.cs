@@ -98,7 +98,7 @@ namespace ConsoleUI
             int.TryParse(Console.ReadLine(), out IdDrone);
 
             bool testParcel = Dal.DalObject.DeliveryPackageToCustomer(IdParcel);
-            bool testDrone = Dal.DalObject.makeavAilableTheDrone(IdDrone);
+            bool testDrone = Dal.DalObject.makeAvailableTheDrone(IdDrone);
             if (testParcel && testDrone)
                 Console.WriteLine("the transaction completed successfully");
             else
@@ -127,8 +127,8 @@ namespace ConsoleUI
             int IdDrone;
             int.TryParse(Console.ReadLine(), out IdDrone);
 
-            bool testStation = Dal.DalObject.reductionDroneCargeToStation(IdStation);
-            bool testDrone = Dal.DalObject.makeavMaintenanceTheDrone(IdDrone);
+            bool testStation = Dal.DalObject.reductionCargeSlotsToStation(IdStation);
+            bool testDrone = Dal.DalObject.makeMaintenanceTheDrone(IdDrone);
 
             if (testDrone && testStation)
             {
@@ -154,9 +154,9 @@ namespace ConsoleUI
             Console.WriteLine("enter ID number of the ststion");
             int IdStation;
             int.TryParse(Console.ReadLine(), out IdStation);
-            bool testStation = Dal.DalObject.addingDroneCargeToStation(IdStation);
+            bool testStation = Dal.DalObject.addingCargeSlotsToStation(IdStation);
             bool testDroneCarge = Dal.DalObject.ReleaseDroneCarge(IdDrone);
-            bool testDrone = Dal.DalObject.makeavAilableTheDrone(IdDrone);
+            bool testDrone = Dal.DalObject.makeAvailableTheDrone(IdDrone);
             if (testDroneCarge && testDrone && testStation)
                 Console.WriteLine("the transaction completed successfully");
             else

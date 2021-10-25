@@ -161,7 +161,7 @@ namespace Dal
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
-        public static bool makeavAilableTheDrone(int droneId)
+        public static bool makeAvailableTheDrone(int droneId)
         {
             Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
             int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
@@ -178,7 +178,7 @@ namespace Dal
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
-        public static bool makeavMaintenanceTheDrone(int droneId)
+        public static bool makeMaintenanceTheDrone(int droneId)
         {
             Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
             int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
@@ -191,7 +191,6 @@ namespace Dal
             else
                 return false;
         }
-
         /// <summary>
         /// This function updates the release of drone from charging.
         /// </summary>
@@ -213,7 +212,7 @@ namespace Dal
         /// </summary>
         /// <param name="stationId"></param>
         /// <returns></returns>
-        public static bool addingDroneCargeToStation(int stationId)
+        public static bool addingCargeSlotsToStation(int stationId)
         {
             Station stationFind = DataSource.stations.Find(Station => Station.Id == stationId);
             int stationFindIndex = DataSource.stations.FindIndex(Station => Station.Id == stationId);
@@ -228,12 +227,12 @@ namespace Dal
                 return false;
         }
         /// <summary>
-        /// This function performs reduction drone carge to the station. 
+        /// This function performs reduction  carge slot to the station. 
         /// </summary>
         /// <param name="droneId"></param>
         /// <param name="stationId"></param>
         /// <returns></returns>
-        public static bool reductionDroneCargeToStation(int stationId)
+        public static bool reductionCargeSlotsToStation(int stationId)
         {
             Station stationFind = DataSource.stations.Find(Station => Station.Id == stationId);
             int stationFindIndex = DataSource.stations.FindIndex(Station => Station.Id == stationId);
