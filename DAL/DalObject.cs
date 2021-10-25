@@ -103,14 +103,27 @@ namespace Dal
         {
             Parcel parcelFind = DataSource.parcels.Find(Parcel => Parcel.Id == parcelId);
             int parcelFindIndex = DataSource.parcels.FindIndex(Parcel => Parcel.Id == parcelId);
-            int droneId = parcelFind.DroneId;
-            Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
-            int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
 
-            if (parcelFindIndex != -1 && droneFindIndex != -1)
+            if (parcelFindIndex != -1)
             {
                 parcelFind.PickedUp = DateTime.Now;
                 DataSource.parcels[parcelFindIndex] = parcelFind;
+                return true;
+            }
+            else
+                return false;
+        }
+        /// <summary>
+        /// this funcation makes the drone busy when the parcl Collection by drone.
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <returns></returns>
+        public static bool makeBusyTheDrone(int droneId)
+        {
+            Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
+            int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
+            if (droneFindIndex != -1)
+            {
                 droneFind.Status = DroneStatuses.busy;
                 DataSource.drones[droneFindIndex] = droneFind;
                 return true;
@@ -124,23 +137,36 @@ namespace Dal
         /// <param name="parcelId"></param>
         /// <param name="droneId"></param>
         /// <returns></returns>
-        public static bool DeliveryPackageToCustomer(int parcelId, int droneId)
+        public static bool DeliveryPackageToCustomer(int parcelId)
         {
             Parcel parcelFind = DataSource.parcels.Find(Parcel => Parcel.Id == parcelId);
             int parcelFindIndex = DataSource.parcels.FindIndex(Parcel => Parcel.Id == parcelId);
-            Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
-            int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
-
-            if (parcelFindIndex != -1 && droneFindIndex != -1)
+            
+            if (parcelFindIndex != -1 )
             {
                 parcelFind.Delivered = DateTime.Now;
                 DataSource.parcels[parcelFindIndex] = parcelFind;
-                droneFind.Status = DroneStatuses.available;
-                DataSource.drones[droneFindIndex] = droneFind;
                 return true;
             }
             else
                 return false;
+        }
+        /// <summary>
+        /// this funcation makes the drone available when the parcl delivered to the customer.
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <returns></returns>
+        public static bool makeavAilableTheDrone(int droneId)
+        {
+            Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
+            int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
+            if (droneFindIndex != -1)
+            {
+                droneFind.Status = DroneStatuses.available;
+                DataSource.drones[droneFindIndex] = droneFind;
+                return true;
+            }
+            return false;
         }
         /// <summary>
         /// This function performs an update of sending a drone for charging.
@@ -148,20 +174,17 @@ namespace Dal
         /// <param name="droneId"></param>
         /// <param name="stationId"></param>
         /// <returns></returns>
-        public static bool SendingDroneForCharging(int droneId, int stationId)
+        public static bool SendingDroneForCharging( int stationId)
         {
-            Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
-            int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
             Station stationFind = DataSource.stations.Find(Station => Station.Id == stationId);
             int stationFindIndex = DataSource.stations.FindIndex(Station => Station.Id == stationId);
 
-            if (droneFindIndex != -1 && stationFindIndex != -1)
+            if ( stationFindIndex != -1)
             {
                 stationFind.ChargeSlots--;
                 DataSource.stations[stationFindIndex] = stationFind;
 
-                droneFind.Status = DroneStatuses.maintenance;
-                DataSource.drones[droneFindIndex] = droneFind;
+                
 
                 DataSource.droneCarges.Add(new DroneCarge() { DroneID = droneId, StationId = stationId });//Create a new show from a class DroneCarge. 
                 return true;
@@ -169,6 +192,20 @@ namespace Dal
             else
                 return false;
         }
+        public static bool makeavMaintenanceTheDrone(int droneId)
+        {
+            Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
+            int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
+            if (droneFindIndex != -1)
+            {
+                droneFind.Status = DroneStatuses.maintenance;
+                DataSource.drones[droneFindIndex] = droneFind;
+                return true;
+            }
+            else
+                return false;
+        }
+
         /// <summary>
         /// This function updates the release of drone from charging.
         /// </summary>

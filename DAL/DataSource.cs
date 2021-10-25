@@ -8,21 +8,23 @@ using System.Threading.Tasks;
 namespace Dal
 {
     public static class DataSource
-    {
+    {   //
         internal static List<Drone> drones = new List<Drone>();
         internal static List<Station> stations = new List<Station>();
         internal static List<Customer> customers = new List<Customer>();
         internal static List<DroneCarge> droneCarges = new List<DroneCarge>();
         internal static List<Parcel> parcels = new List<Parcel>();
 
-
         internal static string[] names = new string[] { "Reuben", "Simeon", "Levi", "Judah", "Issachar", "Zebulun", "Dan", "Naphtali", "Gad", "Asher", };
         internal static string[] phoneNumbers = new string[] { "050-4176977", "052-7184790", "058-4423540", "050-4106067", "052-7636475", };
-
-        internal static class Config
+        
+        internal static class Config//
         {
             internal static int ParcelIdRun = 1000;
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void Initialize()
         {
             Random random = new Random(DateTime.Now.Millisecond);

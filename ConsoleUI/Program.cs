@@ -45,6 +45,5 @@ namespace ConsoleUI
                 }
             } while (choice != 0);
         }
-
     }
 }

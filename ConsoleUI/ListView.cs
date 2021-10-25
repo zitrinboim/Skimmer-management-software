@@ -52,6 +52,9 @@ namespace ConsoleUI
                     break;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void LIST_STATIONS()
         {
             List<Station> listToPrint = DalObject.DisplaysIistOfStations();
@@ -61,6 +64,9 @@ namespace ConsoleUI
                 Console.WriteLine(v);
             });
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void LIST_DRONS()
         {
             List<Drone> listToPrint = DalObject.DisplaysTheListOfDrons();
@@ -70,6 +76,9 @@ namespace ConsoleUI
                 Console.WriteLine(v);
             });
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void LIST_CUSTOMERS()
         {
             List<Customer> listToPrint = DalObject.DisplaysIistOfCustomers();
@@ -79,6 +88,9 @@ namespace ConsoleUI
                 Console.WriteLine(v);
             });
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void LIST_PARCELS()
         {
             List<Parcel> listToPrint = DalObject.DisplaysIistOfparcels();
@@ -88,6 +100,9 @@ namespace ConsoleUI
                 Console.WriteLine(v);
             });
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void PARCELS_HAVE_NOT_DRONS()
         {
             List<Parcel> listToPrint = DalObject.GetUnassignedPackages();
@@ -101,6 +116,9 @@ namespace ConsoleUI
                 Console.WriteLine(v);
             });
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void STATIONS_WITH_AVAILABLE_CHARGING_SLOTS()
         {
             List<Station> listToPrint = DalObject.stationsWithFreeChargingSlots();

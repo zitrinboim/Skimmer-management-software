@@ -48,6 +48,9 @@ namespace ConsoleUI
                     break;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void PACKAGE_ASSOCIATION()
         {
             Console.WriteLine("enter ID number of the parcel");
@@ -63,18 +66,28 @@ namespace ConsoleUI
             else
                 Console.WriteLine("ERROR");
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void PACKAGE_COLLECTION()
         {
             Console.WriteLine("enter ID number of the parcel");
             int IdParcel;
             int.TryParse(Console.ReadLine(), out IdParcel);
-           
-            bool test = Dal.DalObject.PackageCollectionByDrone(IdParcel);
-            if (test)
+            Console.WriteLine("enter ID number of the drone");
+            int IdDrone;
+            int.TryParse(Console.ReadLine(), out IdDrone);
+
+            bool testParcel = Dal.DalObject.PackageCollectionByDrone(IdParcel);
+            bool testDrone = Dal.DalObject.makeBusyTheDrone(IdDrone);
+            if (testParcel&&testDrone)
                 Console.WriteLine("the transaction completed successfully");
             else
                 Console.WriteLine("ERROR");
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void PACKAGE_DELIVERY()
         {
             Console.WriteLine("enter ID number of the parcel");
@@ -84,12 +97,16 @@ namespace ConsoleUI
             int IdDrone;
             int.TryParse(Console.ReadLine(), out IdDrone);
 
-            bool test = Dal.DalObject.DeliveryPackageToCustomer(IdParcel, IdDrone);
-            if (test)
+            bool testParcel = Dal.DalObject.DeliveryPackageToCustomer(IdParcel);
+            bool testDrone = Dal.DalObject.makeavAilableTheDrone(IdDrone);
+            if (testParcel && testDrone)
                 Console.WriteLine("the transaction completed successfully");
             else
                 Console.WriteLine("ERROR");
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void CARGING_DRONE()
         {
             int num;
@@ -110,12 +127,18 @@ namespace ConsoleUI
             int IdDrone;
             int.TryParse(Console.ReadLine(), out IdDrone);
 
-            bool test = Dal.DalObject.SendingDroneForCharging(IdDrone, IdStation);
-            if (test)
+            bool testStation = Dal.DalObject.SendingDroneForCharging(IdStation);
+            bool testDrone = Dal.DalObject.makeavMaintenanceTheDrone(IdDrone);
+
+
+            if (testDrone&&testStation)
                 Console.WriteLine("the transaction completed successfully");
             else
                 Console.WriteLine("ERROR");
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void RELEASE_DRONE()
         {
             Console.WriteLine("enter ID number of the drone");

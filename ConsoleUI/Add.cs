@@ -45,6 +45,9 @@ namespace ConsoleUI
                     break;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void ADD_STATION()
         {
             Console.WriteLine("enter id ");
@@ -75,6 +78,9 @@ namespace ConsoleUI
             else
                 Console.WriteLine("ERROR");
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void ADD_DRONE()
         {
             WeightCategories weightCategories;
@@ -101,6 +107,9 @@ namespace ConsoleUI
             else
                 Console.WriteLine("ERROR");
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void ADD_CUSTOMER()
         {
             Console.WriteLine("enter your id ");
@@ -130,6 +139,9 @@ namespace ConsoleUI
             else
                 Console.WriteLine("ERROR");
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void ADD_PARCEL()
         {
             WeightCategories weightCategories;

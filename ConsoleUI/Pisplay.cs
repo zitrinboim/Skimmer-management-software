@@ -44,6 +44,9 @@ namespace ConsoleUI
                     break;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void STATION_DISPLAY()
         {
             Console.WriteLine("enter ID number of the ststion");
@@ -55,6 +58,9 @@ namespace ConsoleUI
             else
                 Console.WriteLine(station.ToString());
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void DRONE_DISPLAY()
         {
             Console.WriteLine("enter ID number of the drone");
@@ -66,6 +72,9 @@ namespace ConsoleUI
             else
                 Console.WriteLine(drone.ToString());
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static void CUSTOMER_DISPLAY()
         {
             Console.WriteLine("enter ID number of the customer");
@@ -77,6 +86,7 @@ namespace ConsoleUI
             else
                 Console.WriteLine(customer.ToString());
         }
+        ///
         public static void PARCEL_DISPLAY()
         {
             Console.WriteLine("enter ID number of the parcel");
