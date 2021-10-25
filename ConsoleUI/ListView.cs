@@ -52,81 +52,66 @@ namespace ConsoleUI
                     break;
             }
         }
+
         /// <summary>
         /// The function provides information on the entire list of stations.
         /// </summary>
         public static void LIST_STATIONS()
         {
             List<Station> listToPrint = DalObject.DisplaysIistOfStations();
-            listToPrint.ForEach(delegate (Station station)
-            {
-                string v = station.ToString();
-                Console.WriteLine(v);
-            });
+            listToPrint.ForEach(delegate (Station station) { Console.WriteLine(station); });
         }
+
         /// <summary>
         /// The function provides information on the entire list of drons.
         /// </summary>
         public static void LIST_DRONS()
         {
             List<Drone> listToPrint = DalObject.DisplaysTheListOfDrons();
-            listToPrint.ForEach(delegate (Drone drone)
-            {
-                string v = drone.ToString();
-                Console.WriteLine(v);
-            });
+            listToPrint.ForEach(delegate (Drone drone) { Console.WriteLine(drone); });
         }
+
         /// <summary>
         /// The function provides information on the entire list of customers.
         /// </summary>
         public static void LIST_CUSTOMERS()
         {
             List<Customer> listToPrint = DalObject.DisplaysIistOfCustomers();
-            listToPrint.ForEach(delegate (Customer customer)
-            {
-                string v = customer.ToString();
-                Console.WriteLine(v);
-            });
+            listToPrint.ForEach(delegate (Customer customer) { Console.WriteLine(customer); });
         }
+
         /// <summary>
         /// The function provides information on the entire list of parcels.
         /// </summary>
         public static void LIST_PARCELS()
         {
             List<Parcel> listToPrint = DalObject.DisplaysIistOfparcels();
-            listToPrint.ForEach(delegate (Parcel parcel)
-            {
-                string v = parcel.ToString();
-                Console.WriteLine(v);
-            });
+            listToPrint.ForEach(delegate (Parcel parcel) { Console.WriteLine(parcel); });
         }
+
         /// <summary>
         /// The function provides information on all parcels not associated with the drone.
         /// </summary>
         public static void PARCELS_HAVE_NOT_DRONS()
         {
             List<Parcel> listToPrint = DalObject.GetUnassignedPackages();
-            if (listToPrint.Count()==0)
+            if (listToPrint.Count() == 0)
             {
                 Console.WriteLine("There are no packages in the requested status");
             }
             listToPrint.ForEach(delegate (Parcel parcel)
             {
-                string v = parcel.ToString();
-                Console.WriteLine(v);
+                Console.WriteLine(parcel);
             });
         }
+
         /// <summary>
         /// The function provides information on all stations that have free charging slots.
         /// </summary>
         public static void STATIONS_WITH_AVAILABLE_CHARGING_SLOTS()
         {
             List<Station> listToPrint = DalObject.stationsWithFreeChargingSlots();
-            listToPrint.ForEach(delegate (Station station)
-            {
-                string v = station.ToString();
-                Console.WriteLine(v);
-            });
+            listToPrint.ForEach(delegate (Station station) { Console.WriteLine(station); });
         }
     }
 }
