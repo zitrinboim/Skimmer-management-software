@@ -53,7 +53,7 @@ namespace ConsoleUI
             }
         }
         /// <summary>
-        /// 
+        /// The function provides information on the entire list of stations.
         /// </summary>
         public static void LIST_STATIONS()
         {
@@ -65,7 +65,7 @@ namespace ConsoleUI
             });
         }
         /// <summary>
-        /// 
+        /// The function provides information on the entire list of drons.
         /// </summary>
         public static void LIST_DRONS()
         {
@@ -77,7 +77,7 @@ namespace ConsoleUI
             });
         }
         /// <summary>
-        /// 
+        /// The function provides information on the entire list of customers.
         /// </summary>
         public static void LIST_CUSTOMERS()
         {
@@ -89,7 +89,7 @@ namespace ConsoleUI
             });
         }
         /// <summary>
-        /// 
+        /// The function provides information on the entire list of parcels.
         /// </summary>
         public static void LIST_PARCELS()
         {
@@ -101,7 +101,7 @@ namespace ConsoleUI
             });
         }
         /// <summary>
-        /// 
+        /// The function provides information on all parcels not associated with the drone.
         /// </summary>
         public static void PARCELS_HAVE_NOT_DRONS()
         {
@@ -117,7 +117,7 @@ namespace ConsoleUI
             });
         }
         /// <summary>
-        /// 
+        /// The function provides information on all stations that have free charging slots.
         /// </summary>
         public static void STATIONS_WITH_AVAILABLE_CHARGING_SLOTS()
         {

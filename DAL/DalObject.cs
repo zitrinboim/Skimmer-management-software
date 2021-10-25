@@ -157,7 +157,7 @@ namespace Dal
                 return false;
         }
         /// <summary>
-        /// this funcation makes the drone available when the parcl delivered to the customer.
+        /// this funcation makes the drone available when the parcl delivered to the customer and more.
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
@@ -192,7 +192,7 @@ namespace Dal
                 return false;
         }
         /// <summary>
-        /// This function updates the release of drone from charging.
+        /// This function remove object from list when drone release from charging .
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
@@ -201,7 +201,7 @@ namespace Dal
             int indexDrone = DataSource.droneCarges.FindIndex(DroneCarge => DroneCarge.DroneID == droneId);//
             if (indexDrone != -1)
             {
-                DataSource.droneCarges.RemoveAt(indexDrone);//Remove object from list.
+                DataSource.droneCarges.RemoveAt(indexDrone);
                 return true;
             }
             else
