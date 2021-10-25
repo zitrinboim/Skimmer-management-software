@@ -45,7 +45,7 @@ namespace ConsoleUI
             }
         }
         /// <summary>
-        /// 
+        /// The function provides information about a requested station.
         /// </summary>
         public static void STATION_DISPLAY()
         {
@@ -59,7 +59,7 @@ namespace ConsoleUI
                 Console.WriteLine(station.ToString());
         }
         /// <summary>
-        /// 
+        /// The function provides information about a requested drone
         /// </summary>
         public static void DRONE_DISPLAY()
         {
@@ -73,7 +73,7 @@ namespace ConsoleUI
                 Console.WriteLine(drone.ToString());
         }
         /// <summary>
-        /// 
+        /// The function provides information about a requested customer.
         /// </summary>
         public static void CUSTOMER_DISPLAY()
         {
@@ -86,7 +86,9 @@ namespace ConsoleUI
             else
                 Console.WriteLine(customer.ToString());
         }
-        ///
+        /// <summary>
+        /// The function provides information about a requested parcel
+        /// </summary>
         public static void PARCEL_DISPLAY()
         {
             Console.WriteLine("enter ID number of the parcel");

@@ -49,7 +49,7 @@ namespace ConsoleUI
             }
         }
         /// <summary>
-        /// 
+        /// This function assigns a package to the drone.
         /// </summary>
         public static void PACKAGE_ASSOCIATION()
         {
@@ -67,7 +67,7 @@ namespace ConsoleUI
                 Console.WriteLine("ERROR");
         }
         /// <summary>
-        /// 
+        /// This function performs an update on packet collection by drone.
         /// </summary>
         public static void PACKAGE_COLLECTION()
         {
@@ -86,7 +86,7 @@ namespace ConsoleUI
                 Console.WriteLine("ERROR");
         }
         /// <summary>
-        /// 
+        /// This function performs an update on delivering a package to the customer.
         /// </summary>
         public static void PACKAGE_DELIVERY()
         {
@@ -105,10 +105,11 @@ namespace ConsoleUI
                 Console.WriteLine("ERROR");
         }
         /// <summary>
-        /// 
+        /// The function performs an update on sending a drone for charging.
         /// </summary>
         public static void CARGING_DRONE()
         {
+            //These lines invite a function that displays the stations that have free space for charging.
             int num;
             Console.WriteLine("A list of all the stations where there is free space for charging will now be displayed." +
                 " Select a station from the list according to ID number");
@@ -144,7 +145,7 @@ namespace ConsoleUI
                 Console.WriteLine("ERROR");
         }
         /// <summary>
-        /// 
+        /// The function performs an update on drone release from charging.
         /// </summary>
         public static void RELEASE_DRONE()
         {
