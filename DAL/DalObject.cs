@@ -71,6 +71,11 @@ namespace Dal
             DataSource.parcels.Add(parcel);
             return (DataSource.Config.ParcelIdRun++);
         }
+        public static void addDroneCarge(DroneCarge droneCarge)
+        {
+            DataSource.droneCarges.Add(droneCarge);
+        }
+
         /// <summary>
         /// This function assigns a package to the drone.
         /// </summary>
@@ -141,8 +146,8 @@ namespace Dal
         {
             Parcel parcelFind = DataSource.parcels.Find(Parcel => Parcel.Id == parcelId);
             int parcelFindIndex = DataSource.parcels.FindIndex(Parcel => Parcel.Id == parcelId);
-            
-            if (parcelFindIndex != -1 )
+
+            if (parcelFindIndex != -1)
             {
                 parcelFind.Delivered = DateTime.Now;
                 DataSource.parcels[parcelFindIndex] = parcelFind;
@@ -168,30 +173,11 @@ namespace Dal
             }
             return false;
         }
-        /// <summary>
-        /// This function performs an update of sending a drone for charging.
+              /// <summary>
+        /// this funcation makes the drone maintenance when the parcl Collection by drone.
         /// </summary>
         /// <param name="droneId"></param>
-        /// <param name="stationId"></param>
         /// <returns></returns>
-        public static bool SendingDroneForCharging( int stationId)
-        {
-            Station stationFind = DataSource.stations.Find(Station => Station.Id == stationId);
-            int stationFindIndex = DataSource.stations.FindIndex(Station => Station.Id == stationId);
-
-            if ( stationFindIndex != -1)
-            {
-                stationFind.ChargeSlots--;
-                DataSource.stations[stationFindIndex] = stationFind;
-
-                
-
-                DataSource.droneCarges.Add(new DroneCarge() { DroneID = droneId, StationId = stationId });//Create a new show from a class DroneCarge. 
-                return true;
-            }
-            else
-                return false;
-        }
         public static bool makeavMaintenanceTheDrone(int droneId)
         {
             Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
@@ -211,29 +197,55 @@ namespace Dal
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
-        public static bool ReleaseDroneFromCharging(int droneId)
+        public static bool ReleaseDroneCarge(int droneId)
         {
             int indexDrone = DataSource.droneCarges.FindIndex(DroneCarge => DroneCarge.DroneID == droneId);//
             if (indexDrone != -1)
             {
-                //These lines add a free charging slot at the station where the charging was.
-                int stationIdToRelease = DataSource.droneCarges[indexDrone].StationId;
-                int indexStation = DataSource.stations.FindIndex(Station => Station.Id == stationIdToRelease);
-                Station tempStation = DataSource.stations.Find(Station => Station.Id == stationIdToRelease);
-                tempStation.ChargeSlots++;
-                DataSource.stations[indexStation] = tempStation;
-
                 DataSource.droneCarges.RemoveAt(indexDrone);//Remove object from list.
-
-                //These lines Updates the status and battery after recharging.
-                Drone tempDrone = DataSource.drones.Find(Drone => Drone.Id == droneId);
-                tempDrone.Status = DroneStatuses.available;
-                tempDrone.battery = 100.0;
-                DataSource.drones[indexDrone] = tempDrone;
-
                 return true;
             }
-            return false;
+            else
+                return false;
+        }
+        /// <summary>
+        /// This function performs adding a charging slot to the station  
+        /// </summary>
+        /// <param name="stationId"></param>
+        /// <returns></returns>
+        public static bool addingDroneCargeToStation(int stationId)
+        {
+            Station stationFind = DataSource.stations.Find(Station => Station.Id == stationId);
+            int stationFindIndex = DataSource.stations.FindIndex(Station => Station.Id == stationId);
+
+            if (stationFindIndex != -1)
+            {
+                stationFind.ChargeSlots++;
+                DataSource.stations[stationFindIndex] = stationFind;
+                return true;
+            }
+            else
+                return false;
+        }
+        /// <summary>
+        /// This function performs reduction drone carge to the station. 
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <param name="stationId"></param>
+        /// <returns></returns>
+        public static bool reductionDroneCargeToStation(int stationId)
+        {
+            Station stationFind = DataSource.stations.Find(Station => Station.Id == stationId);
+            int stationFindIndex = DataSource.stations.FindIndex(Station => Station.Id == stationId);
+
+            if (stationFindIndex != -1)
+            {
+                stationFind.ChargeSlots--;
+                DataSource.stations[stationFindIndex] = stationFind;
+                return true;
+            }
+            else
+                return false;
         }
         /// <summary>
         /// This function transmits the data of the requested station according to an identification number.
