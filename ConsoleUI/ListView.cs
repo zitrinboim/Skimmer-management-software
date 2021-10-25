@@ -59,7 +59,12 @@ namespace ConsoleUI
         public static void LIST_STATIONS()
         {
             List<Station> listToPrint = DalObject.DisplaysIistOfStations();
-            listToPrint.ForEach(delegate (Station station) { Console.WriteLine(station); });
+            listToPrint.ForEach(delegate (Station station) {
+                Console.WriteLine(string.Format("Station\nID {0}\t Name {1}\t " +
+                    "longitude {2}N\tlattitude {3}E\t Charge slots {4} ", station.Id,
+                    station.name, Pisplay.ConvertDecimalToDegMinSec(station.longitude),
+                    Pisplay.ConvertDecimalToDegMinSec(station.lattitude), station.ChargeSlots));
+            });
         }
 
         /// <summary>
@@ -77,7 +82,12 @@ namespace ConsoleUI
         public static void LIST_CUSTOMERS()
         {
             List<Customer> listToPrint = DalObject.DisplaysIistOfCustomers();
-            listToPrint.ForEach(delegate (Customer customer) { Console.WriteLine(customer); });
+            listToPrint.ForEach(delegate (Customer customer) {
+                Console.WriteLine(string.Format("Customer\nID {0}\tname {1}\tphone" +
+                    " {2}\tlongitude {3}N\tlattitude {4}E", customer.Id, customer.name,
+                    customer.phone, Pisplay.ConvertDecimalToDegMinSec(customer.longitude),
+                    Pisplay.ConvertDecimalToDegMinSec(customer.lattitude)));
+            });
         }
 
         /// <summary>
