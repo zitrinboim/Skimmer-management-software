@@ -89,7 +89,6 @@ namespace ConsoleUI
                     Pisplay.ConvertDecimalToDegMinSec(customer.lattitude)));
             });
         }
-
         /// <summary>
         /// The function provides information on the entire list of parcels.
         /// </summary>
