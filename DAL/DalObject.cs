@@ -123,19 +123,19 @@ namespace Dal
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
-        public static bool makeBusyTheDrone(int droneId)
-        {
-            Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
-            int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
-            if (droneFindIndex != -1)
-            {
-                droneFind.Status = DroneStatuses.busy;
-                DataSource.drones[droneFindIndex] = droneFind;
-                return true;
-            }
-            else
-                return false;
-        }
+        //public static bool makeBusyTheDrone(int droneId)
+        //{
+        //    Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
+        //    int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
+        //    if (droneFindIndex != -1)
+        //    {
+        //        droneFind.Status = DroneStatuses.busy;
+        //        DataSource.drones[droneFindIndex] = droneFind;
+        //        return true;
+        //    }
+        //    else
+        //        return false;
+        //}
         /// <summary>
         /// This function performs an update on delivering a package to the customer.
         /// </summary>
@@ -161,36 +161,36 @@ namespace Dal
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
-        public static bool makeAvailableTheDrone(int droneId)
-        {
-            Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
-            int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
-            if (droneFindIndex != -1)
-            {
-                droneFind.Status = DroneStatuses.available;
-                DataSource.drones[droneFindIndex] = droneFind;
-                return true;
-            }
-            return false;
-        }
+        //public static bool makeAvailableTheDrone(int droneId)
+        //{
+        //    Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
+        //    int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
+        //    if (droneFindIndex != -1)
+        //    {
+        //        droneFind.Status = DroneStatuses.available;
+        //        DataSource.drones[droneFindIndex] = droneFind;
+        //        return true;
+        //    }
+        //    return false;
+        //}
               /// <summary>
         /// this funcation makes the drone maintenance when the parcl Collection by drone.
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
-        public static bool makeMaintenanceTheDrone(int droneId)
-        {
-            Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
-            int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
-            if (droneFindIndex != -1)
-            {
-                droneFind.Status = DroneStatuses.maintenance;
-                DataSource.drones[droneFindIndex] = droneFind;
-                return true;
-            }
-            else
-                return false;
-        }
+        //public static bool makeMaintenanceTheDrone(int droneId)
+        //{
+        //    Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
+        //    int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
+        //    if (droneFindIndex != -1)
+        //    {
+        //        droneFind.Status = DroneStatuses.maintenance;
+        //        DataSource.drones[droneFindIndex] = droneFind;
+        //        return true;
+        //    }
+        //    else
+        //        return false;
+        //}
         /// <summary>
         /// This function remove object from list when drone release from charging .
         /// </summary>

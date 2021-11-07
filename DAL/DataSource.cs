@@ -36,8 +36,6 @@ namespace Dal
                     Id = random.Next(1, 100),
                     Model = "F40",
                     MaxWeight = (WeightCategories)random.Next(1, 4),
-                    battery = (double)random.Next(0, 101),
-                    Status = (DroneStatuses)random.Next(1, 4)
                 });
             }
 

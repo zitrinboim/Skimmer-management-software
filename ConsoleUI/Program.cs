@@ -38,7 +38,7 @@ namespace ConsoleUI
                         break;
                     case Choices.EXIT:
                         Console.WriteLine("Thank you and goodbye");
-                        break;
+                        return;
                     default:
                         Console.WriteLine("ERROR! Select again");
                         break;
