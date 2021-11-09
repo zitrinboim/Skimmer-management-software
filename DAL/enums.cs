@@ -12,7 +12,6 @@ using System.Threading.Tasks;
         {
             public enum WeightCategories { easy = 1, medium, heavy };
             public enum Priorities { normal = 1, fast, emergency };
-           // public enum DroneStatuses { available=1, maintenance, busy };
         }
     }
 

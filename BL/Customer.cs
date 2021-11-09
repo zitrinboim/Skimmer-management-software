@@ -11,9 +11,9 @@ namespace IBL
         public class Customer: CustomerInParcel
         {
             public string phone { get; set; }
-            Location location { get; set; }
-            List<ParcelInCustomer> fromCustomers 
-            List<ParcelInCustomer> toCustomer 
+            public Location location { get; set; }
+            public List<ParcelInCustomer> fromCustomers;
+            public List<ParcelInCustomer> toCustomer; 
         }
     }
 }
