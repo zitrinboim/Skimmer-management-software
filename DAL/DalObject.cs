@@ -22,7 +22,7 @@ namespace Dal
         {
             int find = DataSource.stations.FindIndex(Station => Station.Id == station.Id);
             //Safety mechanism to prevent the overrun of an existing entity with the same ID.
-            if (find ==-1)
+            if (find == -1)
             {
                 DataSource.stations.Add(station);
                 return true;
@@ -38,7 +38,7 @@ namespace Dal
         {
             int find = DataSource.drones.FindIndex(Drone => Drone.Id == drone.Id);
             //Safety mechanism to prevent the overrun of an existing entity with the same ID.
-            if (find ==-1)
+            if (find == -1)
             {
                 DataSource.drones.Add(drone);
                 return true;
@@ -318,6 +318,16 @@ namespace Dal
         public static IEnumerable<Parcel> DisplaysIistOfparcels(Predicate<Parcel> p = null)
         {
             return DataSource.parcels.Where(d => p == null ? true : p(d)).ToList();
+        }
+        public static double[] PowerConsumptionRate()
+        {
+            double[] powerConsumptionRate = new double[] {
+                DataSource.Config.available, DataSource.Config.easy,
+                DataSource.Config.medium, DataSource.Config.Heavy,
+                DataSource.Config.ChargingRate 
+            };
+
+            return powerConsumptionRate;
         }
     }
 }

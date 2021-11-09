@@ -29,5 +29,6 @@ namespace IDAL
 		IEnumerable<Drone> DisplaysTheListOfDrons(Predicate<Drone> p = null);
 		IEnumerable<Customer> DisplaysIistOfCustomers(Predicate<Customer> p = null);
 		IEnumerable<Parcel> DisplaysIistOfparcels(Predicate<Parcel> p = null);
+		double[] PowerConsumptionRate();
 	}
 }
