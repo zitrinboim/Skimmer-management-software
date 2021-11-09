@@ -58,13 +58,14 @@ namespace ConsoleUI
         /// </summary>
         public static void LIST_STATIONS()
         {
-            List<Station> listToPrint = DalObject.DisplaysIistOfStations();
-            listToPrint.ForEach(delegate (Station station) {
-                Console.WriteLine(string.Format("Station\nID {0}\t Name {1}\t " +
-                    "longitude {2}N\tlattitude {3}E\t Charge slots {4} ", station.Id,
-                    station.name, Pisplay.ConvertDecimalToDegMinSec(station.longitude),
-                    Pisplay.ConvertDecimalToDegMinSec(station.lattitude), station.ChargeSlots));
-            });
+            List<Station> listToPrint = DalObject.DisplaysIistOfStations().ToList();
+            listToPrint.ForEach(i => Console.WriteLine(i + toString1(i.longitude,i.lattitude)));
+        }
+
+        public static string toString1(double i, double s)
+        {
+            return string.Format(" {0}\tlongitude {1}N\tlattitude ", Pisplay.ConvertDecimalToDegMinSec(i),
+                                Pisplay.ConvertDecimalToDegMinSec(s));
         }
 
         /// <summary>
@@ -72,8 +73,8 @@ namespace ConsoleUI
         /// </summary>
         public static void LIST_DRONS()
         {
-            List<Drone> listToPrint = DalObject.DisplaysTheListOfDrons();
-            listToPrint.ForEach(delegate (Drone drone) { Console.WriteLine(drone); });
+            List<Drone> listToPrint = DalObject.DisplaysTheListOfDrons().ToList();
+            listToPrint.ForEach(i=> Console.WriteLine(i));
         }
 
         /// <summary>
@@ -81,21 +82,17 @@ namespace ConsoleUI
         /// </summary>
         public static void LIST_CUSTOMERS()
         {
-            List<Customer> listToPrint = DalObject.DisplaysIistOfCustomers();
-            listToPrint.ForEach(delegate (Customer customer) {
-                Console.WriteLine(string.Format("Customer\nID {0}\tname {1}\tphone" +
-                    " {2}\tlongitude {3}N\tlattitude {4}E", customer.Id, customer.name,
-                    customer.phone, Pisplay.ConvertDecimalToDegMinSec(customer.longitude),
-                    Pisplay.ConvertDecimalToDegMinSec(customer.lattitude)));
-            });
+            List<Customer> listToPrint = DalObject.DisplaysIistOfCustomers().ToList();
+            listToPrint.ForEach(i => Console.WriteLine(i+toString1(i.longitude,i.lattitude)));
+           
         }
         /// <summary>
         /// The function provides information on the entire list of parcels.
         /// </summary>
         public static void LIST_PARCELS()
         {
-            List<Parcel> listToPrint = DalObject.DisplaysIistOfparcels();
-            listToPrint.ForEach(delegate (Parcel parcel) { Console.WriteLine(parcel); });
+            List<Parcel> listToPrint = DalObject.DisplaysIistOfparcels().ToList();
+            listToPrint.ForEach(i=> Console.WriteLine(i));
         }
 
         /// <summary>
@@ -103,15 +100,14 @@ namespace ConsoleUI
         /// </summary>
         public static void PARCELS_HAVE_NOT_DRONS()
         {
-            List<Parcel> listToPrint = DalObject.GetUnassignedPackages();
+            List<Parcel> listToPrint = DalObject.DisplaysIistOfparcels(i=>i.DroneId==0).ToList();
             if (listToPrint.Count() == 0)
             {
                 Console.WriteLine("There are no packages in the requested status");
+                return;
             }
-            listToPrint.ForEach(delegate (Parcel parcel)
-            {
-                Console.WriteLine(parcel);
-            });
+            listToPrint.ForEach(i=> Console.WriteLine(i));
+           
         }
 
         /// <summary>
@@ -119,8 +115,8 @@ namespace ConsoleUI
         /// </summary>
         public static void STATIONS_WITH_AVAILABLE_CHARGING_SLOTS()
         {
-            List<Station> listToPrint = DalObject.stationsWithFreeChargingSlots();
-            listToPrint.ForEach(delegate (Station station) { Console.WriteLine(station); });
+            List<Station> listToPrint = DalObject.DisplaysIistOfStations(i=>i.ChargeSlots>0).ToList();
+            listToPrint.ForEach(i=> Console.WriteLine(i));
         }
     }
 }

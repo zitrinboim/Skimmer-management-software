@@ -8,7 +8,7 @@ using Dal;
 
 namespace ConsoleUI
 {
-    class Pisplay
+    static class Pisplay
     {
         public enum enumPisplayOptions { EXIT = 0, STATION_DISPLAY, DRONE_DISPLAY, CUSTOMER_DISPLAY, PARCEL_DISPLAY, };
         public static void PisplayOptions()
@@ -72,15 +72,7 @@ namespace ConsoleUI
                 Console.WriteLine("There is no station with this ID number");
             else
             {
-                Console.WriteLine(station.Id);
-                Console.WriteLine(station.name);
-                Console.WriteLine(ConvertDecimalToDegMinSec(station.longitude));
-                Console.WriteLine(ConvertDecimalToDegMinSec(station.lattitude));
-                Console.WriteLine(station.ChargeSlots);
-                Console.WriteLine(string.Format("Station\nID {0}\t Name {1}\t " +
-                    "longitude {2}N\tlattitude {3}E\t Charge slots {4} ", station.Id,
-                    station.name, ConvertDecimalToDegMinSec(station.longitude),
-                    ConvertDecimalToDegMinSec(station.lattitude), station.ChargeSlots));
+                Console.WriteLine(station + ListView.toString1(station.longitude,station.lattitude));
             }
         }
         /// <summary>

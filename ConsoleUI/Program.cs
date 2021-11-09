@@ -11,6 +11,7 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             DalObject dalProgram = new DalObject();
+            //IDal dalProgram = new DalObject();
             int choice;
             Choices choices;
             do

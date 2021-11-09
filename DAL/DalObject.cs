@@ -1,5 +1,6 @@
 ﻿using IDAL.DO;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace Dal
         {
             int find = DataSource.stations.FindIndex(Station => Station.Id == station.Id);
             //Safety mechanism to prevent the overrun of an existing entity with the same ID.
-            if (find <= 0)
+            if (find ==-1)
             {
                 DataSource.stations.Add(station);
                 return true;
@@ -37,7 +38,7 @@ namespace Dal
         {
             int find = DataSource.drones.FindIndex(Drone => Drone.Id == drone.Id);
             //Safety mechanism to prevent the overrun of an existing entity with the same ID.
-            if (find <= 0)
+            if (find ==-1)
             {
                 DataSource.drones.Add(drone);
                 return true;
@@ -173,7 +174,7 @@ namespace Dal
         //    }
         //    return false;
         //}
-              /// <summary>
+        /// <summary>
         /// this funcation makes the drone maintenance when the parcl Collection by drone.
         /// </summary>
         /// <param name="droneId"></param>
@@ -287,81 +288,36 @@ namespace Dal
             return getParcel != null ? getParcel : null;
         }
         /// <summary>
-        /// This function serves as a template for data transfer of complete lists of any entity that be required.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ts"></param>
-        /// <returns></returns>
-        public static List<T> getListTemplte<T>(List<T> ts) where T : struct
-        {
-            List<T> temp = new List<T>();
-            for (int i = 0; i < ts.Count; i++)
-            {
-                temp.Add(ts[i]);
-            }
-            return temp;
-        }
-        /// <summary>
         /// This function transmits data of all existing stations.
         /// </summary>
         /// <returns></returns>
-        public static List<Station> DisplaysIistOfStations()
+        public static IEnumerable<Station> DisplaysIistOfStations(Predicate<Station> p = null)
         {
-            return getListTemplte<Station>(DataSource.stations);
+            return DataSource.stations.Where(d => p == null ? true : p(d)).ToList();
         }
         /// <summary>
         /// This function transmits data of all existing drones.
         /// </summary>
         /// <returns></returns>
-        public static List<Drone> DisplaysTheListOfDrons()
+        public static IEnumerable<Drone> DisplaysTheListOfDrons(Predicate<Drone> p = null)
         {
-            return getListTemplte<Drone>(DataSource.drones);
+            return DataSource.drones.Where(d => p == null ? true : p(d)).ToList();
         }
         /// <summary>
         /// This function transmits data of all existing customers.
         /// </summary>
         /// <returns></returns>
-        public static List<Customer> DisplaysIistOfCustomers()
+        public static IEnumerable<Customer> DisplaysIistOfCustomers(Predicate<Customer> p = null)
         {
-            return getListTemplte<Customer>(DataSource.customers);
+            return DataSource.customers.Where(d => p == null ? true : p(d)).ToList();
         }
         /// <summary>
         /// This function transmits data of all existing parcels.
         /// </summary>
         /// <returns></returns>
-        public static List<Parcel> DisplaysIistOfparcels()
+        public static IEnumerable<Parcel> DisplaysIistOfparcels(Predicate<Parcel> p = null)
         {
-            return getListTemplte<Parcel>(DataSource.parcels);
-        }
-        /// <summary>
-        /// This function transmits data of all packages not yet associated with the drone.
-        /// </summary>
-        /// <returns></returns>
-        public static List<Parcel> GetUnassignedPackages()
-        {
-            List<Parcel> UnassignedPackages = new List<Parcel>();
-
-            DataSource.parcels.ForEach(delegate (Parcel parcel)
-            {
-                if (parcel.DroneId == 0)
-                    UnassignedPackages.Add(parcel);
-            });
-            return UnassignedPackages;
-        }
-        /// <summary>
-        /// This function transmits data of all stations that have free charging slots.
-        /// </summary>
-        /// <returns></returns>
-        public static List<Station> stationsWithFreeChargingSlots()
-        {
-            List<Station> freeChargingSlots = new List<Station>();
-
-            DataSource.stations.ForEach(delegate (Station station)
-            {
-                if (station.ChargeSlots > 0)
-                    freeChargingSlots.Add(station);
-            });
-            return freeChargingSlots;
+            return DataSource.parcels.Where(d => p == null ? true : p(d)).ToList();
         }
     }
 }
