@@ -118,5 +118,6 @@ namespace ConsoleUI
             List<Station> listToPrint = DalObject.DisplaysIistOfStations(i=>i.ChargeSlots>0).ToList();
             listToPrint.ForEach(i=> Console.WriteLine(i));
         }
+
     }
 }

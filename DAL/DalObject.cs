@@ -324,10 +324,51 @@ namespace Dal
             double[] powerConsumptionRate = new double[] {
                 DataSource.Config.available, DataSource.Config.easy,
                 DataSource.Config.medium, DataSource.Config.Heavy,
-                DataSource.Config.ChargingRate 
+                DataSource.Config.ChargingRate
             };
 
             return powerConsumptionRate;
+        }
+
+        public static bool removeDrone(int id)
+        {
+            int find = DataSource.drones.FindIndex(Drone => Drone.Id == id);
+            if (find != -1)
+            {
+                DataSource.drones.RemoveAt(find);
+                return true;
+            }
+            return false;
+        }
+        public static bool removeStation(int id)
+        {
+            int find = DataSource.stations.FindIndex(Station => Station.Id == id);
+            if (find != -1)
+            {
+                DataSource.stations.RemoveAt(find);
+                return true;
+            }
+            return false;
+        }
+        public static bool removeCustomer(int id)
+        {
+            int find = DataSource.customers.FindIndex(Customer => Customer.Id == id);
+            if (find != -1)
+            {
+                DataSource.customers.RemoveAt(find);
+                return true;
+            }
+            return false;
+        }
+        public static bool removeParcel(int id)
+        {
+            int find = DataSource.parcels.FindIndex(Parcel => Parcel.Id == id);
+            if (find != -1)
+            {
+                DataSource.parcels.RemoveAt(find);
+                return true;
+            }
+            return false;
         }
     }
 }

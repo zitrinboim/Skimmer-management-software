@@ -30,5 +30,10 @@ namespace IDAL
 		IEnumerable<Customer> DisplaysIistOfCustomers(Predicate<Customer> p = null);
 		IEnumerable<Parcel> DisplaysIistOfparcels(Predicate<Parcel> p = null);
 		double[] PowerConsumptionRate();
+		bool removeDrone(int id);
+		bool removeStation(int id);
+		bool removeCustomer(int id);
+		bool removeParcel(int id);
+
 	}
 }
