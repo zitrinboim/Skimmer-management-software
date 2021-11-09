@@ -115,7 +115,7 @@ namespace ConsoleUI
         /// </summary>
         public static void STATIONS_WITH_AVAILABLE_CHARGING_SLOTS()
         {
-            List<Station> listToPrint = DalObject.DisplaysIistOfStations(i=>i.ChargeSlots>0).ToList();
+            List<Station> listToPrint = DalObject.DisplaysIistOfStations(i=>i.freeChargeSlots>0).ToList();
             listToPrint.ForEach(i=> Console.WriteLine(i));
         }
 

@@ -50,7 +50,7 @@ namespace Dal
                 name = "central Station TLV",
                 longitude = 32.056811,
                 lattitude = 34.779302,
-                ChargeSlots = random.Next(1, 10)
+                freeChargeSlots = random.Next(1, 10)
             });
 
             stations.Add(new Station()
@@ -59,7 +59,7 @@ namespace Dal
                 name = "central Station Jrusalem",
                 longitude = 31.788729,
                 lattitude = 35.202984,
-                ChargeSlots = random.Next(1, 10)
+                freeChargeSlots = random.Next(1, 10)
 
             });
             for (int i = 0; i < 10; i++)

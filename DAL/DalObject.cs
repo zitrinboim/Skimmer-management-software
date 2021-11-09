@@ -220,7 +220,7 @@ namespace Dal
 
             if (stationFindIndex != -1)
             {
-                stationFind.ChargeSlots++;
+                stationFind.freeChargeSlots++;
                 DataSource.stations[stationFindIndex] = stationFind;
                 return true;
             }
@@ -240,7 +240,7 @@ namespace Dal
 
             if (stationFindIndex != -1)
             {
-                stationFind.ChargeSlots--;
+                stationFind.freeChargeSlots--;
                 DataSource.stations[stationFindIndex] = stationFind;
                 return true;
             }

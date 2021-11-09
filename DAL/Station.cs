@@ -15,11 +15,11 @@ namespace IDAL
             public string name { get; set; }
             public double longitude { get; set; }
             public double lattitude { get; set; }
-            public int ChargeSlots { get; set; }
+            public int freeChargeSlots { get; set; }
             public override string ToString()
             {
                 return string.Format("Station\nID {0}\t Name {1}\t Charge slots {2} "
-                    , Id, name, ChargeSlots);
+                    , Id, name, freeChargeSlots);
             }
         }
     }

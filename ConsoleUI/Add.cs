@@ -70,7 +70,7 @@ namespace ConsoleUI
                 name = name,
                 longitude = longitude,
                 lattitude = lattitude,
-                ChargeSlots = ChargeSlots
+                freeChargeSlots = ChargeSlots
             };
             //Check the integrity of the input
             bool test = Dal.DalObject.addStation(station);
