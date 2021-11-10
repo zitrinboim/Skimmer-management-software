@@ -1,4 +1,5 @@
 ﻿using IDAL.DO;
+using IDAL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Dal
 {
-    public class DalObject
+    public class DalObject:IDal
     {/// <summary>
      /// This function activates the constructor of Initialize, so that all the Lists of the various entities are initialized.
      /// </summary>
