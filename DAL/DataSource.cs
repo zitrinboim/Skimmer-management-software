@@ -22,7 +22,7 @@ namespace Dal
         internal static class Config//Runner number for package IDs
         {
             internal static int ParcelIdRun = 1000;
-            internal static double available=0.0;
+            internal static double available;
             internal static double easy;
             internal static double medium;
             internal static double Heavy;
@@ -60,7 +60,6 @@ namespace Dal
                 longitude = 31.788729,
                 lattitude = 35.202984,
                 freeChargeSlots = random.Next(1, 10)
-
             });
             for (int i = 0; i < 10; i++)
             {

@@ -8,10 +8,11 @@ using Dal;
 
 namespace ConsoleUI
 {
-    class ListView
+    public class ListView
     {
+        public DalObject dalProgram = new DalObject();
         public enum enumListViewOptions { EXIT = 0, LIST_STATIONS, LIST_DRONS, LIST_CUSTOMERS, LIST_PARCELS, PARCELS_HAVE_NOT_DRONS, STATIONS_WITH_AVAILABLE_CHARGING_SLOTS };
-        public static void ListViewOptions()
+        public void ListViewOptions()
         {
             Console.WriteLine("enter 1 to view the list of stations");
             Console.WriteLine("enter 2 to view the list of drons");
@@ -52,72 +53,64 @@ namespace ConsoleUI
                     break;
             }
         }
-
         /// <summary>
         /// The function provides information on the entire list of stations.
         /// </summary>
-        public static void LIST_STATIONS()
+        public  void LIST_STATIONS()
         {
-            List<Station> listToPrint = DalObject.DisplaysIistOfStations().ToList();
+            List<Station> listToPrint = dalProgram.DisplaysIistOfStations().ToList();
             listToPrint.ForEach(i => Console.WriteLine(i + toString1(i.longitude,i.lattitude)));
         }
-
-        public static string toString1(double i, double s)
+        public string toString1(double i, double s)
         {
-            return string.Format(" {0}\tlongitude {1}N\tlattitude ", Pisplay.ConvertDecimalToDegMinSec(i),
-                                Pisplay.ConvertDecimalToDegMinSec(s));
+            Pisplay p = new();
+            return string.Format(" {0}\tlongitude {1}N\tlattitude ", p.ConvertDecimalToDegMinSec(i),
+                                p.ConvertDecimalToDegMinSec(s));
         }
-
         /// <summary>
         /// The function provides information on the entire list of drons.
         /// </summary>
-        public static void LIST_DRONS()
+        public  void LIST_DRONS()
         {
-            List<Drone> listToPrint = DalObject.DisplaysTheListOfDrons().ToList();
+            List<Drone> listToPrint = dalProgram.DisplaysTheListOfDrons().ToList();
             listToPrint.ForEach(i=> Console.WriteLine(i));
         }
-
         /// <summary>
         /// The function provides information on the entire list of customers.
         /// </summary>
-        public static void LIST_CUSTOMERS()
+        public void LIST_CUSTOMERS()
         {
-            List<Customer> listToPrint = DalObject.DisplaysIistOfCustomers().ToList();
+            List<Customer> listToPrint = dalProgram.DisplaysIistOfCustomers().ToList();
             listToPrint.ForEach(i => Console.WriteLine(i+toString1(i.longitude,i.lattitude)));
-           
         }
         /// <summary>
         /// The function provides information on the entire list of parcels.
         /// </summary>
-        public static void LIST_PARCELS()
+        public  void LIST_PARCELS()
         {
-            List<Parcel> listToPrint = DalObject.DisplaysIistOfparcels().ToList();
+            List<Parcel> listToPrint = dalProgram.DisplaysIistOfparcels().ToList();
             listToPrint.ForEach(i=> Console.WriteLine(i));
         }
-
         /// <summary>
         /// The function provides information on all parcels not associated with the drone.
         /// </summary>
-        public static void PARCELS_HAVE_NOT_DRONS()
+        public  void PARCELS_HAVE_NOT_DRONS()
         {
-            List<Parcel> listToPrint = DalObject.DisplaysIistOfparcels(i=>i.DroneId==0).ToList();
+            List<Parcel> listToPrint = dalProgram.DisplaysIistOfparcels(i=>i.DroneId==0).ToList();
             if (listToPrint.Count() == 0)
             {
                 Console.WriteLine("There are no packages in the requested status");
                 return;
             }
             listToPrint.ForEach(i=> Console.WriteLine(i));
-           
         }
-
         /// <summary>
         /// The function provides information on all stations that have free charging slots.
         /// </summary>
-        public static void STATIONS_WITH_AVAILABLE_CHARGING_SLOTS()
+        public  void STATIONS_WITH_AVAILABLE_CHARGING_SLOTS()
         {
-            List<Station> listToPrint = DalObject.DisplaysIistOfStations(i=>i.freeChargeSlots>0).ToList();
+            List<Station> listToPrint = dalProgram.DisplaysIistOfStations(i=>i.freeChargeSlots>0).ToList();
             listToPrint.ForEach(i=> Console.WriteLine(i));
         }
-
     }
 }

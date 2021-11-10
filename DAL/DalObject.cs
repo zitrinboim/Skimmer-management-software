@@ -18,7 +18,7 @@ namespace Dal
         /// </summary>
         /// <param name="station"></param>
         /// <returns></true/false>
-        public static bool addStation(Station station)
+        public bool addStation(Station station)
         {
             int find = DataSource.stations.FindIndex(Station => Station.Id == station.Id);
             //Safety mechanism to prevent the overrun of an existing entity with the same ID.
@@ -34,7 +34,7 @@ namespace Dal
         /// </summary>
         /// <param name="drone"></param>
         /// <returns></returns>
-        public static bool addDrone(Drone drone)
+        public bool addDrone(Drone drone)
         {
             int find = DataSource.drones.FindIndex(Drone => Drone.Id == drone.Id);
             //Safety mechanism to prevent the overrun of an existing entity with the same ID.
@@ -50,7 +50,7 @@ namespace Dal
         /// </summary>
         /// <param name="customer"></param>
         /// <returns></returns>
-        public static bool addCustomer(Customer customer)
+        public bool addCustomer(Customer customer)
         {
             int find = DataSource.drones.FindIndex(Customer => Customer.Id == customer.Id);
             //Safety mechanism to prevent the overrun of an existing entity with the same ID.
@@ -66,13 +66,13 @@ namespace Dal
         /// </summary>
         /// <param name="parcel"></param>
         /// <returns></returns>
-        public static int addParsel(Parcel parcel)
+        public int addParsel(Parcel parcel)
         {
             parcel.Id = DataSource.Config.ParcelIdRun;
             DataSource.parcels.Add(parcel);
             return (DataSource.Config.ParcelIdRun++);
         }
-        public static void addDroneCarge(DroneCarge droneCarge)
+        public void addDroneCarge(DroneCarge droneCarge)
         {
             DataSource.droneCarges.Add(droneCarge);
         }
@@ -83,7 +83,7 @@ namespace Dal
         /// <param name="parcelId"></param>
         /// <param name="droneId"></param>
         /// <returns></returns>
-        public static bool AssignPackageToDrone(int parcelId, int droneId)
+        public bool AssignPackageToDrone(int parcelId, int droneId)
         {
             Parcel parcelFind = DataSource.parcels.Find(Parcel => Parcel.Id == parcelId);
             int parcelFindIndex = DataSource.parcels.FindIndex(Parcel => Parcel.Id == parcelId);
@@ -105,7 +105,7 @@ namespace Dal
         /// <param name="parcelId"></param>
         /// <param name="droneId"></param>
         /// <returns></returns>
-        public static bool PackageCollectionByDrone(int parcelId)
+        public bool PackageCollectionByDrone(int parcelId)
         {
             Parcel parcelFind = DataSource.parcels.Find(Parcel => Parcel.Id == parcelId);
             int parcelFindIndex = DataSource.parcels.FindIndex(Parcel => Parcel.Id == parcelId);
@@ -143,7 +143,7 @@ namespace Dal
         /// <param name="parcelId"></param>
         /// <param name="droneId"></param>
         /// <returns></returns>
-        public static bool DeliveryPackageToCustomer(int parcelId)
+        public bool DeliveryPackageToCustomer(int parcelId)
         {
             Parcel parcelFind = DataSource.parcels.Find(Parcel => Parcel.Id == parcelId);
             int parcelFindIndex = DataSource.parcels.FindIndex(Parcel => Parcel.Id == parcelId);
@@ -197,7 +197,7 @@ namespace Dal
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
-        public static bool ReleaseDroneCarge(int droneId)
+        public bool ReleaseDroneCarge(int droneId)
         {
             int indexDrone = DataSource.droneCarges.FindIndex(DroneCarge => DroneCarge.DroneID == droneId);//
             if (indexDrone != -1)
@@ -213,7 +213,7 @@ namespace Dal
         /// </summary>
         /// <param name="stationId"></param>
         /// <returns></returns>
-        public static bool addingCargeSlotsToStation(int stationId)
+        public bool addingCargeSlotsToStation(int stationId)
         {
             Station stationFind = DataSource.stations.Find(Station => Station.Id == stationId);
             int stationFindIndex = DataSource.stations.FindIndex(Station => Station.Id == stationId);
@@ -233,7 +233,7 @@ namespace Dal
         /// <param name="droneId"></param>
         /// <param name="stationId"></param>
         /// <returns></returns>
-        public static bool reductionCargeSlotsToStation(int stationId)
+        public bool reductionCargeSlotsToStation(int stationId)
         {
             Station stationFind = DataSource.stations.Find(Station => Station.Id == stationId);
             int stationFindIndex = DataSource.stations.FindIndex(Station => Station.Id == stationId);
@@ -252,7 +252,7 @@ namespace Dal
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static Station? getStation(int Id)
+        public Station? getStation(int Id)
         {
             Station? getStation = DataSource.stations.Find(Station => Station.Id == Id);
             return getStation != null ? getStation : null;
@@ -262,7 +262,7 @@ namespace Dal
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static Drone? getDrone(int Id)
+        public Drone? getDrone(int Id)
         {
             Drone? getDrone = DataSource.drones.Find(Drone => Drone.Id == Id);
             return getDrone != null ? getDrone : null;
@@ -272,7 +272,7 @@ namespace Dal
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static Customer? getCustomer(int Id)
+        public Customer? getCustomer(int Id)
         {
             Customer? getCustomer = DataSource.customers.Find(Customer => Customer.Id == Id);
             return getCustomer != null ? getCustomer : null;
@@ -282,7 +282,7 @@ namespace Dal
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static Parcel? getParcel(int Id)
+        public Parcel? getParcel(int Id)
         {
             Parcel? getParcel = DataSource.parcels.Find(Parcel => Parcel.Id == Id);
             return getParcel != null ? getParcel : null;
@@ -291,7 +291,7 @@ namespace Dal
         /// This function transmits data of all existing stations.
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<Station> DisplaysIistOfStations(Predicate<Station> p = null)
+        public IEnumerable<Station> DisplaysIistOfStations(Predicate<Station> p = null)
         {
             return DataSource.stations.Where(d => p == null ? true : p(d)).ToList();
         }
@@ -299,7 +299,7 @@ namespace Dal
         /// This function transmits data of all existing drones.
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<Drone> DisplaysTheListOfDrons(Predicate<Drone> p = null)
+        public IEnumerable<Drone> DisplaysTheListOfDrons(Predicate<Drone> p = null)
         {
             return DataSource.drones.Where(d => p == null ? true : p(d)).ToList();
         }
@@ -307,7 +307,7 @@ namespace Dal
         /// This function transmits data of all existing customers.
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<Customer> DisplaysIistOfCustomers(Predicate<Customer> p = null)
+        public IEnumerable<Customer> DisplaysIistOfCustomers(Predicate<Customer> p = null)
         {
             return DataSource.customers.Where(d => p == null ? true : p(d)).ToList();
         }
@@ -315,22 +315,20 @@ namespace Dal
         /// This function transmits data of all existing parcels.
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<Parcel> DisplaysIistOfparcels(Predicate<Parcel> p = null)
+        public IEnumerable<Parcel> DisplaysIistOfparcels(Predicate<Parcel> p = null)
         {
             return DataSource.parcels.Where(d => p == null ? true : p(d)).ToList();
         }
-        public static double[] PowerConsumptionRate()
+        public double[] PowerConsumptionRate()
         {
             double[] powerConsumptionRate = new double[] {
                 DataSource.Config.available, DataSource.Config.easy,
                 DataSource.Config.medium, DataSource.Config.Heavy,
                 DataSource.Config.ChargingRate
             };
-
             return powerConsumptionRate;
         }
-
-        public static bool removeDrone(int id)
+        public bool removeDrone(int id)
         {
             int find = DataSource.drones.FindIndex(Drone => Drone.Id == id);
             if (find != -1)
@@ -340,7 +338,7 @@ namespace Dal
             }
             return false;
         }
-        public static bool removeStation(int id)
+        public bool removeStation(int id)
         {
             int find = DataSource.stations.FindIndex(Station => Station.Id == id);
             if (find != -1)
@@ -350,7 +348,7 @@ namespace Dal
             }
             return false;
         }
-        public static bool removeCustomer(int id)
+        public bool removeCustomer(int id)
         {
             int find = DataSource.customers.FindIndex(Customer => Customer.Id == id);
             if (find != -1)
@@ -360,7 +358,7 @@ namespace Dal
             }
             return false;
         }
-        public static bool removeParcel(int id)
+        public bool removeParcel(int id)
         {
             int find = DataSource.parcels.FindIndex(Parcel => Parcel.Id == id);
             if (find != -1)

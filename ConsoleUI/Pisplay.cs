@@ -8,10 +8,11 @@ using Dal;
 
 namespace ConsoleUI
 {
-    static class Pisplay
+    class Pisplay
     {
+        public DalObject dalProgram = new DalObject();
         public enum enumPisplayOptions { EXIT = 0, STATION_DISPLAY, DRONE_DISPLAY, CUSTOMER_DISPLAY, PARCEL_DISPLAY, };
-        public static void PisplayOptions()
+        public void PisplayOptions()
         {
             Console.WriteLine("enter 1 to  get the information on station");
             Console.WriteLine("enter 2 to  get the information on drone");
@@ -49,7 +50,7 @@ namespace ConsoleUI
         /// </summary>
         /// <param name="value"></param>
         /// <returns></string>
-        public static string ConvertDecimalToDegMinSec(double value)
+        public string ConvertDecimalToDegMinSec(double value)
         {
             int deg = (int)value;
             value = Math.Abs(value - deg);
@@ -62,28 +63,29 @@ namespace ConsoleUI
         /// <summary>
         /// The function provides information about a requested station.
         /// </summary>
-        public static void STATION_DISPLAY()
+        public void STATION_DISPLAY()
         {
+            ListView l = new();
             Console.WriteLine("enter ID number of the ststion");
             int IdStation;
             int.TryParse(Console.ReadLine(), out IdStation);
-            Station station = (Station)DalObject.getStation(IdStation);
+            Station station = (Station)dalProgram.getStation(IdStation);
             if (station.Id == 0)
                 Console.WriteLine("There is no station with this ID number");
             else
             {
-                Console.WriteLine(station + ListView.toString1(station.longitude,station.lattitude));
+                Console.WriteLine(station + l.toString1(station.longitude, station.lattitude));
             }
         }
         /// <summary>
         /// The function provides information about a requested drone
         /// </summary>
-        public static void DRONE_DISPLAY()
+        public void DRONE_DISPLAY()
         {
             Console.WriteLine("enter ID number of the drone");
             int IdDrone;
             int.TryParse(Console.ReadLine(), out IdDrone);
-            Drone drone = (Drone)DalObject.getDrone(IdDrone);
+            Drone drone = (Drone)dalProgram.getDrone(IdDrone);
             if (drone.Id == 0)
                 Console.WriteLine("There is no station with this ID number");
             else
@@ -92,12 +94,12 @@ namespace ConsoleUI
         /// <summary>
         /// The function provides information about a requested customer.
         /// </summary>
-        public static void CUSTOMER_DISPLAY()
+        public void CUSTOMER_DISPLAY()
         {
             Console.WriteLine("enter ID number of the customer");
             int IdCustomer;
             int.TryParse(Console.ReadLine(), out IdCustomer);
-            Customer customer = (Customer)DalObject.getCustomer(IdCustomer);
+            Customer customer = (Customer)dalProgram.getCustomer(IdCustomer);
             if (customer.Id == 0)
                 Console.WriteLine("There is no station with this ID number");
             else
@@ -111,12 +113,12 @@ namespace ConsoleUI
         /// <summary>
         /// The function provides information about a requested parcel
         /// </summary>
-        public static void PARCEL_DISPLAY()
+        public void PARCEL_DISPLAY()
         {
             Console.WriteLine("enter ID number of the parcel");
             int IdParcel;
             int.TryParse(Console.ReadLine(), out IdParcel);
-            Parcel parcel = (Parcel)DalObject.getParcel(IdParcel);
+            Parcel parcel = (Parcel)dalProgram.getParcel(IdParcel);
             if (parcel.Id == 0)
                 Console.WriteLine("There is no station with this ID number");
             else

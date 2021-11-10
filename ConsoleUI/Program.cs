@@ -5,10 +5,10 @@ using Dal;
 
 namespace ConsoleUI
 {
-    class Program
+    public class Program
     {
         public enum Choices { EXIT = 0, ADD, UPDATING, PISPLAY, LIST_VIEW };
-        static void Main(string[] args)
+        public void Main(string[] args)
         {
             DalObject dalProgram = new DalObject();
             //IDal dalProgram = new DalObject();
@@ -26,16 +26,20 @@ namespace ConsoleUI
                 switch (choices)
                 {
                     case Choices.ADD:
-                        Add.insertOptions();
+                        Add a = new();
+                        a.insertOptions();
                         break;
                     case Choices.UPDATING:
-                        Updating.UpdatingOptions();
+                        Updating u = new();
+                        u.UpdatingOptions();
                         break;
                     case Choices.PISPLAY:
-                        Pisplay.PisplayOptions();
+                        Pisplay p = new();
+                        p.PisplayOptions();
                         break;
                     case Choices.LIST_VIEW:
-                        ListView.ListViewOptions();
+                        ListView l = new();
+                        l.ListViewOptions();
                         break;
                     case Choices.EXIT:
                         Console.WriteLine("Thank you and goodbye");

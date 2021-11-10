@@ -8,11 +8,13 @@ using Dal;
 
 namespace ConsoleUI
 {
-    class Add
+    public class Add
     {
+        public DalObject dalProgram = new DalObject();
         public enum enumInsertOptions { EXIT = 0, ADD_STATION, ADD_DRONE, ADD_CUSTOMER, ADD_PARCEL };
-        public static void insertOptions()
+        public void insertOptions()
         {
+
             Console.WriteLine("enter 1 to adding a base station to the list of stations");
             Console.WriteLine("enter 2 to adding a drone to the list of existing drones");
             Console.WriteLine("enter 3 to admission of a new customer to the customer list");
@@ -23,7 +25,7 @@ namespace ConsoleUI
             int choice;
             int.TryParse(Console.ReadLine(), out choice);
             EnumInsertOptions = (enumInsertOptions)choice;
-            
+
             switch (EnumInsertOptions)
             {
                 case enumInsertOptions.ADD_STATION:
@@ -48,7 +50,7 @@ namespace ConsoleUI
         /// <summary>
         /// This function picks up station values and creates an object of this type
         /// </summary>
-        public static void ADD_STATION()
+        public void ADD_STATION()
         {
             Console.WriteLine("enter id ");
             int id;
@@ -73,7 +75,7 @@ namespace ConsoleUI
                 freeChargeSlots = ChargeSlots
             };
             //Check the integrity of the input
-            bool test = Dal.DalObject.addStation(station);
+            bool test = dalProgram.addStation(station);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
             else
@@ -82,7 +84,7 @@ namespace ConsoleUI
         /// <summary>
         /// This function picks up drone values and creates an object of this type
         /// </summary>
-        public static void ADD_DRONE()
+        public void ADD_DRONE()
         {
             WeightCategories weightCategories;
             Console.WriteLine("enter id ");
@@ -98,12 +100,10 @@ namespace ConsoleUI
             {
                 Id = id,
                 Model = model,
-                MaxWeight = weightCategories,
-                Status = (DroneStatuses)1,
-                battery = 100.0
+                MaxWeight = weightCategories
             };
             //Check the integrity of the input
-            bool test = Dal.DalObject.addDrone(drone);
+            bool test = dalProgram.addDrone(drone);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
             else
@@ -112,7 +112,7 @@ namespace ConsoleUI
         /// <summary>
         /// This function picks up customer values and creates an object of this type
         /// </summary>
-        public static void ADD_CUSTOMER()
+        public void ADD_CUSTOMER()
         {
             Console.WriteLine("enter your id ");
             int id;
@@ -136,7 +136,7 @@ namespace ConsoleUI
                 lattitude = lattitude
             };
             //Check the integrity of the input
-            bool test = Dal.DalObject.addCustomer(customer);
+            bool test = dalProgram.addCustomer(customer);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
             else
@@ -145,7 +145,7 @@ namespace ConsoleUI
         /// <summary>
         /// This function picks up parcel values and creates an object of this type
         /// </summary>
-        public static void ADD_PARCEL()
+        public void ADD_PARCEL()
         {
             WeightCategories weightCategories;
             Priorities priorities;
@@ -176,7 +176,7 @@ namespace ConsoleUI
                 DroneId = 0,
                 Requested = DateTime.Now.AddDays(days)
             };
-            int parcelId = Dal.DalObject.addParsel(parcel);
+            int parcelId = dalProgram.addParsel(parcel);
             Console.WriteLine("the transaction completed successfully");
         }
     }
