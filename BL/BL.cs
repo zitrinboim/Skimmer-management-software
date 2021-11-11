@@ -31,7 +31,7 @@ namespace BL
             medium = power[2];
             Heavy = power[3];
             ChargingRate = power[4];//אולי להוציא לפונ' נפרדת.
-
+            List<IDAL.DO.Customer> customers = dal.DisplaysIistOfCustomers().ToList();
             List<IDAL.DO.Drone> drones=dal.DisplaysTheListOfDrons().ToList();
             for (int i = 0; i < drones.Count; i++)
             {
@@ -40,7 +40,34 @@ namespace BL
                 droneToList[i].MaxWeight = drones[i].MaxWeight;
             }
             List<IDAL.DO.Parcel> PackagesInDelivery = dal.DisplaysIistOfparcels(i => (i.DroneId != 0 && i.Delivered == DateTime.MinValue)).ToList();
-            
+            for (int i = 0; i < PackagesInDelivery.Count; i++)
+            {
+                for (int j = 0; j < droneToList.Count; j++)
+                {
+                    if (droneToList[j].Id==PackagesInDelivery[i].DroneId)
+                    {
+                        droneToList[j].DroneStatuses = DroneStatuses.busy;
+                        if (PackagesInDelivery[i].PickedUp==DateTime.MinValue)
+                        {
+                            droneToList[j].Location = TheNearestStation(PackagesInDelivery[i].SenderId);// יש לייצר את הפונקציה של חיפוש תחנה קרובה.
+                            //The nearest station
+                        }
+                        else
+                        {
+                            IDAL.DO.Customer customer = customers.Find(customer => customer.Id == PackagesInDelivery[i].SenderId);
+                            droneToList[j].Location.longitude = customer.longitude;
+                            droneToList[j].Location.latitude = customer.lattitude;
+
+                        }
+                    }
+                }
+            }
+        }
+        
+        private Location TheNearestStation(int sanderId)
+        {
+            List < IDAL.DO.Station> 
+            return Location;
         }
 
         //public bool AddStation(Station station)
