@@ -41,8 +41,6 @@ namespace BL
             List<IDAL.DO.Customer> customers = dal.DisplaysIistOfCustomers().ToList();
             List<IDAL.DO.Drone> drones = dal.DisplaysTheListOfDrons().ToList();
             List<IDAL.DO.Parcel> PackagesInDelivery = dal.DisplaysIistOfparcels(i => (i.DroneId != 0 && i.Delivered == DateTime.MinValue)).ToList();
-            List<IDAL.DO.Parcel> PackagesDeliverd = dal.DisplaysIistOfparcels(i => (i.DroneId != 0 && i.Delivered != DateTime.MinValue)).ToList();
-
 
             for (int i = 0; i < drones.Count; i++)
             {
@@ -86,14 +84,14 @@ namespace BL
                     drone.DroneStatuses = (DroneStatuses)random.Next(1, 3);
                     if (drone.DroneStatuses == (DroneStatuses)1)
                     {
-                        index = random.Next(0, PackagesDeliverd.Count);
-                        IDAL.DO.Customer target = customers.Find(customer => customer.Id == PackagesDeliverd[index].TargetId);
+                        List<IDAL.DO.Parcel> droneParcels = dal.DisplaysIistOfparcels(i => (i.DroneId == drone.Id && i.Delivered != DateTime.MinValue)).ToList();
+                        index = random.Next(0, droneParcels.Count);
+                        IDAL.DO.Customer target = customers.Find(customer => customer.Id == droneParcels[index].TargetId);
                         drone.Location.latitude = target.lattitude;
                         drone.Location.longitude = target.longitude;
 
                         battryOfDelivery = d.DistanceBetweenPlaces(drone.Location, TheNearestStation(drone.Location)) * available;
                         drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + battryOfDelivery;
-
                     }
                     else
                     {
