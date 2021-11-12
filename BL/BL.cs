@@ -98,6 +98,8 @@ namespace BL
                         index = random.Next(0, stations.Count);
                         drone.Location.latitude = stations[index].lattitude;
                         drone.Location.longitude = stations[index].longitude;
+
+                        drone.battery = random.NextDouble() * (20.0);
                     }
                 }
             }
