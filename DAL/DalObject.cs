@@ -28,7 +28,10 @@ namespace Dal
                 DataSource.stations.Add(station);
                 return true;
             }
-            return false;
+            else
+            {
+                throw new DroneExeptions("Sorry, i have already a station with this id:" + station.Id);
+            }
         }
         /// <summary>
         /// This function allows the user to add a drone to the list.

@@ -10,7 +10,7 @@ namespace ConsoleUI_BL
 
         static void Main(string[] args)
         {
-            BL.BL bLProgram = new BL.BL();
+            BL.BL bLProgram = new BL.BL();//להחליף לאובייקט של הממשק
             int choice;
             Choices choices;
             do

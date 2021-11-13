@@ -10,7 +10,7 @@ namespace ConsoleUI
         public enum Choices { EXIT = 0, ADD, UPDATING, DISPLAY, LIST_VIEW };
         public void Main(string[] args)
         {
-            DalObject dalProgram = new DalObject();
+              DalObject dalProgram = new DalObject();
             //IDal dalProgram = new DalObject();
             int choice;
             Choices choices;
@@ -26,7 +26,7 @@ namespace ConsoleUI
                 switch (choices)
                 {
                     case Choices.ADD:
-                        Add a = new();
+                        Add a = new(dalProgram);
                         a.insertOptions();
                         break;
                     case Choices.UPDATING:

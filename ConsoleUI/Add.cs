@@ -10,7 +10,13 @@ namespace ConsoleUI
 {
     public class Add
     {
-        public DalObject dalProgram = new DalObject();
+        public Add(DalObject _dalProgram)
+        {
+            dalProgram = _dalProgram;
+        }
+
+
+        public DalObject dalProgram;
         public enum enumInsertOptions { EXIT = 0, ADD_STATION, ADD_DRONE, ADD_CUSTOMER, ADD_PARCEL };
         public void insertOptions()
         {

@@ -63,17 +63,17 @@ namespace BL
 
                     if (PackagesInDelivery[find].PickedUp == DateTime.MinValue)
                     {
-                        drone.Location = TheNearestStation(sanderLocation);
+                        drone.Location = TheNearestStation(sanderLocation, stations);
                         battryOfDelivery = (d.DistanceBetweenPlaces(drone.Location, sanderLocation) * available)
                         + (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * power[(int)PackagesInDelivery[find].weight])
-                        + (d.DistanceBetweenPlaces(targetLocation, TheNearestStation(targetLocation)) * available);
+                        + (d.DistanceBetweenPlaces(targetLocation, TheNearestStation(targetLocation, stations)) * available);
                         drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + battryOfDelivery;
                     }
                     else
                     {
                         drone.Location = sanderLocation;
                         battryOfDelivery = (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * power[(int)PackagesInDelivery[find].weight])//להסביר
-                        + (d.DistanceBetweenPlaces(targetLocation, TheNearestStation(targetLocation)) * available);
+                        + (d.DistanceBetweenPlaces(targetLocation, TheNearestStation(targetLocation, stations)) * available);
                         drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + battryOfDelivery;
                     }
                 }
@@ -90,7 +90,7 @@ namespace BL
                         drone.Location.latitude = target.lattitude;
                         drone.Location.longitude = target.longitude;
 
-                        battryOfDelivery = d.DistanceBetweenPlaces(drone.Location, TheNearestStation(drone.Location)) * available;
+                        battryOfDelivery = d.DistanceBetweenPlaces(drone.Location, TheNearestStation(drone.Location, stations)) * available;
                         drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + battryOfDelivery;
                     }
                     else
@@ -103,9 +103,8 @@ namespace BL
                 }
             }
         }
-        private Location TheNearestStation(Location customerLocation)
+        private Location TheNearestStation(Location customerLocation, List<IDAL.DO.Station> stations)
         {
-            List<IDAL.DO.Station> stations = dal.DisplaysIistOfStations().ToList();
             IDAL.DO.Station closeStation = stations[0];
             double distance = double.MaxValue;
 
