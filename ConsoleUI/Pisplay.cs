@@ -12,7 +12,7 @@ namespace ConsoleUI
     {
         public DalObject dalProgram = new DalObject();
         public enum enumPisplayOptions { EXIT = 0, STATION_DISPLAY, DRONE_DISPLAY, CUSTOMER_DISPLAY, PARCEL_DISPLAY, };
-        public void PisplayOptions()
+        public void DisplayOptions()
         {
             Console.WriteLine("enter 1 to  get the information on station");
             Console.WriteLine("enter 2 to  get the information on drone");

@@ -1,17 +1,16 @@
-﻿//yair busso & shimon zitrinboim.
-using System;
-using IDAL.DO;
-using Dal;
+﻿using System;
+using IBL.BO;
+using BL;
 
-namespace ConsoleUI
+namespace ConsoleUI_BL
 {
-    public class Program
+   public class Program
     {
         public enum Choices { EXIT = 0, ADD, UPDATING, DISPLAY, LIST_VIEW };
-        public void Main(string[] args)
+
+        static void Main(string[] args)
         {
-            DalObject dalProgram = new DalObject();
-            //IDal dalProgram = new DalObject();
+            BL.BL bLProgram = new BL.BL();
             int choice;
             Choices choices;
             do
