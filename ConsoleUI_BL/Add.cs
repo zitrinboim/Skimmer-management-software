@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IBL.BO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,11 @@ namespace ConsoleUI_BL
 {
     public class Add
     {
-        BL.BL bLProgram = new BL.BL();
+        BL.BL _bLProgram;
+        public Add(BL.BL bLProgram)
+        {
+            _bLProgram = bLProgram;
+        }
         public enum enumInsertOptions { EXIT = 0, ADD_STATION, ADD_DRONE, ADD_CUSTOMER, ADD_PARCEL };
         public void insertOptions()
         {
@@ -59,19 +64,19 @@ namespace ConsoleUI_BL
             Console.WriteLine("enter Latitudes of the station ");
             double lattitude;
             double.TryParse(Console.ReadLine(), out lattitude);
-            IBL.BO.Location location = new() { longitude = longitude, latitude = lattitude };
+            Location location = new() { longitude = longitude, latitude = lattitude };
             Console.WriteLine("enter number of CargeSlots");
             int ChargeSlots;
             int.TryParse(Console.ReadLine(), out ChargeSlots);
-            IBL.BO.Station station = new()
+            Station station = new()
             {
                 Id = id,
                 name = name,
                 Location = location,
-                freeChargeSlots = ChargeSlots
+                freeChargeSlots = ChargeSlots//רשימת הרחפנים בטעינה תאותחל לרשימה ריקה לא יודע איך לעשות את זה
             };
             //Check the integrity of the input
-            bool test = bLProgram.addStation(station);
+            bool test = _bLProgram.addStation(station);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
             else

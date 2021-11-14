@@ -25,7 +25,7 @@ namespace ConsoleUI_BL
                 switch (choices)
                 {
                     case Choices.ADD:
-                        Add a = new();
+                        Add a = new(bLProgram);
                         a.insertOptions();
                         break;
                     case Choices.UPDATING:
