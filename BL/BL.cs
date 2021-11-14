@@ -46,7 +46,7 @@ namespace BL
             {
                 droneToLists[i].Id = drones[i].Id;
                 droneToLists[i].Model = drones[i].Model;
-                droneToLists[i].MaxWeight = drones[i].MaxWeight;
+                droneToLists[i].MaxWeight = (WeightCategories)drones[i].MaxWeight;
             }
 
             foreach (DroneToList drone in droneToLists)

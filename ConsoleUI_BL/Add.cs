@@ -9,10 +9,10 @@ namespace ConsoleUI_BL
 {
     public class Add
     {
-        BL.BL _bLProgram;
-        public Add(BL.BL bLProgram)
+        BL.BL bLProgram;
+        public Add(BL.BL _bLProgram)
         {
-            _bLProgram = bLProgram;
+            bLProgram = _bLProgram;
         }
         public enum enumInsertOptions { EXIT = 0, ADD_STATION, ADD_DRONE, ADD_CUSTOMER, ADD_PARCEL };
         public void insertOptions()
@@ -76,7 +76,7 @@ namespace ConsoleUI_BL
                 freeChargeSlots = ChargeSlots//רשימת הרחפנים בטעינה תאותחל לרשימה ריקה לא יודע איך לעשות את זה
             };
             //Check the integrity of the input
-            bool test = _bLProgram.addStation(station);
+            bool test = bLProgram.addStation(station);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
             else
@@ -104,7 +104,7 @@ namespace ConsoleUI_BL
                 MaxWeight = weightCategories
             };
             //Check the integrity of the input
-            bool test = dalProgram.addDrone(drone);
+            bool test = bLProgram.addDrone(drone);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
             else
@@ -137,7 +137,7 @@ namespace ConsoleUI_BL
                 lattitude = lattitude
             };
             //Check the integrity of the input
-            bool test = dalProgram.addCustomer(customer);
+            bool test = bLProgram.addCustomer(customer);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
             else
@@ -177,7 +177,7 @@ namespace ConsoleUI_BL
                 DroneId = 0,
                 Requested = DateTime.Now.AddDays(days)
             };
-            int parcelId = dalProgram.addParsel(parcel);
+            int parcelId = bLProgram.addParsel(parcel);
             Console.WriteLine("the transaction completed successfully");
         }
     }
