@@ -73,7 +73,8 @@ namespace ConsoleUI_BL
                 Id = id,
                 name = name,
                 Location = location,
-                freeChargeSlots = ChargeSlots//רשימת הרחפנים בטעינה תאותחל לרשימה ריקה לא יודע איך לעשות את זה
+                freeChargeSlots = ChargeSlots
+                //רשימת הרחפנים בטעינה תאותחל לרשימה ריקה לא יודע איך לעשות את זה
             };
             //Check the integrity of the input
             bool test = bLProgram.addStation(station);
@@ -97,6 +98,9 @@ namespace ConsoleUI_BL
             int weight;
             int.TryParse(Console.ReadLine(), out weight);
             weightCategories = (WeightCategories)weight;
+            Console.WriteLine("Enter the number of the station to which you want to add the drone ");
+            int idStation;
+            int.TryParse(Console.ReadLine(), out idStation);
             Drone drone = new()
             {
                 Id = id,
@@ -104,7 +108,7 @@ namespace ConsoleUI_BL
                 MaxWeight = weightCategories
             };
             //Check the integrity of the input
-            bool test = bLProgram.addDrone(drone);
+            bool test = bLProgram.addDrone(drone, idStation);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
             else
@@ -126,6 +130,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("enter your Latitudes ");
             double lattitude;
             double.TryParse(Console.ReadLine(), out lattitude);
+            Location location = new() { longitude = longitude, latitude = lattitude };
             Console.WriteLine("enter your phone number");
             string phone = Console.ReadLine();
             Customer customer = new()
@@ -133,8 +138,7 @@ namespace ConsoleUI_BL
                 Id = id,
                 name = name,
                 phone = phone,
-                longitude = longitude,
-                lattitude = lattitude
+                location = location
             };
             //Check the integrity of the input
             bool test = bLProgram.addCustomer(customer);
@@ -164,18 +168,18 @@ namespace ConsoleUI_BL
             int priority;
             int.TryParse(Console.ReadLine(), out priority);
             priorities = (Priorities)priority;
-            Console.WriteLine("In a few days you will want the shipment? ");
-            int days;
-            int.TryParse(Console.ReadLine(), out days);
+            //Console.WriteLine("In a few days you will want the shipment? ");
+            //int days;
+            //int.TryParse(Console.ReadLine(), out days);
             Parcel parcel = new()
             {
                 Id = 0,
-                SenderId = sanderId,
+                Sender.Id,
                 TargetId = targetId,
                 weight = weightCategories,
                 priority = priorities,
                 DroneId = 0,
-                Requested = DateTime.Now.AddDays(days)
+               // Requested = DateTime.Now.AddDays(days)
             };
             int parcelId = bLProgram.addParsel(parcel);
             Console.WriteLine("the transaction completed successfully");
