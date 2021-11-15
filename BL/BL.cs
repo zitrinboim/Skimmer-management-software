@@ -157,7 +157,15 @@ namespace BL
                 MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight
             };
             bool test = dal.addDrone(dalDrone);
+            if(!test) 
+                throw new NotImplementedException();
+
             bool cargeTest = dal.reductionCargeSlotsToStation(idStation);//לבדוק מה קורה עם השגיאה שתיזרק מהפונ' הזו.
+            if (!cargeTest)
+                throw new NotImplementedException();
+            IDAL.DO.DroneCarge droneCarge = new() { DroneID = drone.Id, StationId = idStation };
+            dal.addDroneCarge(droneCarge);
+
             droneToLists.Add(new DroneToList()
             {
                 Id = drone.Id,
@@ -167,11 +175,7 @@ namespace BL
                 battery = (random.NextDouble() * (20.0)) + 20.0,
                 DroneStatuses = DroneStatuses.maintenance,
             });
-
-            if (test)
                 return true;
-            else
-                throw new NotImplementedException();
         }
 
         public bool addCustomer(Customer customer)
@@ -191,9 +195,18 @@ namespace BL
                 throw new NotImplementedException();
         }
 
-        public int addParsel(Parcel parcel)
+        public int addParsel(int sanderId, int targetId, WeightCategories weightCategories, Priorities priorities)
         {
-            IDAL.DO.Parcel dalParcel = new() { Id = parcel.Id, }
+            IDAL.DO.Parcel dalParcel = new()
+            {
+                Id = 0,
+                SenderId = sanderId,
+                TargetId = targetId,
+                weight = (IDAL.DO.WeightCategories)weightCategories,
+                priority = (IDAL.DO.Priorities)priorities,
+                DroneId = 0,
+                Requested = DateTime.Now
+            };
             throw new NotImplementedException();
         }
 

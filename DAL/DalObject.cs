@@ -76,6 +76,10 @@ namespace Dal
             DataSource.parcels.Add(parcel);
             return (DataSource.Config.ParcelIdRun++);
         }
+        /// <summary>
+        ///  This function add element to the list of drinecarge.
+        /// </summary>
+        /// <param name="droneCarge"></param>
         public void addDroneCarge(DroneCarge droneCarge)
         {
             DataSource.droneCarges.Add(droneCarge);

@@ -18,7 +18,7 @@ namespace Dal
 
         internal static string[] names = new string[] { "Reuben", "Simeon", "Levi", "Judah", "Issachar", "Zebulun", "Dan", "Naphtali", "Gad", "Asher", };
         internal static string[] phoneNumbers = new string[] { "050-4176977", "052-7184790", "058-4423540", "050-4106067", "052-7636475", };
-        
+
         internal static class Config//Runner number for package IDs
         {
             internal static int ParcelIdRun = 1000;
