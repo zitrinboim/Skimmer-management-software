@@ -11,11 +11,17 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public class BL
+    public partial class BL : IBL
     {
         List<DroneToList> droneToLists;
         IDAL.IDal dal;
         DistanceAlgorithm d;
+        Random random;
+        List<IDAL.DO.Station> stations;
+        List<IDAL.DO.Customer> customers;
+        List<IDAL.DO.Drone> drones;
+        List<IDAL.DO.Parcel> PackagesInDelivery;
+
 
         internal static double available;
         internal static double easy;
@@ -25,10 +31,10 @@ namespace BL
         public BL()
         {
             droneToLists = new();
-            d =  new();
+            d = new();
             dal = new Dal.DalObject();
-            Random random = new Random(DateTime.Now.Millisecond);
             double battryOfDelivery;
+            random = new Random(DateTime.Now.Millisecond);
 
             double[] power = dal.PowerConsumptionRate();//לאתחל את הערכים של הצריכה 
             available = power[0];
@@ -37,10 +43,10 @@ namespace BL
             Heavy = power[3];
             ChargingRate = power[4];//אולי להוציא לפונ' נפרדת.
 
-            List<IDAL.DO.Station> stations = dal.DisplaysIistOfStations().ToList();
-            List<IDAL.DO.Customer> customers = dal.DisplaysIistOfCustomers().ToList();
-            List<IDAL.DO.Drone> drones = dal.DisplaysTheListOfDrons().ToList();
-            List<IDAL.DO.Parcel> PackagesInDelivery = dal.DisplaysIistOfparcels(i => i.DroneId != 0 ).ToList();
+            stations = dal.DisplaysIistOfStations().ToList();
+            customers = dal.DisplaysIistOfCustomers().ToList();
+            drones = dal.DisplaysTheListOfDrons().ToList();
+            PackagesInDelivery = dal.DisplaysIistOfparcels(i => i.DroneId != 0).ToList();
 
             for (int i = 0; i < drones.Count; i++)// לקחת פונ' מיהודה שור
             {
@@ -120,6 +126,102 @@ namespace BL
             }
             Location location = new() { longitude = closeStation.longitude, latitude = closeStation.lattitude };
             return location;
+        }
+
+        public bool addStation(Station station)//לזכור לעשות try catch 
+        {
+            IDAL.DO.Station dalStation = new()
+            {
+                Id = station.Id,
+                name = station.name,
+                freeChargeSlots = station.freeChargeSlots,
+                lattitude = station.Location.latitude,
+                longitude = station.Location.longitude
+            };
+            bool test = dal.addStation(dalStation);
+            if (test)
+                return true;
+            else
+                throw new NotImplementedException();//לבדוק  איזה חריגה לשים כאן.
+        }
+
+        public bool addDrone(Drone drone, int idStation = 0)//לזכור לעשות try catch
+        {
+            IDAL.DO.Station station = (IDAL.DO.Station)dal.getStation(idStation);//לבדוק לגבי ההמרה
+            drone.Location.latitude = station.lattitude; drone.Location.longitude = station.longitude;
+
+            IDAL.DO.Drone dalDrone = new()//לזכור לקחת פונ' מיהודה שור
+            {
+                Id = drone.Id,
+                Model = drone.Model,
+                MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight
+            };
+            bool test = dal.addDrone(dalDrone);
+            bool cargeTest = dal.reductionCargeSlotsToStation(idStation);//לבדוק מה קורה עם השגיאה שתיזרק מהפונ' הזו.
+            droneToLists.Add(new DroneToList()
+            {
+                Id = drone.Id,
+                Model = drone.Model,
+                MaxWeight = drone.MaxWeight,
+                Location = drone.Location,
+                battery = (random.NextDouble() * (20.0)) + 20.0,
+                DroneStatuses = DroneStatuses.maintenance,
+            });
+
+            if (test)
+                return true;
+            else
+                throw new NotImplementedException();
+        }
+
+        public bool addCustomer(Customer customer)
+        {
+            IDAL.DO.Customer dalCustomer = new()
+            {
+                Id = customer.Id,
+                name = customer.name,
+                phone = customer.phone,
+                lattitude = customer.location.latitude,
+                longitude = customer.location.longitude
+            };
+            bool test = dal.addCustomer(dalCustomer);
+            if (test)
+                return true;
+            else
+                throw new NotImplementedException();
+        }
+
+        public int addParsel(Parcel parcel)
+        {
+            IDAL.DO.Parcel dalParcel = new() { Id = parcel.Id, }
+            throw new NotImplementedException();
+        }
+
+        public bool updateModelOfDrone(string newModel, int IdDrone)
+        {
+            IDAL.DO.Drone tempDrone = (IDAL.DO.Drone)dal.getDrone(IdDrone);//לבדוק לגבי ההמרה
+            dal.removeDrone(IdDrone);
+            tempDrone.Model = newModel;
+            bool test = dal.addDrone(tempDrone);//הנחתי שהבוליאניות היא רק לגבי ההוספה חזרה?
+            if (test)
+                return true;
+            else
+                throw new NotImplementedException();
+        }
+
+        public bool updateStationData(int Idstation, string newName, int ChargingSlots)
+        {
+            IDAL.DO.Station tempStation = (IDAL.DO.Station)dal.getStation(Idstation);//לבדוק לגבי ההמרה
+            dal.removeStation(Idstation);
+            if (newName != "X" && newName != "x")
+                tempStation.name = newName;
+            if (ChargingSlots != -1)
+                tempStation.freeChargeSlots = ChargingSlots;
+            bool test = dal.addStation(tempStation);//הנחתי שהבוליאניות היא רק לגבי ההוספה חזרה
+            if (test)
+                return true;
+            else
+                throw new NotImplementedException();
         }
     }
 }

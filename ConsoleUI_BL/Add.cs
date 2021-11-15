@@ -171,13 +171,23 @@ namespace ConsoleUI_BL
             //Console.WriteLine("In a few days you will want the shipment? ");
             //int days;
             //int.TryParse(Console.ReadLine(), out days);
-            Parcel parcel = new()
+            Parcel parcel0 = new()
             {
                 Id = 0,
-                Sender.Id,
+                Scheduled = sanderId,
                 TargetId = targetId,
-                weight = weightCategories,
-                priority = priorities,
+                weight = (IDAL.DO.WeightCategories)weightCategories,
+                priority = (IDAL.DO.Priorities)priorities,
+                DroneId = 0,
+                // Requested = DateTime.Now.AddDays(days)
+            };
+            IDAL.DO.Parcel parcel = new()
+            {
+                Id = 0,
+                SenderId= sanderId,
+                TargetId = targetId,
+                weight = (IDAL.DO.WeightCategories)weightCategories,
+                priority = (IDAL.DO.Priorities)priorities,
                 DroneId = 0,
                // Requested = DateTime.Now.AddDays(days)
             };

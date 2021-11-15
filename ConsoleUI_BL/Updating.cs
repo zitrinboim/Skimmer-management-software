@@ -30,7 +30,7 @@ namespace ConsoleUI_BL
             switch (enumUpdating)
             {
                 case enumUpdatingOptions.UPDATE_NAME_OF_DRONE:
-                    UpdateNameTheDrone();
+                    UpdateModelTheDrone();
                     break;
                 case enumUpdatingOptions.STATION_DATA:
                     StationData(); 
@@ -54,14 +54,14 @@ namespace ConsoleUI_BL
         /// <summary>
         /// 
         /// </summary>
-        public void UpdateNameTheDrone()
+        public void UpdateModelTheDrone()
         {
             Console.WriteLine("Enter the ID of the drone you want to change its name to");
             int IdDrone;
             int.TryParse(Console.ReadLine(), out IdDrone);
             Console.WriteLine("Enter the name you want to change");
-            string newName = Console.ReadLine();
-            bool test = BLProgram.updateNameTheDrone(newName, IdDrone);
+            string newModel = Console.ReadLine();
+            bool test = BLProgram.updateModelOfDrone(newModel, IdDrone);
             if (test)
                 Console.WriteLine("Updated successfully");
             else
@@ -77,7 +77,7 @@ namespace ConsoleUI_BL
             int.TryParse(Console.ReadLine(), out Idstation);
             Console.WriteLine("Enter a new name for the station, if you do not want to update Enter X");
             string newName = Console.ReadLine();
-            Console.WriteLine("Update the total amount of charging stations, if you do not want to update Enter 0");
+            Console.WriteLine("Update the total amount of charging stations, if you do not want to update Enter -1");
             int ChargingSlots;
             int.TryParse(Console.ReadLine(), out ChargingSlots);
             bool testParcel = BLProgram.updateStationData(Idstation, newName, ChargingSlots);
