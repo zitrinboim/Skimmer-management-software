@@ -69,17 +69,17 @@ namespace BL
 
                     if (PackagesInDelivery[find].PickedUp == DateTime.MinValue)
                     {
-                        drone.Location = TheNearestStation(sanderLocation, stations);
+                        drone.Location = TheLocationForTheNearestStation(sanderLocation, stations);
                         battryOfDelivery = (d.DistanceBetweenPlaces(drone.Location, sanderLocation) * available)
                         + (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * power[(int)PackagesInDelivery[find].weight])
-                        + (d.DistanceBetweenPlaces(targetLocation, TheNearestStation(targetLocation, stations)) * available);
+                        + (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
                         drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + battryOfDelivery;
                     }
                     else
                     {
                         drone.Location = sanderLocation;
                         battryOfDelivery = (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * power[(int)PackagesInDelivery[find].weight])//להסביר
-                        + (d.DistanceBetweenPlaces(targetLocation, TheNearestStation(targetLocation, stations)) * available);
+                        + (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
                         drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + battryOfDelivery;
                     }
                 }
@@ -96,7 +96,7 @@ namespace BL
                         drone.Location.latitude = target.lattitude;
                         drone.Location.longitude = target.longitude;
 
-                        battryOfDelivery = d.DistanceBetweenPlaces(drone.Location, TheNearestStation(drone.Location, stations)) * available;
+                        battryOfDelivery = d.DistanceBetweenPlaces(drone.Location, TheLocationForTheNearestStation(drone.Location, stations)) * available;
                         drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + battryOfDelivery;
                     }
                     else
@@ -109,7 +109,7 @@ namespace BL
                 }
             }
         }
-        private Location TheNearestStation(Location customerLocation, List<IDAL.DO.Station> stations)
+        private Location TheLocationForTheNearestStation(Location customerLocation, List<IDAL.DO.Station> stations)
         {
             IDAL.DO.Station closeStation = stations[0];
             double distance = double.MaxValue;
@@ -126,6 +126,24 @@ namespace BL
             }
             Location location = new() { longitude = closeStation.longitude, latitude = closeStation.lattitude };
             return location;
+        }
+        private IDAL.DO.Station TheNearestStation(Location customerLocation, List<IDAL.DO.Station> stations)
+        {
+            IDAL.DO.Station closeStation = stations[0];
+            double distance = double.MaxValue;
+
+            for (int i = 0; i < stations.Count; i++)
+            {
+                Location stationLocation = new() { latitude = stations[i].lattitude, longitude = stations[i].longitude };
+                double distance1 = d.DistanceBetweenPlaces(stationLocation, customerLocation);
+                if (distance1 < distance)
+                {
+                    distance = distance1;
+                    closeStation = stations[i];
+                }
+            }
+            Location location = new() { longitude = closeStation.longitude, latitude = closeStation.lattitude };
+            return closeStation;
         }
 
         public bool addStation(Station station)//לזכור לעשות try catch 
@@ -157,7 +175,7 @@ namespace BL
                 MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight
             };
             bool test = dal.addDrone(dalDrone);
-            if(!test) 
+            if (!test)
                 throw new NotImplementedException();
 
             bool cargeTest = dal.reductionCargeSlotsToStation(idStation);//לבדוק מה קורה עם השגיאה שתיזרק מהפונ' הזו.
@@ -175,7 +193,7 @@ namespace BL
                 battery = (random.NextDouble() * (20.0)) + 20.0,
                 DroneStatuses = DroneStatuses.maintenance,
             });
-                return true;
+            return true;
         }
 
         public bool addCustomer(Customer customer)
@@ -205,9 +223,16 @@ namespace BL
                 weight = (IDAL.DO.WeightCategories)weightCategories,
                 priority = (IDAL.DO.Priorities)priorities,
                 DroneId = 0,
-                Requested = DateTime.Now
+                Requested = DateTime.Now,
+                Delivered = DateTime.MinValue,
+                PickedUp = DateTime.MinValue,
+                Scheduled = DateTime.MinValue
             };
-            throw new NotImplementedException();
+            int addParcel = dal.addParsel(dalParcel);
+            if (addParcel < 0)
+                throw new NotImplementedException();
+            return addParcel;
+
         }
 
         public bool updateModelOfDrone(string newModel, int IdDrone)
@@ -235,6 +260,74 @@ namespace BL
                 return true;
             else
                 throw new NotImplementedException();
+        }
+
+        public bool updateCustomerData(int IdCustomer, string newName, string newPhone)
+        {
+            IDAL.DO.Customer tempCustomer = (IDAL.DO.Customer)dal.getCustomer(IdCustomer);//לבדוק לגבי ההמרה
+            dal.removeCustomer(IdCustomer);
+            if (newName != "X" && newName != "x")
+                tempCustomer.name = newName;
+            if (newPhone != "X" && newPhone != "x")
+                tempCustomer.phone = newPhone;
+            bool test = dal.addCustomer(tempCustomer);//הנחתי שהבוליאניות היא רק לגבי ההוספה חזרה
+            if (test)
+                return true;
+            else
+                throw new NotImplementedException();
+        }
+
+        public bool SendDroneForCharging(int IdDrone)
+        {
+            DroneToList drone = droneToLists.Find(i => i.Id == IdDrone);
+            if (drone.DroneStatuses != DroneStatuses.available || drone == null)//לבדוק לגבי התקינות של הבדיקה עם null
+                throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
+            else
+            {
+                List<IDAL.DO.Station> stationWithFreeSlots = dal.DisplaysIistOfStations(i => i.freeChargeSlots > 0).ToList();
+                IDAL.DO.Station closeStation = TheNearestStation(drone.Location, stationWithFreeSlots);
+                Location stationLocation = new() { latitude = closeStation.lattitude, longitude = closeStation.longitude };
+
+                double KM = d.DistanceBetweenPlaces(drone.Location, stationLocation);
+
+                if (drone.battery < (KM * available))
+                    throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
+                else
+                {
+                    int droneIndex = droneToLists.FindIndex(i => i.Id == IdDrone);
+                    drone.battery -= (KM * available);
+                    drone.Location = stationLocation;
+                    drone.DroneStatuses = DroneStatuses.maintenance;
+                    droneToLists[droneIndex] = drone;
+
+                    bool cargeTest = dal.reductionCargeSlotsToStation(closeStation.Id);//לבדוק מה קורה עם השגיאה שתיזרק מהפונ' הזו.
+                    if (!cargeTest)
+                        throw new NotImplementedException();
+                    IDAL.DO.DroneCarge droneCarge = new() { DroneID = drone.Id, StationId = closeStation.Id };
+                    dal.addDroneCarge(droneCarge);
+                }
+            }
+            throw new NotImplementedException();
+        }
+
+        public bool ReleaseDroneFromCharging(int IdDrone)
+        {
+
+            DroneToList drone = droneToLists.Find(i => i.Id == IdDrone);
+            if (drone.DroneStatuses != DroneStatuses.maintenance || drone == null)//לבדוק לגבי התקינות של הבדיקה עם null
+                throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
+            else
+            {
+                int droneIndex = droneToLists.FindIndex(i => i.Id == IdDrone);
+                drone.battery;///////////////////////////////////////////////////////////////////////אין לי שמץ איך יודעים כמה זמן נטען
+                drone.DroneStatuses = DroneStatuses.available;
+                droneToLists[droneIndex] = drone;
+
+                IDAL.DO.DroneCarge droneCarge = (IDAL.DO.DroneCarge)dal.getDroneCargeByDroneId(IdDrone);//לבדוק לגבי ההמרה
+                bool addingTest = dal.addingCargeSlotsToStation(droneCarge.StationId);
+                bool removeTest = dal.ReleaseDroneCarge(IdDrone);
+            }
+            throw new NotImplementedException();
         }
     }
 }

@@ -33,16 +33,16 @@ namespace ConsoleUI_BL
                     UpdateModelTheDrone();
                     break;
                 case enumUpdatingOptions.STATION_DATA:
-                    StationData(); 
+                    updatingStationData(); 
                     break;
                 case enumUpdatingOptions.PACKAGE_DELIVERY:
-                    PACKAGE_DELIVERY();
+                    updatingcustomerData();
                     break;
                 case enumUpdatingOptions.CARGING_DRONE:
-                    CARGING_DRONE();
+                    SendingDroneForCharging();
                     break;
                 case enumUpdatingOptions.RELEASE_DRONE:
-                    RELEASE_DRONE();
+                    ReleasingDroneFromCharging();
                     break;
                 case enumUpdatingOptions.EXIT:
                     return;
@@ -70,7 +70,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// This function performs an update on packet collection by drone.
         /// </summary>
-        public void StationData()
+        public void updatingStationData()
         {
             Console.WriteLine("Enter the ID of a station you would like to update");
             int Idstation;
@@ -89,18 +89,17 @@ namespace ConsoleUI_BL
         /// <summary>
         /// This function performs an update on delivering a package to the customer.
         /// </summary>
-        public void PACKAGE_DELIVERY()
+        public void updatingcustomerData()
         {
-            Console.WriteLine("enter ID number of the parcel");
-            int IdParcel;
-            int.TryParse(Console.ReadLine(), out IdParcel);
-            Console.WriteLine("enter ID number of the drone");
-            int IdDrone;
-            int.TryParse(Console.ReadLine(), out IdDrone);
-
-            bool testParcel = dalProgram.DeliveryPackageToCustomer(IdParcel);
-            //bool testDrone = Dal.DalObject.makeAvailableTheDrone(IdDrone);
-            if (testParcel /*&& testDrone*/)
+            Console.WriteLine("enter ID number of the customer");
+            int IdCustomer;
+            int.TryParse(Console.ReadLine(), out IdCustomer);
+            Console.WriteLine("Enter a new name for the customer, if you do not want to update Enter X");
+            string newName = Console.ReadLine();
+            Console.WriteLine("Enter a new phone number for the customer, if you do not want to update Enter X");
+            string newPhone = Console.ReadLine();
+            bool testCustomer = BLProgram.updateCustomerData(IdCustomer,newName,newPhone);
+            if (testCustomer)
                 Console.WriteLine("the transaction completed successfully");
             else
                 Console.WriteLine("ERROR");
@@ -108,58 +107,29 @@ namespace ConsoleUI_BL
         /// <summary>
         /// The function performs an update on sending a drone for charging.
         /// </summary>
-        public void CARGING_DRONE()
+        public void SendingDroneForCharging()
         {
-
-            //These lines invite a function that displays the stations that have free space for charging.
-            ListView l = new();
-            int num;
-            Console.WriteLine("A list of all the stations where there is free space for charging will now be displayed." +
-                " Select a station from the list according to ID number");
-            do
-            {
-                Console.WriteLine("Press zero to display the list");
-                int.TryParse(Console.ReadLine(), out num);
-            } while (num != 0);
-
-            l.STATIONS_WITH_AVAILABLE_CHARGING_SLOTS();
-
-            Console.WriteLine("enter ID number of the ststion");
-            int IdStation;
-            int.TryParse(Console.ReadLine(), out IdStation);
             Console.WriteLine("enter ID number of the drone");
             int IdDrone;
             int.TryParse(Console.ReadLine(), out IdDrone);
+            
+            bool testStation = BLProgram.SendDroneForCharging(IdDrone);
 
-            bool testStation = dalProgram.reductionCargeSlotsToStation(IdStation);
-            //bool testDrone = Dal.DalObject.makeMaintenanceTheDrone(IdDrone);
-
-            if (/*testDrone &&*/ testStation)
-            {
-                DroneCarge droneCarge = new()
-                {
-                    DroneID = IdDrone,
-                    StationId = IdStation
-                };
-                dalProgram.addDroneCarge(droneCarge);
+            if (testStation)
                 Console.WriteLine("the transaction completed successfully");
-            }
             else
                 Console.WriteLine("ERROR");
         }
         /// <summary>
         /// The function performs an update on drone release from charging.
         /// </summary>
-        public void RELEASE_DRONE()
+        public void ReleasingDroneFromCharging()
         {
             Console.WriteLine("enter ID number of the drone");
             int IdDrone;
             int.TryParse(Console.ReadLine(), out IdDrone);
-            Console.WriteLine("enter ID number of the ststion");
-            int IdStation;
-            int.TryParse(Console.ReadLine(), out IdStation);
-            bool testStation = dalProgram.addingCargeSlotsToStation(IdStation);
-            bool testDroneCarge = dalProgram.ReleaseDroneCarge(IdDrone);
+
+            bool test = BLProgram.ReleaseDroneFromCharging(IdDrone);
             //bool testDrone = Dal.DalObject.makeAvailableTheDrone(IdDrone);
             if (testDroneCarge /*&& testDrone && testStation*/)
                 Console.WriteLine("the transaction completed successfully");

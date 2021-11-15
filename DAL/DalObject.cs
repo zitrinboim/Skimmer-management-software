@@ -265,6 +265,16 @@ namespace Dal
             Station? getStation = DataSource.stations.Find(Station => Station.Id == Id);
             return getStation != null ? getStation : null;
         }
+        public DroneCarge? getDroneCargeByStationId(int stationId)
+        {
+            DroneCarge? getDroneCarge = DataSource.droneCarges.Find(DroneCarge => DroneCarge.StationId == stationId);
+            return getDroneCarge != null ? getDroneCarge : null;
+        }
+        public DroneCarge? getDroneCargeByDroneId(int droneId)
+        {
+            DroneCarge? getDroneCarge = DataSource.droneCarges.Find(DroneCarge => DroneCarge.DroneID == droneId);
+            return getDroneCarge != null ? getDroneCarge : null;
+        }
         /// <summary>
         /// This function transmits the requested drone data according to an identification number.
         /// </summary>

@@ -14,7 +14,10 @@ namespace BL
         bool addCustomer(Customer customer);
         int addParsel(int sanderId, int targetId, WeightCategories weightCategories, Priorities priorities);
         bool updateModelOfDrone(String newName, int IdDrone);
-        bool updateStationData(int Idstation, string newName,int ChargingSlots);
+        bool updateStationData(int Idstation, string newName, int ChargingSlots);
+        bool updateCustomerData(int IdCustomer, string newName,string newPhone);
+        bool SendDroneForCharging(int IdDrone);
+        bool ReleaseDroneFromCharging(int IdDrone);
 
     }
 }

@@ -24,6 +24,9 @@ namespace IDAL
         Station? getStation(int Id);
         Drone? getDrone(int Id);
         Customer? getCustomer(int Id);
+        DroneCarge? getDroneCargeByStationId(int stationId);
+        DroneCarge? getDroneCargeByDroneId(int droneId);
+
         Parcel? getParcel(int Id);
         IEnumerable<Station> DisplaysIistOfStations(Predicate<Station> p = null);
         IEnumerable<Drone> DisplaysTheListOfDrons(Predicate<Drone> p = null);
