@@ -9,10 +9,10 @@ namespace ConsoleUI_BL
 {
     public class Add
     {
-        BL.BL bLProgram;
+        BL.BL BLProgram;
         public Add(BL.BL _bLProgram)
         {
-            bLProgram = _bLProgram;
+            BLProgram = _bLProgram;
         }
         public enum enumInsertOptions { EXIT = 0, ADD_STATION, ADD_DRONE, ADD_CUSTOMER, ADD_PARCEL };
         public void insertOptions()
@@ -77,7 +77,7 @@ namespace ConsoleUI_BL
                 //רשימת הרחפנים בטעינה תאותחל לרשימה ריקה לא יודע איך לעשות את זה
             };
             //Check the integrity of the input
-            bool test = bLProgram.addStation(station);
+            bool test = BLProgram.addStation(station);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
             else
@@ -108,7 +108,7 @@ namespace ConsoleUI_BL
                 MaxWeight = weightCategories
             };
             //Check the integrity of the input
-            bool test = bLProgram.addDrone(drone, idStation);
+            bool test = BLProgram.addDrone(drone, idStation);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
             else
@@ -141,7 +141,7 @@ namespace ConsoleUI_BL
                 location = location
             };
             //Check the integrity of the input
-            bool test = bLProgram.addCustomer(customer);
+            bool test = BLProgram.addCustomer(customer);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
             else
@@ -181,7 +181,7 @@ namespace ConsoleUI_BL
                 DroneId = 0,
                // Requested = DateTime.Now.AddDays(days)
             };
-            int parcelId = bLProgram.addParsel(parcel);
+            int parcelId = BLProgram.addParsel(parcel);
             Console.WriteLine("the transaction completed successfully");
         }
     }

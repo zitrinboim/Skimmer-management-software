@@ -10,7 +10,7 @@ namespace ConsoleUI_BL
 
         static void Main(string[] args)
         {
-            BL.BL bLProgram = new BL.BL();//להחליף לאובייקט של הממשק
+            BL.BL BLProgram = new BL.BL();//להחליף לאובייקט של הממשק
             int choice;
             Choices choices;
             do
@@ -25,11 +25,11 @@ namespace ConsoleUI_BL
                 switch (choices)
                 {
                     case Choices.ADD:
-                        Add a = new(bLProgram);
+                        Add a = new(BLProgram);
                         a.insertOptions();
                         break;
                     case Choices.UPDATING:
-                        Updating u = new();
+                        Updating u = new(BLProgram);
                         u.UpdatingOptions();
                         break;
                     case Choices.DISPLAY:
