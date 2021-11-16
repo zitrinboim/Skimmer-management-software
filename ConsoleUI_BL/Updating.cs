@@ -129,7 +129,7 @@ namespace ConsoleUI_BL
             int IdDrone;
             int.TryParse(Console.ReadLine(), out IdDrone);
 
-            bool test = BLProgram.ReleaseDroneFromCharging(IdDrone);
+            bool test = BLProgram. ReleaseDroneFromCharging(IdDrone);
             //bool testDrone = Dal.DalObject.makeAvailableTheDrone(IdDrone);
             if (testDroneCarge /*&& testDrone && testStation*/)
                 Console.WriteLine("the transaction completed successfully");

@@ -251,7 +251,7 @@ namespace BL
         {
             IDAL.DO.Station tempStation = (IDAL.DO.Station)dal.getStation(Idstation);//לבדוק לגבי ההמרה
             dal.removeStation(Idstation);
-            if (newName != "X" && newName != "x")
+            if (newName != "X" && newName != "x")//      לא הבנתי למה פעמים
                 tempStation.name = newName;
             if (ChargingSlots != -1)
                 tempStation.freeChargeSlots = ChargingSlots;
@@ -266,7 +266,7 @@ namespace BL
         {
             IDAL.DO.Customer tempCustomer = (IDAL.DO.Customer)dal.getCustomer(IdCustomer);//לבדוק לגבי ההמרה
             dal.removeCustomer(IdCustomer);
-            if (newName != "X" && newName != "x")
+            if (newName != "X" && newName != "x") //    לא הבנתי
                 tempCustomer.name = newName;
             if (newPhone != "X" && newPhone != "x")
                 tempCustomer.phone = newPhone;
@@ -284,7 +284,7 @@ namespace BL
                 throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
             else
             {
-                List<IDAL.DO.Station> stationWithFreeSlots = dal.DisplaysIistOfStations(i => i.freeChargeSlots > 0).ToList();
+                List<IDAL.DO.Station> stationWithFreeSlots = dal.DisplaysIistOfStations(i => i.freeChargeSlots > 0).ToList(); //"שורה יפה מאוד"
                 IDAL.DO.Station closeStation = TheNearestStation(drone.Location, stationWithFreeSlots);
                 Location stationLocation = new() { latitude = closeStation.lattitude, longitude = closeStation.longitude };
 
