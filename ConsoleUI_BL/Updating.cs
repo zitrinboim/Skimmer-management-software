@@ -125,13 +125,15 @@ namespace ConsoleUI_BL
         /// </summary>
         public void ReleasingDroneFromCharging()
         {
-            Console.WriteLine("enter ID number of the drone");
+            Console.WriteLine("Enter ID number of the drone");
             int IdDrone;
             int.TryParse(Console.ReadLine(), out IdDrone);
+            Console.WriteLine("Enter how long the drone is charging");
+            int time;
+            int.TryParse(Console.ReadLine(), out time);
 
-            bool test = BLProgram. ReleaseDroneFromCharging(IdDrone);
-            //bool testDrone = Dal.DalObject.makeAvailableTheDrone(IdDrone);
-            if (testDroneCarge /*&& testDrone && testStation*/)
+            bool test = BLProgram. ReleaseDroneFromCharging(IdDrone, time);
+            if (test )
                 Console.WriteLine("the transaction completed successfully");
             else
                 Console.WriteLine("ERROR");

@@ -17,7 +17,7 @@ namespace BL
         bool updateStationData(int Idstation, string newName, int ChargingSlots);
         bool updateCustomerData(int IdCustomer, string newName,string newPhone);
         bool SendDroneForCharging(int IdDrone);
-        bool ReleaseDroneFromCharging(int IdDrone);
+        bool ReleaseDroneFromCharging(int IdDrone, int time);
 
     }
 }
