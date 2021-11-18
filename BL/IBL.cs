@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IBL.BO;
 
-namespace BL
+namespace IBL.BO
 {
     public interface IBL
     {
@@ -21,8 +21,9 @@ namespace BL
         bool AssignPackageToDrone(int IdDrone);
         bool PackageCollectionByDrone(int IdDrone);
         bool DeliveryPackageToCustomer(int IdDrone);
-        IDAL.DO.Parcel theBestParcel(DroneToList droneToList, List<IDAL.DO.Parcel> parcels);
-
+        IDAL.DO.Parcel AssignStep1(DroneToList droneToList, List<IDAL.DO.Parcel> parcels);
+        IDAL.DO.Parcel AssignStep2(DroneToList droneToList, List<IDAL.DO.Parcel> parcels);
+        public IDAL.DO.Parcel TheNearestParcelToAssign(DroneToList droneToList, List<IDAL.DO.Parcel> parcels);
 
     }
 }

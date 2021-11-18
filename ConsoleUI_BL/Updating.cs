@@ -8,8 +8,8 @@ namespace ConsoleUI_BL
 {
     class Updating
     {
-        BL.BL BLProgram;
-        public Updating(BL.BL _bLProgram)
+        IBL.BO.BL BLProgram;
+        public Updating(IBL.BO.BL _bLProgram)
         {
             BLProgram = _bLProgram;
         }

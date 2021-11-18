@@ -6,10 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-
-
-
-namespace BL
+namespace IBL.BO
 {
     public partial class BL : IBL
     {
@@ -21,11 +18,6 @@ namespace BL
         List<IDAL.DO.Customer> customers;
         List<IDAL.DO.Drone> drones;
         List<IDAL.DO.Parcel> PackagesInDelivery;
-
-        IDAL.DO.Parcel closeParcel;
-
-
-
 
         internal static double available;
         internal static double easy;
@@ -615,7 +607,6 @@ namespace BL
                     closeParcel = item;
                 }
             }
-            return closeParcel;
         }
     }
 }

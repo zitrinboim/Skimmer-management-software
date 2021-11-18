@@ -9,8 +9,8 @@ namespace ConsoleUI_BL
 {
     public class Add
     {
-        BL.BL BLProgram;
-        public Add(BL.BL _bLProgram)
+        IBL.BO.BL BLProgram;
+        public Add(IBL.BO.BL _bLProgram)
         {
             BLProgram = _bLProgram;
         }
