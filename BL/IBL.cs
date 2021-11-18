@@ -12,7 +12,7 @@ namespace IBL.BO
         bool addStation(Station station);
         bool addDrone(Drone drone, int idStation = 0);//לעדכן את המיקום של הרחפן להתחנה אם קיימת וכל הנגזר מזה
         bool addCustomer(Customer customer);
-        int addParsel(IDAL.DO.Parcel);
+        int addParsel(IDAL.DO.Parcel parcel);
         bool updateModelOfDrone(String newName, int IdDrone);
         bool updateStationData(int Idstation, string newName, int ChargingSlots);
         bool updateCustomerData(int IdCustomer, string newName,string newPhone);

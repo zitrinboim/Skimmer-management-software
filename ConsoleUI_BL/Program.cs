@@ -33,11 +33,11 @@ namespace ConsoleUI_BL
                         u.UpdatingOptions();
                         break;
                     case Choices.DISPLAY:
-                        Pisplay p = new();
+                        Display p = new(BLProgram);
                         p.DisplayOptions();
                         break;
                     case Choices.LIST_VIEW:
-                        ListView l = new();
+                        ListView l = new(BLProgram);
                         l.ListViewOptions();
                         break;
                     case Choices.EXIT:
