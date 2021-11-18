@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace IBL.BO
 {
-    public partial class BL: IBL
+    public partial class BL : IBL
     {
+        /// <summary>
+        /// This function allows the user to add a drone to the list.
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <param name="idStation"></param>
+        /// <returns></returns>
         public bool addDrone(Drone drone, int idStation = 0)//לזכור לעשות try catch
         {
             IDAL.DO.Station station = (IDAL.DO.Station)dal.getStation(idStation);//לבדוק לגבי ההמרה
@@ -41,6 +47,12 @@ namespace IBL.BO
             });
             return true;
         }
+        /// <summary>
+        /// This function updates the drone model.
+        /// </summary>
+        /// <param name="newModel"></param>
+        /// <param name="IdDrone"></param>
+        /// <returns></returns>
         public bool updateModelOfDrone(string newModel, int IdDrone)
         {
             IDAL.DO.Drone tempDrone = (IDAL.DO.Drone)dal.getDrone(IdDrone);//לבדוק לגבי ההמרה
@@ -52,10 +64,15 @@ namespace IBL.BO
             else
                 throw new NotImplementedException();
         }
+        /// <summary>
+        /// This function sends a drone for charging.
+        /// </summary>
+        /// <param name="IdDrone"></param>
+        /// <returns></returns>
         public bool SendDroneForCharging(int IdDrone)
         {
             DroneToList drone = droneToLists.Find(i => i.Id == IdDrone);
-            if (drone.DroneStatuses != DroneStatuses.available || drone == null)//לבדוק לגבי התקינות של הבדיקה עם null
+            if (drone.DroneStatuses != DroneStatuses.available || drone.Id==0)//לבדוק לגבי התקינות של הבדיקה עם null
                 throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
             else
             {
@@ -84,7 +101,12 @@ namespace IBL.BO
             }
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// This function releases a drone from a charger.
+        /// </summary>
+        /// <param name="IdDrone"></param>
+        /// <param name="time"></param>
+        /// <returns></returns>
         public bool ReleaseDroneFromCharging(int IdDrone, int time)
         {
 
@@ -104,7 +126,11 @@ namespace IBL.BO
             }
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// This function assigns a package to the drone.(By three functions: AssignStep1, AssignStep2, and TheNearestParcelToAssign).
+        /// </summary>
+        /// <param name="IdDrone"></param>
+        /// <returns></returns>
         public bool AssignPackageToDrone(int IdDrone)
         {
             IDAL.DO.Parcel bestParcel;
@@ -126,76 +152,20 @@ namespace IBL.BO
 
             bestParcel = AssignStep1(droneToList, parcels);
             droneToLists[droneFind].DroneStatuses = DroneStatuses.busy;
+            droneToLists[droneFind].parcelNumber = bestParcel.Id;
 
-            bestParcel.DroneId = IdDrone;
-            bestParcel.Scheduled = DateTime.Now;
-            dal.removeParcel(bestParcel.Id);
-            dal.addParsel(bestParcel);
-
-            return true;
-        }
-
-        public bool PackageCollectionByDrone(int IdDrone)
-        {
-            IDAL.DO.Parcel parcelsOfDrone = dal.DisplaysIistOfparcels(i => i.DroneId == IdDrone && i.PickedUp == DateTime.MinValue).First();
-            if (parcelsOfDrone.DroneId != IdDrone)
+            bool test = dal.AssignPackageToDrone(IdDrone, bestParcel.Id);
+            if (test)
+                return true;
+            else
                 throw new NotImplementedException();
-
-            IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(parcelsOfDrone.SenderId);
-            Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
-
-            int index = droneToLists.FindIndex(i => i.Id == IdDrone);
-            droneToLists[index].battery -= d.DistanceBetweenPlaces(droneToLists[index].Location, sanderLocation) * available;
-            droneToLists[index].Location = sanderLocation;
-
-            dal.removeParcel(parcelsOfDrone.Id);
-            parcelsOfDrone.PickedUp = DateTime.Now;
-            dal.addParsel(parcelsOfDrone);
-
-            return true;
         }
-
-        public bool DeliveryPackageToCustomer(int IdDrone)
-        {
-            IDAL.DO.Parcel parcelsOfDrone = dal.DisplaysIistOfparcels(i => i.DroneId == IdDrone && i.PickedUp != DateTime.MinValue && i.Delivered == DateTime.MinValue).First();
-            if (parcelsOfDrone.DroneId != IdDrone)
-                throw new NotImplementedException();
-
-            IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(parcelsOfDrone.SenderId);
-            Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
-
-            IDAL.DO.Customer target = (IDAL.DO.Customer)dal.getCustomer(parcelsOfDrone.TargetId);
-            Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
-
-            int index = droneToLists.FindIndex(i => i.Id == IdDrone);
-
-            double weight = easy;
-            switch (parcelsOfDrone.weight)
-            {
-                case IDAL.DO.WeightCategories.easy:
-                    weight = easy;
-                    break;
-                case IDAL.DO.WeightCategories.medium:
-                    weight = medium;
-                    break;
-                case IDAL.DO.WeightCategories.heavy:
-                    weight = Heavy;
-                    break;
-                default:
-                    break;
-            }
-
-            droneToLists[index].battery -= d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight;
-            droneToLists[index].Location = targetLocation;
-            droneToLists[index].DroneStatuses = DroneStatuses.available;
-
-            dal.removeParcel(parcelsOfDrone.Id);
-            parcelsOfDrone.Delivered = DateTime.Now;
-            dal.addParsel(parcelsOfDrone);
-
-            return true;
-        }
-
+        /// <summary>
+        /// This function returns the list of relevant packages to the glider in terms of shekel and distance, in order of their urgency.
+        /// </summary>
+        /// <param name="droneToList"></param>
+        /// <param name="parcels"></param>
+        /// <returns></returns>
         public IDAL.DO.Parcel AssignStep1(DroneToList droneToList, List<IDAL.DO.Parcel> parcels)
         {
 
@@ -255,7 +225,12 @@ namespace IBL.BO
             }
             return AssignStep2(droneToList, (emergency.Count > 0) ? emergency : (fast.Count > 0) ? fast : normal);
         }
-
+        /// <summary>
+        /// This function returns the list of most weighted packages.
+        /// </summary>
+        /// <param name="droneToList"></param>
+        /// <param name="parcels"></param>
+        /// <returns></returns>
         public IDAL.DO.Parcel AssignStep2(DroneToList droneToList, List<IDAL.DO.Parcel> parcels)
         {
             List<IDAL.DO.Parcel> easy = new();
@@ -280,7 +255,12 @@ namespace IBL.BO
             }
             return TheNearestParcelToAssign(droneToList, (heavy.Count > 0) ? heavy : (medium.Count > 0) ? medium : easy);
         }
-
+        /// <summary>
+        /// This function returns the location of the package closest to the glider.
+        /// </summary>
+        /// <param name="droneToList"></param>
+        /// <param name="parcels"></param>
+        /// <returns></returns>
         public IDAL.DO.Parcel TheNearestParcelToAssign(DroneToList droneToList, List<IDAL.DO.Parcel> parcels)
         {
             IDAL.DO.Parcel closeParcel = new();
@@ -301,6 +281,96 @@ namespace IBL.BO
                 }
             }
             return closeParcel;
+        }
+        /// <summary>
+        /// This function performs an update on packet collection by drone.
+        /// </summary>
+        /// <param name="IdDrone"></param>
+        /// <returns></returns>
+        public bool PackageCollectionByDrone(int IdDrone)
+        {
+            IDAL.DO.Parcel parcelsOfDrone = dal.DisplaysIistOfparcels(i => i.DroneId == IdDrone && i.PickedUp == DateTime.MinValue).First();
+            if (parcelsOfDrone.DroneId != IdDrone)
+                throw new NotImplementedException();
+
+            IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(parcelsOfDrone.SenderId);
+            Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
+
+            int index = droneToLists.FindIndex(i => i.Id == IdDrone);
+            droneToLists[index].battery -= d.DistanceBetweenPlaces(droneToLists[index].Location, sanderLocation) * available;
+            droneToLists[index].Location = sanderLocation;
+
+            dal.removeParcel(parcelsOfDrone.Id);
+            parcelsOfDrone.PickedUp = DateTime.Now;
+            dal.addParsel(parcelsOfDrone);
+
+            return true;
+        }
+        /// <summary>
+        /// This function performs an update on delivering a package to the customer.
+        /// </summary>
+        /// <param name="IdDrone"></param>
+        /// <returns></returns>
+        public bool DeliveryPackageToCustomer(int IdDrone)
+        {
+            IDAL.DO.Parcel parcelsOfDrone = dal.DisplaysIistOfparcels(i => i.DroneId == IdDrone && i.PickedUp != DateTime.MinValue && i.Delivered == DateTime.MinValue).First();
+            if (parcelsOfDrone.DroneId != IdDrone)
+                throw new NotImplementedException();
+
+            IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(parcelsOfDrone.SenderId);
+            Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
+
+            IDAL.DO.Customer target = (IDAL.DO.Customer)dal.getCustomer(parcelsOfDrone.TargetId);
+            Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
+
+            int index = droneToLists.FindIndex(i => i.Id == IdDrone);
+
+            double weight = easy;
+            switch (parcelsOfDrone.weight)
+            {
+                case IDAL.DO.WeightCategories.easy:
+                    weight = easy;
+                    break;
+                case IDAL.DO.WeightCategories.medium:
+                    weight = medium;
+                    break;
+                case IDAL.DO.WeightCategories.heavy:
+                    weight = Heavy;
+                    break;
+                default:
+                    break;
+            }
+
+            droneToLists[index].battery -= d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight;
+            droneToLists[index].Location = targetLocation;
+            droneToLists[index].DroneStatuses = DroneStatuses.available;
+            droneToLists[index].parcelNumber = 0;
+
+
+            dal.removeParcel(parcelsOfDrone.Id);
+            parcelsOfDrone.Delivered = DateTime.Now;
+            dal.addParsel(parcelsOfDrone);
+
+            return true;
+        }
+        public Drone GetDrone(int droneId)
+        {
+            DroneToList droneToList = droneToLists.Find(i => i.Id == droneId);
+            if (droneToList.Id == 0)
+                throw new NotImplementedException();
+            Drone drone = new()
+            {
+                Id = droneToList.Id,
+                battery = droneToList.battery,
+                DroneStatuses = droneToList.DroneStatuses,
+                Location = droneToList.Location,
+                MaxWeight = droneToList.MaxWeight,
+                Model = droneToList.Model
+            };
+            if (droneToList.parcelNumber!=0)
+                drone.packageInTransfer = GetPackageInTransfer(droneToList.parcelNumber);
+   
+            return drone;
         }
     }
 }

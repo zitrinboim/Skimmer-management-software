@@ -168,22 +168,23 @@ namespace ConsoleUI_BL
             int priority;
             int.TryParse(Console.ReadLine(), out priority);
             priorities = (Priorities)priority;
-            //Console.WriteLine("In a few days you will want the shipment? ");
-            //int days;
-            //int.TryParse(Console.ReadLine(), out days);
-            
-            //IDAL.DO.Parcel parcel = new()
-            //{
-            //    Id = 0,
-            //    SenderId= sanderId,
-            //    TargetId = targetId,
-            //    weight = (IDAL.DO.WeightCategories)weightCategories,
-            //    priority = (IDAL.DO.Priorities)priorities,
-            //    DroneId = 0,
-            //   // Requested = DateTime.Now.AddDays(days)
-            //};
-            int parcelId = BLProgram.addParsel(sanderId,targetId, weightCategories, priorities);
-            Console.WriteLine("the transaction completed successfully");
+            Console.WriteLine("In a few days you will want the shipment? ");
+
+            IDAL.DO.Parcel parcel = new()
+            {
+                Id = 0,
+                SenderId = sanderId,
+                TargetId = targetId,
+                weight = (IDAL.DO.WeightCategories)weightCategories,
+                priority = (IDAL.DO.Priorities)priorities,
+                DroneId = 0,
+                Requested = DateTime.Now
+            };
+            int parcelId = BLProgram.addParsel(parcel);
+            if (parcelId <= 0)
+                throw new NotImplementedException();
+            else
+                Console.WriteLine("the transaction completed successfully");
         }
     }
 }
