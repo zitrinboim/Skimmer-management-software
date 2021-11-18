@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IBL.BO
 {
-    public partial class BL:IBL
+    public partial class BL : IBL
     {
         /// <summary>
         /// The function returns the location of the station closest to the drone.
@@ -91,8 +91,8 @@ namespace IBL.BO
             if (newName != "X" && newName != "x")
                 tempStation.name = newName;
             Station station = GetStation(Idstation);
-            if (ChargingSlots>=station.droneInCargeings.Count)
-                tempStation.freeChargeSlots = ChargingSlots- station.droneInCargeings.Count;
+            if (ChargingSlots >= station.droneInCargeings.Count)
+                tempStation.freeChargeSlots = ChargingSlots - station.droneInCargeings.Count;
             else
                 throw new NotImplementedException();
 
@@ -110,14 +110,16 @@ namespace IBL.BO
         public Station GetStation(int stationId)
         {
             IDAL.DO.Station dalStation = (IDAL.DO.Station)dal.getStation(stationId);
-            if(dalStation.Id==0)
+            if (dalStation.Id == 0)
                 throw new NotImplementedException();//////////////////////////////////////////////
             Location location = new() { latitude = dalStation.lattitude, longitude = dalStation.longitude };
-            Station station = new() { Id = dalStation.Id, name=dalStation.name, freeChargeSlots=dalStation.freeChargeSlots, Location=location};
+            Station station = new() { Id = dalStation.Id, name = dalStation.name, freeChargeSlots = dalStation.freeChargeSlots, location = location };
             foreach (DroneToList item in droneToLists)
-                if (item.Location==station.Location)
-                    station.droneInCargeings.Add(new(){ Id=item.Id, battery=item.battery });
-            
+            {
+                if (item.Location == station.location)
+                    station.droneInCargeings.Add(new() { Id = item.Id, battery = item.battery });
+            }
+
             return station;
         }
     }

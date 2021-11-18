@@ -10,13 +10,13 @@ namespace IBL.BO
     {
         public string phone { get; set; }
         public Location location { get; set; }
-        public List<ParcelInCustomer> fromCustomers;
+        public List<ParcelInCustomer> fromCustomer;
         public List<ParcelInCustomer> toCustomer;
         public override string ToString()
         {
             return string.Format(base.ToString() +
                 "phone {0}: location-{1} ", phone, location +
-                string.Join(" ", fromCustomers) +
+                string.Join(" ", fromCustomer) +
                 string.Join(" ", toCustomer));
         }
     }

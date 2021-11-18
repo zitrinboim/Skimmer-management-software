@@ -7,7 +7,7 @@ using IBL.BO;
 
 namespace IBL.BO
 {
-    public partial class BL:IBL
+    public partial class BL : IBL
     {
         /// <summary>
         /// This function allows the user to add a customer to the list.
@@ -57,5 +57,24 @@ namespace IBL.BO
             CustomerInParcel customerInParcel = new() { Id = customer.Id, name = customer.name };
             return customerInParcel;
         }
+        public Customer GetCustomer(int customerId)
+        {
+            IDAL.DO.Customer dalCustomer = (IDAL.DO.Customer)dal.getCustomer(customerId);
+
+            Customer customer = new()
+            {
+                Id = dalCustomer.Id,
+                name = dalCustomer.name,
+                phone = dalCustomer.phone,
+                location = new() { latitude = dalCustomer.lattitude, longitude = dalCustomer.longitude }
+            };
+            List<IDAL.DO.Parcel> parcels = dal.DisplaysIistOfparcels(i => i.SenderId == customerId).ToList();
+            foreach (IDAL.DO.Parcel item in parcels)
+            {
+                customer.fromCustomer.Add(new() { /*GetCustomerInParcel*/(item.Id) } );
+            }
+
+        }
+        
     }
 }

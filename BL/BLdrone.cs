@@ -72,7 +72,7 @@ namespace IBL.BO
         public bool SendDroneForCharging(int IdDrone)
         {
             DroneToList drone = droneToLists.Find(i => i.Id == IdDrone);
-            if (drone.DroneStatuses != DroneStatuses.available || drone.Id==0)//לבדוק לגבי התקינות של הבדיקה עם null
+            if (drone.DroneStatuses != DroneStatuses.available || drone.Id == 0)//לבדוק לגבי התקינות של הבדיקה עם null
                 throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
             else
             {
@@ -134,10 +134,8 @@ namespace IBL.BO
         public bool AssignPackageToDrone(int IdDrone)
         {
             IDAL.DO.Parcel bestParcel;
-            List<IDAL.DO.Parcel> emergency = new();
-            List<IDAL.DO.Parcel> fast = new();
-            List<IDAL.DO.Parcel> normal = new();
 
+            //לבדוק האם צריך את המשתנה הזה
             IDAL.DO.Drone drone = (IDAL.DO.Drone)dal.getDrone(IdDrone);//לבדוק לגבי ההמרה
 
             DroneToList droneToList = droneToLists.Find(i => i.Id == IdDrone);
@@ -154,7 +152,7 @@ namespace IBL.BO
             droneToLists[droneFind].DroneStatuses = DroneStatuses.busy;
             droneToLists[droneFind].parcelNumber = bestParcel.Id;
 
-            bool test = dal.AssignPackageToDrone(IdDrone, bestParcel.Id);
+            bool test = dal.AssignPackageToDrone(bestParcel.Id, IdDrone);
             if (test)
                 return true;
             else
@@ -175,7 +173,7 @@ namespace IBL.BO
 
             foreach (IDAL.DO.Parcel item in parcels)
             {
-                if (item.weight < (IDAL.DO.WeightCategories)droneToList.MaxWeight)
+                if (item.weight <= (IDAL.DO.WeightCategories)droneToList.MaxWeight)
                 {
 
                     IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(item.SenderId);
@@ -199,31 +197,38 @@ namespace IBL.BO
                         default:
                             break;
                     }
-                    double batteryToTheDelivery = d.DistanceBetweenPlaces(droneToList.Location, sanderLocation) * available +
-                        (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight) +
-                        (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
-
+                    double batteryToTheDelivery;
+                    batteryToTheDelivery = d.DistanceBetweenPlaces(droneToList.Location, sanderLocation) * available +
+                        (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight);
                     if (droneToList.battery >= batteryToTheDelivery)
                     {
-                        switch (item.priority)
-                        {
-                            case IDAL.DO.Priorities.normal:
-                                normal.Add(item);
-                                break;
-                            case IDAL.DO.Priorities.fast:
-                                fast.Add(item);
-                                break;
-                            case IDAL.DO.Priorities.emergency:
-                                emergency.Add(item);
-                                break;
-                            default:
-                                break;
-                        }
+                        batteryToTheDelivery += (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
 
+                        if (droneToList.battery >= batteryToTheDelivery)
+                        {
+                            switch (item.priority)
+                            {
+                                case IDAL.DO.Priorities.normal:
+                                    normal.Add(item);
+                                    break;
+                                case IDAL.DO.Priorities.fast:
+                                    fast.Add(item);
+                                    break;
+                                case IDAL.DO.Priorities.emergency:
+                                    emergency.Add(item);
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                        }
                     }
                 }
+                if (emergency.Count == 0 && fast.Count == 0 && normal.Count == 0)
+                    throw new NotImplementedException();
             }
             return AssignStep2(droneToList, (emergency.Count > 0) ? emergency : (fast.Count > 0) ? fast : normal);
+
         }
         /// <summary>
         /// This function returns the list of most weighted packages.
@@ -367,9 +372,9 @@ namespace IBL.BO
                 MaxWeight = droneToList.MaxWeight,
                 Model = droneToList.Model
             };
-            if (droneToList.parcelNumber!=0)
+            if (droneToList.parcelNumber != 0)
                 drone.packageInTransfer = GetPackageInTransfer(droneToList.parcelNumber);
-   
+
             return drone;
         }
     }
