@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleUI_BL
 {
-   internal class Display
+   public class Display
     {
         IBL.BO.BL BLProgram;
         public Display(IBL.BO.BL _bLProgram)

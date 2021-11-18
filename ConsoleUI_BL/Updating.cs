@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleUI_BL
 {
-    class Updating
+   public class Updating
     {
         IBL.BO.BL BLProgram;
         public Updating(IBL.BO.BL _bLProgram)
