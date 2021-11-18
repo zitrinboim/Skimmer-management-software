@@ -13,14 +13,18 @@ namespace ConsoleUI_BL
         {
             BLProgram = _bLProgram;
         }
-        public enum enumUpdatingOptions { EXIT = 0, UPDATE_NAME_OF_DRONE,STATION_DATA, PACKAGE_DELIVERY, CARGING_DRONE, RELEASE_DRONE };
+        public enum enumUpdatingOptions { EXIT = 0, UPDATE_NAME_OF_DRONE,STATION_DATA, CUSTOMER_DATA, 
+            CARGING_DRONE, RELEASE_DRONE, PACKAGE_ASSOCIATION,PACKAGE_COLLECTION,PACKAGE_DELIVERY };
         public void UpdatingOptions()
         {
-            Console.WriteLine("enter 1 to  assigning a package to a drone");
-            Console.WriteLine("enter 2 to  collection of a package by drone");
-            Console.WriteLine("enter 3 to  delivery package to customer");
+            Console.WriteLine("enter 1 to  update aname of drone");
+            Console.WriteLine("enter 2 to  update station data");
+            Console.WriteLine("enter 3 to  update customer data");
             Console.WriteLine("enter 4 to  sending a drone for charging at a base station");
             Console.WriteLine("enter 5 to  release drone from charging at base station");
+            Console.WriteLine("enter 6 to  Update on associating drone to package");
+            Console.WriteLine("enter 7 to  Update on package collection");
+            Console.WriteLine("enter 8 to  Update on package delivery");
             Console.WriteLine("enter 0 to EXIT");
 
             enumUpdatingOptions enumUpdating;
@@ -35,13 +39,22 @@ namespace ConsoleUI_BL
                 case enumUpdatingOptions.STATION_DATA:
                     updatingStationData(); 
                     break;
-                case enumUpdatingOptions.PACKAGE_DELIVERY:
+                case enumUpdatingOptions.CUSTOMER_DATA:
                     updatingcustomerData();
                     break;
                 case enumUpdatingOptions.CARGING_DRONE:
                     SendingDroneForCharging();
                     break;
                 case enumUpdatingOptions.RELEASE_DRONE:
+                    ReleasingDroneFromCharging();
+                    break;
+                case enumUpdatingOptions.PACKAGE_ASSOCIATION:
+                    ReleasingDroneFromCharging();
+                    break;
+                case enumUpdatingOptions.PACKAGE_COLLECTION:
+                    ReleasingDroneFromCharging();
+                    break;
+                case enumUpdatingOptions.PACKAGE_DELIVERY:
                     ReleasingDroneFromCharging();
                     break;
                 case enumUpdatingOptions.EXIT:
@@ -134,6 +147,53 @@ namespace ConsoleUI_BL
 
             bool test = BLProgram. ReleaseDroneFromCharging(IdDrone, time);
             if (test )
+                Console.WriteLine("the transaction completed successfully");
+            else
+                Console.WriteLine("ERROR");
+        }
+        /// <summary>
+        /// This function assigns a package to the drone.
+        /// </summary>
+        public void PACKAGE_ASSOCIATION()
+        {
+            Console.WriteLine("enter ID number of the drone");
+            int IdDrone;
+            int.TryParse(Console.ReadLine(), out IdDrone);
+
+            bool test = BLProgram.AssignPackageToDrone( IdDrone);
+            if (test)
+                Console.WriteLine("the transaction completed successfully");
+            else
+                Console.WriteLine("ERROR");
+        }
+        /// <summary>
+        /// This function performs an update on packet collection by drone.
+        /// </summary>
+        public void PACKAGE_COLLECTION()
+        {
+            Console.WriteLine("enter ID number of the drone");
+            int IdDrone;
+            int.TryParse(Console.ReadLine(), out IdDrone);
+
+            bool testParcel = BLProgram.PackageCollectionByDrone(IdDrone);
+            //bool testDrone = Dal.DalObject.makeBusyTheDrone(IdDrone);
+            if (testParcel /*&& testDrone*/)
+                Console.WriteLine("the transaction completed successfully");
+            else
+                Console.WriteLine("ERROR");
+        }
+        /// <summary>
+        /// This function performs an update on delivering a package to the customer.
+        /// </summary>
+        public void PACKAGE_DELIVERY()
+        {
+            Console.WriteLine("enter ID number of the drone");
+            int IdDrone;
+            int.TryParse(Console.ReadLine(), out IdDrone);
+
+            bool testParcel = BLProgram.DeliveryPackageToCustomer(IdDrone);
+            //bool testDrone = Dal.DalObject.makeAvailableTheDrone(IdDrone);
+            if (testParcel /*&& testDrone*/)
                 Console.WriteLine("the transaction completed successfully");
             else
                 Console.WriteLine("ERROR");

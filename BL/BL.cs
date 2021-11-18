@@ -22,6 +22,10 @@ namespace BL
         List<IDAL.DO.Drone> drones;
         List<IDAL.DO.Parcel> PackagesInDelivery;
 
+        IDAL.DO.Parcel closeParcel;
+
+
+
 
         internal static double available;
         internal static double easy;
@@ -181,6 +185,7 @@ namespace BL
             bool cargeTest = dal.reductionCargeSlotsToStation(idStation);//לבדוק מה קורה עם השגיאה שתיזרק מהפונ' הזו.
             if (!cargeTest)
                 throw new NotImplementedException();
+
             IDAL.DO.DroneCarge droneCarge = new() { DroneID = drone.Id, StationId = idStation };
             dal.addDroneCarge(droneCarge);
 
@@ -266,7 +271,7 @@ namespace BL
         {
             IDAL.DO.Customer tempCustomer = (IDAL.DO.Customer)dal.getCustomer(IdCustomer);//לבדוק לגבי ההמרה
             dal.removeCustomer(IdCustomer);
-            if (newName != "X" && newName != "x") 
+            if (newName != "X" && newName != "x")
                 tempCustomer.name = newName;
             if (newPhone != "X" && newPhone != "x")
                 tempCustomer.phone = newPhone;
@@ -284,7 +289,7 @@ namespace BL
                 throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
             else
             {
-                List<IDAL.DO.Station> stationWithFreeSlots = dal.DisplaysIistOfStations(i => i.freeChargeSlots > 0).ToList(); 
+                List<IDAL.DO.Station> stationWithFreeSlots = dal.DisplaysIistOfStations(i => i.freeChargeSlots > 0).ToList();
                 IDAL.DO.Station closeStation = TheNearestStation(drone.Location, stationWithFreeSlots);
                 Location stationLocation = new() { latitude = closeStation.lattitude, longitude = closeStation.longitude };
 
@@ -310,7 +315,7 @@ namespace BL
             throw new NotImplementedException();
         }
 
-        public bool ReleaseDroneFromCharging(int IdDrone,int time)
+        public bool ReleaseDroneFromCharging(int IdDrone, int time)
         {
 
             DroneToList drone = droneToLists.Find(i => i.Id == IdDrone);
@@ -319,7 +324,7 @@ namespace BL
             else
             {
                 int droneIndex = droneToLists.FindIndex(i => i.Id == IdDrone);
-                drone.battery;///////////////////////////////////////////////////////////////////////אין לי שמץ איך יודעים כמה זמן נטען
+                drone.battery = time * ChargingRate;
                 drone.DroneStatuses = DroneStatuses.available;
                 droneToLists[droneIndex] = drone;
 
@@ -328,6 +333,253 @@ namespace BL
                 bool removeTest = dal.ReleaseDroneCarge(IdDrone);
             }
             throw new NotImplementedException();
+        }
+
+        public bool AssignPackageToDrone(int IdDrone)
+        {
+            IDAL.DO.Parcel bestParcel;
+            List<IDAL.DO.Parcel> emergency = new();
+            List<IDAL.DO.Parcel> fast = new();
+            List<IDAL.DO.Parcel> normal = new();
+
+            IDAL.DO.Drone drone = (IDAL.DO.Drone)dal.getDrone(IdDrone);//לבדוק לגבי ההמרה
+
+            DroneToList droneToList = droneToLists.Find(i => i.Id == IdDrone);
+            int droneFind = droneToLists.FindIndex(i => i.Id == IdDrone);
+
+            if (droneToList.DroneStatuses != DroneStatuses.available)
+                throw new NotImplementedException();
+
+            List<IDAL.DO.Parcel> parcels = dal.DisplaysIistOfparcels(i => i.Scheduled == DateTime.MinValue).ToList();
+            if (parcels.Count == 0)
+                throw new NotImplementedException();
+
+
+            //foreach (IDAL.DO.Parcel item in parcels)//לבדוק אופציה של מיון בתוך הרשימות ע"י מרחק והפונציה של המרחק
+            //{
+            //    if (item.priority == IDAL.DO.Priorities.emergency)//לבדוק אם יש איזה סוויטש קייס יפה לזה.
+            //        emergency.Add(item);
+            //    else if (item.priority == IDAL.DO.Priorities.fast)
+            //        fast.Add(item);
+            //    else
+            //        normal.Add(item);
+            //}
+            //bestParcel = theBestParcel(droneToList, emergency);
+            //if (bestParcel.Id == -1)
+            //    bestParcel = theBestParcel(droneToList, fast);
+            //if (bestParcel.Id == -1)
+            //    bestParcel = theBestParcel(droneToList, normal);
+            //if (bestParcel.Id == -1)
+            //    throw new NotImplementedException();
+
+            bestParcel = step1(droneToList, parcels);
+            droneToLists[droneFind].DroneStatuses = DroneStatuses.busy;
+
+            bestParcel.DroneId = IdDrone;
+            bestParcel.Scheduled = DateTime.Now;
+            dal.removeParcel(bestParcel.Id);
+            dal.addParsel(bestParcel);
+
+            return true;
+            //parcels.Sort(delegate (IDAL.DO.Parcel a, IDAL.DO.Parcel b)
+            //{
+            //    return a.priority.CompareTo(b.priority);
+            //});
+            //foreach (IDAL.DO.Parcel item in parcels)
+            //{
+            //    do
+            //    {
+            //        if (item.weight < drone.MaxWeight)
+            //        {
+            //            IDAL.DO.Customer customer = (IDAL.DO.Customer)dal.getCustomer(item.SenderId);//לבדוק לגבי ההמרה
+            //            Location location = new() { latitude = customer.lattitude, longitude = customer.longitude };
+
+            //            double distanceTest = d.DistanceBetweenPlaces(droneToList.Location, location);
+            //            if (distanceTest < distance)
+            //                distance = distanceTest;
+            //        }
+            //    } while (item.priority==i);
+
+            //}
+
+        }
+        //public IDAL.DO.Parcel theBestParcel(DroneToList droneToList, List<IDAL.DO.Parcel> parcels)
+        //{
+        //    IDAL.DO.Customer sander;
+        //    Location sanderLocation = new();
+        //    double distance = double.MaxValue;
+        //    double weight;
+        //    double batteryToTheDelivery;
+        //    bool action = true;
+
+        //    while (action && parcels.Count > 0)
+        //    {
+        //        foreach (IDAL.DO.Parcel item in parcels)//לבדוק אופציה של להגדיר פונקציה טמפלט של הnerste station 
+        //        {
+        //            if (item.weight < (IDAL.DO.WeightCategories)droneToList.MaxWeight)
+        //            {
+        //                sander = (IDAL.DO.Customer)dal.getCustomer(item.SenderId);//לבדוק לגבי ההמרה
+        //                sanderLocation.latitude = sander.lattitude;
+        //                sanderLocation.longitude = sander.longitude;
+
+        //                double distanceTest = d.DistanceBetweenPlaces(droneToList.Location, sanderLocation);
+        //                if (distanceTest < distance)
+        //                {
+        //                    distance = distanceTest;
+        //                    closeParcel = item;
+        //                }
+        //            }
+        //        }
+        //        IDAL.DO.Customer target = (IDAL.DO.Customer)dal.getCustomer(closeParcel.TargetId);
+        //        Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
+        //        if (closeParcel.weight == IDAL.DO.WeightCategories.easy)
+        //            weight = easy;
+        //        else if (closeParcel.weight == IDAL.DO.WeightCategories.medium)
+        //            weight = medium;
+        //        else
+        //            weight = Heavy;
+        //        batteryToTheDelivery = distance * available +
+        //            (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight) +
+        //            (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
+
+        //        if (droneToList.battery < batteryToTheDelivery)
+        //            parcels.Remove(closeParcel);
+        //        else
+        //            action = false;
+        //    }
+        //    if (parcels.Count <= 0)
+        //        closeParcel.Id = -1;
+        //    return closeParcel;
+
+        //}
+
+        public bool PackageCollectionByDrone(int IdDrone)
+        {
+            IDAL.DO.Parcel parcelsOfDrone = dal.DisplaysIistOfparcels(i => i.DroneId == IdDrone && i.Delivered == DateTime.MinValue).First();
+            if (parcelsOfDrone.DroneId != IdDrone)
+                throw new NotImplementedException();
+
+            IDAL.DO.Customer target = (IDAL.DO.Customer)dal.getCustomer(parcelsOfDrone.TargetId);
+            Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
+
+            int index = droneToLists.FindIndex(i => i.Id == IdDrone);
+            droneToLists[index].battery -= d.DistanceBetweenPlaces(droneToLists[index].Location, targetLocation) * available;
+            droneToLists[index].Location = targetLocation;
+
+            dal.removeParcel(parcelsOfDrone.Id);
+            parcelsOfDrone.PickedUp = DateTime.Now;
+            dal.addParsel(parcelsOfDrone);
+
+            return true;
+        }
+
+        public bool DeliveryPackageToCustomer(int IdDrone)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IDAL.DO.Parcel step1(DroneToList droneToList, List<IDAL.DO.Parcel> parcels)
+        {
+            List<IDAL.DO.Parcel> emergency = new();
+            List<IDAL.DO.Parcel> fast = new();
+            List<IDAL.DO.Parcel> normal = new();
+
+            foreach (IDAL.DO.Parcel item in parcels)
+            {
+                if (item.weight < (IDAL.DO.WeightCategories)droneToList.MaxWeight)
+                {
+
+                    IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(item.SenderId);
+                    Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
+
+                    IDAL.DO.Customer target = (IDAL.DO.Customer)dal.getCustomer(closeParcel.TargetId);
+                    Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
+
+                    double weight = easy;
+                    switch (item.weight)
+                    {
+                        case IDAL.DO.WeightCategories.easy:
+                            weight = easy;
+                            break;
+                        case IDAL.DO.WeightCategories.medium:
+                            weight = medium;
+                            break;
+                        case IDAL.DO.WeightCategories.heavy:
+                            weight = Heavy;
+                            break;
+                        default:
+                            break;
+                    }
+                    double batteryToTheDelivery = d.DistanceBetweenPlaces(droneToList.Location, sanderLocation) * available +
+                        (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight) +
+                        (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
+
+                    if (droneToList.battery >= batteryToTheDelivery)
+                    {
+                        switch (item.priority)
+                        {
+                            case IDAL.DO.Priorities.normal:
+                                normal.Add(item);
+                                break;
+                            case IDAL.DO.Priorities.fast:
+                                fast.Add(item);
+                                break;
+                            case IDAL.DO.Priorities.emergency:
+                                emergency.Add(item);
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }
+                }
+            }
+            return step2(droneToList,(emergency.Count > 0) ? emergency : (fast.Count > 0) ? fast : normal);
+        }
+
+        public IDAL.DO.Parcel step2(DroneToList droneToList, List<IDAL.DO.Parcel> parcels)
+        {
+            List<IDAL.DO.Parcel> easy = new();
+            List<IDAL.DO.Parcel> medium = new();
+            List<IDAL.DO.Parcel> heavy = new();
+            foreach (IDAL.DO.Parcel item in parcels)
+            {
+                switch (item.weight)
+                {
+                    case IDAL.DO.WeightCategories.easy:
+                        easy.Add(item);
+                        break;
+                    case IDAL.DO.WeightCategories.medium:
+                        medium.Add(item);
+                        break;
+                    case IDAL.DO.WeightCategories.heavy:
+                        heavy.Add(item);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return TheNearestParcel(droneToList, (heavy.Count > 0) ? heavy : (medium.Count > 0) ? medium : easy);
+        }
+
+        public IDAL.DO.Parcel TheNearestParcel(DroneToList droneToList, List<IDAL.DO.Parcel> parcels)
+        {
+            IDAL.DO.Parcel closeParsel = parcels[0];
+            double distance = double.MaxValue;
+
+            foreach (IDAL.DO.Parcel item in parcels)
+            {
+                IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(item.SenderId);
+                Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
+
+                double distance1 = d.DistanceBetweenPlaces(droneToList.Location, sanderLocation);
+                if (distance1 < distance)
+                {
+                    distance = distance1;
+                    closeParcel = item;
+                }
+            }
+            return closeParcel;
         }
     }
 }

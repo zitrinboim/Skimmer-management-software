@@ -18,6 +18,11 @@ namespace BL
         bool updateCustomerData(int IdCustomer, string newName,string newPhone);
         bool SendDroneForCharging(int IdDrone);
         bool ReleaseDroneFromCharging(int IdDrone, int time);
+        bool AssignPackageToDrone(int IdDrone);
+        bool PackageCollectionByDrone(int IdDrone);
+        bool DeliveryPackageToCustomer(int IdDrone);
+        IDAL.DO.Parcel theBestParcel(DroneToList droneToList, List<IDAL.DO.Parcel> parcels);
+
 
     }
 }
