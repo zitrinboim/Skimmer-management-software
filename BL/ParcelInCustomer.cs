@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL
+namespace IBL.BO
 {
-    namespace BO
+    public class ParcelInCustomer : abstractParcel
     {
-        public class ParcelInCustomer:abstractParcel
+        public parcelStatus parcelStatus { get; set; }
+        public CustomerInParcel CustomerInParcel { get; set; }
+        public override string ToString()
         {
-            public parcelStatus parcelStatus { get; set; }
-            public CustomerInParcel CustomerInParcel { get; set; }
-            
+            return string.Format(base.ToString() + "parcelStatus {0} : CustomerInParcel {1} :", parcelStatus, CustomerInParcel);
+
         }
     }
 }

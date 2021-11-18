@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL
+namespace IBL.BO
 {
-    namespace BO
+    public class StationToList : abstractStationBase
     {
-        public class StationToList : abstractStationBase
+        public int busyChargeSlots { get; set; }
+        public override string ToString()
         {
-            public int busyChargeSlots { get; set; }
+            return string.Format(base.ToString() + "busyChargeSlots {0}: ", busyChargeSlots);
         }
     }
 }
+

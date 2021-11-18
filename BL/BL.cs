@@ -157,8 +157,8 @@ namespace BL
                 Id = station.Id,
                 name = station.name,
                 freeChargeSlots = station.freeChargeSlots,
-                lattitude = station.Location.latitude,
-                longitude = station.Location.longitude
+                lattitude = station.location.latitude,
+                longitude = station.location.longitude
             };
             bool test = dal.addStation(dalStation);
             if (test)
@@ -392,9 +392,9 @@ namespace BL
             //        if (item.weight < drone.MaxWeight)
             //        {
             //            IDAL.DO.Customer customer = (IDAL.DO.Customer)dal.getCustomer(item.SenderId);//לבדוק לגבי ההמרה
-            //            Location location = new() { latitude = customer.lattitude, longitude = customer.longitude };
+            //            location location = new() { latitude = customer.lattitude, longitude = customer.longitude };
 
-            //            double distanceTest = d.DistanceBetweenPlaces(droneToList.Location, location);
+            //            double distanceTest = d.DistanceBetweenPlaces(droneToList.location, location);
             //            if (distanceTest < distance)
             //                distance = distanceTest;
             //        }
@@ -406,7 +406,7 @@ namespace BL
         //public IDAL.DO.Parcel theBestParcel(DroneToList droneToList, List<IDAL.DO.Parcel> parcels)
         //{
         //    IDAL.DO.Customer sander;
-        //    Location sanderLocation = new();
+        //    location sanderLocation = new();
         //    double distance = double.MaxValue;
         //    double weight;
         //    double batteryToTheDelivery;
@@ -422,7 +422,7 @@ namespace BL
         //                sanderLocation.latitude = sander.lattitude;
         //                sanderLocation.longitude = sander.longitude;
 
-        //                double distanceTest = d.DistanceBetweenPlaces(droneToList.Location, sanderLocation);
+        //                double distanceTest = d.DistanceBetweenPlaces(droneToList.location, sanderLocation);
         //                if (distanceTest < distance)
         //                {
         //                    distance = distanceTest;
@@ -431,7 +431,7 @@ namespace BL
         //            }
         //        }
         //        IDAL.DO.Customer target = (IDAL.DO.Customer)dal.getCustomer(closeParcel.TargetId);
-        //        Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
+        //        location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
         //        if (closeParcel.weight == IDAL.DO.WeightCategories.easy)
         //            weight = easy;
         //        else if (closeParcel.weight == IDAL.DO.WeightCategories.medium)

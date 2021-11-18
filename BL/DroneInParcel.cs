@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL
+namespace IBL.BO
 {
-    namespace BO
+    public class DroneInParcel : DroneInCargeing
     {
-        public class DroneInParcel:DroneInCargeing
+        public Location Location { get; set; }
+        public override string ToString()
         {
-            public Location Location { get; set; }
+            return string.Format(base.ToString() + "Location {0}:", Location);
         }
+
     }
 }
+

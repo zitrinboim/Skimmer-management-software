@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL
+namespace IBL.BO
 {
-    namespace BO
+    public class DroneInCargeing
     {
-        public class DroneInCargeing
+        public int Id { get; set; }
+        public double battery { get; set; }
+        public override string ToString()
         {
-            public int Id { get; set; }
-            public double battery { get; set; }
+            return string.Format("Id {0}: battery {1}: ", Id, battery);
         }
     }
 }

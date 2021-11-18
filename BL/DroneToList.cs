@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL
+namespace IBL.BO
 {
-    namespace BO
+    public class DroneToList : abstractDrone
     {
-        public class DroneToList : abstractDrone
+        public int parcelNumber { get; set; }
+        public override string ToString()
         {
-            public int parcelNumber { get; set; }
+            return string.Format(base.ToString() + "parcelNumber {0}: ", parcelNumber);
         }
     }
 }
+

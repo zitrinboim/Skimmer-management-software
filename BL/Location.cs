@@ -1,15 +1,14 @@
 ﻿using System;
 
-namespace IBL
+namespace IBL.BO
 {
-    namespace BO
+    public class Location
     {
-
-
-        public class Location
+        public double longitude { get; set; }
+        public double latitude { get; set; }
+        public override string ToString()
         {
-            public double longitude { get; set; }
-            public double latitude { get; set; }
+            return string.Format("longitude {0}: latitude {1}:", longitude, latitude);
         }
     }
 }

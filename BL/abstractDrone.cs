@@ -5,15 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using IDAL.DO;
 
-namespace IBL
+namespace IBL.BO
 {
-    namespace BO
+    public class abstractDrone : DroneInParcel
     {
-        public class abstractDrone:DroneInParcel
+        public string Model { get; set; }
+        public WeightCategories MaxWeight { get; set; }
+        public DroneStatuses DroneStatuses { get; set; }
+        public override string ToString()
         {
-            public string Model { get; set; }
-            public WeightCategories MaxWeight { get; set; }
-            public DroneStatuses DroneStatuses { get; set; }
+            return string.Format(base.ToString() + "Model {0}: MaxWeight {1}: DroneStatuses {2}:", Model, MaxWeight, DroneStatuses);
         }
     }
 }

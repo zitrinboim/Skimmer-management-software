@@ -4,14 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL
+namespace IBL.BO
 {
-    namespace BO
+    public class CustomerInParcel
     {
-        public class CustomerInParcel
+        public int Id { get; set; }
+        public string name { get; set; }
+        public override string ToString()
         {
-            public int Id { get; set; }
-            public string name { get; set; }
+            return string.Format("Customer\n Id {0}: mane {1}: ", Id, name);
         }
     }
 }
+
