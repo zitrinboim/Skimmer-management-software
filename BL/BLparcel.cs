@@ -18,11 +18,33 @@ namespace IBL.BO
         /// <returns></returns>
         public int addParsel(IDAL.DO.Parcel parcel)
         {
-
             int addParcel = dal.addParsel(parcel);
+
             if (addParcel <= 0)
                 throw new NotImplementedException();
             return addParcel;
+        }
+        public Parcel GetParcel(int parcelId)
+        {
+            IDAL.DO.Parcel dalParcel = (IDAL.DO.Parcel)dal.getParcel(parcelId);
+
+            Parcel parcel = new()
+            {
+                Id = dalParcel.Id,
+                weight = (WeightCategories)dalParcel.weight,
+                priority = (Priorities)dalParcel.priority,
+                Scheduled = dalParcel.Scheduled,
+                Requested = dalParcel.Requested,
+                PickedUp = dalParcel.PickedUp,
+                Delivered = dalParcel.Delivered
+            };
+
+            parcel.Sender = GetCustomerInParcel(dalParcel.SenderId);
+            parcel.Target = GetCustomerInParcel(dalParcel.TargetId);
+
+            parcel.droneInParcel = GetDroneInParcel(dalParcel.DroneId);
+
+            return parcel;
         }
         public PackageInTransfer GetPackageInTransfer(int parcelId)
         {
@@ -59,7 +81,7 @@ namespace IBL.BO
             return packageInTransfer;
 
         }
-        public ParcelInCustomer GetParcelInCustomer(int parcelId)
+        public ParcelInCustomer GetParcelInCustomer(int parcelId, int customerId)
         {
             IDAL.DO.Parcel parcel = (IDAL.DO.Parcel)dal.getParcel(parcelId);
 
@@ -67,23 +89,16 @@ namespace IBL.BO
             {
                 Id = parcel.Id,
                 weight = (WeightCategories)parcel.weight,
-                priority = (Priorities)parcel.priority, 
-                 
+                priority = (Priorities)parcel.priority,
+
             };
-            switch (parcel)
-            {
-                case parcel.Scheduled=DateTime.MinValue:
-                    parcelInCustomer.parcelStatus = parcelStatus.defined;
-                    break;
-                case IDAL.DO.WeightCategories.medium:
-                    weight = medium;
-                    break;
-                case IDAL.DO.WeightCategories.heavy:
-                    weight = Heavy;
-                    break;
-                default:
-                    break;
-            }
+            parcelInCustomer.parcelStatus = (parcel.Scheduled == DateTime.MinValue) ? parcelStatus.defined :
+                (parcel.PickedUp == DateTime.MinValue) ? parcelStatus.associated :
+                (parcel.Delivered == DateTime.MinValue) ? parcelStatus.collected : parcelStatus.Provided;
+
+            parcelInCustomer.CustomerInParcel = GetCustomerInParcel((parcel.SenderId == customerId) ? parcel.TargetId : parcel.SenderId);
+
+            return parcelInCustomer;
         }
     }
 }

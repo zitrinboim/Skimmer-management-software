@@ -68,13 +68,21 @@ namespace IBL.BO
                 phone = dalCustomer.phone,
                 location = new() { latitude = dalCustomer.lattitude, longitude = dalCustomer.longitude }
             };
-            List<IDAL.DO.Parcel> parcels = dal.DisplaysIistOfparcels(i => i.SenderId == customerId).ToList();
-            foreach (IDAL.DO.Parcel item in parcels)
+
+            List<IDAL.DO.Parcel> sanderParcels = dal.DisplaysIistOfparcels(i => i.SenderId == customerId).ToList();
+            foreach (IDAL.DO.Parcel item in sanderParcels)
             {
-                customer.fromCustomer.Add(new() { /*GetCustomerInParcel*/(item.Id) } );
+                ParcelInCustomer parcelInCustomer = GetParcelInCustomer(item.Id, customerId);
+                customer.fromCustomer.Add(parcelInCustomer);
             }
 
+            List<IDAL.DO.Parcel> targetParcels = dal.DisplaysIistOfparcels(i => i.TargetId == customerId).ToList();
+            foreach (IDAL.DO.Parcel item in targetParcels)
+            {
+                ParcelInCustomer parcelInCustomer = GetParcelInCustomer(item.Id, customerId);
+                customer.toCustomer.Add(parcelInCustomer);
+            }
+            return customer;
         }
-        
     }
 }

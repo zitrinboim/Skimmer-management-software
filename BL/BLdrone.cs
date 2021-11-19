@@ -377,5 +377,19 @@ namespace IBL.BO
 
             return drone;
         }
+        public DroneInParcel GetDroneInParcel(int droneId)
+        {
+            DroneToList droneToList = droneToLists.Find(i => i.Id == droneId);
+            if (droneToList.Id == 0)
+                throw new NotImplementedException();
+
+            DroneInParcel droneInParcel = new()
+            {
+                Id = droneToList.Id,
+                battery = droneToList.battery,
+                Location = droneToList.Location
+            };
+            return droneInParcel;
+        }
     }
 }
