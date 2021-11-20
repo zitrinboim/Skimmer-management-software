@@ -63,20 +63,12 @@ namespace ConsoleUI_BL
             List<StationToList> listToPrint = BLProgram.DisplaysIistOfStations().ToList();
             Console.WriteLine(string.Join(" ", listToPrint));
         }
-
-        //public string toString1(double i, double s)
-        //{
-        //    Pisplay p = new();
-        //    return string.Format(" {0}\tlongitude {1}N\tlattitude ", p.ConvertDecimalToDegMinSec(i),
-        //                        p.ConvertDecimalToDegMinSec(s));
-        //}
-
         /// <summary>
         /// The function provides information on the entire list of drons.
         /// </summary>
         public void LIST_DRONS()
         {
-            List<DroneToList> listToPrint = BLProgram.DisplaysTheListOfDrons().ToList();
+            List<DroneToList> listToPrint = BLProgram.DisplaysIistOfDrons().ToList();
             Console.WriteLine(string.Join(" ", listToPrint));
 
         }
@@ -101,7 +93,7 @@ namespace ConsoleUI_BL
         /// </summary>
         public void PARCELS_HAVE_NOT_DRONS()
         {
-            List<ParcelToList> listToPrint = BLProgram.DisplaysIistOfparcels(i => i.DroneId == 0).ToList();
+            List<ParcelToList> listToPrint = BLProgram.DisplaysIistOfparcels(i => i.parcelStatus == parcelStatus.defined).ToList();
             if (listToPrint.Count() == 0)
             {
                 Console.WriteLine("There are no packages in the requested status");
@@ -114,7 +106,12 @@ namespace ConsoleUI_BL
         /// </summary>
         public void STATIONS_WITH_AVAILABLE_CHARGING_SLOTS()
         {
-            List<StationToList> listToPrint = dalProgram.DisplaysIistOfStations(i => i.freeChargeSlots > 0).ToList();
+            List<StationToList> listToPrint = BLProgram.DisplaysIistOfStations(i => i.freeChargeSlots > 0).ToList();
+            if (listToPrint.Count() == 0)
+            {
+                Console.WriteLine("There are no stations with free charge slots");
+                return;
+            }
             Console.WriteLine(string.Join(" ", listToPrint));
         }
     }

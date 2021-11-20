@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IBL.BO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleUI_BL
 {
-   internal class Display
+    internal class Display
     {
         IBL.BO.BL BLProgram;
         public Display(IBL.BO.BL _bLProgram)
@@ -46,6 +47,86 @@ namespace ConsoleUI_BL
                 default:
                     Console.WriteLine("ERROR!");
                     break;
+            }
+        }
+        /// <summary>
+        /// The function provides information about a requested station.
+        /// </summary>
+        public void STATION_DISPLAY()
+        {
+            try
+            {
+                Console.WriteLine("enter ID number of the ststion");
+                int IdStation;
+                int.TryParse(Console.ReadLine(), out IdStation);
+                Station station = BLProgram.GetStation(IdStation);
+                Console.WriteLine(station);
+            }
+            catch (IdNotExistExeptions ex)
+            {
+
+                Console.WriteLine(ex);
+            }
+
+        }
+        /// <summary>
+        /// The function provides information about a requested drone
+        /// </summary>
+        public void DRONE_DISPLAY()
+        {
+            try
+            {
+                Console.WriteLine("enter ID number of the drone");
+                int IdDrone;
+                int.TryParse(Console.ReadLine(), out IdDrone);
+                Drone drone = BLProgram.GetDrone(IdDrone);
+
+                Console.WriteLine(drone);
+            }
+            catch (IdNotExistExeptions ex)
+            {
+
+                Console.WriteLine(ex);
+            }
+        }
+        /// <summary>
+        /// The function provides information about a requested customer.
+        /// </summary>
+        public void CUSTOMER_DISPLAY()
+        {
+            try
+            {
+                Console.WriteLine("enter ID number of the customer");
+                int IdCustomer;
+                int.TryParse(Console.ReadLine(), out IdCustomer);
+                Customer customer = BLProgram.GetCustomer(IdCustomer);
+                Console.WriteLine(customer);
+            }
+            catch (IdNotExistExeptions ex)
+            {
+
+                Console.WriteLine(ex);
+            }
+        }
+        /// <summary>
+        /// The function provides information about a requested parcel
+        /// </summary>
+        public void PARCEL_DISPLAY()
+        {
+            try
+            {
+
+                Console.WriteLine("enter ID number of the parcel");
+                int IdParcel;
+                int.TryParse(Console.ReadLine(), out IdParcel);
+                Parcel parcel = BLProgram.GetParcel(IdParcel);
+
+                Console.WriteLine(parcel);
+            }
+            catch (IdNotExistExeptions ex)
+            {
+
+                Console.WriteLine(ex);
             }
         }
     }
