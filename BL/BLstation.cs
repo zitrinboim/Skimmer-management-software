@@ -71,6 +71,7 @@ namespace IBL.BO
                 lattitude = station.location.latitude,
                 longitude = station.location.longitude
             };
+            stations.Add(dalStation);
             bool test = dal.addStation(dalStation);
             if (test)
                 return true;
@@ -119,7 +120,6 @@ namespace IBL.BO
                 if (item.Location == station.location)
                     station.droneInCargeings.Add(new() { Id = item.Id, battery = item.battery });
             }
-
             return station;
         }
         public StationToList GetStationToList(int stationId)
@@ -135,5 +135,17 @@ namespace IBL.BO
             };
             return stationToList;
         }
+        public IEnumerable<StationToList> DisplaysIistOfStations(Predicate<StationToList> p = null)
+        {
+            List<StationToList> stationToLists = new();
+
+            List<IDAL.DO.Station> stations = dal.DisplaysIistOfStations().ToList();
+            foreach (IDAL.DO.Station item in stations)
+            {
+                stationToLists.Add(GetStationToList(item.Id));
+            }
+            return stationToLists.Where(d => p == null ? true : p(d)).ToList();
+        }
+       
     }
 }

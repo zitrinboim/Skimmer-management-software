@@ -54,18 +54,26 @@ namespace ConsoleUI
         /// </summary>
         public void PACKAGE_ASSOCIATION()
         {
-            Console.WriteLine("enter ID number of the parcel");
-            int IdParcel;
-            int.TryParse(Console.ReadLine(), out IdParcel);
-            Console.WriteLine("enter ID number of the drone");
-            int IdDrone;
-            int.TryParse(Console.ReadLine(), out IdDrone);
+            try
+            {
+                Console.WriteLine("enter ID number of the parcel");
+                int IdParcel;
+                int.TryParse(Console.ReadLine(), out IdParcel);
+                Console.WriteLine("enter ID number of the drone");
+                int IdDrone;
+                int.TryParse(Console.ReadLine(), out IdDrone);
 
-            bool test = dalProgram.AssignPackageToDrone(IdParcel, IdDrone);
-            if (test)
-                Console.WriteLine("the transaction completed successfully");
-            else
-                Console.WriteLine("ERROR");
+                bool test = dalProgram.AssignPackageToDrone(IdParcel, IdDrone);
+                if (test)
+                    Console.WriteLine("the transaction completed successfully");
+                else
+                    Console.WriteLine("ERROR");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         /// <summary>
         /// This function performs an update on packet collection by drone.

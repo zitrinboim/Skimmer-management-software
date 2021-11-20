@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Dal
 {
-    public class DalObject:IDal
+    public class DalObject : IDal
     {/// <summary>
      /// This function activates the constructor of Initialize, so that all the Lists of the various entities are initialized.
      /// </summary>
@@ -30,7 +30,7 @@ namespace Dal
             }
             else
             {
-                throw new DroneExeptions("Sorry, i have already a station with this id:" + station.Id);
+                throw new IdExistExeptions("Sorry, i have already a station with this id:" + station.Id);
             }
         }
         /// <summary>
@@ -293,7 +293,7 @@ namespace Dal
         public Customer? getCustomer(int Id)
         {
             Customer? getCustomer = DataSource.customers.Find(Customer => Customer.Id == Id);
-            return getCustomer != null ? getCustomer : null;
+            return getCustomer != null ? getCustomer : throw new IdNotExistExeptions("sorry, this customer is not found.");
         }
         /// <summary>
         /// This function transmits the requested parcel data according to an identification number.

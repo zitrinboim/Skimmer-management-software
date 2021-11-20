@@ -39,11 +39,20 @@ namespace IBL.BO
             else
                 throw new NotImplementedException();
         }
+
         public CustomerInParcel GetCustomerInParcel(int customerId)
         {
-            IDAL.DO.Customer customer = (IDAL.DO.Customer)dal.getCustomer(customerId);
-            CustomerInParcel customerInParcel = new() { Id = customer.Id, name = customer.name };
-            return customerInParcel;
+            try
+            {
+                IDAL.DO.Customer customer = (IDAL.DO.Customer)dal.getCustomer(customerId);
+                CustomerInParcel customerInParcel = new() { Id = customer.Id, name = customer.name };
+                return customerInParcel;
+            }
+            catch (IDAL.DO.IdNotExistExeptions ex)
+            {
+                throw new IdNotExistExeptions("Error: " ,ex);
+            }
+       
         }
         public Customer GetCustomer(int customerId)
         {

@@ -106,30 +106,39 @@ namespace IBL.BO
         }
         public bool AssignPackageToDrone(int IdDrone)
         {
-            IDAL.DO.Parcel bestParcel;
+            try
+            {
+                IDAL.DO.Parcel bestParcel;
 
-            //לבדוק האם צריך את המשתנה הזה
-            IDAL.DO.Drone drone = (IDAL.DO.Drone)dal.getDrone(IdDrone);//לבדוק לגבי ההמרה
+                //לבדוק האם צריך את המשתנה הזה
+                IDAL.DO.Drone drone = (IDAL.DO.Drone)dal.getDrone(IdDrone);//לבדוק לגבי ההמרה
 
-            DroneToList droneToList = droneToLists.Find(i => i.Id == IdDrone);
-            int droneFind = droneToLists.FindIndex(i => i.Id == IdDrone);
+                DroneToList droneToList = droneToLists.Find(i => i.Id == IdDrone);
+                int droneFind = droneToLists.FindIndex(i => i.Id == IdDrone);
 
-            if (droneToList.DroneStatuses != DroneStatuses.available)
-                throw new NotImplementedException();
+                if (droneToList.DroneStatuses != DroneStatuses.available)
+                    throw new NotImplementedException();
 
-            List<IDAL.DO.Parcel> parcels = dal.DisplaysIistOfparcels(i => i.Scheduled == DateTime.MinValue).ToList();
-            if (parcels.Count == 0)
-                throw new NotImplementedException();
+                List<IDAL.DO.Parcel> parcels = dal.DisplaysIistOfparcels(i => i.Scheduled == DateTime.MinValue).ToList();
+                if (parcels.Count == 0)
+                    throw new NotImplementedException();
 
-            bestParcel = AssignStep1(droneToList, parcels);
-            droneToLists[droneFind].DroneStatuses = DroneStatuses.busy;
-            droneToLists[droneFind].parcelNumber = bestParcel.Id;
+                bestParcel = AssignStep1(droneToList, parcels);
+                droneToLists[droneFind].DroneStatuses = DroneStatuses.busy;
+                droneToLists[droneFind].parcelNumber = bestParcel.Id;
 
-            bool test = dal.AssignPackageToDrone(bestParcel.Id, IdDrone);
-            if (test)
-                return true;
-            else
-                throw new NotImplementedException();
+                bool test = dal.AssignPackageToDrone(bestParcel.Id, IdDrone);
+                if (test)
+                    return true;
+                else
+                    throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+           
         }
         /// <summary>
         /// This function returns the list of relevant packages to the glider in terms of shekel and distance, in order of their urgency.
@@ -198,7 +207,7 @@ namespace IBL.BO
                     }
                 }
                 if (emergency.Count == 0 && fast.Count == 0 && normal.Count == 0)
-                    throw new NotImplementedException();
+                    throw new ThereIsNoSuitablePackage("There is no suitable package for the drone");
             }
             return AssignStep2(droneToList, (emergency.Count > 0) ? emergency : (fast.Count > 0) ? fast : normal);
 
