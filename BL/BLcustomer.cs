@@ -72,5 +72,41 @@ namespace IBL.BO
             }
             return customer;
         }
+        public CustomerToList GetCustomerToList(int customerID)
+        {
+            Customer customer = GetCustomer(customerID);
+
+            CustomerToList customerToList = new()
+            {
+                Id = customer.Id,
+                name = customer.name,
+                phone = customer.phone
+            };
+            //Finds the relevant objects by summoning a client entity that stores the requested data.
+            List<ParcelInCustomer> packagesProvided = customer.toCustomer.FindAll(i => i.parcelStatus == parcelStatus.Provided);
+            customerToList.packagesProvided = packagesProvided.Count;
+
+            List<ParcelInCustomer> PackagesOnTheWay = customer.toCustomer.FindAll(i => i.parcelStatus != parcelStatus.Provided);
+            customerToList.PackagesOnTheWay = PackagesOnTheWay.Count;
+
+            List<ParcelInCustomer> packagesNotYetDelivered = customer.fromCustomer.FindAll(i => i.parcelStatus != parcelStatus.Provided);
+            customerToList.PackagesOnTheWay = packagesNotYetDelivered.Count;
+
+            List<ParcelInCustomer> receivedPackages = customer.fromCustomer.FindAll(i => i.parcelStatus == parcelStatus.Provided);
+            customerToList.PackagesOnTheWay = receivedPackages.Count;
+
+            return customerToList;
+        }
+        public IEnumerable<CustomerToList> DisplaysIistOfCustomers(Predicate<CustomerToList> p = null)
+        {
+            List<CustomerToList> customerToLists = new();
+
+            List<IDAL.DO.Customer> customers = dal.DisplaysIistOfCustomers().ToList();
+            foreach (IDAL.DO.Customer item in customers)
+            {
+                customerToLists.Add(GetCustomerToList(item.Id));
+            }
+            return customerToLists.Where(d => p == null ? true : p(d)).ToList();
+        }
     }
 }
