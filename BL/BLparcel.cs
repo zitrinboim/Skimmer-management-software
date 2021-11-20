@@ -110,6 +110,12 @@ namespace IBL.BO
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// This function returns the logical entity ParcelToList.
+        /// </summary>
+        /// <param name="parcelId"></param>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
         public ParcelInCustomer GetParcelInCustomer(int parcelId, int customerId)
         {
             try
@@ -142,6 +148,11 @@ namespace IBL.BO
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// This function returns the logical entity ParcelToList.
+        /// </summary>
+        /// <param name="parcelId"></param>
+        /// <returns></returns>
         public ParcelToList GetParcelToList(int parcelId)
         {
             Parcel parcel = GetParcel(parcelId);
@@ -160,6 +171,11 @@ namespace IBL.BO
 
             return parcelToList;
         }
+        /// <summary>
+        /// Displays the list of all the drones.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public IEnumerable<ParcelToList> DisplaysIistOfparcels(Predicate<ParcelToList> p = null)
         {
             List<ParcelToList> parcelToLists = new();

@@ -97,8 +97,9 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Station tempStation = (IDAL.DO.Station)dal.getStation(Idstation);//לבדוק לגבי ההמרה
+                IDAL.DO.Station tempStation = (IDAL.DO.Station)dal.getStation(Idstation); 
                 dal.removeStation(Idstation);
+                //Instructions for the user If there are no updates to insert an X, the test includes a mode of replacing a large X with a small one.
                 if (newName != "X" && newName != "x")
                     tempStation.name = newName;
                 Station station = GetStation(Idstation);
@@ -134,8 +135,7 @@ namespace IBL.BO
             try
             {
                 IDAL.DO.Station dalStation = (IDAL.DO.Station)dal.getStation(stationId);
-                if (dalStation.Id == 0)
-                    throw new NotImplementedException();//////////////////////////////////////////////
+                
                 Location location = new() { latitude = dalStation.lattitude, longitude = dalStation.longitude };
                 Station station = new() { Id = dalStation.Id, name = dalStation.name, freeChargeSlots = dalStation.freeChargeSlots, location = location };
                 foreach (DroneToList item in droneToLists)
@@ -157,6 +157,11 @@ namespace IBL.BO
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// This function returns the logical entity StationToList.
+        /// </summary>
+        /// <param name="stationId"></param>
+        /// <returns></returns>
         public StationToList GetStationToList(int stationId)
         {
             try
@@ -174,10 +179,14 @@ namespace IBL.BO
             }
             catch (IDAL.DO.IdNotExistExeptions Ex)
             {
-
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// Displays the list of all the drones.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public IEnumerable<StationToList> DisplaysIistOfStations(Predicate<StationToList> p = null)
         {
             List<StationToList> stationToLists = new();

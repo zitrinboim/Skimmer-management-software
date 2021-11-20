@@ -9,6 +9,11 @@ namespace IBL.BO
 {
     public interface IBL
     {
+        /// <summary>
+        /// This function allows the user to add a station to the list.
+        /// </summary>
+        /// <param name="station"></param>
+        /// <returns></returns>
         bool addStation(Station station);
         /// <summary>
         /// This function allows the user to add a drone to the list.
@@ -16,13 +21,18 @@ namespace IBL.BO
         /// <param name="drone"></param>
         /// <param name="idStation"></param>
         /// <returns></returns>
-        bool addDrone(Drone drone, int idStation = 0);//לעדכן את המיקום של הרחפן להתחנה אם קיימת וכל הנגזר מזה
+        bool addDrone(Drone drone, int idStation = 0);
         /// <summary>
         /// This function allows the user to add a customer to the list.
         /// </summary>
         /// <param name="customer"></param>
         /// <returns></returns>
         bool addCustomer(Customer customer);
+        /// <summary>
+        /// This function allows the user to add a parcel to the list.
+        /// </summary>
+        /// <param name="parcel"></param>
+        /// <returns></returns>
         int addParsel(IDAL.DO.Parcel parcel);
         /// <summary>
         /// This function updates the drone model.
@@ -31,6 +41,13 @@ namespace IBL.BO
         /// <param name="IdDrone"></param>
         /// <returns></returns>
         bool updateModelOfDrone(String newName, int IdDrone);
+        /// <summary>
+        /// This function updates the station data.
+        /// </summary>
+        /// <param name="Idstation"></param>
+        /// <param name="newName"></param>
+        /// <param name="ChargingSlots"></param>
+        /// <returns></returns>
         bool updateStationData(int Idstation, string newName, int ChargingSlots);
         /// <summary>
         /// This function updates the customer data.
@@ -71,6 +88,12 @@ namespace IBL.BO
         /// <param name="IdDrone"></param>
         /// <returns></returns>
         bool DeliveryPackageToCustomer(int IdDrone);
+        /// <summary>
+        /// This function finds the next closest package to the drone.
+        /// </summary>
+        /// <param name="droneToList"></param>
+        /// <param name="parcels"></param>
+        /// <returns></returns>
         public IDAL.DO.Parcel TheNearestParcelToAssign(DroneToList droneToList, List<IDAL.DO.Parcel> parcels);
         /// <summary>
         /// This function returns the Customer In Parcel object
