@@ -16,22 +16,22 @@ namespace IBL.BO
                 IDAL.DO.Station station = (IDAL.DO.Station)dal.getStation(idStation);//לבדוק לגבי ההמרה
                 drone.Location.latitude = station.lattitude; drone.Location.longitude = station.longitude;
 
-                IDAL.DO.Drone dalDrone = new()//לזכור לקחת פונ' מיהודה שור
-                {
-                    Id = drone.Id,
-                    Model = drone.Model,
-                    MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight
-                };
-                bool test = dal.addDrone(dalDrone);
-                if (!test)
-                    throw new NotImplementedException();
+            IDAL.DO.Drone dalDrone = new()
+            {
+                Id = drone.Id,
+                Model = drone.Model,
+                MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight
+            };
+            bool test = dal.addDrone(dalDrone);
+            if (!test)
+                throw new NotImplementedException();
 
-                bool cargeTest = dal.reductionCargeSlotsToStation(idStation);//לבדוק מה קורה עם השגיאה שתיזרק מהפונ' הזו.
-                if (!cargeTest)
-                    throw new NotImplementedException();
+            bool cargeTest = dal.reductionCargeSlotsToStation(idStation);//Reduces loading slot.
+            if (!cargeTest)
+                throw new NotImplementedException();
 
-                IDAL.DO.DroneCarge droneCarge = new() { DroneID = drone.Id, StationId = idStation };
-                dal.addDroneCarge(droneCarge);
+            IDAL.DO.DroneCarge droneCarge = new() { DroneID = drone.Id, StationId = idStation };
+            dal.addDroneCarge(droneCarge);//Builds a drone entity by charging.
 
                 droneToLists.Add(new DroneToList()
                 {
@@ -92,7 +92,7 @@ namespace IBL.BO
                     IDAL.DO.Station closeStation = TheNearestStation(drone.Location, stationWithFreeSlots);
                     Location stationLocation = new() { latitude = closeStation.lattitude, longitude = closeStation.longitude };
 
-                    double KM = d.DistanceBetweenPlaces(drone.Location, stationLocation);
+                double KM = d.DistanceBetweenPlaces(drone.Location, stationLocation);//Looking for the nearest available station.
 
                     if (drone.battery < (KM * available))
                         throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
@@ -160,21 +160,20 @@ namespace IBL.BO
             try
             {
                 IDAL.DO.Parcel bestParcel;
-
-                //לבדוק האם צריך את המשתנה הזה
-                IDAL.DO.Drone drone = (IDAL.DO.Drone)dal.getDrone(IdDrone);//לבדוק לגבי ההמרה
+                IDAL.DO.Drone drone = (IDAL.DO.Drone)dal.getDrone(IdDrone);
 
                 DroneToList droneToList = droneToLists.Find(i => i.Id == IdDrone);
                 int droneFind = droneToLists.FindIndex(i => i.Id == IdDrone);
 
-                if (droneToList.DroneStatuses != DroneStatuses.available)
+                if (droneToList.DroneStatuses != DroneStatuses.available)//Checks if the drone is available.
                     throw new NotImplementedException();
 
                 List<IDAL.DO.Parcel> parcels = dal.DisplaysIistOfparcels(i => i.Scheduled == DateTime.MinValue).ToList();
                 if (parcels.Count == 0)
                     throw new NotImplementedException();
 
-                bestParcel = AssignStep1(droneToList, parcels);
+                bestParcel = AssignStep1(droneToList, parcels);//Receives from auxiliary functions the most suitable package for delivery.
+
                 droneToLists[droneFind].DroneStatuses = DroneStatuses.busy;
                 droneToLists[droneFind].parcelNumber = bestParcel.Id;
 
@@ -197,7 +196,7 @@ namespace IBL.BO
 
         }
         /// <summary>
-        /// This function returns the list of relevant packages to the glider in terms of shekel and distance, in order of their urgency.
+        /// This function returns the list of relevant packages to the glider by examining the parameters of weight and distance, in order of urgency.
         /// </summary>
         /// <param name="droneToList"></param>
         /// <param name="parcels"></param>
@@ -211,10 +210,10 @@ namespace IBL.BO
                 List<IDAL.DO.Parcel> fast = new();
                 List<IDAL.DO.Parcel> normal = new();
 
-                foreach (IDAL.DO.Parcel item in parcels)
+            foreach (IDAL.DO.Parcel item in parcels)
+            {
+                if (item.weight <= (IDAL.DO.WeightCategories)droneToList.MaxWeight)//Feasibility study by weight parameter.
                 {
-                    if (item.weight <= (IDAL.DO.WeightCategories)droneToList.MaxWeight)
-                    {
 
                         IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(item.SenderId);
                         Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
@@ -222,52 +221,54 @@ namespace IBL.BO
                         IDAL.DO.Customer target = (IDAL.DO.Customer)dal.getCustomer(item.TargetId);
                         Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
 
-                        double weight = easy;
-                        switch (item.weight)
-                        {
-                            case IDAL.DO.WeightCategories.easy:
-                                weight = easy;
-                                break;
-                            case IDAL.DO.WeightCategories.medium:
-                                weight = medium;
-                                break;
-                            case IDAL.DO.WeightCategories.heavy:
-                                weight = Heavy;
-                                break;
-                            default:
-                                break;
-                        }
-                        double batteryToTheDelivery;
-                        batteryToTheDelivery = d.DistanceBetweenPlaces(droneToList.Location, sanderLocation) * available +
-                            (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight);
-                        if (droneToList.battery >= batteryToTheDelivery)
-                        {
-                            batteryToTheDelivery += (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
+                    double weight = easy;
+                    switch (item.weight)
+                    {
+                        case IDAL.DO.WeightCategories.easy:
+                            weight = easy;
+                            break;
+                        case IDAL.DO.WeightCategories.medium:
+                            weight = medium;
+                            break;
+                        case IDAL.DO.WeightCategories.heavy:
+                            weight = Heavy;
+                            break;
+                        default:
+                            break;
+                    }
+                    //The distance of delivery does not include return to the charging station.
+                    double batteryToTheDelivery;
+                    batteryToTheDelivery = d.DistanceBetweenPlaces(droneToList.Location, sanderLocation) * available +
+                        (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight);
+                    if (droneToList.battery >= batteryToTheDelivery)// Feasibility study according to distance parameter
+                    {
+                        //Add the distance to the station only for the remaining relevant packages.
+                        batteryToTheDelivery += (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
 
-                            if (droneToList.battery >= batteryToTheDelivery)
+                        if (droneToList.battery >= batteryToTheDelivery)//Feasibility study according to distance parameter
+                        {
+                            switch (item.priority)
                             {
-                                switch (item.priority)
-                                {
-                                    case IDAL.DO.Priorities.normal:
-                                        normal.Add(item);
-                                        break;
-                                    case IDAL.DO.Priorities.fast:
-                                        fast.Add(item);
-                                        break;
-                                    case IDAL.DO.Priorities.emergency:
-                                        emergency.Add(item);
-                                        break;
-                                    default:
-                                        break;
-                                }
-
+                                case IDAL.DO.Priorities.normal:
+                                    normal.Add(item);
+                                    break;
+                                case IDAL.DO.Priorities.fast:
+                                    fast.Add(item);
+                                    break;
+                                case IDAL.DO.Priorities.emergency:
+                                    emergency.Add(item);
+                                    break;
+                                default:
+                                    break;
                             }
+
                         }
                     }
-                    if (emergency.Count == 0 && fast.Count == 0 && normal.Count == 0)
-                        throw new ThereIsNoSuitablePackage("There is no suitable package for the drone");
                 }
-                return AssignStep2(droneToList, (emergency.Count > 0) ? emergency : (fast.Count > 0) ? fast : normal);
+                if (emergency.Count == 0 && fast.Count == 0 && normal.Count == 0)//If there are no packages left that meet the necessary parameters.
+                    throw new ThereIsNoSuitablePackage("There is no suitable package for the drone");
+            }
+            return AssignStep2(droneToList, (emergency.Count > 0) ? emergency : (fast.Count > 0) ? fast : normal);
 
             }
             catch (IDAL.DO.IdExistExeptions Ex)
@@ -379,9 +380,9 @@ namespace IBL.BO
                 droneToLists[index].battery -= d.DistanceBetweenPlaces(droneToLists[index].Location, sanderLocation) * available;
                 droneToLists[index].Location = sanderLocation;
 
-                dal.removeParcel(parcelsOfDrone.Id);
-                parcelsOfDrone.PickedUp = DateTime.Now;
-                dal.addParsel(parcelsOfDrone);
+            dal.removeParcel(parcelsOfDrone.Id);//Update by deleting an object in a previous configuration and readjusting after changes.
+            parcelsOfDrone.PickedUp = DateTime.Now;
+            dal.addParsel(parcelsOfDrone);
 
                 return true;
             }
@@ -433,10 +434,9 @@ namespace IBL.BO
                 droneToLists[index].DroneStatuses = DroneStatuses.available;
                 droneToLists[index].parcelNumber = 0;
 
-
-                dal.removeParcel(parcelsOfDrone.Id);
-                parcelsOfDrone.Delivered = DateTime.Now;
-                dal.addParsel(parcelsOfDrone);
+            dal.removeParcel(parcelsOfDrone.Id);
+            parcelsOfDrone.Delivered = DateTime.Now;
+            dal.addParsel(parcelsOfDrone);
 
                 return true;
             }
