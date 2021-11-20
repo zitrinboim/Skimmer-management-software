@@ -63,20 +63,28 @@ namespace IBL.BO
         /// <returns></returns>
         public bool addStation(Station station)//לזכור לעשות try catch 
         {
-            IDAL.DO.Station dalStation = new()
+            try
             {
-                Id = station.Id,
-                name = station.name,
-                freeChargeSlots = station.freeChargeSlots,
-                lattitude = station.location.latitude,
-                longitude = station.location.longitude
-            };
-            stations.Add(dalStation);
-            bool test = dal.addStation(dalStation);
-            if (test)
-                return true;
-            else
-                throw new NotImplementedException();//לבדוק  איזה חריגה לשים כאן.
+                IDAL.DO.Station dalStation = new()
+                {
+                    Id = station.Id,
+                    name = station.name,
+                    freeChargeSlots = station.freeChargeSlots,
+                    lattitude = station.location.latitude,
+                    longitude = station.location.longitude
+                };
+                stations.Add(dalStation);
+                bool test = dal.addStation(dalStation);
+                if (test)
+                    return true;
+                else
+                    throw new NotImplementedException();
+            }
+            catch (IDAL.DO.IdExistExeptions Ex)
+            {
+
+                throw new IdExistExeptions("ERORR", Ex);
+            }
         }
         /// <summary>
         /// This function updates the station data.
@@ -87,21 +95,34 @@ namespace IBL.BO
         /// <returns></returns>
         public bool updateStationData(int Idstation, string newName, int ChargingSlots)
         {
-            IDAL.DO.Station tempStation = (IDAL.DO.Station)dal.getStation(Idstation);//לבדוק לגבי ההמרה
-            dal.removeStation(Idstation);
-            if (newName != "X" && newName != "x")
-                tempStation.name = newName;
-            Station station = GetStation(Idstation);
-            if (ChargingSlots >= station.droneInCargeings.Count)
-                tempStation.freeChargeSlots = ChargingSlots - station.droneInCargeings.Count;
-            else
-                throw new NotImplementedException();
+            try
+            {
+                IDAL.DO.Station tempStation = (IDAL.DO.Station)dal.getStation(Idstation);//לבדוק לגבי ההמרה
+                dal.removeStation(Idstation);
+                if (newName != "X" && newName != "x")
+                    tempStation.name = newName;
+                Station station = GetStation(Idstation);
+                if (ChargingSlots >= station.droneInCargeings.Count)
+                    tempStation.freeChargeSlots = ChargingSlots - station.droneInCargeings.Count;
+                else
+                    throw new NotImplementedException();
 
-            bool test = dal.addStation(tempStation);//הנחתי שהבוליאניות היא רק לגבי ההוספה חזרה
-            if (test)
-                return true;
-            else
-                throw new NotImplementedException();
+                bool test = dal.addStation(tempStation);//הנחתי שהבוליאניות היא רק לגבי ההוספה חזרה
+                if (test)
+                    return true;
+                else
+                    throw new NotImplementedException();
+            }
+            catch (IDAL.DO.IdExistExeptions Ex)
+            {
+
+                throw new IdExistExeptions("ERORR", Ex);
+            }
+            catch (IDAL.DO.IdNotExistExeptions Ex)
+            {
+
+                throw new IdNotExistExeptions("ERORR", Ex);
+            }
         }
         /// <summary>
         /// This function returns the logical entity station.
@@ -110,30 +131,52 @@ namespace IBL.BO
         /// <returns></returns>
         public Station GetStation(int stationId)
         {
-            IDAL.DO.Station dalStation = (IDAL.DO.Station)dal.getStation(stationId);
-            if (dalStation.Id == 0)
-                throw new NotImplementedException();//////////////////////////////////////////////
-            Location location = new() { latitude = dalStation.lattitude, longitude = dalStation.longitude };
-            Station station = new() { Id = dalStation.Id, name = dalStation.name, freeChargeSlots = dalStation.freeChargeSlots, location = location };
-            foreach (DroneToList item in droneToLists)
+            try
             {
-                if (item.Location == station.location)
-                    station.droneInCargeings.Add(new() { Id = item.Id, battery = item.battery });
+                IDAL.DO.Station dalStation = (IDAL.DO.Station)dal.getStation(stationId);
+                if (dalStation.Id == 0)
+                    throw new NotImplementedException();//////////////////////////////////////////////
+                Location location = new() { latitude = dalStation.lattitude, longitude = dalStation.longitude };
+                Station station = new() { Id = dalStation.Id, name = dalStation.name, freeChargeSlots = dalStation.freeChargeSlots, location = location };
+                foreach (DroneToList item in droneToLists)
+                {
+                    if (item.Location == station.location)
+                        station.droneInCargeings.Add(new() { Id = item.Id, battery = item.battery });
+                }
+                return station;
+
             }
-            return station;
+            catch (IDAL.DO.IdExistExeptions Ex)
+            {
+
+                throw new IdExistExeptions("ERORR", Ex);
+            }
+            catch (IDAL.DO.IdNotExistExeptions Ex)
+            {
+
+                throw new IdNotExistExeptions("ERORR", Ex);
+            }
         }
         public StationToList GetStationToList(int stationId)
         {
-            Station station = GetStation(stationId);
-
-            StationToList stationToList = new()
+            try
             {
-                Id = station.Id,
-                name = station.name,
-                freeChargeSlots = station.freeChargeSlots,
-                busyChargeSlots = station.droneInCargeings.Count
-            };
-            return stationToList;
+                Station station = GetStation(stationId);
+
+                StationToList stationToList = new()
+                {
+                    Id = station.Id,
+                    name = station.name,
+                    freeChargeSlots = station.freeChargeSlots,
+                    busyChargeSlots = station.droneInCargeings.Count
+                };
+                return stationToList;
+            }
+            catch (IDAL.DO.IdNotExistExeptions Ex)
+            {
+
+                throw new IdNotExistExeptions("ERORR", Ex);
+            }
         }
         public IEnumerable<StationToList> DisplaysIistOfStations(Predicate<StationToList> p = null)
         {

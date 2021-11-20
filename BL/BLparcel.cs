@@ -18,87 +18,129 @@ namespace IBL.BO
         /// <returns></returns>
         public int addParsel(IDAL.DO.Parcel parcel)
         {
-            int addParcel = dal.addParsel(parcel);
+            try
+            {
+                int addParcel = dal.addParsel(parcel);
 
-            if (addParcel <= 0)
-                throw new NotImplementedException();
-            return addParcel;
+                if (addParcel <= 0)
+                    throw new NotImplementedException();
+                return addParcel;
+            }
+            catch (IDAL.DO.IdExistExeptions Ex)
+            {
+
+                throw new IdExistExeptions("ERORR", Ex);
+            }
         }
         public Parcel GetParcel(int parcelId)
         {
-            IDAL.DO.Parcel dalParcel = (IDAL.DO.Parcel)dal.getParcel(parcelId);
-
-            Parcel parcel = new()
+            try
             {
-                Id = dalParcel.Id,
-                weight = (WeightCategories)dalParcel.weight,
-                priority = (Priorities)dalParcel.priority,
-                Scheduled = dalParcel.Scheduled,
-                Requested = dalParcel.Requested,
-                PickedUp = dalParcel.PickedUp,
-                Delivered = dalParcel.Delivered
-            };
+                IDAL.DO.Parcel dalParcel = (IDAL.DO.Parcel)dal.getParcel(parcelId);
 
-            parcel.Sender = GetCustomerInParcel(dalParcel.SenderId);
-            parcel.Target = GetCustomerInParcel(dalParcel.TargetId);
-            if (dalParcel.DroneId != 0)
-                parcel.droneInParcel = GetDroneInParcel(dalParcel.DroneId);
+                Parcel parcel = new()
+                {
+                    Id = dalParcel.Id,
+                    weight = (WeightCategories)dalParcel.weight,
+                    priority = (Priorities)dalParcel.priority,
+                    Scheduled = dalParcel.Scheduled,
+                    Requested = dalParcel.Requested,
+                    PickedUp = dalParcel.PickedUp,
+                    Delivered = dalParcel.Delivered
+                };
 
-            return parcel;
+                parcel.Sender = GetCustomerInParcel(dalParcel.SenderId);
+                parcel.Target = GetCustomerInParcel(dalParcel.TargetId);
+                if (dalParcel.DroneId != 0)
+                    parcel.droneInParcel = GetDroneInParcel(dalParcel.DroneId);
+
+                return parcel;
+            }
+            catch (IDAL.DO.IdNotExistExeptions Ex)
+            {
+
+                throw new IdNotExistExeptions("ERORR", Ex);
+            }
         }
         public PackageInTransfer GetPackageInTransfer(int parcelId)
         {
-            IDAL.DO.Parcel parcel = (IDAL.DO.Parcel)dal.getParcel(parcelId);
-
-            if (parcel.Scheduled == DateTime.MinValue || parcel.Delivered != DateTime.MinValue)
-                throw new NotImplementedException();//כי אין חבילה כזו בהעברה.
-
-            IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(parcel.SenderId);
-            Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
-
-            IDAL.DO.Customer target = (IDAL.DO.Customer)dal.getCustomer(parcel.TargetId);
-            Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
-
-            PackageInTransfer packageInTransfer = new()
+            try
             {
-                Id = parcel.Id,
-                priority = (Priorities)parcel.priority,
-                weight = (WeightCategories)parcel.weight
-            };
+                IDAL.DO.Parcel parcel = (IDAL.DO.Parcel)dal.getParcel(parcelId);
 
-            if (parcel.PickedUp == DateTime.MinValue)
-                packageInTransfer.packageInTransferStatus = PackageInTransferStatus.awaitingCollection;
-            else
-                packageInTransfer.packageInTransferStatus = PackageInTransferStatus.OnTheWay;
+                if (parcel.Scheduled == DateTime.MinValue || parcel.Delivered != DateTime.MinValue)
+                    throw new NotImplementedException();//כי אין חבילה כזו בהעברה.
 
-            packageInTransfer.sander = GetCustomerInParcel(parcel.SenderId);
-            packageInTransfer.target = GetCustomerInParcel(parcel.TargetId);
+                IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(parcel.SenderId);
+                Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
-            packageInTransfer.targetPoint = targetLocation;
-            packageInTransfer.startingPoint = sanderLocation;
-            packageInTransfer.distance = d.DistanceBetweenPlaces(sanderLocation, targetLocation);
+                IDAL.DO.Customer target = (IDAL.DO.Customer)dal.getCustomer(parcel.TargetId);
+                Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
 
-            return packageInTransfer;
+                PackageInTransfer packageInTransfer = new()
+                {
+                    Id = parcel.Id,
+                    priority = (Priorities)parcel.priority,
+                    weight = (WeightCategories)parcel.weight
+                };
 
+                if (parcel.PickedUp == DateTime.MinValue)
+                    packageInTransfer.packageInTransferStatus = PackageInTransferStatus.awaitingCollection;
+                else
+                    packageInTransfer.packageInTransferStatus = PackageInTransferStatus.OnTheWay;
+
+                packageInTransfer.sander = GetCustomerInParcel(parcel.SenderId);
+                packageInTransfer.target = GetCustomerInParcel(parcel.TargetId);
+
+                packageInTransfer.targetPoint = targetLocation;
+                packageInTransfer.startingPoint = sanderLocation;
+                packageInTransfer.distance = d.DistanceBetweenPlaces(sanderLocation, targetLocation);
+
+                return packageInTransfer;
+
+            }
+            catch (IDAL.DO.IdExistExeptions Ex)
+            {
+
+                throw new IdExistExeptions("ERORR", Ex);
+            }
+            catch (IDAL.DO.IdNotExistExeptions Ex)
+            {
+
+                throw new IdNotExistExeptions("ERORR", Ex);
+            }
         }
         public ParcelInCustomer GetParcelInCustomer(int parcelId, int customerId)
         {
-            IDAL.DO.Parcel parcel = (IDAL.DO.Parcel)dal.getParcel(parcelId);
-
-            ParcelInCustomer parcelInCustomer = new()
+            try
             {
-                Id = parcel.Id,
-                weight = (WeightCategories)parcel.weight,
-                priority = (Priorities)parcel.priority,
+                IDAL.DO.Parcel parcel = (IDAL.DO.Parcel)dal.getParcel(parcelId);
 
-            };
-            parcelInCustomer.parcelStatus = (parcel.Scheduled == DateTime.MinValue) ? parcelStatus.defined :
-                (parcel.PickedUp == DateTime.MinValue) ? parcelStatus.associated :
-                (parcel.Delivered == DateTime.MinValue) ? parcelStatus.collected : parcelStatus.Provided;
+                ParcelInCustomer parcelInCustomer = new()
+                {
+                    Id = parcel.Id,
+                    weight = (WeightCategories)parcel.weight,
+                    priority = (Priorities)parcel.priority,
 
-            parcelInCustomer.CustomerInParcel = GetCustomerInParcel((parcel.SenderId == customerId) ? parcel.TargetId : parcel.SenderId);
+                };
+                parcelInCustomer.parcelStatus = (parcel.Scheduled == DateTime.MinValue) ? parcelStatus.defined :
+                    (parcel.PickedUp == DateTime.MinValue) ? parcelStatus.associated :
+                    (parcel.Delivered == DateTime.MinValue) ? parcelStatus.collected : parcelStatus.Provided;
 
-            return parcelInCustomer;
+                parcelInCustomer.CustomerInParcel = GetCustomerInParcel((parcel.SenderId == customerId) ? parcel.TargetId : parcel.SenderId);
+
+                return parcelInCustomer;
+            }
+            catch (IDAL.DO.IdExistExeptions Ex)
+            {
+
+                throw new IdExistExeptions("ERORR", Ex);
+            }
+            catch (IDAL.DO.IdNotExistExeptions Ex)
+            {
+
+                throw new IdNotExistExeptions("ERORR", Ex);
+            }
         }
         public ParcelToList GetParcelToList(int parcelId)
         {
