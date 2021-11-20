@@ -68,8 +68,8 @@ namespace IBL.BO
                 Id = station.Id,
                 name = station.name,
                 freeChargeSlots = station.freeChargeSlots,
-                lattitude = station.Location.latitude,
-                longitude = station.Location.longitude
+                lattitude = station.location.latitude,
+                longitude = station.location.longitude
             };
             bool test = dal.addStation(dalStation);
             if (test)
@@ -121,6 +121,19 @@ namespace IBL.BO
             }
 
             return station;
+        }
+        public StationToList GetStationToList(int stationId)
+        {
+            Station station = GetStation(stationId);
+
+            StationToList stationToList = new()
+            {
+                Id = station.Id,
+                name = station.name,
+                freeChargeSlots = station.freeChargeSlots,
+                busyChargeSlots = station.droneInCargeings.Count
+            };
+            return stationToList;
         }
     }
 }
