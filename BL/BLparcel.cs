@@ -110,12 +110,6 @@ namespace IBL.BO
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
-        /// <summary>
-        /// This function returns the logical entity ParcelToList.
-        /// </summary>
-        /// <param name="parcelId"></param>
-        /// <param name="customerId"></param>
-        /// <returns></returns>
         public ParcelInCustomer GetParcelInCustomer(int parcelId, int customerId)
         {
             try
@@ -148,11 +142,6 @@ namespace IBL.BO
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
-        /// <summary>
-        /// This function returns the logical entity ParcelToList.
-        /// </summary>
-        /// <param name="parcelId"></param>
-        /// <returns></returns>
         public ParcelToList GetParcelToList(int parcelId)
         {
             Parcel parcel = GetParcel(parcelId);

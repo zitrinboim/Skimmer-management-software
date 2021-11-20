@@ -119,5 +119,30 @@ namespace IBL.BO
         /// <param name="droneId"></param>
         /// <returns></returns>
         public DroneInParcel GetDroneInParcel(int droneId);
+        /// <summary>
+        /// This function returns the Parcel object
+        /// </summary>
+        /// <param name="parcelId"></param>
+        /// <returns></returns>
+        public Parcel GetParcel(int parcelId);
+        /// <summary>
+        /// This function returns the Package In Transfer object
+        /// </summary>
+        /// <param name="parcelId"></param>
+        /// <returns></returns>
+        public PackageInTransfer GetPackageInTransfer(int parcelId);
+        /// <summary>
+        /// This function returns the logical entity ParcelToList.
+        /// </summary>
+        /// <param name="parcelId"></param>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
+        public ParcelInCustomer GetParcelInCustomer(int parcelId, int customerId);
+        /// <summary>
+        /// This function returns the logical entity ParcelToList.
+        /// </summary>
+        /// <param name="parcelId"></param>
+        /// <returns></returns>
+        public ParcelToList GetParcelToList(int parcelId);
     }
 }
