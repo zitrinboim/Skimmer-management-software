@@ -47,7 +47,7 @@ namespace Dal
                 DataSource.drones.Add(drone);
                 return true;
             }
-            return false;
+                throw new IdExistExeptions("Sorry, i have already a drone with this id:" + drone.Id);
         }
         /// <summary>
         /// This function allows the user to add a customer to the list.
@@ -63,7 +63,7 @@ namespace Dal
                 DataSource.customers.Add(customer);
                 return true;
             }
-            return false;
+                throw new IdExistExeptions("Sorry, i have already a customer with this id:" + customer.Id);
         }
         /// <summary>
         ///This function allows the user to add a parcel to the list.
@@ -105,7 +105,7 @@ namespace Dal
                 return true;
             }
             else
-                return false;
+                throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
         /// <summary>
         /// This function performs an update on packet collection by drone.
@@ -125,26 +125,8 @@ namespace Dal
                 return true;
             }
             else
-                return false;
+                throw new IdNotExistExeptions("sorry, this Parcel is not found.");
         }
-        /// <summary>
-        /// this funcation makes the drone busy when the parcl Collection by drone.
-        /// </summary>
-        /// <param name="droneId"></param>
-        /// <returns></returns>
-        //public static bool makeBusyTheDrone(int droneId)
-        //{
-        //    Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
-        //    int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
-        //    if (droneFindIndex != -1)
-        //    {
-        //        droneFind.Status = DroneStatuses.busy;
-        //        DataSource.drones[droneFindIndex] = droneFind;
-        //        return true;
-        //    }
-        //    else
-        //        return false;
-        //}
         /// <summary>
         /// This function performs an update on delivering a package to the customer.
         /// </summary>
@@ -163,43 +145,8 @@ namespace Dal
                 return true;
             }
             else
-                return false;
+                throw new IdNotExistExeptions("sorry, this Parcel is not found.");
         }
-        /// <summary>
-        /// this funcation makes the drone available when the parcl delivered to the customer and more.
-        /// </summary>
-        /// <param name="droneId"></param>
-        /// <returns></returns>
-        //public static bool makeAvailableTheDrone(int droneId)
-        //{
-        //    Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
-        //    int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
-        //    if (droneFindIndex != -1)
-        //    {
-        //        droneFind.Status = DroneStatuses.available;
-        //        DataSource.drones[droneFindIndex] = droneFind;
-        //        return true;
-        //    }
-        //    return false;
-        //}
-        /// <summary>
-        /// this funcation makes the drone maintenance when the parcl Collection by drone.
-        /// </summary>
-        /// <param name="droneId"></param>
-        /// <returns></returns>
-        //public static bool makeMaintenanceTheDrone(int droneId)
-        //{
-        //    Drone droneFind = DataSource.drones.Find(Drone => Drone.Id == droneId);
-        //    int droneFindIndex = DataSource.drones.FindIndex(Drone => Drone.Id == droneId);
-        //    if (droneFindIndex != -1)
-        //    {
-        //        droneFind.Status = DroneStatuses.maintenance;
-        //        DataSource.drones[droneFindIndex] = droneFind;
-        //        return true;
-        //    }
-        //    else
-        //        return false;
-        //}
         /// <summary>
         /// This function remove object from list when drone release from charging .
         /// </summary>
@@ -214,7 +161,7 @@ namespace Dal
                 return true;
             }
             else
-                return false;
+                throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
         /// <summary>
         /// This function performs adding a charging slot to the station  
@@ -233,7 +180,7 @@ namespace Dal
                 return true;
             }
             else
-                return false;
+                throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
         /// <summary>
         /// This function performs reduction  carge slot to the station. 
@@ -253,7 +200,7 @@ namespace Dal
                 return true;
             }
             else
-                return false;
+                throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
         /// <summary>
         /// This function transmits the data of the requested station according to an identification number.
@@ -263,17 +210,17 @@ namespace Dal
         public Station? getStation(int Id)
         {
             Station? getStation = DataSource.stations.Find(Station => Station.Id == Id);
-            return getStation != null ? getStation : null;
+            return getStation != null ? getStation : throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
         public DroneCarge? getDroneCargeByStationId(int stationId)
         {
             DroneCarge? getDroneCarge = DataSource.droneCarges.Find(DroneCarge => DroneCarge.StationId == stationId);
-            return getDroneCarge != null ? getDroneCarge : null;
+            return getDroneCarge != null ? getDroneCarge : throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
         public DroneCarge? getDroneCargeByDroneId(int droneId)
         {
             DroneCarge? getDroneCarge = DataSource.droneCarges.Find(DroneCarge => DroneCarge.DroneID == droneId);
-            return getDroneCarge != null ? getDroneCarge : null;
+            return getDroneCarge != null ? getDroneCarge : throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
         /// <summary>
         /// This function transmits the requested drone data according to an identification number.
@@ -283,7 +230,7 @@ namespace Dal
         public Drone? getDrone(int Id)
         {
             Drone? getDrone = DataSource.drones.Find(Drone => Drone.Id == Id);
-            return getDrone != null ? getDrone : null;
+            return getDrone != null ? getDrone : throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
         /// <summary>
         /// This function transmits the requested customer data according to an identification number.
@@ -303,7 +250,7 @@ namespace Dal
         public Parcel? getParcel(int Id)
         {
             Parcel? getParcel = DataSource.parcels.Find(Parcel => Parcel.Id == Id);
-            return getParcel != null ? getParcel : null;
+            return getParcel != null ? getParcel : throw new IdNotExistExeptions("sorry, this Parcel is not found.");
         }
         /// <summary>
         /// This function transmits data of all existing stations.
@@ -354,7 +301,7 @@ namespace Dal
                 DataSource.drones.RemoveAt(find);
                 return true;
             }
-            return false;
+            throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
         public bool removeStation(int id)
         {
@@ -364,7 +311,7 @@ namespace Dal
                 DataSource.stations.RemoveAt(find);
                 return true;
             }
-            return false;
+            throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
         public bool removeCustomer(int id)
         {
@@ -374,7 +321,7 @@ namespace Dal
                 DataSource.customers.RemoveAt(find);
                 return true;
             }
-            return false;
+            throw new IdNotExistExeptions("sorry, this customer is not found.");
         }
         public bool removeParcel(int id)
         {
@@ -384,7 +331,7 @@ namespace Dal
                 DataSource.parcels.RemoveAt(find);
                 return true;
             }
-            return false;
+            throw new IdNotExistExeptions("sorry, this Parcel is not found.");
         }
     }
 }
