@@ -363,5 +363,9 @@ namespace IBL.BO
             };
             return droneInParcel;
         }
+        public IEnumerable<DroneToList> DisplaysIistOfDrons(Predicate<DroneToList> p = null)
+        {
+            return droneToLists.Where(d => p == null ? true : p(d)).ToList();
+        }
     }
 }

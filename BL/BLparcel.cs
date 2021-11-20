@@ -100,5 +100,34 @@ namespace IBL.BO
 
             return parcelInCustomer;
         }
+        public ParcelToList GetParcelToList(int parcelId)
+        {
+            Parcel parcel = GetParcel(parcelId);
+
+            ParcelToList parcelToList = new()
+            {
+                Id = parcel.Id,
+                priority = parcel.priority,
+                weight = parcel.weight,
+                sanderName = parcel.Sender.name,
+                targetName = parcel.Target.name
+            };
+            parcelToList.parcelStatus = (parcel.Scheduled == DateTime.MinValue) ? parcelStatus.defined :
+                (parcel.PickedUp == DateTime.MinValue) ? parcelStatus.associated :
+                (parcel.Delivered == DateTime.MinValue) ? parcelStatus.collected : parcelStatus.Provided;
+
+            return parcelToList;
+        }
+        public IEnumerable<ParcelToList> DisplaysIistOfparcels(Predicate<ParcelToList> p = null)
+        {
+            List<ParcelToList> parcelToLists = new();
+
+            List<IDAL.DO.Parcel> parcels = dal.DisplaysIistOfparcels().ToList();
+            foreach (IDAL.DO.Station item in stations)
+            {
+                parcelToLists.Add(GetParcelToList(item.Id));
+            }
+            return parcelToLists.Where(d => p == null ? true : p(d)).ToList();
+        }
     }
 }
