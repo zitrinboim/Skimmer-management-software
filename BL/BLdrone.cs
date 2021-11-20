@@ -84,7 +84,7 @@ namespace IBL.BO
             try
             {
                 DroneToList drone = droneToLists.Find(i => i.Id == IdDrone);
-                if (drone.DroneStatuses != DroneStatuses.available || drone.Id == 0)//לבדוק לגבי התקינות של הבדיקה עם null
+                if (drone.DroneStatuses != DroneStatuses.available || drone.Id == 0) 
                     throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
                 else
                 {
@@ -129,7 +129,7 @@ namespace IBL.BO
             try
             {
                 DroneToList drone = droneToLists.Find(i => i.Id == IdDrone);
-                if (drone.DroneStatuses != DroneStatuses.maintenance || drone == null)//לבדוק לגבי התקינות של הבדיקה עם null
+                if (drone.DroneStatuses != DroneStatuses.maintenance || drone.Id == 0)
                     throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
                 else
                 {
