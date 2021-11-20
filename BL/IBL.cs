@@ -11,10 +11,22 @@ namespace IBL.BO
     {
         bool addStation(Station station);
         bool addDrone(Drone drone, int idStation = 0);//לעדכן את המיקום של הרחפן להתחנה אם קיימת וכל הנגזר מזה
+        /// <summary>
+        /// This function allows the user to add a customer to the list.
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns></returns>
         bool addCustomer(Customer customer);
         int addParsel(IDAL.DO.Parcel parcel);
         bool updateModelOfDrone(String newName, int IdDrone);
         bool updateStationData(int Idstation, string newName, int ChargingSlots);
+        /// <summary>
+        /// This function updates the customer data.
+        /// </summary>
+        /// <param name="IdCustomer"></param>
+        /// <param name="newName"></param>
+        /// <param name="newPhone"></param>
+        /// <returns></returns>
         bool updateCustomerData(int IdCustomer, string newName,string newPhone);
         bool SendDroneForCharging(int IdDrone);
         bool ReleaseDroneFromCharging(int IdDrone, int time);
@@ -24,6 +36,8 @@ namespace IBL.BO
         IDAL.DO.Parcel AssignStep1(DroneToList droneToList, List<IDAL.DO.Parcel> parcels);
         IDAL.DO.Parcel AssignStep2(DroneToList droneToList, List<IDAL.DO.Parcel> parcels);
         public IDAL.DO.Parcel TheNearestParcelToAssign(DroneToList droneToList, List<IDAL.DO.Parcel> parcels);
+        public CustomerInParcel GetCustomerInParcel(int customerId);
+        public Customer GetCustomer(int customerId);
 
     }
 }
