@@ -41,8 +41,8 @@ namespace IBL.BO
 
             parcel.Sender = GetCustomerInParcel(dalParcel.SenderId);
             parcel.Target = GetCustomerInParcel(dalParcel.TargetId);
-
-            parcel.droneInParcel = GetDroneInParcel(dalParcel.DroneId);
+            if (dalParcel.DroneId != 0)
+                parcel.droneInParcel = GetDroneInParcel(dalParcel.DroneId);
 
             return parcel;
         }
