@@ -8,12 +8,7 @@ namespace IBL.BO
 {
     public partial class BL : IBL
     {
-        /// <summary>
-        /// This function allows the user to add a drone to the list.
-        /// </summary>
-        /// <param name="drone"></param>
-        /// <param name="idStation"></param>
-        /// <returns></returns>
+
         public bool addDrone(Drone drone, int idStation = 0)//לזכור לעשות try catch
         {
             IDAL.DO.Station station = (IDAL.DO.Station)dal.getStation(idStation);//לבדוק לגבי ההמרה
@@ -47,12 +42,6 @@ namespace IBL.BO
             });
             return true;
         }
-        /// <summary>
-        /// This function updates the drone model.
-        /// </summary>
-        /// <param name="newModel"></param>
-        /// <param name="IdDrone"></param>
-        /// <returns></returns>
         public bool updateModelOfDrone(string newModel, int IdDrone)
         {
             IDAL.DO.Drone tempDrone = (IDAL.DO.Drone)dal.getDrone(IdDrone);//לבדוק לגבי ההמרה
@@ -64,11 +53,6 @@ namespace IBL.BO
             else
                 throw new NotImplementedException();
         }
-        /// <summary>
-        /// This function sends a drone for charging.
-        /// </summary>
-        /// <param name="IdDrone"></param>
-        /// <returns></returns>
         public bool SendDroneForCharging(int IdDrone)
         {
             DroneToList drone = droneToLists.Find(i => i.Id == IdDrone);
@@ -101,12 +85,6 @@ namespace IBL.BO
             }
             throw new NotImplementedException();
         }
-        /// <summary>
-        /// This function releases a drone from a charger.
-        /// </summary>
-        /// <param name="IdDrone"></param>
-        /// <param name="time"></param>
-        /// <returns></returns>
         public bool ReleaseDroneFromCharging(int IdDrone, int time)
         {
 
@@ -126,11 +104,6 @@ namespace IBL.BO
             }
             throw new NotImplementedException();
         }
-        /// <summary>
-        /// This function assigns a package to the drone.(By three functions: AssignStep1, AssignStep2, and TheNearestParcelToAssign).
-        /// </summary>
-        /// <param name="IdDrone"></param>
-        /// <returns></returns>
         public bool AssignPackageToDrone(int IdDrone)
         {
             IDAL.DO.Parcel bestParcel;
@@ -287,11 +260,6 @@ namespace IBL.BO
             }
             return closeParcel;
         }
-        /// <summary>
-        /// This function performs an update on packet collection by drone.
-        /// </summary>
-        /// <param name="IdDrone"></param>
-        /// <returns></returns>
         public bool PackageCollectionByDrone(int IdDrone)
         {
             IDAL.DO.Parcel parcelsOfDrone = dal.DisplaysIistOfparcels(i => i.DroneId == IdDrone && i.PickedUp == DateTime.MinValue).First();
@@ -311,11 +279,6 @@ namespace IBL.BO
 
             return true;
         }
-        /// <summary>
-        /// This function performs an update on delivering a package to the customer.
-        /// </summary>
-        /// <param name="IdDrone"></param>
-        /// <returns></returns>
         public bool DeliveryPackageToCustomer(int IdDrone)
         {
             IDAL.DO.Parcel parcelsOfDrone = dal.DisplaysIistOfparcels(i => i.DroneId == IdDrone && i.PickedUp != DateTime.MinValue && i.Delivered == DateTime.MinValue).First();
