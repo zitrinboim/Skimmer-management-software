@@ -1,6 +1,5 @@
 ﻿using System;
 using IBL.BO;
-using BL;
 
 namespace ConsoleUI_BL
 {
@@ -10,7 +9,7 @@ namespace ConsoleUI_BL
 
         static void Main(string[] args)
         {
-            BL.BL BLProgram = new BL.BL();//להחליף לאובייקט של הממשק
+            IBL.BO.BL BLProgram = new IBL.BO.BL();
             int choice;
             Choices choices;
             do

@@ -170,7 +170,7 @@ namespace IBL.BO
             List<ParcelToList> parcelToLists = new();
 
             List<IDAL.DO.Parcel> parcels = dal.DisplaysIistOfparcels().ToList();
-            foreach (IDAL.DO.Station item in stations)
+            foreach (IDAL.DO.Parcel item in parcels)
             {
                 parcelToLists.Add(GetParcelToList(item.Id));
             }

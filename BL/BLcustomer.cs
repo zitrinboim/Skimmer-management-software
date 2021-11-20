@@ -87,7 +87,8 @@ namespace IBL.BO
                 List<IDAL.DO.Parcel> sanderParcels = dal.DisplaysIistOfparcels(i => i.SenderId == customerId).ToList();
                 foreach (IDAL.DO.Parcel item in sanderParcels)
                 {
-                    ParcelInCustomer parcelInCustomer = GetParcelInCustomer(item.Id, customerId);
+                    ParcelInCustomer parcelInCustomer = new();
+                    parcelInCustomer= GetParcelInCustomer(item.Id, customerId);
                     customer.fromCustomer.Add(parcelInCustomer);
                 }
 

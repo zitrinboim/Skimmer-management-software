@@ -44,15 +44,16 @@ namespace IBL.BO
                 stations = dal.DisplaysIistOfStations().ToList();
                 customers = dal.DisplaysIistOfCustomers().ToList();
                 drones = dal.DisplaysTheListOfDrons().ToList();
-                PackagesInDelivery = dal.DisplaysIistOfparcels(i => i.DroneId != 0).ToList();
-
-                for (int i = 0; i < drones.Count; i++)// לקחת פונ' מיהודה שור
+                PackagesInDelivery = dal.DisplaysIistOfparcels(i => i.Scheduled != DateTime.MinValue).ToList();
+                foreach (IDAL.DO.Drone item in drones)
                 {
-                    droneToLists[i].Id = drones[i].Id;
-                    droneToLists[i].Model = drones[i].Model;
-                    droneToLists[i].MaxWeight = (WeightCategories)drones[i].MaxWeight;
+                    droneToLists.Add(new()
+                    {
+                        Id = item.Id,
+                        Model = item.Model,
+                        MaxWeight = (WeightCategories)item.MaxWeight
+                    });
                 }
-
                 foreach (DroneToList drone in droneToLists)
                 {
                     int find = PackagesInDelivery.FindIndex(i => i.DroneId == drone.Id && i.Delivered == DateTime.MinValue);
@@ -88,11 +89,12 @@ namespace IBL.BO
                         drone.DroneStatuses = (DroneStatuses)random.Next(1, 3);
                         if (drone.DroneStatuses == (DroneStatuses)1)
                         {
-                            List<IDAL.DO.Parcel> droneParcels = PackagesInDelivery.FindAll(i => i.DroneId == drone.Id && i.Delivered != DateTime.MinValue);
+                            List<IDAL.DO.Parcel> droneParcels = PackagesInDelivery.FindAll(i => i.Delivered != DateTime.MinValue);
+
                             index = random.Next(0, droneParcels.Count);
                             IDAL.DO.Customer target = customers.Find(customer => customer.Id == droneParcels[index].TargetId);
-                            drone.Location.latitude = target.lattitude;
-                            drone.Location.longitude = target.longitude;
+                            Location location = new() { latitude = target.lattitude, longitude = target.longitude };
+                            drone.Location = location;
 
                             battryOfDelivery = d.DistanceBetweenPlaces(drone.Location, TheLocationForTheNearestStation(drone.Location, stations)) * available;
                             drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + battryOfDelivery;
@@ -100,8 +102,9 @@ namespace IBL.BO
                         else
                         {
                             index = random.Next(0, stations.Count);
-                            drone.Location.latitude = stations[index].lattitude;
-                            drone.Location.longitude = stations[index].longitude;
+                            Location location = new() { latitude = stations[index].lattitude, longitude = stations[index].longitude };
+                            drone.Location=location;
+  
                             drone.battery = random.NextDouble() * 20.0;
                         }
                     }
@@ -112,7 +115,7 @@ namespace IBL.BO
             catch (IDAL.DO.IdExistExeptions Ex)
             {
 
-                throw new IdExistExeptions("ERORR",Ex);
+                throw new IdExistExeptions("ERORR", Ex);
             }
             catch (IDAL.DO.IdNotExistExeptions Ex)
             {
