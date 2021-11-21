@@ -168,7 +168,6 @@ namespace ConsoleUI_BL
             int priority;
             int.TryParse(Console.ReadLine(), out priority);
             priorities = (Priorities)priority;
-            Console.WriteLine("In a few days you will want the shipment? ");
 
             IDAL.DO.Parcel parcel = new()
             {

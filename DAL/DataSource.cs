@@ -22,11 +22,11 @@ namespace Dal
         internal static class Config//Runner number for package IDs
         {
             internal static int ParcelIdRun = 1000;
-            internal static double available;
-            internal static double easy;
-            internal static double medium;
-            internal static double Heavy;
-            internal static double ChargingRate;
+            internal static double available=0.2;
+            internal static double easy=1.0;
+            internal static double medium=1.5;
+            internal static double Heavy=2.0;
+            internal static double ChargingRate=25.0;
         }
         /// <summary>
         /// Function for filling the lists with random values for checking the correctness of the data
