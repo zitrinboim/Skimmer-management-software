@@ -16,7 +16,7 @@ namespace IBL.BO
         public override string ToString()
         {
             return string.Format(base.ToString() + "phone {0}\tpackagesProvided {1}\t" +
-                "packagesNotYetDelivered {2}\treceivedPackages {3}\tPackagesOnTheWay {4}\n"
+                "packagesNotYetDelivered {2}\treceivedPackages {3}\tPackagesOnTheWay {4}\n\n"
                 , phone, packagesProvided, packagesNotYetDelivered, receivedPackages, PackagesOnTheWay);
         }
     }

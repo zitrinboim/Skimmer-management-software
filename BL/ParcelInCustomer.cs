@@ -12,7 +12,7 @@ namespace IBL.BO
         public CustomerInParcel CustomerInParcel { get; set; }
         public override string ToString()
         {
-            return string.Format(base.ToString() + "parcelStatus {0}\tCustomerInParcel {1}\t", parcelStatus, CustomerInParcel);
+            return string.Format(base.ToString() + "parcelStatus {0}\tCustomerInParcel {1}\n", parcelStatus, CustomerInParcel);
 
         }
     }
