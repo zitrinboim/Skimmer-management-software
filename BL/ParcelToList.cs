@@ -13,7 +13,7 @@ namespace IBL.BO
         public parcelStatus parcelStatus { get; set; }
         public override string ToString()
         {
-            return string.Format(base.ToString() + "sanderName {0} : targetName {1}", sanderName, targetName);
+            return string.Format(base.ToString() + "sanderName {0}\ttargetName {1}\n", sanderName, targetName);
         }
     }
 }

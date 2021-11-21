@@ -12,7 +12,7 @@ namespace IBL.BO
         public double battery { get; set; }
         public override string ToString()
         {
-            return string.Format("Id {0}: battery {1}: ", Id, battery);
+            return string.Format("Id {0}\tbattery {1}\t", Id, battery);
         }
     }
 }

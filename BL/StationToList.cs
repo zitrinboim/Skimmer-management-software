@@ -11,7 +11,7 @@ namespace IBL.BO
         public int busyChargeSlots { get; set; }
         public override string ToString()
         {
-            return string.Format(base.ToString() + "busyChargeSlots {0}: ", busyChargeSlots);
+            return string.Format(base.ToString() +"busyChargeSlots {0}\n", busyChargeSlots);
         }
     }
 }

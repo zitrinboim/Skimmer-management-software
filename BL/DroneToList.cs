@@ -11,7 +11,7 @@ namespace IBL.BO
         public int parcelNumber { get; set; }
         public override string ToString()
         {
-            return string.Format(base.ToString() + "parcelNumber {0}: \n", parcelNumber);
+            return string.Format(base.ToString() + "parcelNumber {0}\n", parcelNumber);
         }
     }
 }

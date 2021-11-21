@@ -13,7 +13,7 @@ namespace IBL
             public PackageInTransfer packageInTransfer { get; set; }
             public override string ToString()
             {
-                return string.Format(base.ToString() + "packageInTransfer {0}", packageInTransfer);
+                return string.Format(base.ToString() + "packageInTransfer {0}\n", packageInTransfer);
             }
         }
     }

@@ -14,7 +14,7 @@ namespace IBL.BO
         public DroneStatuses DroneStatuses { get; set; }
         public override string ToString()
         {
-            return string.Format(base.ToString() + "Model {0}: MaxWeight {1}: DroneStatuses {2}:", Model, MaxWeight, DroneStatuses);
+            return string.Format(base.ToString() + "Model {0}\tMaxWeight {1}\tDroneStatuses {2}\t", Model, MaxWeight, DroneStatuses);
         }
     }
 }

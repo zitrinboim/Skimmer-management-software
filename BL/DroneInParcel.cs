@@ -11,7 +11,7 @@ namespace IBL.BO
         public Location Location { get; set; }
         public override string ToString()
         {
-            return string.Format(base.ToString() + "Location {0}:", Location);
+            return string.Format(base.ToString() + "Location {0}\n", Location);
         }
 
     }

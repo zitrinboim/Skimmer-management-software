@@ -14,8 +14,7 @@ namespace IBL.BO
         public List<ParcelInCustomer> toCustomer;
         public override string ToString()
         {
-            return string.Format(base.ToString() +
-                "phone {0}: location-{1} ", phone, location +
+            return string.Format(base.ToString() + "phone {0}\tlocation {1}\n", phone, location +
                 string.Join(" ", fromCustomer) +
                 string.Join(" ", toCustomer));
         }

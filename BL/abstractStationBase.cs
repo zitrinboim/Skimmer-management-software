@@ -13,7 +13,7 @@ namespace IBL.BO
         public int freeChargeSlots { get; set; }
         public override string ToString()
         {
-            return string.Format("Station\nId {0}: name {1}: freeChargeSlots {2}: ", Id, name, freeChargeSlots);
+            return string.Format("Id {0}\tname {1}\tfreeChargeSlots {2}\t", Id, name, freeChargeSlots);
         }
     }
 }

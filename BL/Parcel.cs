@@ -17,8 +17,8 @@ namespace IBL.BO
         public DateTime Delivered { get; set; }
         public override string ToString()
         {
-            return string.Format(base.ToString() + " Sender {0} : Target {1} : droneInParcel {2} :" +
-                " Requested {3} : Scheduled {4} : PickedUp {5} : Delivered {6} :"
+            return string.Format(base.ToString() + "Sender {0}\tTarget {1}\tdroneInParcel {2}\t" +
+                "Requested {3}\tScheduled {4}\tPickedUp {5}\tDelivered {6}\n"
                 , Sender, Target, droneInParcel, Requested, Scheduled, PickedUp, Delivered);
         }
     }

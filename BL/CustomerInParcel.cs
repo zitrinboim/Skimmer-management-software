@@ -12,7 +12,7 @@ namespace IBL.BO
         public string name { get; set; }
         public override string ToString()
         {
-            return string.Format("Customer\n Id {0}: mane {1}: ", Id, name);
+            return string.Format("Id {0}\t mane {1}\t", Id, name);
         }
     }
 }
