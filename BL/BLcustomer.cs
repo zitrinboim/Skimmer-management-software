@@ -81,14 +81,16 @@ namespace IBL.BO
                     Id = dalCustomer.Id,
                     name = dalCustomer.name,
                     phone = dalCustomer.phone,
-                    location = new() { latitude = dalCustomer.lattitude, longitude = dalCustomer.longitude }
+                    location = new() { latitude = dalCustomer.lattitude, longitude = dalCustomer.longitude },
+                    fromCustomer = new(),
+                    toCustomer = new()
                 };
 
                 List<IDAL.DO.Parcel> sanderParcels = dal.DisplaysIistOfparcels(i => i.SenderId == customerId).ToList();
                 foreach (IDAL.DO.Parcel item in sanderParcels)
                 {
                     ParcelInCustomer parcelInCustomer = new();
-                    parcelInCustomer= GetParcelInCustomer(item.Id, customerId);
+                    parcelInCustomer = GetParcelInCustomer(item.Id, customerId);
                     customer.fromCustomer.Add(parcelInCustomer);
                 }
 
@@ -131,10 +133,10 @@ namespace IBL.BO
                 customerToList.PackagesOnTheWay = PackagesOnTheWay.Count;
 
                 List<ParcelInCustomer> packagesNotYetDelivered = customer.fromCustomer.FindAll(i => i.parcelStatus != parcelStatus.Provided);
-                customerToList.PackagesOnTheWay = packagesNotYetDelivered.Count;
+                customerToList.packagesNotYetDelivered = packagesNotYetDelivered.Count;
 
                 List<ParcelInCustomer> receivedPackages = customer.fromCustomer.FindAll(i => i.parcelStatus == parcelStatus.Provided);
-                customerToList.PackagesOnTheWay = receivedPackages.Count;
+                customerToList.receivedPackages = receivedPackages.Count;
 
                 return customerToList;
             }

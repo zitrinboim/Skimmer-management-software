@@ -137,12 +137,20 @@ namespace IBL.BO
                 IDAL.DO.Station dalStation = (IDAL.DO.Station)dal.getStation(stationId);
 
                 Location location = new() { latitude = dalStation.lattitude, longitude = dalStation.longitude };
-                Station station = new() { Id = dalStation.Id, name = dalStation.name, freeChargeSlots = dalStation.freeChargeSlots, location = location };
+                Station station = new()
+                {
+                    Id = dalStation.Id,
+                    name = dalStation.name,
+                    freeChargeSlots = dalStation.freeChargeSlots,
+                    location = location,
+                    droneInCargeings = new()
+                };
                 foreach (DroneToList item in droneToLists)
                 {
                     if (item.Location == station.location)
                         station.droneInCargeings.Add(new() { Id = item.Id, battery = item.battery });
                 }
+
                 return station;
 
             }
@@ -174,33 +182,33 @@ namespace IBL.BO
                     name = station.name,
                     freeChargeSlots = station.freeChargeSlots
                 };
-                if (station.droneInCargeings==null)
+                if (station.droneInCargeings == null)
                     stationToList.busyChargeSlots = 0;
                 else
                     stationToList.busyChargeSlots = station.droneInCargeings.Count;
-            return stationToList;
-        }
+                return stationToList;
+            }
             catch (IDAL.DO.IdNotExistExeptions Ex)
             {
                 throw new IdNotExistExeptions("ERORR", Ex);
-    }
-}
-/// <summary>
-/// Displays the list of all the drones.
-/// </summary>
-/// <param name="p"></param>
-/// <returns></returns>
-public IEnumerable<StationToList> DisplaysIistOfStations(Predicate<StationToList> p = null)
-{
-    List<StationToList> stationToLists = new();
+            }
+        }
+        /// <summary>
+        /// Displays the list of all the drones.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public IEnumerable<StationToList> DisplaysIistOfStations(Predicate<StationToList> p = null)
+        {
+            List<StationToList> stationToLists = new();
 
-    List<IDAL.DO.Station> stations = dal.DisplaysIistOfStations().ToList();
-    foreach (IDAL.DO.Station item in stations)
-    {
-        stationToLists.Add(GetStationToList(item.Id));
-    }
-    return stationToLists.Where(d => p == null ? true : p(d)).ToList();
-}
-       
+            List<IDAL.DO.Station> stations = dal.DisplaysIistOfStations().ToList();
+            foreach (IDAL.DO.Station item in stations)
+            {
+                stationToLists.Add(GetStationToList(item.Id));
+            }
+            return stationToLists.Where(d => p == null ? true : p(d)).ToList();
+        }
+
     }
 }

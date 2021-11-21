@@ -12,7 +12,7 @@ namespace IBL.BO
         public List<DroneInCargeing> droneInCargeings;
         public override string ToString()
         {
-            return string.Format(base.ToString() + "location {0}\n", location + string.Join(" ", droneInCargeings));
+            return string.Format(base.ToString() + "location {0}\t", location + "droneInCargeings\n"+ string.Join(" ", droneInCargeings));
         }
     }
 }

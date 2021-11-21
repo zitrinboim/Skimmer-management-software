@@ -134,7 +134,7 @@ namespace IBL.BO
                 else
                 {
                     int droneIndex = droneToLists.FindIndex(i => i.Id == IdDrone);
-                    drone.battery = time * ChargingRate;
+                    drone.battery += time * ChargingRate;
                     drone.DroneStatuses = DroneStatuses.available;
                     droneToLists[droneIndex] = drone;
 
