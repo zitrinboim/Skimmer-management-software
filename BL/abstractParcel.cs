@@ -14,7 +14,7 @@ namespace IBL.BO
         public Priorities priority { get; set; }
         public override string ToString()
         {
-            return string.Format("Id {0}\tweight {1}\tpriority{2}\t", Id, weight, priority);
+            return string.Format("Id {0}\tweight {1}\tpriority {2}\t", Id, weight, priority);
         }
     }
 
