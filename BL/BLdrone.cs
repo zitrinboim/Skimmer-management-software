@@ -14,7 +14,8 @@ namespace IBL.BO
             try
             {
                 IDAL.DO.Station station = (IDAL.DO.Station)dal.getStation(idStation);//לבדוק לגבי ההמרה
-                drone.Location.latitude = station.lattitude; drone.Location.longitude = station.longitude;
+                Location location = new() { latitude = station.lattitude, longitude = station.longitude };
+                drone.Location = location;
 
                 IDAL.DO.Drone dalDrone = new()
                 {
@@ -29,6 +30,8 @@ namespace IBL.BO
                 bool cargeTest = dal.reductionCargeSlotsToStation(idStation);//Reduces loading slot.
                 if (!cargeTest)
                     throw new NotImplementedException();
+
+
 
                 IDAL.DO.DroneCarge droneCarge = new() { DroneID = drone.Id, StationId = idStation };
                 dal.addDroneCarge(droneCarge);//Builds a drone entity by charging.

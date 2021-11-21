@@ -49,13 +49,13 @@ namespace ConsoleUI_BL
                     ReleasingDroneFromCharging();
                     break;
                 case enumUpdatingOptions.PACKAGE_ASSOCIATION:
-                    ReleasingDroneFromCharging();
+                    packageAssociation();
                     break;
                 case enumUpdatingOptions.PACKAGE_COLLECTION:
-                    ReleasingDroneFromCharging();
+                    packageCollection();
                     break;
                 case enumUpdatingOptions.PACKAGE_DELIVERY:
-                    ReleasingDroneFromCharging();
+                    packageDelivery();
                     break;
                 case enumUpdatingOptions.EXIT:
                     return;
@@ -154,7 +154,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// This function assigns a package to the drone.
         /// </summary>
-        public void PACKAGE_ASSOCIATION()
+        public void packageAssociation()
         {
             Console.WriteLine("enter ID number of the drone");
             int IdDrone;
@@ -169,7 +169,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// This function performs an update on packet collection by drone.
         /// </summary>
-        public void PACKAGE_COLLECTION()
+        public void packageCollection()
         {
             Console.WriteLine("enter ID number of the drone");
             int IdDrone;
@@ -185,7 +185,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// This function performs an update on delivering a package to the customer.
         /// </summary>
-        public void PACKAGE_DELIVERY()
+        public void packageDelivery()
         {
             Console.WriteLine("enter ID number of the drone");
             int IdDrone;

@@ -160,7 +160,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("enter target id ");
             int targetId;
             int.TryParse(Console.ReadLine(), out targetId);
-            Console.WriteLine("Enter the maximum weight for this drone, insert 1 for light weight, 2 for medium weight, 3 for heavy weight. ");
+            Console.WriteLine("Enter the maximum weight for this parcel, insert 1 for light weight, 2 for medium weight, 3 for heavy weight. ");
             int weight;
             int.TryParse(Console.ReadLine(), out weight);
             weightCategories = (WeightCategories)weight;

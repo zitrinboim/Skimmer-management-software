@@ -147,7 +147,7 @@ namespace IBL.BO
                 };
                 foreach (DroneToList item in droneToLists)
                 {
-                    if (item.Location == station.location)
+                    if (item.Location.latitude == station.location.latitude&& item.Location.longitude == station.location.longitude)
                         station.droneInCargeings.Add(new() { Id = item.Id, battery = item.battery });
                 }
 
