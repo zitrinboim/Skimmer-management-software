@@ -37,13 +37,13 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Customer tempCustomer = (IDAL.DO.Customer)dal.getCustomer(IdCustomer);//לבדוק לגבי ההמרה
+                IDAL.DO.Customer tempCustomer = dal.getCustomer(IdCustomer);
                 dal.removeCustomer(IdCustomer);
                 if (newName != "X" && newName != "x")
                     tempCustomer.name = newName;
                 if (newPhone != "X" && newPhone != "x")
                     tempCustomer.phone = newPhone;
-                bool test = dal.addCustomer(tempCustomer);//הנחתי שהבוליאניות היא רק לגבי ההוספה חזרה
+                bool test = dal.addCustomer(tempCustomer);
                 if (test)
                     return true;
                 else
@@ -60,7 +60,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Customer customer = (IDAL.DO.Customer)dal.getCustomer(customerId);
+                IDAL.DO.Customer customer = dal.getCustomer(customerId);
                 CustomerInParcel customerInParcel = new() { Id = customer.Id, name = customer.name };
                 return customerInParcel;
             }
@@ -74,7 +74,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Customer dalCustomer = (IDAL.DO.Customer)dal.getCustomer(customerId);
+                IDAL.DO.Customer dalCustomer =dal.getCustomer(customerId);
 
                 Customer customer = new()
                 {

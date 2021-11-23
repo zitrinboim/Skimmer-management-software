@@ -13,7 +13,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Station station = (IDAL.DO.Station)dal.getStation(idStation);//לבדוק לגבי ההמרה
+                IDAL.DO.Station station = dal.getStation(idStation);
                 Location location = new() { latitude = station.lattitude, longitude = station.longitude };
                 drone.Location = location;
 
@@ -62,7 +62,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Drone tempDrone = (IDAL.DO.Drone)dal.getDrone(IdDrone);//לבדוק לגבי ההמרה
+                IDAL.DO.Drone tempDrone = dal.getDrone(IdDrone);
                 dal.removeDrone(IdDrone);
                 tempDrone.Model = newModel;
                 bool test = dal.addDrone(tempDrone);//הנחתי שהבוליאניות היא רק לגבי ההוספה חזרה?
@@ -142,7 +142,7 @@ namespace IBL.BO
                     drone.DroneStatuses = DroneStatuses.available;
                     droneToLists[droneIndex] = drone;
 
-                    IDAL.DO.DroneCarge droneCarge = (IDAL.DO.DroneCarge)dal.getDroneCargeByDroneId(IdDrone);//לבדוק לגבי ההמרה
+                    IDAL.DO.DroneCarge droneCarge = dal.getDroneCargeByDroneId(IdDrone);
                     bool addingTest = dal.addingCargeSlotsToStation(droneCarge.StationId);
                     bool removeTest = dal.ReleaseDroneCarge(IdDrone);
                 }
@@ -164,7 +164,7 @@ namespace IBL.BO
             try
             {
                 IDAL.DO.Parcel bestParcel;
-                IDAL.DO.Drone drone = (IDAL.DO.Drone)dal.getDrone(IdDrone);
+                IDAL.DO.Drone drone =dal.getDrone(IdDrone);
 
                 DroneToList droneToList = droneToLists.Find(i => i.Id == IdDrone);
                 int droneFind = droneToLists.FindIndex(i => i.Id == IdDrone);
@@ -219,10 +219,10 @@ namespace IBL.BO
                     if (item.weight <= (IDAL.DO.WeightCategories)droneToList.MaxWeight)//Feasibility study by weight parameter.
                     {
 
-                        IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(item.SenderId);
+                        IDAL.DO.Customer sander = dal.getCustomer(item.SenderId);
                         Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
-                        IDAL.DO.Customer target = (IDAL.DO.Customer)dal.getCustomer(item.TargetId);
+                        IDAL.DO.Customer target = dal.getCustomer(item.TargetId);
                         Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
 
                         double weight = easy;
@@ -346,7 +346,7 @@ namespace IBL.BO
 
                 foreach (IDAL.DO.Parcel item in parcels)
                 {
-                    IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(item.SenderId);
+                    IDAL.DO.Customer sander = dal.getCustomer(item.SenderId);
                     Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
                     double distance1 = d.DistanceBetweenPlaces(droneToList.Location, sanderLocation);
@@ -377,7 +377,7 @@ namespace IBL.BO
                 if (parcelsOfDrone.DroneId != IdDrone)
                     throw new NotImplementedException();
 
-                IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(parcelsOfDrone.SenderId);
+                IDAL.DO.Customer sander = dal.getCustomer(parcelsOfDrone.SenderId);
                 Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
                 int index = droneToLists.FindIndex(i => i.Id == IdDrone);
@@ -409,10 +409,10 @@ namespace IBL.BO
                 if (parcelsOfDrone.DroneId != IdDrone)
                     throw new NotImplementedException();
 
-                IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(parcelsOfDrone.SenderId);
+                IDAL.DO.Customer sander = dal.getCustomer(parcelsOfDrone.SenderId);
                 Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
-                IDAL.DO.Customer target = (IDAL.DO.Customer)dal.getCustomer(parcelsOfDrone.TargetId);
+                IDAL.DO.Customer target = dal.getCustomer(parcelsOfDrone.TargetId);
                 Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
 
                 int index = droneToLists.FindIndex(i => i.Id == IdDrone);
@@ -459,9 +459,10 @@ namespace IBL.BO
         {
             try
             {
-                DroneToList droneToList = droneToLists.Find(i => i.Id == droneId);
-                if (droneToList.Id == 0)
-                    throw new NotImplementedException();
+                DroneToList droneToList = new();
+                droneToList = droneToLists.Find(i => i.Id == droneId);
+                if (droneToList ==default )
+                    throw new IdNotExistExeptions("error");
                 Drone drone = new()
                 {
                     Id = droneToList.Id,

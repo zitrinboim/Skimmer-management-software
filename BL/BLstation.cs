@@ -97,7 +97,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Station tempStation = (IDAL.DO.Station)dal.getStation(Idstation);
+                IDAL.DO.Station tempStation = dal.getStation(Idstation);
                 dal.removeStation(Idstation);
                 //Instructions for the user If there are no updates to insert an X, the test includes a mode of replacing a large X with a small one.
                 if (newName != "X" && newName != "x")
@@ -134,7 +134,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Station dalStation = (IDAL.DO.Station)dal.getStation(stationId);
+                IDAL.DO.Station dalStation = dal.getStation(stationId);
 
                 Location location = new() { latitude = dalStation.lattitude, longitude = dalStation.longitude };
                 Station station = new()
@@ -157,7 +157,7 @@ namespace IBL.BO
             catch (IDAL.DO.IdExistExeptions Ex)
             {
 
-                throw new IdExistExeptions("ERORR", Ex);
+                throw new IdExistExeptions("ERORR"+ Ex);
             }
             catch (IDAL.DO.IdNotExistExeptions Ex)
             {

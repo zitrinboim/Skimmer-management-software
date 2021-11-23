@@ -36,7 +36,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Parcel dalParcel = (IDAL.DO.Parcel)dal.getParcel(parcelId);
+                IDAL.DO.Parcel dalParcel = dal.getParcel(parcelId);
 
                 Parcel parcel = new()
                 {
@@ -66,15 +66,15 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Parcel parcel = (IDAL.DO.Parcel)dal.getParcel(parcelId);
+                IDAL.DO.Parcel parcel = dal.getParcel(parcelId);
 
                 if (parcel.Scheduled == DateTime.MinValue || parcel.Delivered != DateTime.MinValue)
                     throw new NotImplementedException();//כי אין חבילה כזו בהעברה.
 
-                IDAL.DO.Customer sander = (IDAL.DO.Customer)dal.getCustomer(parcel.SenderId);
+                IDAL.DO.Customer sander = dal.getCustomer(parcel.SenderId);
                 Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
-                IDAL.DO.Customer target = (IDAL.DO.Customer)dal.getCustomer(parcel.TargetId);
+                IDAL.DO.Customer target = dal.getCustomer(parcel.TargetId);
                 Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
 
                 PackageInTransfer packageInTransfer = new()
@@ -114,7 +114,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Parcel parcel = (IDAL.DO.Parcel)dal.getParcel(parcelId);
+                IDAL.DO.Parcel parcel =dal.getParcel(parcelId);
 
                 ParcelInCustomer parcelInCustomer = new()
                 {

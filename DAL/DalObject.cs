@@ -207,50 +207,50 @@ namespace Dal
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Station? getStation(int Id)
+        public Station getStation(int Id)
         {
-            Station? getStation = DataSource.stations.Find(Station => Station.Id == Id);
-            return getStation != null ? getStation : throw new IdNotExistExeptions("sorry, this Station is not found.");
+            Station getStation = DataSource.stations.Find(Station => Station.Id == Id);
+            return getStation.Id!=default ? getStation : throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
-        public DroneCarge? getDroneCargeByStationId(int stationId)
+        public DroneCarge getDroneCargeByStationId(int stationId)
         {
-            DroneCarge? getDroneCarge = DataSource.droneCarges.Find(DroneCarge => DroneCarge.StationId == stationId);
-            return getDroneCarge != null ? getDroneCarge : throw new IdNotExistExeptions("sorry, this Station is not found.");
+            DroneCarge getDroneCarge = DataSource.droneCarges.Find(DroneCarge => DroneCarge.StationId == stationId);
+            return getDroneCarge.StationId != default ? getDroneCarge : throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
-        public DroneCarge? getDroneCargeByDroneId(int droneId)
+        public DroneCarge getDroneCargeByDroneId(int droneId)
         {
-            DroneCarge? getDroneCarge = DataSource.droneCarges.Find(DroneCarge => DroneCarge.DroneID == droneId);
-            return getDroneCarge != null ? getDroneCarge : throw new IdNotExistExeptions("sorry, this Drone is not found.");
+            DroneCarge getDroneCarge = DataSource.droneCarges.Find(DroneCarge => DroneCarge.DroneID == droneId);
+            return getDroneCarge.StationId != default ? getDroneCarge : throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
         /// <summary>
         /// This function transmits the requested drone data according to an identification number.
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Drone? getDrone(int Id)
+        public Drone getDrone(int Id)
         {
-            Drone? getDrone = DataSource.drones.Find(Drone => Drone.Id == Id);
-            return getDrone != null ? getDrone : throw new IdNotExistExeptions("sorry, this Drone is not found.");
+            Drone getDrone = DataSource.drones.Find(Drone => Drone.Id == Id);
+            return getDrone.Id != default ? getDrone : throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
         /// <summary>
         /// This function transmits the requested customer data according to an identification number.
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Customer? getCustomer(int Id)
+        public Customer getCustomer(int Id)
         {
-            Customer? getCustomer = DataSource.customers.Find(Customer => Customer.Id == Id);
-            return getCustomer != null ? getCustomer : throw new IdNotExistExeptions("sorry, this customer is not found.");
+            Customer getCustomer = DataSource.customers.Find(Customer => Customer.Id == Id);
+            return getCustomer.Id != default ? getCustomer : throw new IdNotExistExeptions("sorry, this customer is not found.");
         }
         /// <summary>
         /// This function transmits the requested parcel data according to an identification number.
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Parcel? getParcel(int Id)
+        public Parcel getParcel(int Id)
         {
-            Parcel? getParcel = DataSource.parcels.Find(Parcel => Parcel.Id == Id);
-            return getParcel != null ? getParcel : throw new IdNotExistExeptions("sorry, this Parcel is not found.");
+            Parcel getParcel = DataSource.parcels.Find(Parcel => Parcel.Id == Id);
+            return getParcel.Id != default ? getParcel : throw new IdNotExistExeptions("sorry, this Parcel is not found.");
         }
         /// <summary>
         /// This function transmits data of all existing stations.

@@ -69,7 +69,7 @@ namespace ConsoleUI
             Console.WriteLine("enter ID number of the ststion");
             int IdStation;
             int.TryParse(Console.ReadLine(), out IdStation);
-            Station station = (Station)dalProgram.getStation(IdStation);
+            Station station = dalProgram.getStation(IdStation);
             if (station.Id == 0)
                 Console.WriteLine("There is no station with this ID number");
             else
@@ -85,7 +85,7 @@ namespace ConsoleUI
             Console.WriteLine("enter ID number of the drone");
             int IdDrone;
             int.TryParse(Console.ReadLine(), out IdDrone);
-            Drone drone = (Drone)dalProgram.getDrone(IdDrone);
+            Drone drone =dalProgram.getDrone(IdDrone);
             if (drone.Id == 0)
                 Console.WriteLine("There is no station with this ID number");
             else
@@ -99,7 +99,7 @@ namespace ConsoleUI
             Console.WriteLine("enter ID number of the customer");
             int IdCustomer;
             int.TryParse(Console.ReadLine(), out IdCustomer);
-            Customer customer = (Customer)dalProgram.getCustomer(IdCustomer);
+            Customer customer = dalProgram.getCustomer(IdCustomer);
             if (customer.Id == 0)
                 Console.WriteLine("There is no station with this ID number");
             else
@@ -118,7 +118,7 @@ namespace ConsoleUI
             Console.WriteLine("enter ID number of the parcel");
             int IdParcel;
             int.TryParse(Console.ReadLine(), out IdParcel);
-            Parcel parcel = (Parcel)dalProgram.getParcel(IdParcel);
+            Parcel parcel = dalProgram.getParcel(IdParcel);
             if (parcel.Id == 0)
                 Console.WriteLine("There is no station with this ID number");
             else
