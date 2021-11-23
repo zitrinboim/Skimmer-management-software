@@ -73,17 +73,15 @@ namespace IBL.BO
                     lattitude = station.location.latitude,
                     longitude = station.location.longitude
                 };
+
                 stations.Add(dalStation);
                 bool test = dal.addStation(dalStation);
-                if (test)
-                    return true;
-                else
-                    throw new NotImplementedException();
+                return test ? true : false;
             }
             catch (IDAL.DO.IdExistExeptions Ex)
             {
 
-                throw new IdExistExeptions("ERORR", Ex);
+                throw new IdExistExeptions("ERORR" + Ex);
             }
         }
         /// <summary>
@@ -98,7 +96,6 @@ namespace IBL.BO
             try
             {
                 IDAL.DO.Station tempStation = dal.getStation(Idstation);
-                dal.removeStation(Idstation);
                 //Instructions for the user If there are no updates to insert an X, the test includes a mode of replacing a large X with a small one.
                 if (newName != "X" && newName != "x")
                     tempStation.name = newName;
@@ -106,23 +103,18 @@ namespace IBL.BO
                 if (ChargingSlots >= station.droneInCargeings.Count)
                     tempStation.freeChargeSlots = ChargingSlots - station.droneInCargeings.Count;
                 else
-                    throw new NotImplementedException();
-
+                    throw new invalidValueForChargeSlots("");
+                dal.removeStation(Idstation);
                 bool test = dal.addStation(tempStation);//הנחתי שהבוליאניות היא רק לגבי ההוספה חזרה
-                if (test)
-                    return true;
-                else
-                    throw new NotImplementedException();
+                return test ? true : false;
             }
             catch (IDAL.DO.IdExistExeptions Ex)
             {
-
-                throw new IdExistExeptions("ERORR", Ex);
+                throw new IdExistExeptions("ERORR" + Ex);
             }
             catch (IDAL.DO.IdNotExistExeptions Ex)
             {
-
-                throw new IdNotExistExeptions("ERORR", Ex);
+                throw new IdNotExistExeptions("ERORR" + Ex);
             }
         }
         /// <summary>
@@ -147,22 +139,17 @@ namespace IBL.BO
                 };
                 foreach (DroneToList item in droneToLists)
                 {
-                    if (item.Location.latitude == station.location.latitude&& item.Location.longitude == station.location.longitude)
+                    if (item.Location.latitude == station.location.latitude && item.Location.longitude == station.location.longitude)
                         station.droneInCargeings.Add(new() { Id = item.Id, battery = item.battery });
                 }
 
                 return station;
 
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
-            {
-
-                throw new IdExistExeptions("ERORR"+ Ex);
-            }
             catch (IDAL.DO.IdNotExistExeptions Ex)
             {
 
-                throw new IdNotExistExeptions("ERORR", Ex);
+                throw new IdNotExistExeptions("ERORR\n" + Ex);
             }
         }
         /// <summary>
@@ -200,15 +187,21 @@ namespace IBL.BO
         /// <returns></returns>
         public IEnumerable<StationToList> DisplaysIistOfStations(Predicate<StationToList> p = null)
         {
-            List<StationToList> stationToLists = new();
-
-            List<IDAL.DO.Station> stations = dal.DisplaysIistOfStations().ToList();
-            foreach (IDAL.DO.Station item in stations)
+            try
             {
-                stationToLists.Add(GetStationToList(item.Id));
-            }
-            return stationToLists.Where(d => p == null ? true : p(d)).ToList();
-        }
+                List<StationToList> stationToLists = new();
 
+                List<IDAL.DO.Station> stations = dal.DisplaysIistOfStations().ToList();
+                foreach (IDAL.DO.Station item in stations)
+                {
+                    stationToLists.Add(GetStationToList(item.Id));
+                }
+                return stationToLists.Where(d => p == null ? true : p(d)).ToList();
+            }
+            catch (IDAL.DO.IdNotExistExeptions Ex)
+            {
+                throw new IdNotExistExeptions("ERORR", Ex);
+            }
+        }
     }
 }

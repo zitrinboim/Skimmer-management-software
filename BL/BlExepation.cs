@@ -23,5 +23,8 @@ namespace IBL.BO
         public ThereIsNoSuitablePackage(string messge, Exception innerExeption) : base(messge) { }
         public ThereIsNoSuitablePackage(string messge) : base(messge) { }
     }
-
+    public class invalidValueForChargeSlots : Exception
+    {
+        public invalidValueForChargeSlots(string messge) : base(messge) { }
+    }
 }

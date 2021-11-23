@@ -6,15 +6,18 @@ using System.Threading.Tasks;
 
 namespace ConsoleUI_BL
 {
-   public class Updating
+    public class Updating
     {
         IBL.BO.BL BLProgram;
         public Updating(IBL.BO.BL _bLProgram)
         {
             BLProgram = _bLProgram;
         }
-        public enum enumUpdatingOptions { EXIT = 0, UPDATE_NAME_OF_DRONE,STATION_DATA, CUSTOMER_DATA, 
-            CARGING_DRONE, RELEASE_DRONE, PACKAGE_ASSOCIATION,PACKAGE_COLLECTION,PACKAGE_DELIVERY };
+        public enum enumUpdatingOptions
+        {
+            EXIT = 0, UPDATE_NAME_OF_DRONE, STATION_DATA, CUSTOMER_DATA,
+            CARGING_DRONE, RELEASE_DRONE, PACKAGE_ASSOCIATION, PACKAGE_COLLECTION, PACKAGE_DELIVERY
+        };
         public void UpdatingOptions()
         {
             Console.WriteLine("enter 1 to  update aname of drone");
@@ -37,7 +40,7 @@ namespace ConsoleUI_BL
                     UpdateModelTheDrone();
                     break;
                 case enumUpdatingOptions.STATION_DATA:
-                    updatingStationData(); 
+                    updatingStationData();
                     break;
                 case enumUpdatingOptions.CUSTOMER_DATA:
                     updatingcustomerData();
@@ -85,19 +88,34 @@ namespace ConsoleUI_BL
         /// </summary>
         public void updatingStationData()
         {
-            Console.WriteLine("Enter the ID of a station you would like to update");
-            int Idstation;
-            int.TryParse(Console.ReadLine(), out Idstation);
-            Console.WriteLine("Enter a new name for the station, if you do not want to update Enter X");
-            string newName = Console.ReadLine();
-            Console.WriteLine("Update the total amount of charging stations, if you do not want to update Enter -1");
-            int ChargingSlots;
-            int.TryParse(Console.ReadLine(), out ChargingSlots);
-            bool testParcel = BLProgram.updateStationData(Idstation, newName, ChargingSlots);
-            if (testParcel)
-                Console.WriteLine("the station data has been updated successfully");
-            else
-                Console.WriteLine("ERROR");
+            try
+            {
+                Console.WriteLine("Enter the ID of a station you would like to update");
+                int Idstation;
+                int.TryParse(Console.ReadLine(), out Idstation);
+                Console.WriteLine("Enter a new name for the station, if you do not want to update Enter X");
+                string newName = Console.ReadLine();
+                Console.WriteLine("Update the total amount of charging stations, if you do not want to update Enter -1");
+                int ChargingSlots;
+                int.TryParse(Console.ReadLine(), out ChargingSlots);
+                bool testParcel = BLProgram.updateStationData(Idstation, newName, ChargingSlots);
+                if (testParcel)
+                    Console.WriteLine("the station data has been updated successfully");
+                else
+                    Console.WriteLine("ERROR");
+            }
+            catch (IBL.BO.invalidValueForChargeSlots a)
+            {
+                Console.WriteLine(a);
+            }
+            catch (IBL.BO.IdExistExeptions a)
+            {
+                Console.WriteLine(a);
+            }
+            catch (IBL.BO.IdNotExistExeptions a)
+            {
+                Console.WriteLine(a);
+            }
         }
         /// <summary>
         /// This function performs an update on delivering a package to the customer.
@@ -111,7 +129,7 @@ namespace ConsoleUI_BL
             string newName = Console.ReadLine();
             Console.WriteLine("Enter a new phone number for the customer, if you do not want to update Enter X");
             string newPhone = Console.ReadLine();
-            bool testCustomer = BLProgram.updateCustomerData(IdCustomer,newName,newPhone);
+            bool testCustomer = BLProgram.updateCustomerData(IdCustomer, newName, newPhone);
             if (testCustomer)
                 Console.WriteLine("the transaction completed successfully");
             else
@@ -125,7 +143,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("enter ID number of the drone");
             int IdDrone;
             int.TryParse(Console.ReadLine(), out IdDrone);
-            
+
             bool testStation = BLProgram.SendDroneForCharging(IdDrone);
 
             if (testStation)
@@ -145,8 +163,8 @@ namespace ConsoleUI_BL
             int time;
             int.TryParse(Console.ReadLine(), out time);
 
-            bool test = BLProgram. ReleaseDroneFromCharging(IdDrone, time);
-            if (test )
+            bool test = BLProgram.ReleaseDroneFromCharging(IdDrone, time);
+            if (test)
                 Console.WriteLine("the transaction completed successfully");
             else
                 Console.WriteLine("ERROR");
@@ -160,7 +178,7 @@ namespace ConsoleUI_BL
             int IdDrone;
             int.TryParse(Console.ReadLine(), out IdDrone);
 
-            bool test = BLProgram.AssignPackageToDrone( IdDrone);
+            bool test = BLProgram.AssignPackageToDrone(IdDrone);
             if (test)
                 Console.WriteLine("the transaction completed successfully");
             else

@@ -22,15 +22,12 @@ namespace IBL.BO
                     longitude = customer.location.longitude
                 };
                 bool test = dal.addCustomer(dalCustomer);
-                if (test)
-                    return true;
-                else
-                    throw new NotImplementedException();
+                return test ? true : false;
             }
             catch (IDAL.DO.IdExistExeptions Ex)
             {
 
-                throw new IdExistExeptions("ERORR", Ex);
+                throw new IdExistExeptions("ERORR" + Ex);
             }
         }
         public bool updateCustomerData(int IdCustomer, string newName, string newPhone)
@@ -38,21 +35,17 @@ namespace IBL.BO
             try
             {
                 IDAL.DO.Customer tempCustomer = dal.getCustomer(IdCustomer);
-                dal.removeCustomer(IdCustomer);
                 if (newName != "X" && newName != "x")
                     tempCustomer.name = newName;
                 if (newPhone != "X" && newPhone != "x")
                     tempCustomer.phone = newPhone;
                 bool test = dal.addCustomer(tempCustomer);
-                if (test)
-                    return true;
-                else
-                    throw new NotImplementedException();
+                dal.removeCustomer(IdCustomer);
+                return test ? true : false;
             }
             catch (IDAL.DO.IdExistExeptions Ex)
             {
-
-                throw new IdExistExeptions("ERORR", Ex);
+                throw new IdExistExeptions("ERORR" + Ex);
             }
         }
 
@@ -66,7 +59,7 @@ namespace IBL.BO
             }
             catch (IDAL.DO.IdNotExistExeptions ex)
             {
-                throw new IdNotExistExeptions("Error: ", ex);
+                throw new IdNotExistExeptions("Error: " + ex);
             }
 
         }
@@ -97,20 +90,15 @@ namespace IBL.BO
                 List<IDAL.DO.Parcel> targetParcels = dal.DisplaysIistOfparcels(i => i.TargetId == customerId).ToList();
                 foreach (IDAL.DO.Parcel item in targetParcels)
                 {
-                    ParcelInCustomer parcelInCustomer = GetParcelInCustomer(item.Id, customerId);
+                    ParcelInCustomer parcelInCustomer = new();
+                    parcelInCustomer = GetParcelInCustomer(item.Id, customerId);
                     customer.toCustomer.Add(parcelInCustomer);
                 }
                 return customer;
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
-            {
-
-                throw new IdExistExeptions("ERORR", Ex);
-            }
             catch (IDAL.DO.IdNotExistExeptions Ex)
             {
-
-                throw new IdNotExistExeptions("ERORR", Ex);
+                throw new IdNotExistExeptions("ERORR" + Ex);
             }
         }
         public CustomerToList GetCustomerToList(int customerID)
@@ -140,15 +128,9 @@ namespace IBL.BO
 
                 return customerToList;
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
-            {
-
-                throw new IdExistExeptions("ERORR", Ex);
-            }
             catch (IDAL.DO.IdNotExistExeptions Ex)
             {
-
-                throw new IdNotExistExeptions("ERORR", Ex);
+                throw new IdNotExistExeptions("ERORR" + Ex);
             }
         }
         public IEnumerable<CustomerToList> DisplaysIistOfCustomers(Predicate<CustomerToList> p = null)
@@ -163,17 +145,10 @@ namespace IBL.BO
                     customerToLists.Add(GetCustomerToList(item.Id));
                 }
                 return customerToLists.Where(d => p == null ? true : p(d)).ToList();
-
-            }
-            catch (IDAL.DO.IdExistExeptions Ex)
-            {
-
-                throw new IdExistExeptions("ERORR", Ex);
-            }
+            } 
             catch (IDAL.DO.IdNotExistExeptions Ex)
             {
-
-                throw new IdNotExistExeptions("ERORR", Ex);
+                throw new IdNotExistExeptions("ERORR" + Ex);
             }
         }
     }
