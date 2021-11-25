@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DroneListWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="DroneListWindow" Height="640" Width="800">
+
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="400*"/>
+        </Grid.RowDefinitions>
+        <ComboBox Name="StatusSelector" Margin="356,229,82,285" Grid.Row="1" Grid.Column="1"/>
+        <TextBox HorizontalAlignment="Left" Margin="382,29,0,0" Grid.Row="0" Grid.Column="0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <ListView x:Name="DroneListView" Margin="187,30,100,415" Grid.Row="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
