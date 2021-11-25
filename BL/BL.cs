@@ -104,7 +104,7 @@ namespace IBL.BO
                             index = random.Next(0, stations.Count);
                             Location location = new() { latitude = stations[index].lattitude, longitude = stations[index].longitude };
                             drone.Location=location;
-  
+   
                             drone.battery = random.NextDouble() * 20.0;
                         }
                     }
