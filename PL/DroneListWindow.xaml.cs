@@ -19,9 +19,25 @@ namespace PL
     /// </summary>
     public partial class DroneListWindow : Window
     {
-        public DroneListWindow()
+       private IBL.BO.BL blGui;
+
+        public DroneListWindow(IBL.BO.BL bL)
         {
+            blGui = bL;
             InitializeComponent();
+            DroneListView.ItemsSource = blGui.DisplaysIistOfDrons();
+            StatusSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.DroneStatuses));
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+        }
+
+        private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DroneListView.ItemsSource = blGui.DisplaysIistOfDrons(i =>i.DroneStatuses == (IBL.BO.DroneStatuses)StatusSelector.SelectedItem);
+        }
+
+        private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DroneListView.ItemsSource = blGui.DisplaysIistOfDrons(i => i.MaxWeight == (IBL.BO.WeightCategories)WeightSelector.SelectedItem);
         }
     }
 }

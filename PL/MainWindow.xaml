@@ -7,6 +7,23 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid Name="MainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="400*"/>
+            </Grid.RowDefinitions>
+            <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
+VerticalAlignment="Stretch" Width="auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions >
+            </Grid>
+            <Button Content="Button" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Center"
+                    Click="Button_Click" />
+        </Grid>
 
     </Grid>
 </Window>
