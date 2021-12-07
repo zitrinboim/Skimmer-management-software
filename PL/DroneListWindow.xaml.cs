@@ -90,7 +90,7 @@ namespace PL
         {
             DroneToList droneToList = (DroneToList)DroneListView.SelectedItem;
             int index = DroneListView.SelectedIndex;
-            new DroneWindow(droneToList, blGui,this,index).Show();
+            new DroneWindow(droneToList, blGui, this, index).Show();
         }
     }
 }

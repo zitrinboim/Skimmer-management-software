@@ -25,9 +25,20 @@
                 <Button Content="AddDrone" Grid.Column="3" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Click="Button_Click"/>
             </Grid>
             <ListView x:Name="DroneListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFFFF6F6" SelectionChanged="DroneListView_SelectionChanged"  >
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter  Property="HorizontalContentAlignment" Value="Center">
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn  />
+                        <GridViewColumn Header="מספר מזהה" Width="110" DisplayMemberBinding="{Binding Id}"/>
+                        <GridViewColumn Header="מצב סוללה" Width="150" DisplayMemberBinding="{Binding battery}"/>
+                        <GridViewColumn Header="מיקום" Width="220" DisplayMemberBinding="{Binding Location}"/>
+                        <GridViewColumn Header="דגם" Width="110" DisplayMemberBinding="{Binding Model}"/>
+                        <GridViewColumn Header="משקל" Width="110" DisplayMemberBinding="{Binding MaxWeight}"/>
+                        <GridViewColumn Header="Statuses" Width="110" DisplayMemberBinding="{Binding DroneStatuses}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

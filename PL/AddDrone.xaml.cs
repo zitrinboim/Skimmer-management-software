@@ -18,15 +18,16 @@ namespace PL
     /// <summary>
     /// Interaction logic for AddDrone.xaml
     /// </summary>
-   
+
     public partial class DroneWindow : Window
     {
-      //  public enum WeightCategories { All, easy, medium, heavy };
+        //  public enum WeightCategories { All, easy, medium, heavy };
 
         IBL.BO.BL BLGui;
         private DroneToList droneToList;
         private DroneListWindow droneListWindow;
         private Drone drone;
+        private int idStation;
 
         public DroneWindow(BL bL, DroneListWindow _droneListWindow)
         {
@@ -34,18 +35,15 @@ namespace PL
             droneListWindow = _droneListWindow;
             BLGui = bL;
             drone = new();
-            DataContext = this;
+            DataContext = drone;
 
-            WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
-            WeightSelector.SelectedIndex = 0;
-           
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+            WeightSelector.SelectedIndex = -1;
+
             stations.ItemsSource = BLGui.DisplaysIistOfStations();
-
-            
-          
         }
 
-        public DroneWindow(DroneToList droneToList, BL bL, DroneListWindow _droneListWindow,   int index)
+        public DroneWindow(DroneToList droneToList, BL bL, DroneListWindow _droneListWindow, int index)
         {
             droneListWindow = _droneListWindow;
             this.droneToList = droneToList;
@@ -53,19 +51,51 @@ namespace PL
             InitializeComponent();
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
         private void stations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            StationToList station = (StationToList)stations.SelectedItem;
+            idStation = station.Id;
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            BLGui.addDrone(drone);
+
+            MessageBoxResult messageBoxResult = MessageBox.Show("hhhh", "gggg", MessageBoxButton.OK);
+            switch (messageBoxResult)
+            {
+                case MessageBoxResult.None:
+                    break;
+                case MessageBoxResult.OK:
+                    BLGui.addDrone(drone, idStation);
+                    droneListWindow.droneToListsView.Add(BLGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
+                    MessageBoxResult messageBoxResult1 = MessageBox.Show("hhhh", "gggg", MessageBoxButton.OK);
+
+                    switch (messageBoxResult1)
+                    {
+                        case MessageBoxResult.None:
+                            break;
+                        case MessageBoxResult.OK:
+                            Close();
+                            break;
+                        case MessageBoxResult.Cancel:
+                            break;
+                        case MessageBoxResult.Yes:
+                            break;
+                        case MessageBoxResult.No:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+                case MessageBoxResult.Yes:
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
