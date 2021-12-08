@@ -33,11 +33,11 @@
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="מספר מזהה" Width="110" DisplayMemberBinding="{Binding Id}"/>
-                        <GridViewColumn Header="מצב סוללה" Width="150" DisplayMemberBinding="{Binding battery}"/>
-                        <GridViewColumn Header="מיקום" Width="220" DisplayMemberBinding="{Binding Location}"/>
-                        <GridViewColumn Header="דגם" Width="110" DisplayMemberBinding="{Binding Model}"/>
-                        <GridViewColumn Header="משקל" Width="110" DisplayMemberBinding="{Binding MaxWeight}"/>
+                        <GridViewColumn Header="מספר מזהה" Width="80" DisplayMemberBinding="{Binding Id}"/>
+                        <GridViewColumn Header="מצב סוללה" Width="170" DisplayMemberBinding="{Binding battery}"/>
+                        <GridViewColumn Header="מיקום" Width="300" DisplayMemberBinding="{Binding Location}"/>
+                        <GridViewColumn Header="דגם" Width="60" DisplayMemberBinding="{Binding Model}"/>
+                        <GridViewColumn Header="משקל" Width="80" DisplayMemberBinding="{Binding MaxWeight}"/>
                         <GridViewColumn Header="Statuses" Width="110" DisplayMemberBinding="{Binding DroneStatuses}"/>
                     </GridView>
                 </ListView.View>

@@ -83,14 +83,14 @@ namespace PL
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           new DroneWindow(blGui,this).Show();
+           new AddDroneWindow(blGui,this).Show();
         }
 
         private void DroneListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DroneToList droneToList = (DroneToList)DroneListView.SelectedItem;
             int index = DroneListView.SelectedIndex;
-            new DroneWindow(droneToList, blGui, this, index).Show();
+            new AddDroneWindow(droneToList, blGui, this, index).Show();
         }
     }
 }
