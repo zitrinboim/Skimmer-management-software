@@ -25,8 +25,8 @@ namespace PL
        
         public MainWindow()
         {
-            blGui = new IBL.BO.BL();
             InitializeComponent();
+            blGui = new IBL.BO.BL();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
