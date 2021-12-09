@@ -62,7 +62,7 @@
             </Grid>
 
         </Grid>
-        <Grid x:Name="update" Grid.Column="1" Visibility="Visible">
+        <Grid x:Name="update" Grid.Column="1" Visibility="Visible" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -81,10 +81,14 @@
             <Label Grid.Column="1" Grid.Row="3" Content=":מצב סוללה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
             <Label Grid.Column="1" Grid.Row="4" Content=":סטטוס רחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
             <Label Grid.Column="1" Grid.Row="5" Content=":מיקום" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
-            <TextBlock Grid.Column="0" Grid.Row="0"   Text="{Binding Id}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" />
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Model}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
-        </Grid>
-            <!--<TextBox Text="{Binding Id}"></TextBox>-->
 
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Id}"               VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
+            <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Model}"              VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" TextChanged="TextBox_TextChanged_1"/>
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding MaxWeight}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center" />
+            <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding battery}"          VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
+            <TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding DroneStatuses}"    VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
+            <TextBlock Grid.Column="0" Grid.Row="5" Text="{Binding  Location}"        VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
+
+        </Grid>
     </Grid>
 </Window>

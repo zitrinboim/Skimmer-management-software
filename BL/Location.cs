@@ -8,7 +8,7 @@ namespace IBL.BO
         public double latitude { get; set; }
         public override string ToString()
         {
-            return string.Format("longitude {0}\tlatitude {1}\t", longitude, latitude);
+            return string.Format("{0}/{1}", longitude, latitude);
         }
     }
 }

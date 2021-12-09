@@ -42,7 +42,7 @@ namespace IBL.BO
                     Model = drone.Model,
                     MaxWeight = drone.MaxWeight,
                     Location = drone.Location,
-                    battery = (random.NextDouble() * (20.0)) + 20.0,
+                    battery = ((random.NextDouble() * (20.0)) + 20.0),
                     DroneStatuses = DroneStatuses.maintenance,
                 });
                 return true;
@@ -138,7 +138,7 @@ namespace IBL.BO
                 else
                 {
                     int droneIndex = droneToLists.FindIndex(i => i.Id == IdDrone);
-                    drone.battery += time * ChargingRate;
+                    drone.battery += (time * ChargingRate);
                     drone.DroneStatuses = DroneStatuses.available;
                     droneToLists[droneIndex] = drone;
 
@@ -242,7 +242,7 @@ namespace IBL.BO
                         }
                         //The distance of delivery does not include return to the charging station.
                         double batteryToTheDelivery;
-                        batteryToTheDelivery = d.DistanceBetweenPlaces(droneToList.Location, sanderLocation) * available +
+                        batteryToTheDelivery =( d.DistanceBetweenPlaces(droneToList.Location, sanderLocation) * available) +
                             (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight);
                         if (droneToList.battery >= batteryToTheDelivery)// Feasibility study according to distance parameter
                         {
@@ -381,7 +381,7 @@ namespace IBL.BO
                 Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
                 int index = droneToLists.FindIndex(i => i.Id == IdDrone);
-                droneToLists[index].battery -= d.DistanceBetweenPlaces(droneToLists[index].Location, sanderLocation) * available;
+                droneToLists[index].battery -= (d.DistanceBetweenPlaces(droneToLists[index].Location, sanderLocation) * available);
                 droneToLists[index].Location = sanderLocation;
 
                 dal.removeParcel(parcelsOfDrone.Id);//Update by deleting an object in a previous configuration and readjusting after changes.
@@ -433,7 +433,7 @@ namespace IBL.BO
                         break;
                 }
 
-                droneToLists[index].battery -= d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight;
+                droneToLists[index].battery -= (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight);
                 droneToLists[index].Location = targetLocation;
                 droneToLists[index].DroneStatuses = DroneStatuses.available;
                 droneToLists[index].parcelNumber = 0;

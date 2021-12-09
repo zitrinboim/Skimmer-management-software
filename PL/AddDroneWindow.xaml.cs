@@ -48,36 +48,46 @@ namespace PL
             droneListWindow = _droneListWindow;
             this.droneToList = droneToList;
             BLGui = bL;
+            drone = new();
+            DataContext = droneToList;
+            BLGui.Dron
             // BLProgram.updateModelOfDrone(newModel, IdDrone)
 
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            if (drone.Id != default && drone.Model != default && drone.MaxWeight != default && idStation != default)
-            {
-                MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);
-                switch (messageBoxResult)
-                {
+            //if (drone.Id != default && drone.Model != default && drone.MaxWeight != default && idStation != default)
+            //{
+            //    MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);
+            //    switch (messageBoxResult)
+            //    {
 
-                    case MessageBoxResult.OK:
-                        BLGui.addDrone(drone, idStation);
-                        droneListWindow.droneToListsView.Add(BLGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
-                        MessageBox.Show("הרחפן נוצר בהצלחה\n מיד תוחזר לרשימת הרחפנים", "אישור");
-                        Close();
-                        break;
-                    case MessageBoxResult.Cancel:
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else
-                MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+            //        case MessageBoxResult.OK:
+            //            BLGui.addDrone(drone, idStation);
+            //            droneListWindow.droneToListsView.Add(BLGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
+            //            MessageBox.Show("הרחפן נוצר בהצלחה\n מיד תוחזר לרשימת הרחפנים", "אישור");
+            //            Close();
+            //            break;
+            //        case MessageBoxResult.Cancel:
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
+            //else
+            //    MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+
 
         }
 
         private void stations_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            StationToList station = (StationToList)stations.SelectedItem;
+            idStation = station.Id;
+        }
+
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
             StationToList station = (StationToList)stations.SelectedItem;
             idStation = station.Id;
