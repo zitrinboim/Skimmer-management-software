@@ -67,6 +67,20 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="1" Grid.Row="0" Content=":מספר מזהה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
+            <Label Grid.Column="1" Grid.Row="1" Content=":מודל רחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
+            <Label Grid.Column="1" Grid.Row="2" Content=":משקל מקסימלי" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
+            <Label Grid.Column="1" Grid.Row="3" Content=":מצב סוללה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
+            <Label Grid.Column="1" Grid.Row="4" Content=":סטטוס רחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
+            <Label Grid.Column="1" Grid.Row="5" Content=":מיקום" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
         </Grid>
             <!--<TextBox Text="{Binding Id}"></TextBox>-->
 

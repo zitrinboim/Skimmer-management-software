@@ -7,22 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid Name="MainGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50*"/>
-                <RowDefinition Height="400*"/>
-            </Grid.RowDefinitions>
-            <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions >
-            </Grid>
-            <Button Content="Button" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Center"
-                    Click="Button_Click" />
-        </Grid>
+        <Image Source="C:\Users\X260\source\repos\zitrinboim\dotnet_5782_3501_0124\PL\images\Drone1.JPG"  Stretch="Fill" Margin="0,10,0,-10" />
+        <Button Content="כניסה"
+                    Click="Button_Click" Margin="317,230,370,129" Height="69" Width="113" Background="{x:Null}" Foreground="#FF243341" FontSize="36" FontWeight="Bold" FontFamily="Segoe UI" BorderBrush="{x:Null}" />
 
     </Grid>
 </Window>
