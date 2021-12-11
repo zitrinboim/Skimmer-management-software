@@ -37,7 +37,12 @@ namespace PL
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatuses));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             StatusSelector.SelectedIndex = 0;
+            droneToListsView.CollectionChanged += DroneToListsView_CollectionChanged;
+        }
 
+        private void DroneToListsView_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            StatusSelectorAndWeightSelector();
         }
 
         public void InitList()

@@ -50,7 +50,7 @@ namespace PL
         {
             InitializeComponent();
             addOrUpdate = false;
-            addButton.Content = "1עדכן";
+            addButton.Content = "עדכן";
             add.Visibility = Visibility.Hidden;
             update.Visibility = Visibility.Visible;
             index = _index;
