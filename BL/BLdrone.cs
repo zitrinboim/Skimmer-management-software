@@ -62,10 +62,16 @@ namespace IBL.BO
         {
             try
             {
+                //Drone tempDrone = GetDrone(IdDrone);
+                //int stationId = stations.Find(i => i.lattitude == tempDrone.Location.latitude && i.longitude == tempDrone.Location.longitude).Id;
+                //dal.removeDrone(IdDrone);
+                //droneToLists[droneToLists.FindIndex(i => i.Id == IdDrone)].Model = newModel;
                 IDAL.DO.Drone tempDrone = dal.getDrone(IdDrone);
                 dal.removeDrone(IdDrone);
                 tempDrone.Model = newModel;
-                bool test = dal.addDrone(tempDrone);//הנחתי שהבוליאניות היא רק לגבי ההוספה חזרה?
+                bool test = dal.addDrone(tempDrone);
+                //tempDrone.Model = newModel;
+                //bool test = addDrone(tempDrone, stationId);
                 if (test)
                     return true;
                 else

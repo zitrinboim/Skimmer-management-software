@@ -40,7 +40,7 @@ namespace PL
 
         }
 
-        private void InitList()
+        public void InitList()
         {
             List<DroneToList> temp = blGui.DisplaysIistOfDrons().ToList();
             foreach (DroneToList item in temp)
@@ -90,7 +90,10 @@ namespace PL
         {
             DroneToList droneToList = (DroneToList)DroneListView.SelectedItem;
             int index = DroneListView.SelectedIndex;
-            new AddDroneWindow(droneToList, blGui, this, index).Show();
+            if (droneToList != null)
+            {
+                new AddDroneWindow(droneToList, blGui, this, index).Show();
+            } 
         }
     }
 }

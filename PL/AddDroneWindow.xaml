@@ -13,7 +13,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions >
         <Button x:Name="addButton" Content="הוסף" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="70" FontSize="38" FontWeight="Bold" Click="addButton_Click"/>
-        <Grid x:Name="add" Grid.Column="1" Visibility="Hidden">
+        <Grid x:Name="add" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -62,7 +62,7 @@
             </Grid>
 
         </Grid>
-        <Grid x:Name="update" Grid.Column="1" Visibility="Visible" >
+        <Grid x:Name="update" Grid.Column="1"  >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -83,7 +83,7 @@
             <Label Grid.Column="1" Grid.Row="5" Content=":מיקום" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
 
             <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Id}"               VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
-            <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Model}"              VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" TextChanged="TextBox_TextChanged_1"/>
+            <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Model}"              VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" />
             <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding MaxWeight}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center" />
             <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding battery}"          VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
             <TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding DroneStatuses}"    VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
