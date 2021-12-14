@@ -1,10 +1,11 @@
-﻿using System;
+﻿using BlApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL.BO
+namespace BO
 {
     public partial class BL : IBL
     {
@@ -13,15 +14,15 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Station station = dal.getStation(idStation);
+                DO.Station station = dal.getStation(idStation);
                 Location location = new() { latitude = station.lattitude, longitude = station.longitude };
                 drone.Location = location;
 
-                IDAL.DO.Drone dalDrone = new()
+                DO.Drone dalDrone = new()
                 {
                     Id = drone.Id,
                     Model = drone.Model,
-                    MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight
+                    MaxWeight = (DO.WeightCategories)drone.MaxWeight
                 };
                 bool test = dal.addDrone(dalDrone);
                 if (!test)
@@ -33,7 +34,7 @@ namespace IBL.BO
 
 
 
-                IDAL.DO.DroneCarge droneCarge = new() { DroneID = drone.Id, StationId = idStation };
+                DO.DroneCarge droneCarge = new() { DroneID = drone.Id, StationId = idStation };
                 dal.addDroneCarge(droneCarge);//Builds a drone entity by charging.
 
                 droneToLists.Add(new DroneToList()
@@ -47,12 +48,12 @@ namespace IBL.BO
                 });
                 return true;
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);
@@ -66,7 +67,7 @@ namespace IBL.BO
                 //int stationId = stations.Find(i => i.lattitude == tempDrone.Location.latitude && i.longitude == tempDrone.Location.longitude).Id;
                 //dal.removeDrone(IdDrone);
                 //droneToLists[droneToLists.FindIndex(i => i.Id == IdDrone)].Model = newModel;
-                IDAL.DO.Drone tempDrone = dal.getDrone(IdDrone);
+                DO.Drone tempDrone = dal.getDrone(IdDrone);
                 dal.removeDrone(IdDrone);
                 tempDrone.Model = newModel;
                 bool test = dal.addDrone(tempDrone);
@@ -77,12 +78,12 @@ namespace IBL.BO
                 else
                     throw new NotImplementedException();
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);
@@ -97,8 +98,8 @@ namespace IBL.BO
                     throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
                 else
                 {
-                    List<IDAL.DO.Station> stationWithFreeSlots = dal.DisplaysIistOfStations(i => i.freeChargeSlots > 0).ToList();
-                    IDAL.DO.Station closeStation = TheNearestStation(drone.Location, stationWithFreeSlots);
+                    List<DO.Station> stationWithFreeSlots = dal.DisplaysIistOfStations(i => i.freeChargeSlots > 0).ToList();
+                    DO.Station closeStation = TheNearestStation(drone.Location, stationWithFreeSlots);
                     Location stationLocation = new() { latitude = closeStation.lattitude, longitude = closeStation.longitude };
 
                     double KM = d.DistanceBetweenPlaces(drone.Location, stationLocation);//Looking for the nearest available station.
@@ -116,19 +117,19 @@ namespace IBL.BO
                         bool cargeTest = dal.reductionCargeSlotsToStation(closeStation.Id);//לבדוק מה קורה עם השגיאה שתיזרק מהפונ' הזו.
                         if (!cargeTest)
                             throw new NotImplementedException();
-                        IDAL.DO.DroneCarge droneCarge = new() { DroneID = drone.Id, StationId = closeStation.Id };
+                        DO.DroneCarge droneCarge = new() { DroneID = drone.Id, StationId = closeStation.Id };
                         dal.addDroneCarge(droneCarge);
                         return true;
                     }
                 }
 
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);
@@ -148,18 +149,18 @@ namespace IBL.BO
                     drone.DroneStatuses = DroneStatuses.available;
                     droneToLists[droneIndex] = drone;
 
-                    IDAL.DO.DroneCarge droneCarge = dal.getDroneCargeByDroneId(IdDrone);
+                    DO.DroneCarge droneCarge = dal.getDroneCargeByDroneId(IdDrone);
                     bool addingTest = dal.addingCargeSlotsToStation(droneCarge.StationId);
                     bool removeTest = dal.ReleaseDroneCarge(IdDrone);
                 }
                 throw new NotImplementedException();
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);
@@ -169,8 +170,8 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Parcel bestParcel;
-                IDAL.DO.Drone drone =dal.getDrone(IdDrone);
+                DO.Parcel bestParcel;
+                DO.Drone drone =dal.getDrone(IdDrone);
 
                 DroneToList droneToList = droneToLists.Find(i => i.Id == IdDrone);
                 int droneFind = droneToLists.FindIndex(i => i.Id == IdDrone);
@@ -178,7 +179,7 @@ namespace IBL.BO
                 if (droneToList.DroneStatuses != DroneStatuses.available)//Checks if the drone is available.
                     throw new NotImplementedException();
 
-                List<IDAL.DO.Parcel> parcels = dal.DisplaysIistOfparcels(i => i.Scheduled == DateTime.MinValue).ToList();
+                List<DO.Parcel> parcels = dal.DisplaysIistOfparcels(i => i.Scheduled == DateTime.MinValue).ToList();
                 if (parcels.Count == 0)
                     throw new NotImplementedException();
 
@@ -193,12 +194,12 @@ namespace IBL.BO
                 else
                     throw new NotImplementedException();
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);
@@ -211,36 +212,36 @@ namespace IBL.BO
         /// <param name="droneToList"></param>
         /// <param name="parcels"></param>
         /// <returns></returns>
-        public IDAL.DO.Parcel AssignStep1(DroneToList droneToList, List<IDAL.DO.Parcel> parcels)
+        public DO.Parcel AssignStep1(DroneToList droneToList, List<DO.Parcel> parcels)
         {
 
             try
             {
-                List<IDAL.DO.Parcel> emergency = new();
-                List<IDAL.DO.Parcel> fast = new();
-                List<IDAL.DO.Parcel> normal = new();
+                List<DO.Parcel> emergency = new();
+                List<DO.Parcel> fast = new();
+                List<DO.Parcel> normal = new();
 
-                foreach (IDAL.DO.Parcel item in parcels)
+                foreach (DO.Parcel item in parcels)
                 {
-                    if (item.weight <= (IDAL.DO.WeightCategories)droneToList.MaxWeight)//Feasibility study by weight parameter.
+                    if (item.weight <= (DO.WeightCategories)droneToList.MaxWeight)//Feasibility study by weight parameter.
                     {
 
-                        IDAL.DO.Customer sander = dal.getCustomer(item.SenderId);
+                        DO.Customer sander = dal.getCustomer(item.SenderId);
                         Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
-                        IDAL.DO.Customer target = dal.getCustomer(item.TargetId);
+                        DO.Customer target = dal.getCustomer(item.TargetId);
                         Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
 
                         double weight = easy;
                         switch (item.weight)
                         {
-                            case IDAL.DO.WeightCategories.easy:
+                            case DO.WeightCategories.easy:
                                 weight = easy;
                                 break;
-                            case IDAL.DO.WeightCategories.medium:
+                            case DO.WeightCategories.medium:
                                 weight = medium;
                                 break;
-                            case IDAL.DO.WeightCategories.heavy:
+                            case DO.WeightCategories.heavy:
                                 weight = Heavy;
                                 break;
                             default:
@@ -259,13 +260,13 @@ namespace IBL.BO
                             {
                                 switch (item.priority)
                                 {
-                                    case IDAL.DO.Priorities.normal:
+                                    case DO.Priorities.normal:
                                         normal.Add(item);
                                         break;
-                                    case IDAL.DO.Priorities.fast:
+                                    case DO.Priorities.fast:
                                         fast.Add(item);
                                         break;
-                                    case IDAL.DO.Priorities.emergency:
+                                    case DO.Priorities.emergency:
                                         emergency.Add(item);
                                         break;
                                     default:
@@ -281,12 +282,12 @@ namespace IBL.BO
                 return AssignStep2(droneToList, (emergency.Count > 0) ? emergency : (fast.Count > 0) ? fast : normal);
 
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);
@@ -298,24 +299,24 @@ namespace IBL.BO
         /// <param name="droneToList"></param>
         /// <param name="parcels"></param>
         /// <returns></returns>
-        public IDAL.DO.Parcel AssignStep2(DroneToList droneToList, List<IDAL.DO.Parcel> parcels)
+        public DO.Parcel AssignStep2(DroneToList droneToList, List<DO.Parcel> parcels)
         {
             try
             {
-                List<IDAL.DO.Parcel> easy = new();
-                List<IDAL.DO.Parcel> medium = new();
-                List<IDAL.DO.Parcel> heavy = new();
-                foreach (IDAL.DO.Parcel item in parcels)
+                List<DO.Parcel> easy = new();
+                List<DO.Parcel> medium = new();
+                List<DO.Parcel> heavy = new();
+                foreach (DO.Parcel item in parcels)
                 {
                     switch (item.weight)
                     {
-                        case IDAL.DO.WeightCategories.easy:
+                        case DO.WeightCategories.easy:
                             easy.Add(item);
                             break;
-                        case IDAL.DO.WeightCategories.medium:
+                        case DO.WeightCategories.medium:
                             medium.Add(item);
                             break;
-                        case IDAL.DO.WeightCategories.heavy:
+                        case DO.WeightCategories.heavy:
                             heavy.Add(item);
                             break;
                         default:
@@ -324,12 +325,12 @@ namespace IBL.BO
                 }
                 return TheNearestParcelToAssign(droneToList, (heavy.Count > 0) ? heavy : (medium.Count > 0) ? medium : easy);
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);
@@ -341,18 +342,18 @@ namespace IBL.BO
         /// <param name="droneToList"></param>
         /// <param name="parcels"></param>
         /// <returns></returns>
-        public IDAL.DO.Parcel TheNearestParcelToAssign(DroneToList droneToList, List<IDAL.DO.Parcel> parcels)
+        public DO.Parcel TheNearestParcelToAssign(DroneToList droneToList, List<DO.Parcel> parcels)
         {
             try
             {
-                IDAL.DO.Parcel closeParcel = new();
+                DO.Parcel closeParcel = new();
 
-                IDAL.DO.Parcel closeParsel = parcels[0];
+                DO.Parcel closeParsel = parcels[0];
                 double distance = double.MaxValue;
 
-                foreach (IDAL.DO.Parcel item in parcels)
+                foreach (DO.Parcel item in parcels)
                 {
-                    IDAL.DO.Customer sander = dal.getCustomer(item.SenderId);
+                    DO.Customer sander = dal.getCustomer(item.SenderId);
                     Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
                     double distance1 = d.DistanceBetweenPlaces(droneToList.Location, sanderLocation);
@@ -364,12 +365,12 @@ namespace IBL.BO
                 }
                 return closeParcel;
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);
@@ -379,11 +380,11 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Parcel parcelsOfDrone = dal.DisplaysIistOfparcels(i => i.DroneId == IdDrone && i.PickedUp == DateTime.MinValue).First();
+                DO.Parcel parcelsOfDrone = dal.DisplaysIistOfparcels(i => i.DroneId == IdDrone && i.PickedUp == DateTime.MinValue).First();
                 if (parcelsOfDrone.DroneId != IdDrone)
                     throw new NotImplementedException();
 
-                IDAL.DO.Customer sander = dal.getCustomer(parcelsOfDrone.SenderId);
+                DO.Customer sander = dal.getCustomer(parcelsOfDrone.SenderId);
                 Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
                 int index = droneToLists.FindIndex(i => i.Id == IdDrone);
@@ -396,12 +397,12 @@ namespace IBL.BO
 
                 return true;
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);
@@ -411,14 +412,14 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Parcel parcelsOfDrone = dal.DisplaysIistOfparcels(i => i.DroneId == IdDrone && i.PickedUp != DateTime.MinValue && i.Delivered == DateTime.MinValue).First();
+                DO.Parcel parcelsOfDrone = dal.DisplaysIistOfparcels(i => i.DroneId == IdDrone && i.PickedUp != DateTime.MinValue && i.Delivered == DateTime.MinValue).First();
                 if (parcelsOfDrone.DroneId != IdDrone)
                     throw new NotImplementedException();
 
-                IDAL.DO.Customer sander = dal.getCustomer(parcelsOfDrone.SenderId);
+                DO.Customer sander = dal.getCustomer(parcelsOfDrone.SenderId);
                 Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
-                IDAL.DO.Customer target = dal.getCustomer(parcelsOfDrone.TargetId);
+                DO.Customer target = dal.getCustomer(parcelsOfDrone.TargetId);
                 Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
 
                 int index = droneToLists.FindIndex(i => i.Id == IdDrone);
@@ -426,13 +427,13 @@ namespace IBL.BO
                 double weight = easy;
                 switch (parcelsOfDrone.weight)
                 {
-                    case IDAL.DO.WeightCategories.easy:
+                    case DO.WeightCategories.easy:
                         weight = easy;
                         break;
-                    case IDAL.DO.WeightCategories.medium:
+                    case DO.WeightCategories.medium:
                         weight = medium;
                         break;
-                    case IDAL.DO.WeightCategories.heavy:
+                    case DO.WeightCategories.heavy:
                         weight = Heavy;
                         break;
                     default:
@@ -450,12 +451,12 @@ namespace IBL.BO
 
                 return true;
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);
@@ -483,12 +484,12 @@ namespace IBL.BO
 
                 return drone;
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);

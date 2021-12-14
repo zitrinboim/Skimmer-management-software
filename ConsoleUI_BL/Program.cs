@@ -1,5 +1,5 @@
 ﻿using System;
-using IBL.BO;
+using BO;
 
 namespace ConsoleUI_BL
 {
@@ -9,7 +9,7 @@ namespace ConsoleUI_BL
 
         static void Main(string[] args)
         {
-            IBL.BO.BL BLProgram = new IBL.BO.BL();
+            BO.BL BLProgram = new BO.BL();
             int choice;
             Choices choices;
             do

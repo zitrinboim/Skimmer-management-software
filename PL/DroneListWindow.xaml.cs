@@ -12,7 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using IBL.BO;
+using BO;
+using BlApi;
 
 namespace PL
 {
@@ -23,10 +24,10 @@ namespace PL
     /// </summary>
     public partial class DroneListWindow : Window
     {
-        private IBL.BO.BL blGui;
+        private IBL blGui;
        
         public ObservableCollection<DroneToList> droneToListsView; 
-        public DroneListWindow(IBL.BO.BL bL)
+        public DroneListWindow(IBL bL)
         {
             blGui = bL;
             droneToListsView = new();
@@ -67,13 +68,13 @@ namespace PL
                 DroneListView.ItemsSource = droneToListsView;
 
             else if (weightCategories != WeightCategories.All && droneStatuses == DroneStatuses.All)
-                DroneListView.ItemsSource = droneToListsView.ToList().FindAll(i => i.MaxWeight == (IBL.BO.WeightCategories)weightCategories);
+                DroneListView.ItemsSource = droneToListsView.ToList().FindAll(i => i.MaxWeight == (BO.WeightCategories)weightCategories);
 
             else if (weightCategories == WeightCategories.All && droneStatuses != DroneStatuses.All)
-                DroneListView.ItemsSource = droneToListsView.ToList().FindAll(i => i.DroneStatuses == (IBL.BO.DroneStatuses)droneStatuses);
+                DroneListView.ItemsSource = droneToListsView.ToList().FindAll(i => i.DroneStatuses == (BO.DroneStatuses)droneStatuses);
 
             else
-                DroneListView.ItemsSource = droneToListsView.ToList().FindAll(i => i.MaxWeight == (IBL.BO.WeightCategories)weightCategories && i.DroneStatuses == (IBL.BO.DroneStatuses)droneStatuses);
+                DroneListView.ItemsSource = droneToListsView.ToList().FindAll(i => i.MaxWeight == (BO.WeightCategories)weightCategories && i.DroneStatuses == (BO.DroneStatuses)droneStatuses);
         }
 
         private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)

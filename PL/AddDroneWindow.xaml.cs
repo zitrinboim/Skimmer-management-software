@@ -1,4 +1,5 @@
-﻿using IBL.BO;
+﻿using BO;
+using BlApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,14 +23,14 @@ namespace PL
     public partial class AddDroneWindow : Window
     {
 
-        IBL.BO.BL BLGui;
+        BlApi.IBL BLGui;
         private DroneToList droneToList;
         private DroneListWindow droneListWindow;
         private Drone drone;
         private int idStation = new();
         private bool? addOrUpdate = null;
         int index;
-        public AddDroneWindow(BL bL, DroneListWindow _droneListWindow)
+        public AddDroneWindow(IBL bL, DroneListWindow _droneListWindow)
         {
             InitializeComponent();
             addOrUpdate = true;
@@ -40,13 +41,13 @@ namespace PL
             drone = new();
             DataContext = drone;
 
-            WeightSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             WeightSelector.SelectedIndex = -1;
 
             stations.ItemsSource = BLGui.DisplaysIistOfStations();
         }
 
-        public AddDroneWindow(DroneToList droneToList, BL bL, DroneListWindow _droneListWindow, int _index)
+        public AddDroneWindow(DroneToList droneToList, IBL bL, DroneListWindow _droneListWindow, int _index)
         {
             InitializeComponent();
             addOrUpdate = false;

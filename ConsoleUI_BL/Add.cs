@@ -1,4 +1,4 @@
-﻿using IBL.BO;
+﻿using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +9,8 @@ namespace ConsoleUI_BL
 {
     public class Add
     {
-        IBL.BO.BL BLProgram;
-        public Add(IBL.BO.BL _bLProgram)
+        BO.BL BLProgram;
+        public Add(BO.BL _bLProgram)
         {
             BLProgram = _bLProgram;
         }
@@ -169,13 +169,13 @@ namespace ConsoleUI_BL
             int.TryParse(Console.ReadLine(), out priority);
             priorities = (Priorities)priority;
 
-            IDAL.DO.Parcel parcel = new()
+            DalApi.DO.Parcel parcel = new()
             {
                 Id = 0,
                 SenderId = sanderId,
                 TargetId = targetId,
-                weight = (IDAL.DO.WeightCategories)weightCategories,
-                priority = (IDAL.DO.Priorities)priorities,
+                weight = (DalApi.DO.WeightCategories)weightCategories,
+                priority = (DalApi.DO.Priorities)priorities,
                 DroneId = 0,
                 Requested = DateTime.Now
             };

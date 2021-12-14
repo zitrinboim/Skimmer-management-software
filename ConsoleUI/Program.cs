@@ -1,6 +1,6 @@
 ﻿//yair busso & shimon zitrinboim.
 using System;
-using IDAL.DO;
+using DO;
 using Dal;
 
 namespace ConsoleUI

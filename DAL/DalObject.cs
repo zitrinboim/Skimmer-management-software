@@ -1,5 +1,5 @@
-﻿using IDAL.DO;
-using IDAL;
+﻿using DO;
+using DalApi;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,10 +9,17 @@ using System.Threading.Tasks;
 
 namespace Dal
 {
-    public class DalObject : IDal
+     class DalObject : IDal
     {/// <summary>
      /// This function activates the constructor of Initialize, so that all the Lists of the various entities are initialized.
      /// </summary>
+        static internal DalObject instatnce;
+        static public DalObject GetDalObject()
+        {
+            if (instatnce == null)
+                instatnce = new DalObject();
+            return instatnce;
+        }
         public DalObject() => DataSource.Initialize();
         /// <summary>
         /// This function allows the user to add a base station to the list.

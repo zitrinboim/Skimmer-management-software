@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IDAL
-{
+
     namespace DO
     {
         public class IdExistExeptions : Exception
@@ -17,4 +16,4 @@ namespace IDAL
             public IdNotExistExeptions(string messge) : base(messge) { }
         }
     }
-}
+

@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL
-{
+
     namespace BO
     {
         public class Drone : abstractDrone
@@ -17,4 +16,4 @@ namespace IBL
             }
         }
     }
-}
+

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using BlApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL.BO
+namespace BO
 {
     public partial class BL : IBL
     {
@@ -16,7 +17,7 @@ namespace IBL.BO
         /// <param name="weightCategories"></param>
         /// <param name="priorities"></param>
         /// <returns></returns>
-        public int addParsel(IDAL.DO.Parcel parcel)
+        public int addParsel(DO.Parcel parcel)
         {
             try
             {
@@ -26,7 +27,7 @@ namespace IBL.BO
                     throw new NotImplementedException();
                 return addParcel;
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
@@ -36,7 +37,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Parcel dalParcel = dal.getParcel(parcelId);
+                DO.Parcel dalParcel = dal.getParcel(parcelId);
 
                 Parcel parcel = new()
                 {
@@ -56,7 +57,7 @@ namespace IBL.BO
 
                 return parcel;
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);
@@ -66,15 +67,15 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Parcel parcel = dal.getParcel(parcelId);
+                DO.Parcel parcel = dal.getParcel(parcelId);
 
                 if (parcel.Scheduled == DateTime.MinValue || parcel.Delivered != DateTime.MinValue)
                     throw new NotImplementedException();//כי אין חבילה כזו בהעברה.
 
-                IDAL.DO.Customer sander = dal.getCustomer(parcel.SenderId);
+                DO.Customer sander = dal.getCustomer(parcel.SenderId);
                 Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
-                IDAL.DO.Customer target = dal.getCustomer(parcel.TargetId);
+                DO.Customer target = dal.getCustomer(parcel.TargetId);
                 Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
 
                 PackageInTransfer packageInTransfer = new()
@@ -99,12 +100,12 @@ namespace IBL.BO
                 return packageInTransfer;
 
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);
@@ -114,7 +115,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Parcel parcel =dal.getParcel(parcelId);
+                DO.Parcel parcel =dal.getParcel(parcelId);
 
                 ParcelInCustomer parcelInCustomer = new()
                 {
@@ -131,12 +132,12 @@ namespace IBL.BO
 
                 return parcelInCustomer;
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);
@@ -169,8 +170,8 @@ namespace IBL.BO
         {
             List<ParcelToList> parcelToLists = new();
 
-            List<IDAL.DO.Parcel> parcels = dal.DisplaysIistOfparcels().ToList();
-            foreach (IDAL.DO.Parcel item in parcels)
+            List<DO.Parcel> parcels = dal.DisplaysIistOfparcels().ToList();
+            foreach (DO.Parcel item in parcels)
             {
                 parcelToLists.Add(GetParcelToList(item.Id));
             }

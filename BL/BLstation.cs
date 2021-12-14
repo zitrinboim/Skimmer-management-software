@@ -1,10 +1,11 @@
-﻿using System;
+﻿using BlApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL.BO
+namespace BO
 {
     public partial class BL : IBL
     {
@@ -14,9 +15,9 @@ namespace IBL.BO
         /// <param name="customerLocation"></param>
         /// <param name="stations"></param>
         /// <returns></returns>
-        private Location TheLocationForTheNearestStation(Location customerLocation, List<IDAL.DO.Station> stations)
+        private Location TheLocationForTheNearestStation(Location customerLocation, List<DO.Station> stations)
         {
-            IDAL.DO.Station closeStation = stations[0];
+            DO.Station closeStation = stations[0];
             double distance = double.MaxValue;
 
             for (int i = 0; i < stations.Count; i++)
@@ -38,9 +39,9 @@ namespace IBL.BO
         /// <param name="customerLocation"></param>
         /// <param name="stations"></param>
         /// <returns></returns>
-        private IDAL.DO.Station TheNearestStation(Location customerLocation, List<IDAL.DO.Station> stations)
+        private DO.Station TheNearestStation(Location customerLocation, List<DO.Station> stations)
         {
-            IDAL.DO.Station closeStation = stations[0];
+            DO.Station closeStation = stations[0];
             double distance = double.MaxValue;
 
             for (int i = 0; i < stations.Count; i++)
@@ -65,7 +66,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Station dalStation = new()
+                DO.Station dalStation = new()
                 {
                     Id = station.Id,
                     name = station.name,
@@ -78,7 +79,7 @@ namespace IBL.BO
                 bool test = dal.addStation(dalStation);
                 return test ? true : false;
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR" + Ex);
@@ -95,7 +96,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Station tempStation = dal.getStation(Idstation);
+                DO.Station tempStation = dal.getStation(Idstation);
                 //Instructions for the user If there are no updates to insert an X, the test includes a mode of replacing a large X with a small one.
                 if (newName != "X" && newName != "x")
                     tempStation.name = newName;
@@ -108,11 +109,11 @@ namespace IBL.BO
                 bool test = dal.addStation(tempStation);//הנחתי שהבוליאניות היא רק לגבי ההוספה חזרה
                 return test ? true : false;
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
                 throw new IdExistExeptions("ERORR" + Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
                 throw new IdNotExistExeptions("ERORR" + Ex);
             }
@@ -126,7 +127,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Station dalStation = dal.getStation(stationId);
+                DO.Station dalStation = dal.getStation(stationId);
 
                 Location location = new() { latitude = dalStation.lattitude, longitude = dalStation.longitude };
                 Station station = new()
@@ -146,7 +147,7 @@ namespace IBL.BO
                 return station;
 
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR\n" + Ex);
@@ -175,7 +176,7 @@ namespace IBL.BO
                     stationToList.busyChargeSlots = station.droneInCargeings.Count;
                 return stationToList;
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
@@ -191,14 +192,14 @@ namespace IBL.BO
             {
                 List<StationToList> stationToLists = new();
 
-                List<IDAL.DO.Station> stations = dal.DisplaysIistOfStations().ToList();
-                foreach (IDAL.DO.Station item in stations)
+                List<DO.Station> stations = dal.DisplaysIistOfStations().ToList();
+                foreach (DO.Station item in stations)
                 {
                     stationToLists.Add(GetStationToList(item.Id));
                 }
                 return stationToLists.Where(d => p == null ? true : p(d)).ToList();
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
                 throw new IdNotExistExeptions("ERORR", Ex);
             }

@@ -1,4 +1,5 @@
-﻿using IBL.BO;
+﻿using BlApi;
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,18 +7,26 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace IBL.BO
+namespace BO
 {
-    public partial class BL : IBL
+    
+    partial class BL : IBL
     {
+        static internal BL instatnce;
+        static public BL GetBL()
+        {
+            if (instatnce == null)
+                instatnce = new BL();
+            return instatnce;
+        }
         List<DroneToList> droneToLists;
-        IDAL.IDal dal;
+        DalApi.IDal dal;
         DistanceAlgorithm d;
         Random random;
-        List<IDAL.DO.Station> stations;
-        List<IDAL.DO.Customer> customers;
-        List<IDAL.DO.Drone> drones;
-        List<IDAL.DO.Parcel> PackagesInDelivery;
+        List<DO.Station> stations;
+        List<DO.Customer> customers;
+        List<DO.Drone> drones;
+        List<DO.Parcel> PackagesInDelivery;
 
         internal static double available;
         internal static double easy;
@@ -30,7 +39,7 @@ namespace IBL.BO
             {
                 droneToLists = new();
                 d = new();
-                dal = new Dal.DalObject();
+                dal =DalApi.DalFactory.GetDal("obgect");
                 double battryOfDelivery;
                 random = new Random(DateTime.Now.Millisecond);
 
@@ -45,7 +54,7 @@ namespace IBL.BO
                 customers = dal.DisplaysIistOfCustomers().ToList();
                 drones = dal.DisplaysTheListOfDrons().ToList();
                 PackagesInDelivery = dal.DisplaysIistOfparcels(i => i.Scheduled != DateTime.MinValue).ToList();
-                foreach (IDAL.DO.Drone item in drones)
+                foreach (DO.Drone item in drones)
                 {
                     droneToLists.Add(new()
                     {
@@ -61,8 +70,8 @@ namespace IBL.BO
                     {
                         drone.DroneStatuses = DroneStatuses.busy;
 
-                        IDAL.DO.Customer sander = customers.Find(customer => customer.Id == PackagesInDelivery[find].SenderId);
-                        IDAL.DO.Customer target = customers.Find(customer => customer.Id == PackagesInDelivery[find].TargetId);
+                        DO.Customer sander = customers.Find(customer => customer.Id == PackagesInDelivery[find].SenderId);
+                        DO.Customer target = customers.Find(customer => customer.Id == PackagesInDelivery[find].TargetId);
                         Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
                         Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
 
@@ -89,10 +98,10 @@ namespace IBL.BO
                         drone.DroneStatuses = (DroneStatuses)random.Next(1, 3);
                         if (drone.DroneStatuses == (DroneStatuses)1)
                         {
-                            List<IDAL.DO.Parcel> droneParcels = PackagesInDelivery.FindAll(i => i.Delivered != DateTime.MinValue);
+                            List<DO.Parcel> droneParcels = PackagesInDelivery.FindAll(i => i.Delivered != DateTime.MinValue);
 
                             index = random.Next(0, droneParcels.Count);
-                            IDAL.DO.Customer target = customers.Find(customer => customer.Id == droneParcels[index].TargetId);
+                            DO.Customer target = customers.Find(customer => customer.Id == droneParcels[index].TargetId);
                             Location location = new() { latitude = target.lattitude, longitude = target.longitude };
                             drone.Location = location;
 
@@ -112,12 +121,12 @@ namespace IBL.BO
                 }
             }
 
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR", Ex);
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
 
                 throw new IdNotExistExeptions("ERORR", Ex);

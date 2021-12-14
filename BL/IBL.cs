@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
-namespace IBL.BO
+namespace BlApi
 {
     public interface IBL
     {
@@ -33,7 +33,7 @@ namespace IBL.BO
         /// </summary>
         /// <param name="parcel"></param>
         /// <returns></returns>
-        int addParsel(IDAL.DO.Parcel parcel);
+        int addParsel(DO.Parcel parcel);
         /// <summary>
         /// This function updates the drone model.
         /// </summary>
@@ -94,7 +94,7 @@ namespace IBL.BO
         /// <param name="droneToList"></param>
         /// <param name="parcels"></param>
         /// <returns></returns>
-        public IDAL.DO.Parcel TheNearestParcelToAssign(DroneToList droneToList, List<IDAL.DO.Parcel> parcels);
+        public DO.Parcel TheNearestParcelToAssign(DroneToList droneToList, List<DO.Parcel> parcels);
         /// <summary>
         /// This function returns the Customer In Parcel object
         /// </summary>
@@ -144,5 +144,32 @@ namespace IBL.BO
         /// <param name="parcelId"></param>
         /// <returns></returns>
         public ParcelToList GetParcelToList(int parcelId);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public IEnumerable<DroneToList> DisplaysIistOfDrons(Predicate<DroneToList> p = null);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public IEnumerable<StationToList> DisplaysIistOfStations(Predicate<StationToList> p = null);
+
+
+
     }
+
+    //class Singelton { 
+    //    private Singelton() { }
+    //    public static Singelton instance;
+    //    public static Singelton getSingelton()
+    //    {
+    //        if (instance == null) 
+    //            instance = new Singelton();
+    //        return instance;
+    //    }
+    //}
+
 }

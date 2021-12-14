@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 
 
-namespace IDAL
-{
+
     namespace DO
     {
         public struct Parcel
@@ -30,5 +29,5 @@ namespace IDAL
             }
         }
     }
-}
+
 

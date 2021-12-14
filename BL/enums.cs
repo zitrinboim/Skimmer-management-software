@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL.BO
+namespace BO
 {
     public enum WeightCategories { easy = 1, medium, heavy };
     public enum Priorities { normal = 1, fast, emergency };

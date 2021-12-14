@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BlApi;
+using BO;
 
-namespace IBL.BO
+namespace BO
 {
     public partial class BL : IBL
     {
@@ -13,7 +14,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Customer dalCustomer = new()
+                DO.Customer dalCustomer = new()
                 {
                     Id = customer.Id,
                     name = customer.name,
@@ -24,7 +25,7 @@ namespace IBL.BO
                 bool test = dal.addCustomer(dalCustomer);
                 return test ? true : false;
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
 
                 throw new IdExistExeptions("ERORR" + Ex);
@@ -34,7 +35,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Customer tempCustomer = dal.getCustomer(IdCustomer);
+                DO.Customer tempCustomer = dal.getCustomer(IdCustomer);
                 if (newName != "X" && newName != "x")
                     tempCustomer.name = newName;
                 if (newPhone != "X" && newPhone != "x")
@@ -43,7 +44,7 @@ namespace IBL.BO
                 dal.removeCustomer(IdCustomer);
                 return test ? true : false;
             }
-            catch (IDAL.DO.IdExistExeptions Ex)
+            catch (DO.IdExistExeptions Ex)
             {
                 throw new IdExistExeptions("ERORR" + Ex);
             }
@@ -53,11 +54,11 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Customer customer = dal.getCustomer(customerId);
+                DO.Customer customer = dal.getCustomer(customerId);
                 CustomerInParcel customerInParcel = new() { Id = customer.Id, name = customer.name };
                 return customerInParcel;
             }
-            catch (IDAL.DO.IdNotExistExeptions ex)
+            catch (DO.IdNotExistExeptions ex)
             {
                 throw new IdNotExistExeptions("Error: " + ex);
             }
@@ -67,7 +68,7 @@ namespace IBL.BO
         {
             try
             {
-                IDAL.DO.Customer dalCustomer =dal.getCustomer(customerId);
+                DO.Customer dalCustomer =dal.getCustomer(customerId);
 
                 Customer customer = new()
                 {
@@ -79,16 +80,16 @@ namespace IBL.BO
                     toCustomer = new()
                 };
 
-                List<IDAL.DO.Parcel> sanderParcels = dal.DisplaysIistOfparcels(i => i.SenderId == customerId).ToList();
-                foreach (IDAL.DO.Parcel item in sanderParcels)
+                List<DO.Parcel> sanderParcels = dal.DisplaysIistOfparcels(i => i.SenderId == customerId).ToList();
+                foreach (DO.Parcel item in sanderParcels)
                 {
                     ParcelInCustomer parcelInCustomer = new();
                     parcelInCustomer = GetParcelInCustomer(item.Id, customerId);
                     customer.fromCustomer.Add(parcelInCustomer);
                 }
 
-                List<IDAL.DO.Parcel> targetParcels = dal.DisplaysIistOfparcels(i => i.TargetId == customerId).ToList();
-                foreach (IDAL.DO.Parcel item in targetParcels)
+                List<DO.Parcel> targetParcels = dal.DisplaysIistOfparcels(i => i.TargetId == customerId).ToList();
+                foreach (DO.Parcel item in targetParcels)
                 {
                     ParcelInCustomer parcelInCustomer = new();
                     parcelInCustomer = GetParcelInCustomer(item.Id, customerId);
@@ -96,7 +97,7 @@ namespace IBL.BO
                 }
                 return customer;
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
                 throw new IdNotExistExeptions("ERORR" + Ex);
             }
@@ -128,7 +129,7 @@ namespace IBL.BO
 
                 return customerToList;
             }
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
                 throw new IdNotExistExeptions("ERORR" + Ex);
             }
@@ -139,14 +140,14 @@ namespace IBL.BO
             {
                 List<CustomerToList> customerToLists = new();
 
-                List<IDAL.DO.Customer> customers = dal.DisplaysIistOfCustomers().ToList();
-                foreach (IDAL.DO.Customer item in customers)
+                List<DO.Customer> customers = dal.DisplaysIistOfCustomers().ToList();
+                foreach (DO.Customer item in customers)
                 {
                     customerToLists.Add(GetCustomerToList(item.Id));
                 }
                 return customerToLists.Where(d => p == null ? true : p(d)).ToList();
             } 
-            catch (IDAL.DO.IdNotExistExeptions Ex)
+            catch (DO.IdNotExistExeptions Ex)
             {
                 throw new IdNotExistExeptions("ERORR" + Ex);
             }
