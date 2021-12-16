@@ -7,18 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace BO
+namespace BL
 {
     
     partial class BL : IBL
     {
-        static internal BL instatnce;
-        static public BL GetBL()
-        {
-            if (instatnce == null)
-                instatnce = new BL();
-            return instatnce;
-        }
+        static internal BL instatnce=new BL();
+        
         List<DroneToList> droneToLists;
         DalApi.IDal dal;
         DistanceAlgorithm d;
@@ -33,13 +28,13 @@ namespace BO
         internal static double medium;
         internal static double Heavy;
         internal static double ChargingRate;
-        public BL()
+        private BL()
         {
             try
             {
+                dal = DalApi.DalFactory.GetDal("obj");
                 droneToLists = new();
                 d = new();
-                dal =DalApi.DalFactory.GetDal("obgect");
                 double battryOfDelivery;
                 random = new Random(DateTime.Now.Millisecond);
 

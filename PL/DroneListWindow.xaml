@@ -6,8 +6,16 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="DroneListWindow" Height="450" Width="800">
+    <Window.OpacityMask>
+        <ImageBrush ImageSource="   https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxU7q0O8NbxYMOj-IyQi4YRVt8NuuR1qSExA&amp;amp;usqp=CAU" />
+    </Window.OpacityMask>
+    <Window.Background>
+        <ImageBrush ImageSource="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxU7q0O8NbxYMOj-IyQi4YRVt8NuuR1qSExA&amp;usqp=CAU" Stretch="Fill" TileMode="None" Opacity="1"/>
+    </Window.Background>
     <Grid>
+
         <Grid Name="MainGrid">
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="50*"/>
                 <RowDefinition Height="400*"/>
@@ -24,7 +32,10 @@
                 <ComboBox Name="WeightSelector" HorizontalContentAlignment="Center" Foreground="red" FontWeight="Bold" VerticalContentAlignment="Center"  HorizontalAlignment="Stretch" Grid.Column="2"  VerticalAlignment="Stretch" SelectionChanged="WeightSelector_SelectionChanged"/>
                 <Button Content="AddDrone" Grid.Column="3" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Click="Button_Click"/>
             </Grid>
-            <ListView x:Name="DroneListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFFFF6F6" SelectionChanged="DroneListView_SelectionChanged"  >
+            <ListView x:Name="DroneListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="DroneListView_SelectionChanged"  >
+                <ListView.Background>
+                    <ImageBrush/>
+                </ListView.Background>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter  Property="HorizontalContentAlignment" Value="Center">

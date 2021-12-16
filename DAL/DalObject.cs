@@ -9,18 +9,13 @@ using System.Threading.Tasks;
 
 namespace Dal
 {
-     class DalObject : IDal
+    class DalObject : IDal
     {/// <summary>
      /// This function activates the constructor of Initialize, so that all the Lists of the various entities are initialized.
      /// </summary>
-        static internal DalObject instatnce;
-        static public DalObject GetDalObject()
-        {
-            if (instatnce == null)
-                instatnce = new DalObject();
-            return instatnce;
-        }
-        public DalObject() => DataSource.Initialize();
+        static internal DalObject instatnce = new DalObject();
+
+        private DalObject() => DataSource.Initialize();
         /// <summary>
         /// This function allows the user to add a base station to the list.
         /// </summary>
@@ -54,7 +49,7 @@ namespace Dal
                 DataSource.drones.Add(drone);
                 return true;
             }
-                throw new IdExistExeptions("Sorry, i have already a drone with this id:" + drone.Id);
+            throw new IdExistExeptions("Sorry, i have already a drone with this id:" + drone.Id);
         }
         /// <summary>
         /// This function allows the user to add a customer to the list.
@@ -70,7 +65,7 @@ namespace Dal
                 DataSource.customers.Add(customer);
                 return true;
             }
-                throw new IdExistExeptions("Sorry, i have already a customer with this id:" + customer.Id);
+            throw new IdExistExeptions("Sorry, i have already a customer with this id:" + customer.Id);
         }
         /// <summary>
         ///This function allows the user to add a parcel to the list.
@@ -217,7 +212,7 @@ namespace Dal
         public Station getStation(int Id)
         {
             Station getStation = DataSource.stations.Find(Station => Station.Id == Id);
-            return getStation.Id!=default ? getStation : throw new IdNotExistExeptions("sorry, this Station is not found.");
+            return getStation.Id != default ? getStation : throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
         public DroneCarge getDroneCargeByStationId(int stationId)
         {

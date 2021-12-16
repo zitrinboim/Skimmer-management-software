@@ -10,7 +10,7 @@ namespace DalApi
     {
         public static IDal GetDal(string str)
         {
-            if (str == "object")
+            if (str == "obj")
                 return Dal.DalObject.instatnce;
             //else if (str == "xml")
             //    /////

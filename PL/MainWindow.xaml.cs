@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+
+using BO;
+using BL;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -21,12 +24,12 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        BlApi.IBL blGui;
+        IBL blGui;
        
         public MainWindow()
         {
             InitializeComponent();
-            blGui = BlApi.BlFactory.GetBL();
+            blGui = BlFactory.GetBL();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

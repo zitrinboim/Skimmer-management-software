@@ -6,14 +6,18 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="Drone" Height="450" Width="800">
-    <Grid Margin="0,2,0,-2" Name="MainGrid">
+    <Grid  Margin="0,2,0,-2" Name="MainGrid">
+        <Grid.Background>
+            <ImageBrush ImageSource="   https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxU7q0O8NbxYMOj-IyQi4YRVt8NuuR1qSExA&amp;amp;usqp=CAU" Stretch="Fill" TileMode="None" Opacity="0.4"/>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions >
         <Button x:Name="addButton" Content="הוסף" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="70" FontSize="38" FontWeight="Bold" Click="addButton_Click"/>
-        <Grid x:Name="add" Grid.Column="1">
+
+        <Grid x:Name="add" Grid.Column="1" Visibility="Hidden" Background="{x:Null}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -28,21 +32,25 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="1" Grid.Row="0" Content=":הכנס מספר מזהה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
-                <Label Grid.Column="1" Grid.Row="1" Content=":הכנס מודל רחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
-                <Label Grid.Column="1" Grid.Row="2" Content=":הכנס משקל מקסימלי" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
-                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding Id}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" />
-                <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Model}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20"/>
-                <ComboBox Grid.Column="0" Grid.Row="2" Name="WeightSelector" SelectedItem="{Binding MaxWeight}"   HorizontalContentAlignment="Center" Foreground="red" FontWeight="Bold" 
+                <Label Grid.Column="1" Grid.Row="0" Content=":הכנס מספר מזהה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" Background="{x:Null}" />
+                <Label Grid.Column="1" Grid.Row="1" Content=":הכנס מודל רחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" Background="{x:Null}" />
+                <Label Grid.Column="1" Grid.Row="2" Content=":הכנס משקל מקסימלי" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold"  Background="{x:Null}"/>
+                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding Id}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Background="{x:Null}" />
+                <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Model}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Background="{x:Null}"/>
+                <ComboBox Grid.Column="0" Grid.Row="2" Name="WeightSelector" SelectedItem="{Binding MaxWeight}"   HorizontalContentAlignment="Center" Foreground="red" FontWeight="Bold" Background="{x:Null}"
                           VerticalContentAlignment="Center"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"/>
             </Grid>
             <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="47*"/>
+                    <ColumnDefinition Width="113*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content=":בחר תחנה מרשימה עבור טעינת הרחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" FontWeight="Bold" />
-                <ListView x:Name="stations" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="stations_SelectionChanged_1" >
+                <Label Grid.Row="0" Content=":בחר תחנה מרשימה עבור טעינת הרחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" FontWeight="Bold" Background="{x:Null}" Grid.ColumnSpan="2"  />
+                <ListView x:Name="stations" Background="{x:Null}" SelectionChanged="stations_SelectionChanged_1" Grid.ColumnSpan="2" Margin="0,43,0,0" Grid.RowSpan="2" >
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter  Property="HorizontalContentAlignment" Value="Center">
@@ -62,7 +70,8 @@
             </Grid>
 
         </Grid>
-        <Grid x:Name="update" Grid.Column="1"  >
+        
+        <Grid x:Name="update"  Grid.Column="1" Visibility="Visible"  >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -83,7 +92,7 @@
             <Label Grid.Column="1" Grid.Row="5" Content=":מיקום" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
 
             <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Id}"               VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
-            <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Model}"              VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" />
+            <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Model}"              VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Background="{x:Null}" />
             <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding MaxWeight}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center" />
             <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding battery}"          VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
             <TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding DroneStatuses}"    VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
@@ -91,4 +100,5 @@
 
         </Grid>
     </Grid>
+    
 </Window>
