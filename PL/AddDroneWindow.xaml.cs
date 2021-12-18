@@ -60,6 +60,7 @@ namespace PL
             BLGui = bL;
             drone = BLGui.GetDrone(droneToList.Id);
             DataContext = drone;
+
             // BLGui.Dron
             // BLProgram.updateModelOfDrone(newModel, IdDrone)
 
@@ -105,7 +106,7 @@ namespace PL
                             BLGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
                             droneListWindow.droneToListsView[index] = BLGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
                             droneListWindow.DroneListView.Items.Refresh();
-                           // droneListWindow.droneToListsView.Add(BLGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id));
+                            // droneListWindow.droneToListsView.Add(BLGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id));
                             MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוחזר לרשימת הרחפנים", "אישור");
                             Close();
                             break;
@@ -128,6 +129,21 @@ namespace PL
             idStation = station.Id;
         }
 
+        private void parcelToDrone_Click(object sender, RoutedEventArgs e)
+        {
+           
+            ////bool b = BLGui.AssignPackageToDrone(droneToList.Id);
+            //if (b == true)
+            //{
+            //    BO.Drone drone1 = BLGui.GetDrone(droneToList.Id);
+            //    DataContext = drone1.packageInTransfer;
 
+            //}           //איך גורמים לשינוי להופיע במיידי
+            //else
+            //{
+            //    MessageBox.Show("לא נמצאה חבילה מתאימה עבור רחפן זה", "אישור");
+
+            //}
+        }
     }
 }
