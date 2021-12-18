@@ -11,13 +11,12 @@
             <ImageBrush ImageSource="   https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxU7q0O8NbxYMOj-IyQi4YRVt8NuuR1qSExA&amp;amp;usqp=CAU" Stretch="Fill" TileMode="None" Opacity="0.4"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions >
-        <Button x:Name="addButton" Content="הוסף" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="70" FontSize="38" FontWeight="Bold" Click="addButton_Click"/>
+        <Button x:Name="addButton" Content="הוסף" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="70" FontSize="38" FontWeight="Bold" Click="addButton_Click"/>
 
-        <Grid x:Name="add" Grid.Column="1" Visibility="Hidden" Background="{x:Null}">
+        <Grid x:Name="add" Grid.Column="0" Visibility="Hidden" Background="{x:Null}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -65,40 +64,113 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-
-
             </Grid>
 
         </Grid>
-        
-        <Grid x:Name="update"  Grid.Column="1" Visibility="Visible"  >
+
+        <Grid x:Name="update"  Grid.Column="0" Visibility="Visible"  >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Column="1" Grid.Row="0" Content=":מספר מזהה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
-            <Label Grid.Column="1" Grid.Row="1" Content=":מודל רחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
-            <Label Grid.Column="1" Grid.Row="2" Content=":משקל מקסימלי" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
-            <Label Grid.Column="1" Grid.Row="3" Content=":מצב סוללה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
-            <Label Grid.Column="1" Grid.Row="4" Content=":סטטוס רחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
-            <Label Grid.Column="1" Grid.Row="5" Content=":מיקום" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" />
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Id}"               VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
-            <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Model}"              VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Background="{x:Null}" />
-            <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding MaxWeight}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center" />
-            <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding battery}"          VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
-            <TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding DroneStatuses}"    VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
-            <TextBlock Grid.Column="0" Grid.Row="5" Text="{Binding  Location}"        VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Width="240"  FontSize="22" TextAlignment="Center"/>
+                <Label Grid.Column="0" Grid.Row="0" Content=":פרטי הרחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontSize="6" FontWeight="Bold" />
+                <Label Grid.Column="0" Grid.Row="1" Content=":מספר מזהה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+                <Label Grid.Column="0" Grid.Row="3" Content=":מודל רחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+                <Label Grid.Column="0" Grid.Row="5" Content=":משקל מקסימלי" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+                <Label Grid.Column="0" Grid.Row="7" Content=":מצב סוללה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+                <Label Grid.Column="0" Grid.Row="9" Content=":סטטוס רחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+                <Label Grid.Column="0" Grid.Row="11" Content=":מיקום" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
 
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Id}"               VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center"/>
+                <TextBox Grid.Column="0" Grid.Row="4" Text="{Binding Model}"              VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  FontSize="16" Background="{x:Null}" />
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="{Binding MaxWeight}"        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center" />
+                <TextBlock Grid.Column="0" Grid.Row="8" Text="{Binding battery}"          VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center"/>
+                <TextBlock Grid.Column="0" Grid.Row="10" Text="{Binding DroneStatuses}"    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center"/>
+                <TextBlock Grid.Column="0" Grid.Row="12" Text="{Binding  Location}"       VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="אין חבילה משוייכת לרחפן זה כרגע" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="22" TextAlignment="Center"  Visibility="Hidden"/>
+                <Grid Grid.Row="0" Visibility="Visible">
+                    <Grid.RowDefinitions>
+                        
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="4*"/>
+                        
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Content=":פרטי החבילה המשוייכת לרחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontSize="6" FontWeight="Bold" />
+                    <Label Grid.Column="0" Grid.Row="1" Content=":מזהה חבילה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+                    <Label Grid.Column="0" Grid.Row="3" Content=":סטטוס חבילה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+                   
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Id}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center"/>
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding Model}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center"/>
+                    
+                    <Grid Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Column="0" Grid.Row="0" Content=":מזהה שולח"   VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+                        <Label Grid.Column="0" Grid.Row="2" Content=":מיקום יציאה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Id}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center"/>
+                        <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding Model}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center"/>
+
+                        <Label Grid.Column="1" Grid.Row="0" Content=":מזהה מקבל" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+                        <Label Grid.Column="1" Grid.Row="2" Content=":מיקום יעד" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+
+                        <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Id}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Model}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center"/>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Content=":פרטי תחנת טעינת רחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontSize="6" FontWeight="Bold" />
+                    <Label Grid.Column="0" Grid.Row="1" Content=":שם תחנת טעינה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+                    <Label Grid.Column="0" Grid.Row="3" Content=":מיקום תחנת טעינה" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Id}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center"/>
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding Model}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center"/>
+                </Grid>
+            </Grid>
         </Grid>
     </Grid>
-    
+
 </Window>
