@@ -10,12 +10,11 @@ namespace BL
 {
     public partial class BL : IBL
     {
-
         public bool addDrone(Drone drone, int idStation = 0)
         {
             try
             {
-                DO.Station station =dal.getStation(idStation);
+                DO.Station station = dal.getStation(idStation);
                 Location location = new() { latitude = station.lattitude, longitude = station.longitude };
                 drone.Location = location;
 
@@ -51,12 +50,10 @@ namespace BL
             }
             catch (DO.IdExistExeptions Ex)
             {
-
                 throw new IdExistExeptions("ERORR", Ex);
             }
             catch (DO.IdNotExistExeptions Ex)
             {
-
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
@@ -81,12 +78,10 @@ namespace BL
             }
             catch (DO.IdExistExeptions Ex)
             {
-
                 throw new IdExistExeptions("ERORR", Ex);
             }
             catch (DO.IdNotExistExeptions Ex)
             {
-
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
@@ -123,16 +118,13 @@ namespace BL
                         return true;
                     }
                 }
-
             }
             catch (DO.IdExistExeptions Ex)
             {
-
                 throw new IdExistExeptions("ERORR", Ex);
             }
             catch (DO.IdNotExistExeptions Ex)
             {
-
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
@@ -158,12 +150,10 @@ namespace BL
             }
             catch (DO.IdExistExeptions Ex)
             {
-
                 throw new IdExistExeptions("ERORR", Ex);
             }
             catch (DO.IdNotExistExeptions Ex)
             {
-
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
@@ -171,8 +161,8 @@ namespace BL
         {
             try
             {
-                DO.Parcel bestParcel;
-                DO.Drone drone =dal.getDrone(IdDrone);
+                DO.Parcel bestParcel=new();
+                DO.Drone drone = dal.getDrone(IdDrone);
 
                 DroneToList droneToList = droneToLists.Find(i => i.Id == IdDrone);
                 int droneFind = droneToLists.FindIndex(i => i.Id == IdDrone);
@@ -180,162 +170,64 @@ namespace BL
                 if (droneToList.DroneStatuses != DroneStatuses.available)//Checks if the drone is available.
                     throw new NotImplementedException();
 
-                List<DO.Parcel> parcels = dal.DisplaysIistOfparcels(i => i.Scheduled == DateTime.MinValue).ToList();
-                if (parcels.Count == 0)
-                    throw new NotImplementedException();
+                bestParcel = (from Parcel in dal.DisplaysIistOfparcels().ToList()
+                              where Parcel.Scheduled == DateTime.MinValue
+                              orderby Parcel.priority descending
+                              orderby Parcel.weight descending
+                              where NewMethod(droneToList, Parcel)
+                              select Parcel).First();
 
-                bestParcel = AssignStep1(droneToList, parcels);//Receives from auxiliary functions the most suitable package for delivery.
-
-                droneToLists[droneFind].DroneStatuses = DroneStatuses.busy;
-                droneToLists[droneFind].parcelNumber = bestParcel.Id;
-
-                bool test = dal.AssignPackageToDrone(bestParcel.Id, IdDrone);
-                if (test)
+                if (bestParcel.Id!=0)
                     return true;
                 else
                     throw new NotImplementedException();
             }
             catch (DO.IdExistExeptions Ex)
             {
-
                 throw new IdExistExeptions("ERORR", Ex);
             }
             catch (DO.IdNotExistExeptions Ex)
             {
-
-                throw new IdNotExistExeptions("ERORR", Ex);
-            }
-
-        }
-        /// <summary>
-        /// This function returns the list of relevant packages to the glider by examining the parameters of weight and distance, in order of urgency.
-        /// </summary>
-        /// <param name="droneToList"></param>
-        /// <param name="parcels"></param>
-        /// <returns></returns>
-        public DO.Parcel AssignStep1(DroneToList droneToList, List<DO.Parcel> parcels)
-        {
-
-            try
-            {
-                List<DO.Parcel> emergency = new();
-                List<DO.Parcel> fast = new();
-                List<DO.Parcel> normal = new();
-
-                foreach (DO.Parcel item in parcels)
-                {
-                    if (item.weight <= (DO.WeightCategories)droneToList.MaxWeight)//Feasibility study by weight parameter.
-                    {
-
-                        DO.Customer sander = dal.getCustomer(item.SenderId);
-                        Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
-
-                        DO.Customer target = dal.getCustomer(item.TargetId);
-                        Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
-
-                        double weight = easy;
-                        switch (item.weight)
-                        {
-                            case DO.WeightCategories.easy:
-                                weight = easy;
-                                break;
-                            case DO.WeightCategories.medium:
-                                weight = medium;
-                                break;
-                            case DO.WeightCategories.heavy:
-                                weight = Heavy;
-                                break;
-                            default:
-                                break;
-                        }
-                        //The distance of delivery does not include return to the charging station.
-                        double batteryToTheDelivery;
-                        batteryToTheDelivery =( d.DistanceBetweenPlaces(droneToList.Location, sanderLocation) * available) +
-                            (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight);
-                        if (droneToList.battery >= batteryToTheDelivery)// Feasibility study according to distance parameter
-                        {
-                            //Add the distance to the station only for the remaining relevant packages.
-                            batteryToTheDelivery += (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
-
-                            if (droneToList.battery >= batteryToTheDelivery)//Feasibility study according to distance parameter
-                            {
-                                switch (item.priority)
-                                {
-                                    case DO.Priorities.normal:
-                                        normal.Add(item);
-                                        break;
-                                    case DO.Priorities.fast:
-                                        fast.Add(item);
-                                        break;
-                                    case DO.Priorities.emergency:
-                                        emergency.Add(item);
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-                            }
-                        }
-                    }
-                    if (emergency.Count == 0 && fast.Count == 0 && normal.Count == 0)//If there are no packages left that meet the necessary parameters.
-                        throw new ThereIsNoSuitablePackage("There is no suitable package for the drone");
-                }
-                return AssignStep2(droneToList, (emergency.Count > 0) ? emergency : (fast.Count > 0) ? fast : normal);
-
-            }
-            catch (DO.IdExistExeptions Ex)
-            {
-
-                throw new IdExistExeptions("ERORR", Ex);
-            }
-            catch (DO.IdNotExistExeptions Ex)
-            {
-
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
         /// <summary>
-        /// This function returns the list of most weighted packages.
+        /// This function calculates whether the battery is sufficient for the shipment of this package.
         /// </summary>
         /// <param name="droneToList"></param>
-        /// <param name="parcels"></param>
+        /// <param name="parcel"></param>
         /// <returns></returns>
-        public DO.Parcel AssignStep2(DroneToList droneToList, List<DO.Parcel> parcels)
+        private bool NewMethod(DroneToList droneToList, DO.Parcel parcel)
         {
-            try
-            {
-                List<DO.Parcel> easy = new();
-                List<DO.Parcel> medium = new();
-                List<DO.Parcel> heavy = new();
-                foreach (DO.Parcel item in parcels)
-                {
-                    switch (item.weight)
-                    {
-                        case DO.WeightCategories.easy:
-                            easy.Add(item);
-                            break;
-                        case DO.WeightCategories.medium:
-                            medium.Add(item);
-                            break;
-                        case DO.WeightCategories.heavy:
-                            heavy.Add(item);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                return TheNearestParcelToAssign(droneToList, (heavy.Count > 0) ? heavy : (medium.Count > 0) ? medium : easy);
-            }
-            catch (DO.IdExistExeptions Ex)
-            {
+            DO.Customer sander = dal.getCustomer(parcel.SenderId);
+            Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
-                throw new IdExistExeptions("ERORR", Ex);
-            }
-            catch (DO.IdNotExistExeptions Ex)
-            {
+            DO.Customer target = dal.getCustomer(parcel.TargetId);
+            Location targetLocation = new() { latitude = target.lattitude, longitude = target.longitude };
 
-                throw new IdNotExistExeptions("ERORR", Ex);
+            double weight = easy;
+            switch (parcel.weight)
+            {
+                case DO.WeightCategories.easy:
+                    weight = easy;
+                    break;
+                case DO.WeightCategories.medium:
+                    weight = medium;
+                    break;
+                case DO.WeightCategories.heavy:
+                    weight = Heavy;
+                    break;
+                default:
+                    break;
             }
+
+            if ((d.DistanceBetweenPlaces(droneToList.Location, sanderLocation) * available) +
+                (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight) +
+                (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available) <= droneToList.battery)
+                return true;
+            else
+                return false;
+
         }
         /// <summary>
         /// This function returns the location of the package closest to the glider.
@@ -368,12 +260,10 @@ namespace BL
             }
             catch (DO.IdExistExeptions Ex)
             {
-
                 throw new IdExistExeptions("ERORR", Ex);
             }
             catch (DO.IdNotExistExeptions Ex)
             {
-
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
@@ -400,12 +290,10 @@ namespace BL
             }
             catch (DO.IdExistExeptions Ex)
             {
-
                 throw new IdExistExeptions("ERORR", Ex);
             }
             catch (DO.IdNotExistExeptions Ex)
             {
-
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
@@ -469,7 +357,7 @@ namespace BL
             {
                 DroneToList droneToList = new();
                 droneToList = droneToLists.Find(i => i.Id == droneId);
-                if (droneToList ==default )
+                if (droneToList == default)
                     throw new IdNotExistExeptions("error");
                 Drone drone = new()
                 {
