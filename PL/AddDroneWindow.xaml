@@ -8,7 +8,7 @@
         Title="Drone" Height="450" Width="800">
     <Grid  Margin="0,2,0,-2" Name="MainGrid">
         <Grid.Background>
-            <ImageBrush ImageSource="   https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxU7q0O8NbxYMOj-IyQi4YRVt8NuuR1qSExA&amp;amp;usqp=CAU" Stretch="Fill" TileMode="None" Opacity="0.4"/>
+            <ImageBrush ImageSource="Drone.jpg" Stretch="Fill" TileMode="None" Opacity="0.4"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>

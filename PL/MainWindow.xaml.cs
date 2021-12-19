@@ -23,7 +23,7 @@ namespace PL
     public partial class MainWindow : Window
     {
         IBL blGui;
-       
+
         public MainWindow()
         {
             InitializeComponent();
@@ -54,11 +54,11 @@ namespace PL
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TabControl tabControl = sender as TabControl;
-           
+
             if (tabControl.SelectedIndex == 1)
             {
                 OfficeMainWindowBorder.Visibility = Visibility.Visible;
-               // OfficeStatistics.Visibility = Visibility.Visible;
+                // OfficeStatistics.Visibility = Visibility.Visible;
 
                 //testersCollection = new ObservableCollection<Tester>(bl.GetTestersList());
                 //traineeCollection = new ObservableCollection<Trainee>(bl.GetTraineeList());

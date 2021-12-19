@@ -8,7 +8,7 @@
          Title="MainWindow" MinHeight="720" MinWidth="1020" Height="700" Width="1000"  WindowStyle="None" FlowDirection="RightToLeft"
         AllowsTransparency="True" Background="{x:Null}" WindowState="Maximized">
     <!--Closed="When_Window_CLosed"  MouseDown="Window_MouseDown" שינינו את הרקע ללבן ואת הגודל לנורמל-->
-    <Border BorderThickness="5" BorderBrush="LightPink" Background="Pink" CornerRadius="22">
+    <Border BorderThickness="5" BorderBrush="Blue" Background="BlueViolet" CornerRadius="22">
         <Grid>
             <!--<Grid.Background>
   
@@ -22,10 +22,10 @@
             <Border  CornerRadius="20" Height="60">
                 <Border.Background>
                     <LinearGradientBrush>
-                        <GradientStop Offset="0" Color="LightPink"/>
-                        <GradientStop Offset="0.33" Color="Pink"/>
-                        <GradientStop Offset="0.66" Color="HotPink"/>
-                        <GradientStop Offset="1" Color="DeepPink"/>
+                        <GradientStop Offset="0" Color="BlueViolet"/>
+                        <GradientStop Offset="0.33" Color="Blue"/>
+                        <GradientStop Offset="0.66" Color="BlueViolet"/>
+                        <GradientStop Offset="1" Color="Blue"/>
                     </LinearGradientBrush>
                 </Border.Background>
                 <TextBlock Text="מערכת לניהול רחפנים-fly to you" Margin="40 10 0 0" FontSize="16"/>
@@ -63,9 +63,9 @@
                 <TabControl x:Name="TabControl_Login" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged">
                     <TabControl.Background>
                         <RadialGradientBrush>
-                            <GradientStop Color="DeepPink"/>
+                            <GradientStop Color="Blue"/>
                             <GradientStop Color="Pink" Offset="0.481"/>
-                            <GradientStop Color="HotPink" Offset="1"/>
+                            <GradientStop Color="Blue" Offset="1"/>
                         </RadialGradientBrush>
                     </TabControl.Background>
                     <TabItem Header="מסך פתיחה" Width="180" Height="30" FontSize="16">
