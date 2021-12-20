@@ -23,9 +23,10 @@ namespace PL
     public partial class AddDroneWindow : Window
     {
 
-        BlApi.IBL BLGui;
+        IBL BLGui;
         private DroneToList droneToList;
         private DroneListWindow droneListWindow;
+        private MainWindow mainWindow;
         private Drone drone;
         private int idStation = new();
         private bool? addOrUpdate = null;
@@ -37,6 +38,22 @@ namespace PL
             add.Visibility = Visibility.Visible;
             update.Visibility = Visibility.Hidden;
             droneListWindow = _droneListWindow;
+            BLGui = bL;
+            drone = new();
+            DataContext = drone;
+
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
+            WeightSelector.SelectedIndex = -1;
+
+            stations.ItemsSource = BLGui.DisplaysIistOfStations();
+        }
+        public AddDroneWindow(IBL bL, MainWindow _mainWindow )
+        {
+            InitializeComponent();
+            addOrUpdate = true;
+            add.Visibility = Visibility.Visible;
+            update.Visibility = Visibility.Hidden;
+            mainWindow = _mainWindow;
             BLGui = bL;
             drone = new();
             DataContext = drone;
@@ -78,14 +95,17 @@ namespace PL
 
                         case MessageBoxResult.OK:
                             BLGui.addDrone(drone, idStation);
-                            droneListWindow.droneToListsView.Add(BLGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
-                            MessageBox.Show("הרחפן נוצר בהצלחה\n מיד תוחזר לרשימת הרחפנים", "אישור");
+                            mainWindow.droneToListsView.Add(BLGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
+                            MessageBox.Show("הרחפן נוצר בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
+                            new DroneListWindow(BLGui, mainWindow.droneToListsView).Show();
                             Close();
                             break;
                         case MessageBoxResult.Cancel:
                             break;
                         default:
                             break;
+
+
 
                     }
                 }
@@ -104,10 +124,11 @@ namespace PL
                             droneToList.Model = drone.Model;
                             //   droneListWindow.droneToListsView[index] = droneToList;
                             BLGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
-                            droneListWindow.droneToListsView[index] = BLGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
+                            mainWindow.droneToListsView[index] = BLGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
                             droneListWindow.DroneListView.Items.Refresh();
                             // droneListWindow.droneToListsView.Add(BLGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id));
-                            MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוחזר לרשימת הרחפנים", "אישור");
+                            MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
+                            new DroneListWindow(BLGui, mainWindow.droneToListsView).Show();
                             Close();
                             break;
                         case MessageBoxResult.Cancel:

@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+
 
 namespace PL
 {
@@ -23,17 +25,31 @@ namespace PL
     public partial class MainWindow : Window
     {
         IBL blGui;
-       
+        public ObservableCollection<DroneToList> droneToListsView;//
+
+
         public MainWindow()
         {
-            InitializeComponent();
+            droneToListsView = new();
             blGui = BlFactory.GetBL();
+
+            InitializeComponent();
+            InitList();//
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public void InitList()//
         {
-            new DroneListWindow(blGui).Show();
+            List<DroneToList> temp = blGui.DisplaysIistOfDrons().ToList();
+            foreach (DroneToList item in temp)
+            {
+                droneToListsView.Add(item);
+            }
         }
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    new DroneListWindow(blGui).Show();
+        //}
 
         private void Button_Click_CloseWindow(object sender, RoutedEventArgs e)
         {
@@ -74,11 +90,13 @@ namespace PL
 
         private void Button_Click_UpdateStationData(object sender, RoutedEventArgs e)
         {
+            new GetByIdWindow(blGui, "Station").Show();
 
         }
 
         private void Button_Click_RemoveStation(object sender, RoutedEventArgs e)
         {
+            new GetByIdWindow(blGui, "Station").Show();
 
         }
 
@@ -89,21 +107,23 @@ namespace PL
 
         private void Button_Click_AddDrone(object sender, RoutedEventArgs e)
         {
+            new AddDroneWindow(blGui, this).Show();
 
         }
 
         private void Button_Click_actionInDrone(object sender, RoutedEventArgs e)
         {
-
+            new GetByIdWindow(blGui, "Drone").Show();
         }
 
         private void Button_Click_RemoveDrone(object sender, RoutedEventArgs e)
         {
-
+            new GetByIdWindow(blGui, "Drone").Show();
         }
 
         private void Button_Click_ListOfDrones(object sender, RoutedEventArgs e)
         {
+            new DroneListWindow(blGui, droneToListsView).Show();
 
         }
 
@@ -114,11 +134,13 @@ namespace PL
 
         private void Button_Click_UpdateCostumerData(object sender, RoutedEventArgs e)
         {
+            new GetByIdWindow(blGui, "Customer").Show();
 
         }
 
         private void Button_Click_RemoveCostumer(object sender, RoutedEventArgs e)
         {
+            new GetByIdWindow(blGui, "Customer").Show();
 
         }
 
@@ -134,11 +156,13 @@ namespace PL
 
         private void Button_Click_actionUnParcel(object sender, RoutedEventArgs e)
         {
+            new GetByIdWindow(blGui, "Parcel").Show();
 
         }
 
         private void Button_Click_RemoveParcel(object sender, RoutedEventArgs e)
         {
+            new GetByIdWindow(blGui, "Parcel").Show();
 
         }
 

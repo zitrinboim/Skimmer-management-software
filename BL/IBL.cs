@@ -120,6 +120,13 @@ namespace BlApi
         /// <returns></returns>
         public DroneInParcel GetDroneInParcel(int droneId);
         /// <summary>
+        /// This function returns the station object
+        /// </summary>
+        /// <param name="stationId"></param>
+        /// <returns></returns>
+        public Station GetStation(int stationId);
+
+        /// <summary>
         /// This function returns the Parcel object
         /// </summary>
         /// <param name="parcelId"></param>

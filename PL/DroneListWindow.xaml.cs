@@ -25,14 +25,12 @@ namespace PL
     public partial class DroneListWindow : Window
     {
         private IBL blGui;
-       
-        public ObservableCollection<DroneToList> droneToListsView; 
-        public DroneListWindow(IBL bL)
+        ObservableCollection<DroneToList> droneToListsView;
+        public DroneListWindow(IBL bL, ObservableCollection<DroneToList> _droneToListsView)
         {
             blGui = bL;
-            droneToListsView = new();
+            droneToListsView = _droneToListsView;
             InitializeComponent();
-            InitList();
 
             DroneListView.ItemsSource = droneToListsView;
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatuses));
@@ -46,14 +44,7 @@ namespace PL
             StatusSelectorAndWeightSelector();
         }
 
-        public void InitList()
-        {
-            List<DroneToList> temp = blGui.DisplaysIistOfDrons().ToList();
-            foreach (DroneToList item in temp)
-            {
-                droneToListsView.Add(item);
-            }
-        }
+        
 
         private void StatusSelectorAndWeightSelector()
         {

@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="DroneListWindow" Height="450" Width="800">
-    <Window.OpacityMask>
+    <!--<Window.OpacityMask>
         <ImageBrush ImageSource="   https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxU7q0O8NbxYMOj-IyQi4YRVt8NuuR1qSExA&amp;amp;usqp=CAU" />
-    </Window.OpacityMask>
+    </Window.OpacityMask>-->
     <Window.Background>
         <ImageBrush ImageSource="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxU7q0O8NbxYMOj-IyQi4YRVt8NuuR1qSExA&amp;usqp=CAU" Stretch="Fill" TileMode="None" Opacity="1"/>
     </Window.Background>
