@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
          Title="MainWindow" MinHeight="720" MinWidth="1020" Height="700" Width="1000"  WindowStyle="None" FlowDirection="RightToLeft"
-        AllowsTransparency="True" Background="{x:Null}" WindowState="Maximized">
+        AllowsTransparency="True" Background="{x:Null}" WindowState="Normal">
     <!--Closed="When_Window_CLosed"  MouseDown="Window_MouseDown" שינינו את הרקע ללבן ואת הגודל לנורמל-->
     <Border BorderThickness="5" BorderBrush="Blue" Background="BlueViolet" CornerRadius="22">
         <Grid>
-            <!--<Grid.Background>
+            <Grid.Background>
   
-            <ImageBrush ImageSource="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxU7q0O8NbxYMOj-IyQi4YRVt8NuuR1qSExA&amp;usqp=CAU" Stretch="Fill" TileMode="None" Opacity="0.6"/>
-         </Grid.Background>-->
+            <ImageBrush ImageSource="/images.jpg" Stretch="Fill" TileMode="None" Opacity="0.6"/>
+         </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
@@ -31,20 +31,20 @@
                 <TextBlock Text="מערכת לניהול רחפנים-fly to you" Margin="40 10 0 0" FontSize="16"/>
             </Border>
             <StackPanel x:Name="ManageButtonStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 50 0">
-                <Button Click="Button_Click_MinimizeWindow" Width="25" Height="25">
-                    <!--Template="{StaticResource TitleBarButtons}"  MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"-->
+                <Button Click="Button_Click_MinimizeWindow" Width="25" Height="25" Template="{StaticResource TitleBarButtons}">
+                    <!--  MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"-->
                     <!--<Button.Content>
                         <Image Source="Icons/minusIcon.png" Margin="5"/>
                     </Button.Content>-->
                 </Button>
-                <Button Click="Button_Click_MaximizeWindow" Width="25" Height="25"  Margin="10 0" >
-                    <!--Template="{StaticResource TitleBarButtons}"
-                    <Button.Content>
+                <Button Click="Button_Click_MaximizeWindow" Width="25" Height="25"  Margin="10 0" Template="{StaticResource TitleBarButtons}">
+
+                    <!--<Button.Content>
                         <Image Source="Icons/squareIcon.png" Margin="5"/>
                     </Button.Content>-->
                 </Button>
-                <Button Click="Button_Click_CloseWindow" Width="25" Height="25">
-                    <!--Template="{StaticResource TitleBarButtons}"-->
+                <Button Click="Button_Click_CloseWindow" Width="25" Height="25" Template="{StaticResource TitleBarButtons}">
+                   
                     <!--<Button.Content>
                         <Image Source="Icons/xIcon.png" Margin="5"/>
                     </Button.Content>-->
@@ -60,14 +60,14 @@
                 </Menu>
             </DockPanel>-->
             <Grid Grid.Row="2" Margin="20">
-                <TabControl x:Name="TabControl_Login" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged">
-                    <TabControl.Background>
+                <TabControl x:Name="TabControl_Login" HorizontalAlignment="Stretch"  Background="{x:Null}" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged">
+                    <!--<TabControl.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="Blue"/>
                             <GradientStop Color="Pink" Offset="0.481"/>
                             <GradientStop Color="Blue" Offset="1"/>
                         </RadialGradientBrush>
-                    </TabControl.Background>
+                    </TabControl.Background>-->
                     <TabItem Header="מסך פתיחה" Width="180" Height="30" FontSize="16">
                         <Grid>
                             <Grid Margin="150 0">

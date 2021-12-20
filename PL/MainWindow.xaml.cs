@@ -25,32 +25,20 @@ namespace PL
     public partial class MainWindow : Window
     {
         IBL blGui;
-        public ObservableCollection<DroneToList> droneToListsView;//
+      //  public ObservableCollection<DroneToList> droneToListsView;//
+      //  public ObservableCollection<StationToList> stationToListsView;//
 
 
         public MainWindow()
         {
-            droneToListsView = new();
+            
+        //    stationToListsView = new();
             blGui = BlFactory.GetBL();
 
             InitializeComponent();
-            InitList();//
-
         }
 
-        public void InitList()//
-        {
-            List<DroneToList> temp = blGui.DisplaysIistOfDrons().ToList();
-            foreach (DroneToList item in temp)
-            {
-                droneToListsView.Add(item);
-            }
-        }
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    new DroneListWindow(blGui).Show();
-        //}
-
+       
         private void Button_Click_CloseWindow(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -107,24 +95,24 @@ namespace PL
 
         private void Button_Click_AddDrone(object sender, RoutedEventArgs e)
         {
-            new AddDroneWindow(blGui, this).Show();
+            new DroneWindow(blGui, "Add").Show();
 
         }
 
         private void Button_Click_actionInDrone(object sender, RoutedEventArgs e)
         {
-            new GetByIdWindow(blGui, "Drone").Show();
+            new DroneWindow(blGui, "Updating").Show();
         }
 
         private void Button_Click_RemoveDrone(object sender, RoutedEventArgs e)
         {
-            new GetByIdWindow(blGui, "Drone").Show();
+            //new GetByIdWindow(blGui, "Drone").Show();
         }
 
         private void Button_Click_ListOfDrones(object sender, RoutedEventArgs e)
         {
-            new DroneListWindow(blGui, droneToListsView).Show();
-
+            //new DroneListWindow(blGui, droneToListsView).Show();
+            new DroneWindow(blGui, "List").Show();
         }
 
         private void Button_Click_AddNewCostumer(object sender, RoutedEventArgs e)

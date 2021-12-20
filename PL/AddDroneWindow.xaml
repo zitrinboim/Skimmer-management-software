@@ -1,4 +1,4 @@
-﻿<Window x:Class="PL.AddDroneWindow"
+﻿<!--<Window x:Class="PL.AddDroneWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="Drone" Height="450" Width="800"  ResizeMode="NoResize" WindowStyle="None">
-    <!--AllowsTransparency="True" Background="Transparent"-->
+    --><!--AllowsTransparency="True" Background="Transparent"--><!--
     <Window.Resources>
-        <!--<local:ComboBoxSelectedItemToIsEnable x:Key="comboBoxIsSelectedToEnable"/>
-        <local:DateTimeToShortString x:Key="dateTimeToShortString"/>-->
+        --><!--<local:ComboBoxSelectedItemToIsEnable x:Key="comboBoxIsSelectedToEnable"/>
+        <local:DateTimeToShortString x:Key="dateTimeToShortString"/>--><!--
         <Style TargetType="{x:Type Label}">
             <Setter Property="HorizontalContentAlignment" Value="Right"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -81,7 +81,7 @@
                     <Label Grid.Column="1" Grid.Row="2" Content=":משקל מקסימלי" FontWeight="Bold"  Background="{x:Null}"/>
                     <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding Id}"         Background="{x:Null}" />
                     <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Model}"      Background="{x:Null}"/>
-                    <ComboBox Grid.Column="0" Grid.Row="2" Name="WeightSelector" SelectedItem="{Binding MaxWeight}"   Foreground="Blue" FontWeight="Bold" Background="{x:Null}"/>
+                    <ComboBox Grid.Column="0" Grid.Row="2" Name="WeightSelector1" SelectedItem="{Binding MaxWeight}"   Foreground="Blue" FontWeight="Bold" Background="{x:Null}"/>
                 </Grid>
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
@@ -136,7 +136,7 @@
                     <Label Grid.Column="0" Grid.Row="9" Content=":סטטוס רחפן"  FontWeight="Bold" />
                     <Label Grid.Column="0" Grid.Row="11" Content=":מיקום"  FontWeight="Bold" />
 
-                    <!--לבדוק  האם יש צורך בבלוקים או שאפשר לעשות ריד אונלי וכדו'-->
+                    --><!--לבדוק  האם יש צורך בבלוקים או שאפשר לעשות ריד אונלי וכדו'--><!--
                     <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Id}"               VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center"/>
                     <TextBox Grid.Column="0" Grid.Row="4" Text="{Binding Model}"               Background="{x:Null}" />
                     <TextBlock Grid.Column="0" Grid.Row="6" Text="{Binding MaxWeight}"        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FontSize="16" TextAlignment="Center" />
@@ -226,4 +226,4 @@
             </Grid>
         </Grid>
     </Border>
-</Window>
+</Window>-->

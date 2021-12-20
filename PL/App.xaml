@@ -4,6 +4,16 @@
              xmlns:local="clr-namespace:PL"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <LinearGradientBrush x:Key="SelectedTabBackGround">
+            <GradientStop Offset="0" Color="LightBlue"/>
+            <GradientStop Offset="0.5" Color="LightGreen"/>
+            <GradientStop Offset="1" Color="LightBlue"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ButtonsColor">
+            <GradientStop Offset="0" Color="LightBlue"/>
+            <GradientStop Offset="0.5" Color="LightSkyBlue"/>
+            <GradientStop Offset="1" Color="LightBlue"/>
+        </LinearGradientBrush>
         <Style TargetType="Button">
             <Setter Property="Background" Value="#fff"/>
             <Setter Property="Foreground" Value="#000"/>
@@ -38,6 +48,42 @@
                     <Setter Property="FontWeight" Value="ExtraBlack"/>
                 </Trigger>
             </Style.Triggers>
+        </Style>
+        <ControlTemplate x:Key="TitleBarButtons" TargetType="Button">
+            <Grid>
+                <Ellipse>
+                    <Ellipse.Fill>
+                        <LinearGradientBrush>
+                            <GradientStop Offset="0" Color="Blue"/>
+                            <GradientStop Offset="0.5" Color="LightBlue"/>
+                            <GradientStop Offset="1" Color="White"/>
+                        </LinearGradientBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+        </ControlTemplate>
+        <Style TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="10,2"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource SelectedTabBackGround}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True" SourceName="Border">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonsColor}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Application.Resources>
 </Application>
