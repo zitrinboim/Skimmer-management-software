@@ -28,6 +28,10 @@ namespace PL
         private IBL blGui;
         ObservableCollection<DroneToList> droneToListsView;
         private Drone drone = new();
+        private DroneToList droneToList;
+        private int idStation = new();
+        private bool? addOrUpdate = null;//נחשוב
+        int index;
 
         public DroneWindow(IBL bL, string action = "")
         {
@@ -47,18 +51,43 @@ namespace PL
                     WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
                     StatusSelector.SelectedIndex = 0;
                     droneToListsView.CollectionChanged += DroneToListsView_CollectionChanged;
-
                     break;
                 case "Updating":
-
+                    int id = 0;
+                    UpdatingWindow(id);
                     break;
                 case "Add":
-
+                    AddWindow();
                     break;
 
                 default:
                     break;
             }
+        }
+
+        private void AddWindow()
+        {
+            addOrUpdate = true;
+            addButton.Content = "הוסף";
+            List.Visibility = Visibility.Hidden;
+            Updating.Visibility = Visibility.Hidden;
+            Add.Visibility = Visibility.Visible;
+            drone = new();
+            DataContext = drone;
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
+            WeightSelector.SelectedIndex = -1;
+            stations.ItemsSource = blGui.DisplaysIistOfStations(i => i.freeChargeSlots > 0);
+        }
+
+        private void UpdatingWindow(int id)
+        {
+            addOrUpdate = false;
+            addButton.Content = "עדכן";
+            List.Visibility = Visibility.Hidden;
+            Updating.Visibility = Visibility.Visible;
+            Add.Visibility = Visibility.Hidden;
+            drone = blGui.GetDrone(id);
+            DataContext = drone;
         }
 
         public void InitList()//
@@ -105,20 +134,86 @@ namespace PL
         {
             StatusSelectorAndWeightSelector();
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click_addDrone(object sender, RoutedEventArgs e)
         {
-           new DroneWindow(blGui, "Add").Show();
+            AddWindow();
         }
 
         private void DroneListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DroneToList droneToList = (DroneToList)DroneListView.SelectedItem;
+            droneToList = (DroneToList)DroneListView.SelectedItem;
             int index = DroneListView.SelectedIndex;
             if (droneToList != null)
             {
-            drone = blGui.GetDrone(droneToList.Id);
-                new DroneWindow(blGui, "Updating").Show();
+                UpdatingWindow(droneToList.Id);
             }
+        }
+        private void addButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (addOrUpdate == true)
+            {
+                if (drone.Id != default && drone.Model != default && drone.MaxWeight != default && idStation != default)
+                {
+                    MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);
+                    switch (messageBoxResult)
+                    {
+
+                        case MessageBoxResult.OK:
+                            blGui.addDrone(drone, idStation);
+                            droneToListsView.Add(blGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
+                            MessageBox.Show("הרחפן נוצר בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
+                            //new DroneListWindow(blGui, mainWindow.droneToListsView).Show();
+                            Close();
+                            break;
+                        case MessageBoxResult.Cancel:
+                            break;
+                        default:
+                            break;
+
+                    }
+                }
+                else
+                    MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+            }
+            else
+            {
+                if (drone.Model != default)
+                {
+                    MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר עדכון זה", "אישור", MessageBoxButton.OKCancel);
+                    switch (messageBoxResult)
+                    {
+                        case MessageBoxResult.OK:
+                            // droneListWindow.droneToListsView.Remove(BLGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
+                            droneToList.Model = drone.Model;
+                            //   droneListWindow.droneToListsView[index] = droneToList;
+                            blGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
+                            droneToListsView[index] = blGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
+                            DroneListView.Items.Refresh();
+                            // droneListWindow.droneToListsView.Add(BLGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id));
+                            MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
+                            //new DroneListWindow(BLGui, mainWindow.droneToListsView).Show();
+                            Close();
+                            break;
+                        case MessageBoxResult.Cancel:
+                            break;
+                        default:
+                            break;
+
+                    }
+                }
+                else
+                    MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+            }
+        }
+        private void stations_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            StationToList station = (StationToList)stations.SelectedItem;
+            idStation = station.Id;
+        }
+        private void parcelToDrone_Click(object sender, RoutedEventArgs e)
+        {
+
+
         }
     }
 }
