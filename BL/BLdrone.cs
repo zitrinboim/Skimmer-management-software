@@ -161,7 +161,7 @@ namespace BL
         {
             try
             {
-                DO.Parcel bestParcel=new();
+                DO.Parcel bestParcel = new();
                 DO.Drone drone = dal.getDrone(IdDrone);
 
                 DroneToList droneToList = droneToLists.Find(i => i.Id == IdDrone);
@@ -175,7 +175,7 @@ namespace BL
                               orderby Parcel.priority descending
                               orderby Parcel.weight descending
                               where NewMethod(droneToList, Parcel)
-                              select Parcel).First();
+                              select Parcel).FirstOrDefault();
 
                 if (bestParcel.Id != 0)
                 {

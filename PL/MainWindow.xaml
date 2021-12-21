@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
          Title="MainWindow" MinHeight="720" MinWidth="1020" Height="700" Width="1000"  WindowStyle="None" FlowDirection="RightToLeft"
-        AllowsTransparency="True" Background="{x:Null}" WindowState="Normal">
+        AllowsTransparency="True" Background="{x:Null}" WindowState="Maximized">
     <!--Closed="When_Window_CLosed"  MouseDown="Window_MouseDown" שינינו את הרקע ללבן ואת הגודל לנורמל-->
     <Border BorderThickness="5" BorderBrush="Blue" Background="BlueViolet" CornerRadius="22">
         <Grid>

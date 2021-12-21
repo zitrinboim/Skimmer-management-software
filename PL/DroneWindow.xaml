@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d" 
-        Title="DroneWindow" Height="450" Width="640" ResizeMode="NoResize" WindowStyle="None">
+        Title="DroneWindow" Height="450" Width="640" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Window.Resources>
         <!--<local:ComboBoxSelectedItemToIsEnable x:Key="comboBoxIsSelectedToEnable"/>
         <local:DateTimeToShortString x:Key="dateTimeToShortString"/>-->
@@ -93,10 +93,10 @@
                             <GridView>
                                 <GridViewColumn Header="מזהה"  Width="80" DisplayMemberBinding="{Binding Id}"/>
                                 <GridViewColumn Header="סוללה" Width="80" DisplayMemberBinding="{Binding battery, StringFormat=0.00}"/>
-                                <GridViewColumn Header="מיקום" Width="200" DisplayMemberBinding="{Binding Location}"/>
+                                <GridViewColumn Header="מיקום" Width="180" DisplayMemberBinding="{Binding Location}"/>
                                 <GridViewColumn Header="דגם" Width="80" DisplayMemberBinding="{Binding Model}"/>
                                 <GridViewColumn Header="משקל" Width="80" DisplayMemberBinding="{Binding MaxWeight}"/>
-                                <GridViewColumn Header="סטטוס" Width="80" DisplayMemberBinding="{Binding DroneStatuses}"/>
+                                <GridViewColumn Header="סטטוס" Width="100" DisplayMemberBinding="{Binding DroneStatuses}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>

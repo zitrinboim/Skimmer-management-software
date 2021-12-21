@@ -18,7 +18,7 @@ using System.Collections.ObjectModel;
 namespace PL
 {
     public enum WeightCategories { All, easy, medium, heavy };
-    public enum Actions { LIST,ADD, UPDATING, REMOVE};
+    public enum Actions { LIST, ADD, UPDATING, REMOVE };
     public enum DroneStatuses { All, available, maintenance, busy };
 
     /// <summary>
@@ -65,6 +65,7 @@ namespace PL
 
         private void ListWindow()
         {
+            DroneListView.Items.Refresh();
             actions = Actions.LIST;
             addButton.Content = "הוסף רחפן";
             Close.Content = "סגור";
@@ -95,12 +96,16 @@ namespace PL
 
         private void UpdatingWindow(int id)
         {
-            if (action== "Updating")
+            if (action == "Updating")
             {
                 //כאן יבוא הקטע של בחירת ID
                 droneToList = blGui.DisplaysIistOfDrons(i => i.Id == id).First();
             }
-            if (drone.DroneStatuses==BO.DroneStatuses.busy)
+            if (droneToList.DroneStatuses == BO.DroneStatuses.maintenance)
+            {
+
+            }
+            if (droneToList.DroneStatuses == BO.DroneStatuses.busy)
             {
                 NoParcel.Visibility = Visibility.Hidden;
                 YesParcel.Visibility = Visibility.Visible;
@@ -118,10 +123,10 @@ namespace PL
             Add.Visibility = Visibility.Hidden;
             drone = blGui.GetDrone(id);
             DataContext = drone;
-            if (drone.DroneStatuses== BO.DroneStatuses.busy)
-            {
+            //if (drone.DroneStatuses == BO.DroneStatuses.busy)
+            //{
 
-            }
+            //}
         }
 
         public void InitList()//
@@ -168,7 +173,7 @@ namespace PL
         {
             StatusSelectorAndWeightSelector();
         }
-       
+
 
         private void DroneListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -221,7 +226,6 @@ namespace PL
                                 droneToList.Model = drone.Model;
                                 _ = blGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
                                 // droneToListsView[index] = blGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
-                                DroneListView.Items.Refresh();
                                 MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
                                 ListWindow();
                                 break;
@@ -247,10 +251,28 @@ namespace PL
         }
         private void parcelToDrone_Click(object sender, RoutedEventArgs e)
         {
-            bool test = blGui.AssignPackageToDrone(drone.Id);
-
+            MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לשייך חבילה ", "אישור", MessageBoxButton.OKCancel);
+            switch (messageBoxResult)
+            {
+                case MessageBoxResult.OK:
+                    bool test = blGui.AssignPackageToDrone(drone.Id);
+                    if (test)
+                    {
+                        NoParcel.Visibility = Visibility.Hidden;
+                        YesParcel.Visibility = Visibility.Visible;
+                        drone = blGui.GetDrone(drone.Id);
+                    }
+                    else
+                    {
+                        MessageBox.Show("לא נמצאה חבילה מתאימה", "אישור");
+                    }
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+                default:
+                    break;
+            }
         }
-
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             switch (action)
