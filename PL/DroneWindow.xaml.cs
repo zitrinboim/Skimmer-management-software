@@ -67,6 +67,7 @@ namespace PL
         {
             actions = Actions.LIST;
             addButton.Content = "הוסף רחפן";
+            Close.Content = "סגור";
             List.Visibility = Visibility.Visible;
             Updating.Visibility = Visibility.Hidden;
             Add.Visibility = Visibility.Hidden;
@@ -81,6 +82,7 @@ namespace PL
         {
             actions = Actions.ADD;
             addButton.Content = "הוסף";
+            Close.Content = "סגור";
             List.Visibility = Visibility.Hidden;
             Updating.Visibility = Visibility.Hidden;
             Add.Visibility = Visibility.Visible;
@@ -93,17 +95,33 @@ namespace PL
 
         private void UpdatingWindow(int id)
         {
-            if (droneToList.Id != id )
+            if (action== "Updating")
             {
+                //כאן יבוא הקטע של בחירת ID
                 droneToList = blGui.DisplaysIistOfDrons(i => i.Id == id).First();
+            }
+            if (drone.DroneStatuses==BO.DroneStatuses.busy)
+            {
+                NoParcel.Visibility = Visibility.Hidden;
+                YesParcel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                NoParcel.Visibility = Visibility.Visible;
+                YesParcel.Visibility = Visibility.Hidden;
             }
             actions = Actions.UPDATING;
             addButton.Content = "עדכן";
+            Close.Content = "סגור";
             List.Visibility = Visibility.Hidden;
             Updating.Visibility = Visibility.Visible;
             Add.Visibility = Visibility.Hidden;
             drone = blGui.GetDrone(id);
             DataContext = drone;
+            if (drone.DroneStatuses== BO.DroneStatuses.busy)
+            {
+
+            }
         }
 
         public void InitList()//
@@ -229,7 +247,7 @@ namespace PL
         }
         private void parcelToDrone_Click(object sender, RoutedEventArgs e)
         {
-
+            bool test = blGui.AssignPackageToDrone(drone.Id);
 
         }
 

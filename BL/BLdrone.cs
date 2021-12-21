@@ -177,8 +177,11 @@ namespace BL
                               where NewMethod(droneToList, Parcel)
                               select Parcel).First();
 
-                if (bestParcel.Id!=0)
+                if (bestParcel.Id != 0)
+                {
+                    droneToLists[droneFind].DroneStatuses = DroneStatuses.busy;
                     return true;
+                }
                 else
                     throw new NotImplementedException();
             }
