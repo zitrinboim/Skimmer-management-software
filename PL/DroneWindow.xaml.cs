@@ -260,7 +260,8 @@ namespace PL
                     {
                         NoParcel.Visibility = Visibility.Hidden;
                         YesParcel.Visibility = Visibility.Visible;
-                        drone = blGui.GetDrone(drone.Id);
+                        drone = blGui.GetDrone(drone.Id);//שינינו שורות 73 74 בBLPARCEL
+                        UpdatingWindow(drone.Id);
                     }
                     else
                     {

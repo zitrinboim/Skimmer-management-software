@@ -171,15 +171,18 @@ namespace BL
                     throw new NotImplementedException();
 
                 bestParcel = (from Parcel in dal.DisplaysIistOfparcels().ToList()
-                              where Parcel.Scheduled == DateTime.MinValue
+                              //where Parcel.Scheduled == DateTime.MinValue
                               orderby Parcel.priority descending
                               orderby Parcel.weight descending
-                              where NewMethod(droneToList, Parcel)
+                              //where NewMethod(droneToList, Parcel)
                               select Parcel).FirstOrDefault();
 
                 if (bestParcel.Id != 0)
                 {
                     droneToLists[droneFind].DroneStatuses = DroneStatuses.busy;
+                    droneToLists[droneFind].parcelNumber =bestParcel.Id;
+
+                    _ = dal.AssignPackageToDrone(bestParcel.Id, IdDrone);
                     return true;
                 }
                 else

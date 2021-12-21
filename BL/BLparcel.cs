@@ -70,8 +70,8 @@ namespace BL
             {
                 DO.Parcel parcel = dal.getParcel(parcelId);
 
-                if (parcel.Scheduled == DateTime.MinValue || parcel.Delivered != DateTime.MinValue)
-                    throw new NotImplementedException();//כי אין חבילה כזו בהעברה.
+                //if (parcel.Scheduled == DateTime.MinValue || parcel.Delivered != DateTime.MinValue)
+                  //  throw new NotImplementedException();//כי אין חבילה כזו בהעברה.
 
                 DO.Customer sander = dal.getCustomer(parcel.SenderId);
                 Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
