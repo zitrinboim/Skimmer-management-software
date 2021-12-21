@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 namespace PL
 {
     public enum WeightCategories { All, easy, medium, heavy };
+    public enum Actions { LIST,ADD, UPDATING, REMOVE};
     public enum DroneStatuses { All, available, maintenance, busy };
 
     /// <summary>
@@ -27,30 +28,27 @@ namespace PL
     {
         private IBL blGui;
         ObservableCollection<DroneToList> droneToListsView;
-        private Drone drone = new();
+        private Drone drone;
         private DroneToList droneToList;
-        private int idStation = new();
-        private bool? addOrUpdate = null;//נחשוב
+        private int idStation;
         int index;
+        Actions actions;
+        string action;
 
-        public DroneWindow(IBL bL, string action = "")
+        public DroneWindow(IBL bL, string _action = "")
         {
             blGui = bL;
+            actions = new();
+            action = _action;
             droneToListsView = new();
+            droneToList = new();
             InitList();
             InitializeComponent();
 
             switch (action)
             {
                 case "List":
-                    List.Visibility = Visibility.Visible;
-                    Updating.Visibility = Visibility.Hidden;
-                    Add.Visibility = Visibility.Hidden;
-                    DroneListView.ItemsSource = droneToListsView;
-                    StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatuses));
-                    WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
-                    StatusSelector.SelectedIndex = 0;
-                    droneToListsView.CollectionChanged += DroneToListsView_CollectionChanged;
+                    ListWindow();
                     break;
                 case "Updating":
                     int id = 0;
@@ -65,9 +63,23 @@ namespace PL
             }
         }
 
+        private void ListWindow()
+        {
+            actions = Actions.LIST;
+            addButton.Content = "הוסף רחפן";
+            List.Visibility = Visibility.Visible;
+            Updating.Visibility = Visibility.Hidden;
+            Add.Visibility = Visibility.Hidden;
+            DroneListView.ItemsSource = droneToListsView;
+            StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatuses));
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+            StatusSelector.SelectedIndex = 0;
+            droneToListsView.CollectionChanged += DroneToListsView_CollectionChanged;
+        }
+
         private void AddWindow()
         {
-            addOrUpdate = true;
+            actions = Actions.ADD;
             addButton.Content = "הוסף";
             List.Visibility = Visibility.Hidden;
             Updating.Visibility = Visibility.Hidden;
@@ -81,7 +93,11 @@ namespace PL
 
         private void UpdatingWindow(int id)
         {
-            addOrUpdate = false;
+            if (droneToList.Id != id )
+            {
+                droneToList = blGui.DisplaysIistOfDrons(i => i.Id == id).First();
+            }
+            actions = Actions.UPDATING;
             addButton.Content = "עדכן";
             List.Visibility = Visibility.Hidden;
             Updating.Visibility = Visibility.Visible;
@@ -134,10 +150,7 @@ namespace PL
         {
             StatusSelectorAndWeightSelector();
         }
-        private void Button_Click_addDrone(object sender, RoutedEventArgs e)
-        {
-            AddWindow();
-        }
+       
 
         private void DroneListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -150,59 +163,63 @@ namespace PL
         }
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            if (addOrUpdate == true)
+            switch (actions)
             {
-                if (drone.Id != default && drone.Model != default && drone.MaxWeight != default && idStation != default)
-                {
-                    MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);
-                    switch (messageBoxResult)
+                case Actions.LIST:
+                    AddWindow();
+                    break;
+                case Actions.ADD:
+
+                    if (drone.Id != default && drone.Model != default && drone.MaxWeight != default && idStation != default)//להעביר את הבדיקה לאיז אנעבלעד 
                     {
+                        MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
+                        switch (messageBoxResult)
+                        {
 
-                        case MessageBoxResult.OK:
-                            blGui.addDrone(drone, idStation);
-                            droneToListsView.Add(blGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
-                            MessageBox.Show("הרחפן נוצר בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
-                            //new DroneListWindow(blGui, mainWindow.droneToListsView).Show();
-                            Close();
-                            break;
-                        case MessageBoxResult.Cancel:
-                            break;
-                        default:
-                            break;
+                            case MessageBoxResult.OK:
+                                _ = blGui.addDrone(drone, idStation);
+                                droneToListsView.Add(blGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
+                                MessageBox.Show("הרחפן נוצר בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
+                                ListWindow();
+                                break;
+                            case MessageBoxResult.Cancel:
+                                break;
+                            default:
+                                break;
 
+                        }
                     }
-                }
-                else
-                    MessageBox.Show("נא השלם את השדות החסרים", "אישור");
-            }
-            else
-            {
-                if (drone.Model != default)
-                {
-                    MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר עדכון זה", "אישור", MessageBoxButton.OKCancel);
-                    switch (messageBoxResult)
+                    else
+                        MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+                    break;
+                case Actions.UPDATING:
+
+                    if (drone.Model != default)//איז אנעבעלד
                     {
-                        case MessageBoxResult.OK:
-                            // droneListWindow.droneToListsView.Remove(BLGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
-                            droneToList.Model = drone.Model;
-                            //   droneListWindow.droneToListsView[index] = droneToList;
-                            blGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
-                            droneToListsView[index] = blGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
-                            DroneListView.Items.Refresh();
-                            // droneListWindow.droneToListsView.Add(BLGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id));
-                            MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
-                            //new DroneListWindow(BLGui, mainWindow.droneToListsView).Show();
-                            Close();
-                            break;
-                        case MessageBoxResult.Cancel:
-                            break;
-                        default:
-                            break;
-
+                        MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר עדכון זה", "אישור", MessageBoxButton.OKCancel);
+                        switch (messageBoxResult)
+                        {
+                            case MessageBoxResult.OK:
+                                droneToList.Model = drone.Model;
+                                _ = blGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
+                                // droneToListsView[index] = blGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
+                                DroneListView.Items.Refresh();
+                                MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
+                                ListWindow();
+                                break;
+                            case MessageBoxResult.Cancel:
+                                break;
+                            default:
+                                break;
+                        }
                     }
-                }
-                else
-                    MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+                    else
+                        MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+                    break;
+                case Actions.REMOVE:
+                    break;
+                default:
+                    break;
             }
         }
         private void stations_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
@@ -214,6 +231,22 @@ namespace PL
         {
 
 
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            switch (action)
+            {
+                case "List":
+                    if (actions != Actions.LIST)
+                        ListWindow();
+                    else
+                        Close();
+                    break;
+                default:
+                    Close();
+                    break;
+            }
         }
     }
 }

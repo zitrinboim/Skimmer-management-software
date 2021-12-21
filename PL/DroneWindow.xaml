@@ -43,54 +43,60 @@
             <Setter Property="Margin" Value="2"/>
             <Setter Property="FontSize" Value="16"/>
         </Style>
-        <Style TargetType="ListViewItem">
+        <Style TargetType="{x:Type ListViewItem}">
             <Setter  Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
     </Window.Resources>
     <Grid>
-        <Border Name="List" Visibility="Hidden">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="addButton" Grid.Row="1" VerticalAlignment="Top" FontWeight="Bold" Click="addButton_Click"/>
+        <Button x:Name="Close" Grid.Row="1" VerticalAlignment="Bottom" FontWeight="Bold" Click="CloseButton_Click"/>
+
+        <Border Name="List" Visibility="Hidden" Grid.Row="0">
             <Grid Name="MainGrid">
                 <Grid.RowDefinitions>
-                        <RowDefinition Height="50*"/>
-                        <RowDefinition Height="400*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions >
-                        <ComboBox Name="StatusSelector" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontWeight="Bold" Foreground="red" VerticalContentAlignment="Center"  Grid.Column="1"  VerticalAlignment="Stretch" SelectionChanged="StatusSelector_SelectionChanged" />
-                        <Label Content="Lbel" Grid.Column="0" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
-                        <ComboBox Name="WeightSelector" HorizontalContentAlignment="Center" Foreground="red" FontWeight="Bold" VerticalContentAlignment="Center"  HorizontalAlignment="Stretch" Grid.Column="2"  VerticalAlignment="Stretch" SelectionChanged="WeightSelector_SelectionChanged"/>
-                        <Button Content="AddDrone" Grid.Column="3" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Click="Button_Click_addDrone"/>
-                    </Grid>
-                    <ListView x:Name="DroneListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="DroneListView_SelectionChanged"  >
-                        <ListView.Background>
-                            <ImageBrush/>
-                        </ListView.Background>
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter  Property="HorizontalContentAlignment" Value="Center">
-                                </Setter>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="מספר מזהה" Width="80" DisplayMemberBinding="{Binding Id}"/>
-                                <GridViewColumn Header="מצב סוללה" Width="170" DisplayMemberBinding="{Binding battery, StringFormat=0.00}"/>
-                                <GridViewColumn Header="מיקום" Width="300" DisplayMemberBinding="{Binding Location}"/>
-                                <GridViewColumn Header="דגם" Width="60" DisplayMemberBinding="{Binding Model}"/>
-                                <GridViewColumn Header="משקל" Width="80" DisplayMemberBinding="{Binding MaxWeight}"/>
-                                <GridViewColumn Header="Statuses" Width="110" DisplayMemberBinding="{Binding DroneStatuses}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                    <RowDefinition Height="50*"/>
+                    <RowDefinition Height="400*"/>
+                </Grid.RowDefinitions>
+                <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions >
+                    <ComboBox Name="StatusSelector" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontWeight="Bold" Foreground="red" VerticalContentAlignment="Center"  Grid.Column="1"  VerticalAlignment="Stretch" SelectionChanged="StatusSelector_SelectionChanged" />
+                    <Label Content="Lbel" Grid.Column="0" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+                    <ComboBox Name="WeightSelector" HorizontalContentAlignment="Center" Foreground="red" FontWeight="Bold" VerticalContentAlignment="Center"  HorizontalAlignment="Stretch" Grid.Column="2"  VerticalAlignment="Stretch" SelectionChanged="WeightSelector_SelectionChanged"/>
                 </Grid>
-            
-    </Border>
-        <Border Name="Add" Visibility="Hidden">
+                <ListView x:Name="DroneListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="DroneListView_SelectionChanged"  >
+                    <ListView.Background>
+                        <ImageBrush/>
+                    </ListView.Background>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter  Property="HorizontalContentAlignment" Value="Center">
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="מספר מזהה" Width="80" DisplayMemberBinding="{Binding Id}"/>
+                            <GridViewColumn Header="מצב סוללה" Width="170" DisplayMemberBinding="{Binding battery, StringFormat=0.00}"/>
+                            <GridViewColumn Header="מיקום" Width="300" DisplayMemberBinding="{Binding Location}"/>
+                            <GridViewColumn Header="דגם" Width="60" DisplayMemberBinding="{Binding Model}"/>
+                            <GridViewColumn Header="משקל" Width="80" DisplayMemberBinding="{Binding MaxWeight}"/>
+                            <GridViewColumn Header="Statuses" Width="110" DisplayMemberBinding="{Binding DroneStatuses}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+
+        </Border>
+        <Border Name="Add" Grid.Row="0" Visibility="Hidden">
             <Grid x:Name="add" Grid.Row="1" Visibility="Visible" Background="RoyalBlue">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -137,7 +143,7 @@
             </Grid>
         </Border>
 
-        <Border Name="Updating" Visibility="Visible">
+        <Border Name="Updating" Grid.Row="0" Visibility="Visible">
             <Grid>
                 <Border BorderThickness="2" BorderBrush="LightBlue" Background="AliceBlue" CornerRadius="20" Padding="10">
                     <Grid  Margin="0,2,0,-2" Name="MainGrid1">
@@ -149,7 +155,6 @@
                             <RowDefinition Height="5*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Button x:Name="addButton" Content="הוסף" Grid.Row="2" VerticalAlignment="Top" FontWeight="Bold" Click="addButton_Click"/>
                         <Label Grid.Column="1" Grid.Row="0" Content=":הכנס פרטי רחפן" HorizontalContentAlignment="Center" Background="Silver"    FontWeight="Bold"  />
 
 
