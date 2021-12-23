@@ -128,6 +128,15 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+
+        public int GetTheIdOfCloseStation(Drone drone)
+        {
+            List<DO.Station> stationWithFreeSlots = dal.DisplaysIistOfStations().ToList();
+            DO.Station closeStation = TheNearestStation(drone.Location, stationWithFreeSlots);
+            return closeStation.Id;
+        }
+
+        
         public bool ReleaseDroneFromCharging(int IdDrone, int time)
         {
             try
@@ -171,7 +180,7 @@ namespace BL
                     throw new NotImplementedException();
 
                 bestParcel = (from Parcel in dal.DisplaysIistOfparcels().ToList()
-                              //where Parcel.Scheduled == DateTime.MinValue
+                                  //where Parcel.Scheduled == DateTime.MinValue
                               orderby Parcel.priority descending
                               orderby Parcel.weight descending
                               //where NewMethod(droneToList, Parcel)
@@ -180,7 +189,7 @@ namespace BL
                 if (bestParcel.Id != 0)
                 {
                     droneToLists[droneFind].DroneStatuses = DroneStatuses.busy;
-                    droneToLists[droneFind].parcelNumber =bestParcel.Id;
+                    droneToLists[droneFind].parcelNumber = bestParcel.Id;
 
                     _ = dal.AssignPackageToDrone(bestParcel.Id, IdDrone);
                     return true;
