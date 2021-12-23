@@ -6,12 +6,12 @@
     <Application.Resources>
         <LinearGradientBrush x:Key="SelectedTabBackGround">
             <GradientStop Offset="0" Color="LightBlue"/>
-            <GradientStop Offset="0.5" Color="LightGreen"/>
+            <GradientStop Offset="0.5" Color="Blue"/>
             <GradientStop Offset="1" Color="LightBlue"/>
         </LinearGradientBrush>
         <LinearGradientBrush x:Key="ButtonsColor">
             <GradientStop Offset="0" Color="LightBlue"/>
-            <GradientStop Offset="0.5" Color="LightSkyBlue"/>
+            <GradientStop Offset="0.5" Color="Blue"/>
             <GradientStop Offset="1" Color="LightBlue"/>
         </LinearGradientBrush>
         <Style TargetType="Button">
@@ -54,9 +54,9 @@
                 <Ellipse>
                     <Ellipse.Fill>
                         <LinearGradientBrush>
-                            <GradientStop Offset="0" Color="Blue"/>
-                            <GradientStop Offset="0.5" Color="LightBlue"/>
-                            <GradientStop Offset="1" Color="White"/>
+                            <GradientStop Offset="0" Color="LightBlue"/>
+                            <GradientStop Offset="0.5" Color="Blue"/>
+                            <GradientStop Offset="1" Color="LightBlue"/>
                         </LinearGradientBrush>
                     </Ellipse.Fill>
                 </Ellipse>
@@ -72,13 +72,13 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="{StaticResource SelectedTabBackGround}" />
+                                <Setter TargetName="Border" Property="Background" Value="LightBlue" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="False">
                                 <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True" SourceName="Border">
-                                <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonsColor}"/>
+                                <Setter TargetName="Border" Property="Background" Value="LightBlue"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

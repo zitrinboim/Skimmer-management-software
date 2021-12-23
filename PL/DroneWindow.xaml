@@ -57,6 +57,7 @@
         </Style>
     </Window.Resources>
     <Border BorderThickness="2" BorderBrush="LightBlue" Background="AliceBlue" CornerRadius="20" Padding="10">
+       
         <Grid>
             <Grid.Background>
                 <ImageBrush ImageSource="/images.jpg" Stretch="Fill" TileMode="None" Opacity="0.6"/>
@@ -103,7 +104,7 @@
                 </Grid>
 
             </Border>
-            <Border Name="Add" Grid.Row="0" Visibility="Hidden">
+            <Border Name="Add" Grid.Row="0" Visibility="Visible">
                 <Grid x:Name="add" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.2*"/>
@@ -130,7 +131,7 @@
                         <Label Grid.Column="2" Grid.Row="2" Content=":משקל מקסימלי" FontWeight="Bold"  Background="{x:Null}"/>
                         <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Id}"         Background="{x:Null}" />
                         <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Model}"      Background="{x:Null}"/>
-                        <ComboBox Grid.Column="1" Grid.Row="2" SelectedItem="{Binding MaxWeight}"    FontWeight="Bold" Background="{x:Null}"/>
+                        <ComboBox Name="MaxWeight" Grid.Column="1" Grid.Row="2" SelectedItem="{Binding MaxWeight}"  Foreground="Black" FontWeight="Bold"/>
                     </Grid>
                     <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
@@ -156,7 +157,7 @@
                 </Grid>
             </Border>
 
-            <Border Name="Updating" Grid.Row="0" Visibility="Visible">
+            <Border Name="Updating" Grid.Row="0" Visibility="Hidden">
 
                 <Grid  Margin="0,2,0,-2" Name="MainGrid1">
 
@@ -217,7 +218,8 @@
                                     </Grid.RowDefinitions>
 
                                     <Label Grid.Column="0" Grid.Row="0" Content=":פרטי החבילה המשוייכת לרחפן"  HorizontalContentAlignment="Center" FontWeight="Bold" />
-                                    <TextBlock Grid.Row="1"  VerticalAlignment="Center" FontWeight="Bold"  Text="אין חבילה משוייכת לרחפן זה כרגע" TextDecorations="Underline" FontSize="16" />
+                                    <TextBlock Name="packageAssociated" Grid.Row="1"  VerticalAlignment="Center" FontWeight="Bold"  Text="אין חבילה משוייכת לרחפן זה כרגע" TextDecorations="Underline" FontSize="16" />
+                                    <TextBlock x:Name="droneMaintenance" Grid.Row="2"  VerticalAlignment="Center" FontWeight="Bold"  Text="אין אפשרות לעדכן רחפן זה"  FontSize="16" Visibility="Hidden" />
                                     <Button x:Name="parcelToDrone" Grid.Row="2"   Content="שייך חבילה"  Click="parcelToDrone_Click"/>
 
                                 </Grid>

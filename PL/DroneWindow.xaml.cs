@@ -34,7 +34,8 @@ namespace PL
         int index;
         Actions actions;
         string action;
-
+        List<Station> stationstemp;
+        List<StationToList> StationToListtemp;
         public DroneWindow(IBL bL, string _action = "")
         {
             blGui = bL;
@@ -87,9 +88,9 @@ namespace PL
             List.Visibility = Visibility.Hidden;
             Updating.Visibility = Visibility.Hidden;
             Add.Visibility = Visibility.Visible;
+            MaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             drone = new();
             DataContext = drone;
-            WeightSelector.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             WeightSelector.SelectedIndex = -1;
             stations.ItemsSource = blGui.DisplaysIistOfStations(i => i.freeChargeSlots > 0);
         }
@@ -99,11 +100,20 @@ namespace PL
             if (action == "Updating")
             {
                 //כאן יבוא הקטע של בחירת ID
-                droneToList = blGui.DisplaysIistOfDrons(i => i.Id == id).First();
+                  droneToList = blGui.DisplaysIistOfDrons(i => i.Id == id).First();
             }
             if (droneToList.DroneStatuses == BO.DroneStatuses.maintenance)
             {
-
+                parcelToDrone.Visibility=Visibility.Hidden;
+                droneMaintenance.Visibility=Visibility.Visible;
+                packageAssociated.Text = "הרחפן בתחזוקה";
+               
+            }
+            if (droneToList.DroneStatuses == BO.DroneStatuses.available)
+            {
+                parcelToDrone.Visibility=Visibility.Visible;
+                droneMaintenance.Visibility=Visibility.Hidden;
+                packageAssociated.Text = "אין חבילה משוייכת לרחפן זה כרגע";
             }
             if (droneToList.DroneStatuses == BO.DroneStatuses.busy)
             {
@@ -122,11 +132,8 @@ namespace PL
             Updating.Visibility = Visibility.Visible;
             Add.Visibility = Visibility.Hidden;
             drone = blGui.GetDrone(id);
+            
             DataContext = drone;
-            //if (drone.DroneStatuses == BO.DroneStatuses.busy)
-            //{
-
-            //}
         }
 
         public void InitList()//
@@ -280,7 +287,10 @@ namespace PL
             {
                 case "List":
                     if (actions != Actions.LIST)
+                    {
                         ListWindow();
+                        DroneListView.SelectedItem = null;
+                    }
                     else
                         Close();
                     break;
