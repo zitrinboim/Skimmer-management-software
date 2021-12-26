@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace PL
 {
-   
+
 
     /// <summary>
     /// Interaction logic for DroneWindow.xaml
@@ -25,7 +25,7 @@ namespace PL
         Actions actions;
         string action;
         Station station;
-       
+
         public DroneWindow(IBL bL, string _action = "")
         {
             blGui = bL;
@@ -35,7 +35,7 @@ namespace PL
             droneToList = new();
             InitList();
             InitializeComponent();
-            
+
             switch (action)
             {
                 case "List":
@@ -99,11 +99,12 @@ namespace PL
                 drone = blGui.GetDrone(id);
                 droneToList = blGui.DisplaysIistOfDrons().First(i => i.Id == id);
             }
-                if (droneToList.DroneStatuses == BO.DroneStatuses.maintenance)
+            if (droneToList.DroneStatuses == BO.DroneStatuses.maintenance)
             {
                 BorderStation.Visibility = Visibility.Visible;
                 sandToStation.Visibility = Visibility.Hidden;
                 parcelToDrone.Visibility = Visibility.Hidden;
+                ActionInParcel.Visibility = Visibility.Hidden;
                 droneMaintenance.Visibility = Visibility.Visible;
                 packageAssociated.Text = "הרחפן בתחזוקה";
                 drone = blGui.GetDrone(droneToList.Id);
@@ -118,12 +119,18 @@ namespace PL
                 sandToStation.Visibility = Visibility.Visible;
                 parcelToDrone.Visibility = Visibility.Visible;
                 droneMaintenance.Visibility = Visibility.Hidden;
+                ActionInParcel.Visibility = Visibility.Hidden;
                 packageAssociated.Text = "אין חבילה משוייכת לרחפן זה כרגע";
             }
             if (droneToList.DroneStatuses == BO.DroneStatuses.busy)
             {
                 BorderStation.Visibility = Visibility.Hidden;
                 sandToStation.Visibility = Visibility.Hidden;
+                ActionInParcel.Visibility = Visibility.Visible;
+                if (drone.packageInTransfer.packageInTransferStatus == PackageInTransferStatus.awaitingCollection)
+                    ActionParcelButton.Content = "איסוף חבילה";
+                else
+                    ActionParcelButton.Content = "אספקת חבילה";
                 NoParcel.Visibility = Visibility.Hidden;
                 YesParcel.Visibility = Visibility.Visible;
             }
@@ -131,6 +138,8 @@ namespace PL
             {
                 NoParcel.Visibility = Visibility.Visible;
                 YesParcel.Visibility = Visibility.Hidden;
+                ActionInParcel.Visibility = Visibility.Hidden;
+
             }
             actions = Actions.UPDATING;
             addButton.Content = "עדכן";
@@ -232,7 +241,7 @@ namespace PL
                 case Actions.UPDATING:
                     if (addButton.Content == "הצג")
                     {
-                        droneToList  = droneToListsView.ToList().Find(i => i.Id == int.Parse(TxtBx_ID.Text.ToString()));
+                        droneToList = droneToListsView.ToList().Find(i => i.Id == int.Parse(TxtBx_ID.Text.ToString()));
                         if (droneToList.Id != 0)
                         {
 
@@ -342,6 +351,34 @@ namespace PL
             else
             {
                 UpdatingWindow(drone.Id);
+            }
+        }
+
+        private void ActionParcelButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ActionParcelButton.Content == "איסוף חבילה")
+            {
+
+                if (!blGui.PackageCollectionByDrone(drone.Id))
+                {
+                    MessageBox.Show("איסוף חבילה נכשל", "אישור");
+                }
+                else
+                {
+                    UpdatingWindow(drone.Id);
+                }
+            }
+            else if (ActionParcelButton.Content == "אספקת חבילה")
+            {
+                if (!blGui.DeliveryPackageToCustomer(drone.Id))
+                {
+                    MessageBox.Show("איסוף חבילה נכשל", "אישור");
+                }
+                else
+                {
+                    UpdatingWindow(drone.Id);
+
+                }
             }
         }
     }

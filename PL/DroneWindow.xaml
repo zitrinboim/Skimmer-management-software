@@ -337,6 +337,13 @@
 
                                 </Grid>
                             </Border>
+                            <Border Name="ActionInParcel" BorderThickness="2" Grid.Row="1" BorderBrush="LightBlue"  CornerRadius="20" Padding="10"  Visibility="Visible" >
+
+                                <Grid >
+                                    <Button x:Name="ActionParcelButton" Content="איסוף חבילה" Grid.Row="1" Click="ActionParcelButton_Click" />
+
+                                </Grid>
+                            </Border>
                         </Grid>
                     </Grid>
                 </Grid>
