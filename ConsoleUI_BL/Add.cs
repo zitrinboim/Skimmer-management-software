@@ -72,7 +72,7 @@ namespace ConsoleUI_BL
             {
                 Id = id,
                 name = name,
-                location = location,
+                location. = location,
                 freeChargeSlots = ChargeSlots
                 //רשימת הרחפנים בטעינה תאותחל לרשימה ריקה לא יודע איך לעשות את זה
             };

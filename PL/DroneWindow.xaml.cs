@@ -9,9 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace PL
 {
-    public enum WeightCategories { All, easy, medium, heavy };
-    public enum Actions { LIST, ADD, UPDATING, REMOVE };
-    public enum DroneStatuses { All, available, maintenance, busy };
+   
 
     /// <summary>
     /// Interaction logic for DroneWindow.xaml
@@ -27,7 +25,7 @@ namespace PL
         Actions actions;
         string action;
         Station station;
-        bool Release;
+       
         public DroneWindow(IBL bL, string _action = "")
         {
             blGui = bL;
@@ -37,7 +35,7 @@ namespace PL
             droneToList = new();
             InitList();
             InitializeComponent();
-            Release = false;
+            
             switch (action)
             {
                 case "List":
@@ -96,7 +94,12 @@ namespace PL
             {
                 drone = blGui.GetDrone(id);
             }
-            if (droneToList.DroneStatuses == BO.DroneStatuses.maintenance)
+            if (action == "ByStation")
+            {
+                drone = blGui.GetDrone(id);
+                droneToList = blGui.DisplaysIistOfDrons().First(i => i.Id == id);
+            }
+                if (droneToList.DroneStatuses == BO.DroneStatuses.maintenance)
             {
                 BorderStation.Visibility = Visibility.Visible;
                 sandToStation.Visibility = Visibility.Hidden;
@@ -229,13 +232,13 @@ namespace PL
                 case Actions.UPDATING:
                     if (addButton.Content == "הצג")
                     {
-                        var idFind = droneToListsView.ToList().Find(i => i.Id == int.Parse(TxtBx_ID.Text.ToString()));
-                        if (idFind != default)
+                        droneToList  = droneToListsView.ToList().Find(i => i.Id == int.Parse(TxtBx_ID.Text.ToString()));
+                        if (droneToList.Id != 0)
                         {
 
                             BorderEnterNumber.Visibility = Visibility.Hidden;
                             update.Visibility = Visibility.Visible;
-                            UpdatingWindow(idFind.Id);
+                            UpdatingWindow(droneToList.Id);
 
                         }
                         else

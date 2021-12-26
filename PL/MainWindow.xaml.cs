@@ -19,6 +19,10 @@ using System.Collections.ObjectModel;
 
 namespace PL
 {
+    public enum SlotsSTatus { הכל, פנוי, מלא };
+    public enum WeightCategories { All, easy, medium, heavy };
+    public enum Actions { LIST, ADD, UPDATING, REMOVE };
+    public enum DroneStatuses { All, available, maintenance, busy };
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -90,6 +94,7 @@ namespace PL
 
         private void Button_Click_ListOfStation(object sender, RoutedEventArgs e)
         {
+            new StationWindow(blGui, "List").Show();
 
         }
 
