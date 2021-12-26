@@ -157,7 +157,7 @@ namespace PL
                     else
                         MessageBox.Show("נא השלם את השדות החסרים", "אישור");
                     break;
-                case Actions.UPDATING:
+                //case Actions.UPDATING:
                     if (addButton.Content == "הצג")
                     {
                         var idFind = StationsToListView.ToList().Find(i => i.Id == int.Parse(TxtBx_ID.Text.ToString()));

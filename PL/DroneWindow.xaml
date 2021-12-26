@@ -241,7 +241,7 @@
 
                                     <Label Grid.Column="0" Grid.Row="0" Content=":פרטי החבילה המשוייכת לרחפן"  HorizontalContentAlignment="Center" FontWeight="Bold" />
                                     <TextBlock Name="packageAssociated" Grid.Row="1"  VerticalAlignment="Center" FontWeight="Bold"  Text="אין חבילה משוייכת לרחפן זה כרגע" TextDecorations="Underline" FontSize="16" />
-                                    <TextBlock x:Name="droneMaintenance" Grid.Row="2"  VerticalAlignment="Center" FontWeight="Bold"  Text="אין אפשרות לעדכן רחפן זה"  FontSize="16" Visibility="Hidden" />
+                                    <TextBlock x:Name="droneMaintenance" Grid.Row="2"  VerticalAlignment="Center" FontWeight="Bold"  Text="אין אפשרות לשייך לרחפן זה"  FontSize="16" Visibility="Hidden" />
                                     <Button x:Name="parcelToDrone" Grid.Row="2"   Content="שייך חבילה"  Click="parcelToDrone_Click"/>
 
                                 </Grid>
