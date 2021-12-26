@@ -136,7 +136,7 @@ namespace BL
             return closeStation.Id;
         }
 
-        
+
         public bool ReleaseDroneFromCharging(int IdDrone, int time)
         {
             try
@@ -151,11 +151,12 @@ namespace BL
                     drone.DroneStatuses = DroneStatuses.available;
                     droneToLists[droneIndex] = drone;
 
-                    DO.DroneCarge droneCarge = dal.getDroneCargeByDroneId(IdDrone);
-                    bool addingTest = dal.addingCargeSlotsToStation(droneCarge.StationId);
-                    bool removeTest = dal.ReleaseDroneCarge(IdDrone);
+                    //     DO.DroneCarge droneCarge = dal.getDroneCargeByDroneId(IdDrone);
+                    //    bool addingTest = dal.addingCargeSlotsToStation(droneCarge.StationId);
+                    //   bool removeTest = dal.ReleaseDroneCarge(IdDrone);
+                    return true;
                 }
-                throw new NotImplementedException();
+                //  throw new NotImplementedException();
             }
             catch (DO.IdExistExeptions Ex)
             {

@@ -31,11 +31,11 @@ namespace PL
         private Drone drone;
         private DroneToList droneToList;
         private int idStation;
-        int index;
+        int droneId;
         Actions actions;
         string action;
-        List<Station> stationstemp;
-        List<StationToList> StationToListtemp;
+        Station station;
+        bool Release;
         public DroneWindow(IBL bL, string _action = "")
         {
             blGui = bL;
@@ -45,15 +45,18 @@ namespace PL
             droneToList = new();
             InitList();
             InitializeComponent();
-
+            Release = false;
             switch (action)
             {
                 case "List":
                     ListWindow();
                     break;
                 case "Updating":
-                    int id = 0;
-                    UpdatingWindow(id);
+                    BorderEnterNumber.Visibility = Visibility.Visible;
+                    update.Visibility = Visibility.Hidden;
+                    addButton.Content = "הצג";
+                    Close.Content = "סגור";
+                    actions = Actions.UPDATING;
                     break;
                 case "Add":
                     AddWindow();
@@ -99,24 +102,30 @@ namespace PL
         {
             if (action == "Updating")
             {
-                //כאן יבוא הקטע של בחירת ID
-                  droneToList = blGui.DisplaysIistOfDrons(i => i.Id == id).First();
+                drone = blGui.GetDrone(id);
             }
             if (droneToList.DroneStatuses == BO.DroneStatuses.maintenance)
             {
-                parcelToDrone.Visibility=Visibility.Hidden;
-                droneMaintenance.Visibility=Visibility.Visible;
+                BorderStation.Visibility = Visibility.Visible;
+                parcelToDrone.Visibility = Visibility.Hidden;
+                droneMaintenance.Visibility = Visibility.Visible;
                 packageAssociated.Text = "הרחפן בתחזוקה";
-               
+                drone = blGui.GetDrone(droneToList.Id);
+                station = blGui.GetStation(blGui.GetTheIdOfCloseStation(drone));
+                stationIdltextBlock.Text = station.Id.ToString();
+                stationLoctionltextBlock.Text = station.location.ToString();
+
             }
             if (droneToList.DroneStatuses == BO.DroneStatuses.available)
             {
-                parcelToDrone.Visibility=Visibility.Visible;
-                droneMaintenance.Visibility=Visibility.Hidden;
+                BorderStation.Visibility = Visibility.Hidden;
+                parcelToDrone.Visibility = Visibility.Visible;
+                droneMaintenance.Visibility = Visibility.Hidden;
                 packageAssociated.Text = "אין חבילה משוייכת לרחפן זה כרגע";
             }
             if (droneToList.DroneStatuses == BO.DroneStatuses.busy)
             {
+                BorderStation.Visibility = Visibility.Hidden;
                 NoParcel.Visibility = Visibility.Hidden;
                 YesParcel.Visibility = Visibility.Visible;
             }
@@ -132,7 +141,7 @@ namespace PL
             Updating.Visibility = Visibility.Visible;
             Add.Visibility = Visibility.Hidden;
             drone = blGui.GetDrone(id);
-            
+
             DataContext = drone;
         }
 
@@ -185,7 +194,7 @@ namespace PL
         private void DroneListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             droneToList = (DroneToList)DroneListView.SelectedItem;
-            int index = DroneListView.SelectedIndex;
+            //  int index = DroneListView.SelectedIndex;
             if (droneToList != null)
             {
                 UpdatingWindow(droneToList.Id);
@@ -223,13 +232,35 @@ namespace PL
                         MessageBox.Show("נא השלם את השדות החסרים", "אישור");
                     break;
                 case Actions.UPDATING:
+                    if (addButton.Content == "הצג")
+                    {
+                        var idFind = droneToListsView.ToList().Find(i => i.Id == int.Parse(TxtBx_ID.Text.ToString()));
+                        if (idFind != default)
+                        {
 
+                            BorderEnterNumber.Visibility = Visibility.Hidden;
+                            update.Visibility = Visibility.Visible;
+                            UpdatingWindow(idFind.Id);
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("לא נמצא הרחפן", "אישור");
+                            Close();
+                        }
+                        break;
+                    }
                     if (drone.Model != default)//איז אנעבעלד
                     {
                         MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר עדכון זה", "אישור", MessageBoxButton.OKCancel);
                         switch (messageBoxResult)
                         {
                             case MessageBoxResult.OK:
+                                if (Release)
+                                {
+                                    blGui.ReleaseDroneFromCharging(drone.Id, 7);
+                                    BorderStation.Visibility = Visibility.Hidden;
+                                }
                                 droneToList.Model = drone.Model;
                                 _ = blGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
                                 // droneToListsView[index] = blGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
@@ -298,6 +329,12 @@ namespace PL
                     Close();
                     break;
             }
+        }
+
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            Release = true;
         }
     }
 }

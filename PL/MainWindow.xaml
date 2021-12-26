@@ -11,9 +11,9 @@
     <Border BorderThickness="5" BorderBrush="LightBlue" Background="LightBlue" CornerRadius="22">
         <Grid>
             <Grid.Background>
-  
-            <ImageBrush ImageSource="/images.jpg" Stretch="Fill" TileMode="None" Opacity="0.6"/>
-         </Grid.Background>
+
+                <ImageBrush ImageSource="/images.jpg" Stretch="Fill" TileMode="None" Opacity="0.6"/>
+            </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
@@ -44,7 +44,7 @@
                     </Button.Content>-->
                 </Button>
                 <Button Click="Button_Click_CloseWindow" Width="25" Height="25" Template="{StaticResource TitleBarButtons}">
-                   
+
                     <!--<Button.Content>
                         <Image Source="Icons/xIcon.png" Margin="5"/>
                     </Button.Content>-->
@@ -68,52 +68,19 @@
                             <GradientStop Color="Blue" Offset="1"/>
                         </RadialGradientBrush>
                     </TabControl.Background>-->
-                    <TabItem Header="מסך פתיחה" Width="400" Height="30" FontSize="16">
-                        <Grid>
-                            <Grid Margin="150 0">
-                                <!--<Grid.Background>
-                                <ImageBrush ImageSource="Icons/Mustung.png"  Opacity="0.2"/>
-                            </Grid.Background>-->
-                            </Grid>
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock/>
-                                <TextBlock HorizontalAlignment="Center" FontFamily="David" FontSize="30" FontWeight="ExtraBlack" Text="שלום! ברוכים הבאים למערכת ניהול רחפנים מבית fly to you!"/>
-                                <TextBlock HorizontalAlignment="Center" FontFamily="David" FontSize="30" FontWeight="ExtraBlack" Text=""/>
-                                <TextBlock HorizontalAlignment="Center" FontFamily="David" FontSize="30" FontWeight="ExtraBlack" Text=""/>
-                                <TextBlock HorizontalAlignment="Center" FontFamily="David" FontSize="30" FontWeight="ExtraBlack" Text=""/>
-                                <TextBlock HorizontalAlignment="Center" FontFamily="David" FontSize="25" Text="מערכת זו נועדה לנהל רחפני משלוחים בצורה יעילה ונוחה."/>
-                               
-                                <TextBlock HorizontalAlignment="Center" FontFamily="David" FontSize="25" Text="כרטיסיית 'כניסת מנהל':"/>
-                               
-                                <TextBlock HorizontalAlignment="Center" FontFamily="David" FontSize="25" Text="חלון זה נועד לשימוש מערכת הניהול. כאן תתאפשר הוספת/מחיקת/עידכון רחפנים, תחנות לקוחות וחבילות."/>
-                                <TextBlock HorizontalAlignment="Center" FontFamily="David" FontSize="30" FontWeight="ExtraBlack" Text=""/>
-                                <TextBlock HorizontalAlignment="Center" FontFamily="David" FontSize="30" FontWeight="ExtraBlack" Text=""/>
-                                <TextBlock HorizontalAlignment="Center" FontFamily="David" FontSize="30" FontWeight="ExtraBlack" Text=""/>
-                                <TextBlock/>
-                                <TextBlock HorizontalAlignment="Center" FontFamily="David" FontSize="25" Text="כרטיסיית 'כניסת לקוח':"/>
-                                <TextBlock HorizontalAlignment="Center" FontFamily="David" FontSize="25" Text="חלון זה נועד עבור לקוח. כאן יוכל הלקוח לעקוב אחר משלוחים שהזמין, ולבצע משלוחים חדשים."/>
-                                <TextBlock/>
-                               
-                                
-                                <TextBlock HorizontalAlignment="Center" FontFamily="David" FontSize="20" Text="*מטעמי נוחות, המערכת נכתבה בלשון זכר, אך מיועדת לנשים וגברים כאחד."/>
-                            </StackPanel>
-                        </Grid>
-                    </TabItem>
                     <TabItem Header="כניסת מנהל" Width="400" Height="30" FontSize="16">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <!--<RowDefinition Height="*"/>-->
+                                <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Border x:Name="OfficeMainWindowBorder" Margin="10" Visibility="Visible">
+                            <Border x:Name="OfficeMainWindowBorder" Grid.Column="0" Margin="10" Visibility="Visible">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
+                                    <Border Grid.Column="0"  BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="1.5*"/>
@@ -140,7 +107,7 @@
                                             </Button>
                                         </Grid>
                                     </Border>
-                                    
+
                                     <Border Grid.Column="1" BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
                                         <Grid>
                                             <Grid.RowDefinitions>
@@ -168,9 +135,23 @@
                                             </Button>
                                         </Grid>
                                     </Border>
-                                    
-                                    <Border Grid.Column="2" BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
+
+
+
+
+                                </Grid>
+                            </Border>
+                            <Border x:Name="OfficeMainWindowBorder2" Grid.Row="1" Margin="10" Visibility="Visible">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0" BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
+
                                         <Grid>
+
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="1.5*"/>
                                                 <RowDefinition Height="*"/>
@@ -195,9 +176,10 @@
                                                 <TextBlock Text="הצג רשימת לקוחות" Margin="10 0"/>
                                             </Button>
                                         </Grid>
+
                                     </Border>
-                                    
-                                    <Border Grid.Column="3" BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
+
+                                    <Border Grid.Column="1" BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="1.5*"/>
@@ -225,10 +207,15 @@
                                         </Grid>
                                     </Border>
                                 </Grid>
+
                             </Border>
+
                         </Grid>
                     </TabItem>
-                        <!--<Button Content="כניסה" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Button_Click"  Height="120" Width="220" Background="White" Opacity="0.3" 
+                    <TabItem Header="כניסת לקוח" Width="400" Height="30" FontSize="16">
+
+                    </TabItem>
+                    <!--<Button Content="כניסה" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Button_Click"  Height="120" Width="220" Background="White" Opacity="0.3" 
                 Foreground="Black" FontSize="36"  FontWeight="Bold" FontFamily="Segoe UI" BorderBrush="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,207,0,0" />-->
                 </TabControl>
             </Grid>
