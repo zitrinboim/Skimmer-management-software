@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BO;
 using BlApi;
 using System.Collections.ObjectModel;
@@ -107,6 +99,7 @@ namespace PL
             if (droneToList.DroneStatuses == BO.DroneStatuses.maintenance)
             {
                 BorderStation.Visibility = Visibility.Visible;
+                sandToStation.Visibility = Visibility.Hidden;
                 parcelToDrone.Visibility = Visibility.Hidden;
                 droneMaintenance.Visibility = Visibility.Visible;
                 packageAssociated.Text = "הרחפן בתחזוקה";
@@ -119,6 +112,7 @@ namespace PL
             if (droneToList.DroneStatuses == BO.DroneStatuses.available)
             {
                 BorderStation.Visibility = Visibility.Hidden;
+                sandToStation.Visibility = Visibility.Visible;
                 parcelToDrone.Visibility = Visibility.Visible;
                 droneMaintenance.Visibility = Visibility.Hidden;
                 packageAssociated.Text = "אין חבילה משוייכת לרחפן זה כרגע";
@@ -126,6 +120,7 @@ namespace PL
             if (droneToList.DroneStatuses == BO.DroneStatuses.busy)
             {
                 BorderStation.Visibility = Visibility.Hidden;
+                sandToStation.Visibility = Visibility.Hidden;
                 NoParcel.Visibility = Visibility.Hidden;
                 YesParcel.Visibility = Visibility.Visible;
             }
@@ -256,8 +251,9 @@ namespace PL
                         switch (messageBoxResult)
                         {
                             case MessageBoxResult.OK:
-                                if (Release)
+                                if (relase.IsChecked == true)
                                 {
+                                    relase.IsChecked = false;
                                     blGui.ReleaseDroneFromCharging(drone.Id, 7);
                                     BorderStation.Visibility = Visibility.Hidden;
                                 }
@@ -332,9 +328,18 @@ namespace PL
         }
 
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+
+        private void sand_Click(object sender, RoutedEventArgs e)
         {
-            Release = true;
+
+            if (!blGui.SendDroneForCharging(drone.Id))
+            {
+                MessageBox.Show("שליחה לטעינה נכשלה", "אישור");
+            }
+            else
+            {
+                UpdatingWindow(drone.Id);
+            }
         }
     }
 }
