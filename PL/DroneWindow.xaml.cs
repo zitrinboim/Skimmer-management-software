@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using BO;
 using BlApi;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using System.Text.RegularExpressions;
 
 namespace PL
 {
@@ -388,6 +390,11 @@ namespace PL
 
                 }
             }
+        }
+    private void onlyNumbers(object sender , TextCompositionEventArgs e)
+        {
+            Regex regex = new("[^0-9]$");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
