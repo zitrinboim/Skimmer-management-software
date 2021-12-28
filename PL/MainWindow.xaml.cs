@@ -23,6 +23,9 @@ namespace PL
     public enum WeightCategories { All, easy, medium, heavy };
     public enum Actions { LIST, ADD, UPDATING, REMOVE };
     public enum DroneStatuses { All, available, maintenance, busy };
+    public enum Priorities {הכל, רגיל , מהיר, דחוף };
+    public enum parcelStatus {הכל, הוגדר , שוייך, נאסף, סופק };
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -162,7 +165,7 @@ namespace PL
 
         private void Button_Click_ListOfParcels(object sender, RoutedEventArgs e)
         {
-
+            new ParcelWindow(blGui, "List").Show();
         }
     }
 }

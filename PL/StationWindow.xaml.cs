@@ -168,6 +168,7 @@ namespace PL
                             MessageBox.Show("התחנה המבוקשת לא נמצאה", "אישור");
                             Close();
                         }
+                        break;
                     }
 
 
