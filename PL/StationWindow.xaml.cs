@@ -88,10 +88,6 @@ namespace PL
             //{
             //    station = blGui.GetStation(id);
             //}
-           
-            
-            
-            
             actions = Actions.UPDATING;
             addButton.Content = "עדכן";
             Close.Content = "סגור";
@@ -157,56 +153,51 @@ namespace PL
                     else
                         MessageBox.Show("נא השלם את השדות החסרים", "אישור");
                     break;
-                //case Actions.UPDATING:
+                case Actions.UPDATING:
                     if (addButton.Content == "הצג")
                     {
                         var idFind = StationsToListView.ToList().Find(i => i.Id == int.Parse(TxtBx_ID.Text.ToString()));
                         if (idFind != default)
                         {
-
                             BorderEnterNumber.Visibility = Visibility.Hidden;
                             update.Visibility = Visibility.Visible;
                             UpdatingWindow(idFind.Id);
-
                         }
                         else
                         {
                             MessageBox.Show("התחנה המבוקשת לא נמצאה", "אישור");
                             Close();
                         }
-                        break;
                     }
-                    //if (drone.Model != default)//איז אנעבעלד
-                    //{
-                    //    MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר עדכון זה", "אישור", MessageBoxButton.OKCancel);
-                    //    switch (messageBoxResult)
-                    //    {
-                    //        case MessageBoxResult.OK:
-                    //            if (relase.IsChecked == true)
-                    //            {
-                    //                relase.IsChecked = false;
-                    //                blGui.ReleaseDroneFromCharging(drone.Id, 7);
-                    //                BorderStation.Visibility = Visibility.Hidden;
-                    //            }
-                    //            droneToList.Model = drone.Model;
-                    //            _ = blGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
-                    //            // droneToListsView[index] = blGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
-                    //            MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
-                    //            ListWindow();
-                    //            break;
-                    //        case MessageBoxResult.Cancel:
-                    //            break;
-                    //        default:
-                    //            break;
-                    //    }
-                    //}
-                    //else
-                    //    MessageBox.Show("נא השלם את השדות החסרים", "אישור");
-                    //break;
-                    //    case Actions.REMOVE:
-                    //        break;
-                    //default:
-                    //        break;
+
+
+                    if (station.name != default || (station.freeChargeSlots != default && station.freeChargeSlots >= station.droneInCargeings.Count))//איז אנעבעלד
+                    {
+                        MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר עדכון זה", "אישור", MessageBoxButton.OKCancel);
+                        switch (messageBoxResult)
+                        {
+                            case MessageBoxResult.OK:
+                               
+                                stationToList.name = station.name;
+                                stationToList.freeChargeSlots = station.freeChargeSlots;
+                                _ = blGui.updateStationData(station.Id, station.name, station.freeChargeSlots);
+                                // droneToListsView[index] = blGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
+                                MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת התחנות", "אישור");
+                                ListWindow();
+                                break;
+                            case MessageBoxResult.Cancel:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else
+                        MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+                    break;
+                case Actions.REMOVE:
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -223,15 +214,27 @@ namespace PL
                     else
                         Close();
                     break;
+
                 default:
                     Close();
                     break;
             }
         }
 
+        private void StationListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            stationToList = (StationToList)StationListView.SelectedItem;
+            if (stationToList != null)
+            {
+                UpdatingWindow(stationToList.Id);
+            }
+        }
+
         private void Drones_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            int idDrone = ((DroneInCargeing)Drones.SelectedItem).Id;
+            new DroneWindow(blGui, "ByStation", idDrone).Show();
+            Close();
         }
     }
 }

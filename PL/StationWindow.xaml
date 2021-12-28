@@ -85,7 +85,7 @@
                         <Label Content="מיין על פי חריצים פנויים" Grid.Column="1" HorizontalAlignment="Center"  />
                         <ComboBox Name="SlutsSelector"  FontWeight="Bold"  Grid.Column="0" SelectionChanged="SlutsSelector_SelectionChanged"   />
                     </Grid>
-                    <ListView x:Name="StationListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}" >
+                    <ListView x:Name="StationListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}" SelectionChanged="StationListView_SelectionChanged">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="מזהה"  Width="130" DisplayMemberBinding="{Binding Id}"/>
@@ -208,7 +208,7 @@
                            
                             <Border BorderThickness="2" Grid.Row="0" BorderBrush="LightBlue"  CornerRadius="20" Padding="10">
 
-                                <Grid  x:Name="NoParcel" Grid.Row="0" Visibility="Visible">
+                                <Grid  x:Name="DroneInStation" Grid.Row="0" Visibility="Visible">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="6*"/>

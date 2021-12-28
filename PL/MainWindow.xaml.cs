@@ -77,12 +77,13 @@ namespace PL
 
         private void Button_Click_AddStation(object sender, RoutedEventArgs e)
         {
+            new StationWindow(blGui, "Add").Show();
 
         }
 
         private void Button_Click_UpdateStationData(object sender, RoutedEventArgs e)
         {
-            new GetByIdWindow(blGui, "Station").Show();
+            new StationWindow(blGui, "Updating").Show();
 
         }
 

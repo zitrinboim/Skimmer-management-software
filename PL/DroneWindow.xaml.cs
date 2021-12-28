@@ -26,7 +26,7 @@ namespace PL
         string action;
         Station station;
 
-        public DroneWindow(IBL bL, string _action = "")
+        public DroneWindow(IBL bL, string _action = "", int id = 0)
         {
             blGui = bL;
             actions = new();
@@ -51,7 +51,12 @@ namespace PL
                 case "Add":
                     AddWindow();
                     break;
-
+                case "ByStation":
+                    if (id != 0)
+                    {
+                        UpdatingWindow(id);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -201,7 +206,6 @@ namespace PL
         private void DroneListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             droneToList = (DroneToList)DroneListView.SelectedItem;
-            //  int index = DroneListView.SelectedIndex;
             if (droneToList != null)
             {
                 UpdatingWindow(droneToList.Id);
@@ -332,6 +336,10 @@ namespace PL
                     }
                     else
                         Close();
+                    break;
+                case "ByStation":
+                    new StationWindow(blGui, "List").Show();
+                    Close();
                     break;
                 default:
                     Close();
