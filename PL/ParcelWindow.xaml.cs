@@ -45,13 +45,13 @@ namespace PL
                 case "List":
                     ListWindow();
                     break;
-                //case "Updating":
-                //    BorderEnterNumber.Visibility = Visibility.Visible;
-                //    update.Visibility = Visibility.Hidden;
-                //    addButton.Content = "הצג";
-                //    Close.Content = "סגור";
-                //    actions = Actions.UPDATING;
-                //    break;
+                case "Updating":
+                    BorderEnterNumber.Visibility = Visibility.Visible;
+                    update.Visibility = Visibility.Hidden;
+                    addButton.Content = "הצג";
+                    Close.Content = "סגור";
+                    actions = Actions.UPDATING;
+                    break;
                 case "Add":
                     AddWindow();
                     break;
@@ -63,14 +63,13 @@ namespace PL
 
         private void ListWindow()
         {
-
             ParcelListView.Items.Refresh();
             actions = Actions.LIST;
             addButton.Content = "הוסף חבילה";
             Close.Content = "סגור";
             List.Visibility = Visibility.Visible;
-            //Updating.Visibility = Visibility.Hidden;
-            //Add.Visibility = Visibility.Hidden;
+            Updating.Visibility = Visibility.Hidden;
+            Add.Visibility = Visibility.Hidden;
 
             ParcelListView.ItemsSource = parcelToListView;
             weightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
@@ -91,12 +90,45 @@ namespace PL
             addButton.Content = "הוסף";
             Close.Content = "סגור";
             List.Visibility = Visibility.Hidden;
-            //Updating.Visibility = Visibility.Hidden;
+            Updating.Visibility = Visibility.Hidden;
             Add.Visibility = Visibility.Visible;
-            prioritiCombo.ItemsSource = Enum.GetValues(typeof(Priorities));
-            weightCombo.ItemsSource = Enum.GetValues(typeof(WeightCategories));
-            parcel = new() { Id = 0, Requested = DateTime.Now };
+            prioritiCombo.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
+            weightCombo.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
+            parcel = new() { Id = 0, Requested = DateTime.Now, Target=new(), Sender=new() };
             DataContext = parcel;
+        }
+        private void UpdatingWindow(int id)
+        {
+            //if (action == "Updating")
+            //{
+            //    station = blGui.GetStation(id);
+            //}
+            actions = Actions.UPDATING;
+            addButton.Visibility= Visibility.Hidden;
+            Close.Content = "סגור";
+            List.Visibility = Visibility.Hidden;
+            Updating.Visibility = Visibility.Visible;
+            Add.Visibility = Visibility.Hidden;
+            parcel = blGui.GetParcel(id);
+            DataContext = parcel;
+            switch (parcelToList.parcelStatus)
+            {
+                case BO.parcelStatus.defined:
+                    droneInParcelButton.IsEnabled = false;
+                    ScheduledTextBox.Text = "לא שוייך";
+                    PickedUpTextBox.Text = "לא נאסף";
+                    DeliveredTextBox.Text = "לא סופק";
+                    break;
+                case BO.parcelStatus.associated:
+                    PickedUpTextBox.Text = "לא נאסף";
+                    DeliveredTextBox.Text = "לא סופק";
+                    break;
+                case BO.parcelStatus.collected:
+                    DeliveredTextBox.Text = "לא סופק";
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void InitList()//
@@ -152,10 +184,10 @@ namespace PL
                         {
 
                             case MessageBoxResult.OK:
-                                _ = addParsel(parcel);
-                                parcelToList = GetParcelToList(parcel.Id);
-                                parcelToListView.Add(blGui.DisplaysIistOfparcels.First(i => i.Id == GetParcelToList(parcel.Id).Id));
-                                MessageBox.Show("הרחפן נוצר בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
+                                int idParcel = blGui.addParsel(parcel);
+                                parcelToListView.Add(blGui.DisplaysIistOfparcels().First(i => i.Id == parcel.Id));
+
+                                MessageBox.Show("החבילה נוצרה בהצלחה\n מספר החבילה הוא:" + idParcel.ToString() + "\n מיד תוצג רשימת החבילות", "אישור");
                                 ListWindow();
                                 break;
                             case MessageBoxResult.Cancel:
@@ -171,48 +203,22 @@ namespace PL
                 case Actions.UPDATING:
                     if (addButton.Content == "הצג")
                     {
-                        droneToList = droneToListsView.ToList().Find(i => i.Id == int.Parse(TxtBx_ID.Text.ToString()));
-                        if (droneToList.Id != 0)
+                        parcelToList = parcelToListView.ToList().Find(i => i.Id == int.Parse(TxtBx_ID.Text.ToString()));
+                        if (parcelToList.Id != 0)
                         {
 
                             BorderEnterNumber.Visibility = Visibility.Hidden;
                             update.Visibility = Visibility.Visible;
-                            UpdatingWindow(droneToList.Id);
+                            UpdatingWindow(parcelToList.Id);
 
                         }
                         else
                         {
-                            MessageBox.Show("לא נמצא הרחפן", "אישור");
+                            MessageBox.Show("החבילה המבוקשת לא נמצאה", "אישור");
                             Close();
                         }
-                        break;
                     }
-                    if (drone.Model != default)//איז אנעבעלד
-                    {
-                        MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר עדכון זה", "אישור", MessageBoxButton.OKCancel);
-                        switch (messageBoxResult)
-                        {
-                            case MessageBoxResult.OK:
-                                if (relase.IsChecked == true)
-                                {
-                                    relase.IsChecked = false;
-                                    blGui.ReleaseDroneFromCharging(drone.Id, 7);
-                                    BorderStation.Visibility = Visibility.Hidden;
-                                }
-                                droneToList.Model = drone.Model;
-                                _ = blGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
-                                // droneToListsView[index] = blGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
-                                MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
-                                ListWindow();
-                                break;
-                            case MessageBoxResult.Cancel:
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    else
-                        MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+
                     break;
                 case Actions.REMOVE:
                     break;
@@ -223,16 +229,49 @@ namespace PL
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
+            switch (action)
+            {
+                case "List":
+                    if (actions != Actions.LIST)
+                    {
+                        ListWindow();
+                        ParcelListView.SelectedItem = null;
+                    }
+                    else
+                        Close();
+                    break;
 
+                default:
+                    Close();
+                    break;
+            }
         }
 
         private void ParcelListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ParcelToList parcelToList = (ParcelToList)ParcelListView.SelectedItem;
+            parcelToList = (ParcelToList)ParcelListView.SelectedItem;
             if (parcelToList != null)
             {
-                //   UpdatingWindow(droneToList.Id);
+                 UpdatingWindow(parcelToList.Id);
             }
+        }
+
+        private void targetButton_Click(object sender, RoutedEventArgs e)
+        {
+            //פתיחה של חלון לקוח עם פרטי לקוח מקבל
+        }
+
+        private void sanderButton_Click(object sender, RoutedEventArgs e)
+        {
+            //פתיחה של חלון לקוח עם פרטי לקוח שולח
+
+        }
+
+        private void droneInParcelButton_Click(object sender, RoutedEventArgs e)
+        {
+            int idDrone = ((DroneInParcel)parcel.droneInParcel).Id;
+            new DroneWindow(blGui, "ByParcel", idDrone).Show();
+            Close();
         }
     }
 }

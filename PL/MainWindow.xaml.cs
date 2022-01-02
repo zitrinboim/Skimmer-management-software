@@ -120,7 +120,7 @@ namespace PL
 
         private void Button_Click_ListOfDrones(object sender, RoutedEventArgs e)
         {
-            //new DroneListWindow(blGui, droneToListsView).Show();
+            
             new DroneWindow(blGui, "List").Show();
         }
 
@@ -148,18 +148,19 @@ namespace PL
 
         private void Button_Click_AddParcel(object sender, RoutedEventArgs e)
         {
+            new ParcelWindow(blGui, "Add").Show();
 
         }
 
         private void Button_Click_actionUnParcel(object sender, RoutedEventArgs e)
         {
-            new GetByIdWindow(blGui, "Parcel").Show();
+            new ParcelWindow(blGui, "Updating").Show();
 
         }
 
         private void Button_Click_RemoveParcel(object sender, RoutedEventArgs e)
         {
-            new GetByIdWindow(blGui, "Parcel").Show();
+           // new GetByIdWindow(blGui, "Parcel").Show();
 
         }
 

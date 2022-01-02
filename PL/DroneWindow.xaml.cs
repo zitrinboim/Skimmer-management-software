@@ -59,6 +59,12 @@ namespace PL
                         UpdatingWindow(id);
                     }
                     break;
+                case "ByParcel":
+                    if (id != 0)
+                    {
+                        UpdatingWindow(id);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -341,6 +347,10 @@ namespace PL
                     break;
                 case "ByStation":
                     new StationWindow(blGui, "List").Show();
+                    Close();
+                    break;
+                case "ByParcel":
+                    new ParcelWindow(blGui, "List").Show();
                     Close();
                     break;
                 default:

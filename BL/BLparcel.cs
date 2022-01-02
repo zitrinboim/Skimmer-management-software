@@ -18,11 +18,25 @@ namespace BL
         /// <param name="weightCategories"></param>
         /// <param name="priorities"></param>
         /// <returns></returns>
-        public int addParsel(DO.Parcel parcel)
+        public int addParsel(Parcel parcel)
         {
             try
             {
-                int addParcel = dal.addParsel(parcel);
+                var sanderTest = dal.DisplaysIistOfCustomers(i => i.Id == parcel.Sender.Id);
+                if(sanderTest==default)
+                    throw new NotImplementedException();
+                var targetTest = dal.DisplaysIistOfCustomers(i => i.Id == parcel.Target.Id);
+                if (targetTest == default)
+                    throw new NotImplementedException();
+
+                DO.Parcel parcel1 = new()
+                {
+                    SenderId = parcel.Sender.Id,
+                    TargetId = parcel.Target.Id,
+                    weight = (DO.WeightCategories)parcel.weight,
+                    priority = (DO.Priorities)parcel.priority,
+                };
+                int addParcel = dal.addParsel(parcel1);
 
                 if (addParcel <= 0)
                     throw new NotImplementedException();
@@ -71,7 +85,7 @@ namespace BL
                 DO.Parcel parcel = dal.getParcel(parcelId);
 
                 //if (parcel.Scheduled == DateTime.MinValue || parcel.Delivered != DateTime.MinValue)
-                  //  throw new NotImplementedException();//כי אין חבילה כזו בהעברה.
+                //  throw new NotImplementedException();//כי אין חבילה כזו בהעברה.
 
                 DO.Customer sander = dal.getCustomer(parcel.SenderId);
                 Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
@@ -116,7 +130,7 @@ namespace BL
         {
             try
             {
-                DO.Parcel parcel =dal.getParcel(parcelId);
+                DO.Parcel parcel = dal.getParcel(parcelId);
 
                 ParcelInCustomer parcelInCustomer = new()
                 {

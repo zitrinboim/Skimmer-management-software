@@ -33,7 +33,7 @@ namespace BlApi
         /// </summary>
         /// <param name="parcel"></param>
         /// <returns></returns>
-        int addParsel(DO.Parcel parcel);
+        int addParsel(Parcel parcel);
         /// <summary>
         /// This function updates the drone model.
         /// </summary>
