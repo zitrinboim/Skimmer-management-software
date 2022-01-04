@@ -126,13 +126,12 @@ namespace PL
 
         private void Button_Click_AddNewCostumer(object sender, RoutedEventArgs e)
         {
-
+            new CustomerWindow(blGui, "Add").Show();
         }
 
         private void Button_Click_UpdateCostumerData(object sender, RoutedEventArgs e)
         {
-            new GetByIdWindow(blGui, "Customer").Show();
-
+            new CustomerWindow(blGui, "Updating").Show();
         }
 
         private void Button_Click_RemoveCostumer(object sender, RoutedEventArgs e)
@@ -143,7 +142,7 @@ namespace PL
 
         private void Button_Click_ListOfCostumers(object sender, RoutedEventArgs e)
         {
-
+            new CustomerWindow(blGui, "List").Show();
         }
 
         private void Button_Click_AddParcel(object sender, RoutedEventArgs e)

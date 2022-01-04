@@ -175,6 +175,13 @@ namespace BlApi
         /// <param name="p"></param>
         /// <returns></returns>
         public IEnumerable<ParcelToList> DisplaysIistOfparcels(Predicate<ParcelToList> p = null);
+        /// <summary>
+        ///  this function get the id of close parcels to the drone.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public IEnumerable<CustomerToList> DisplaysIistOfCustomers(Predicate<CustomerToList> p = null);
+
 
 
 

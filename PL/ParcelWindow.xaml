@@ -98,7 +98,7 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="מזהה"  Width="100" DisplayMemberBinding="{Binding Id}"/>
-                                <GridViewColumn Header="שולח" Width="100" DisplayMemberBinding="{Binding sanderMame}"/>
+                                <GridViewColumn Header="שולח" Width="100" DisplayMemberBinding="{Binding sanderName}"/>
                                 <GridViewColumn Header="מקבל" Width="100" DisplayMemberBinding="{Binding targetName}"/>
                                 <GridViewColumn Header="משקל" Width="100" DisplayMemberBinding="{Binding weight}"/>
                                 <GridViewColumn Header="עדיפות" Width="100" DisplayMemberBinding="{Binding priority}"/>
@@ -225,10 +225,10 @@
                                         <Button x:Name="sanderButton" Grid.Row="0" Grid.Column="2" Content="שולח" Click="sanderButton_Click"/>
                                         <Button x:Name="targetButton" Grid.Row="1" Grid.Column="2" Content="מקבל" Click="targetButton_Click"/>
 
-                                        <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding Sender.Id}" />
-                                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Sender.name}" />
-                                        <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Target.Id}" />
-                                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Target.name}" />
+                                        <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Sender.Id}" />
+                                        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Sender.name}" />
+                                        <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Target.Id}" />
+                                        <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Target.name}" />
 
                                         
                                     </Grid>
@@ -265,10 +265,10 @@
                                         <Label Grid.Column="1" Grid.Row="2" Content="נאסף "  />
                                         <Label Grid.Column="1" Grid.Row="3" Content="סופק "  />
 
-                                        <TextBox  Grid.Column="0" Grid.Row="0" Text="{Binding Requested}" />
-                                        <TextBox  x:Name="ScheduledTextBox" Grid.Column="0" Grid.Row="1" Text="{Binding Scheduled}" />
-                                        <TextBox x:Name="PickedUpTextBox" Grid.Column="0" Grid.Row="2" Text="{Binding PickedUp}" />
-                                        <TextBox x:Name="DeliveredTextBox" Grid.Column="0" Grid.Row="3" Text="{Binding Delivered}" />
+                                        <TextBlock  Grid.Column="0" Grid.Row="0" Text="{Binding Requested}" />
+                                        <TextBlock  x:Name="ScheduledTextBox" Grid.Column="0" Grid.Row="1" Text="{Binding Scheduled}" />
+                                        <TextBlock x:Name="PickedUpTextBox" Grid.Column="0" Grid.Row="2" Text="{Binding PickedUp}" />
+                                        <TextBlock x:Name="DeliveredTextBox" Grid.Column="0" Grid.Row="3" Text="{Binding Delivered}" />
 
                                         </Grid>
                                     <Grid Grid.Row="2">

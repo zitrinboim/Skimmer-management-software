@@ -29,7 +29,7 @@ namespace PL
         private ParcelToList parcelToList;
         Actions actions;
         string action;
-        public ParcelWindow(IBL bL, string _action = "")
+        public ParcelWindow(IBL bL, string _action = "", int id = 0)
         {
             parcelToListGroping = new();
 
@@ -55,7 +55,12 @@ namespace PL
                 case "Add":
                     AddWindow();
                     break;
-
+                case "ByCustomer":
+                    if (id != 0)
+                    {
+                        UpdatingWindow(id);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -71,7 +76,7 @@ namespace PL
             Updating.Visibility = Visibility.Hidden;
             Add.Visibility = Visibility.Hidden;
 
-            ParcelListView.ItemsSource = parcelToListView;
+            //ParcelListView.ItemsSource = parcelToListView;
             weightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             prioritiSelector.ItemsSource = Enum.GetValues(typeof(Priorities));
             StatusSelector.ItemsSource = Enum.GetValues(typeof(parcelStatus));
@@ -133,11 +138,15 @@ namespace PL
 
         public void InitList()//
         {
-            IEnumerable<ParcelToList> temp = blGui.DisplaysIistOfparcels();
-            parcelToListGroping = (from parcel in temp
-                                   group parcel by new parcelStatus_WeightCategories_Priorities
-                                   { parcelStatus = parcel.parcelStatus, priority = parcel.priority, weight = parcel.weight })
-                                   .ToDictionary(X => X.Key, X => X.ToList());
+            List<ParcelToList> temp = blGui.DisplaysIistOfparcels().ToList();
+            foreach (ParcelToList item in temp)
+            {
+                parcelToListView.Add(item);
+            }
+            //parcelToListGroping = (from parcel in temp
+            //                       group parcel by new parcelStatus_WeightCategories_Priorities
+            //                       { parcelStatus = parcel.parcelStatus, priority = parcel.priority, weight = parcel.weight })
+            //                       .ToDictionary(X => X.Key, X => X.ToList());
 
         }
 
@@ -163,7 +172,8 @@ namespace PL
 
             //if (weight == WeightCategories.All && parcelStatus == parcelStatus.הכל && priorities == Priorities.הכל)
             if (weightSelector.SelectedIndex == -1 && prioritiSelector.SelectedIndex == -1 && StatusSelector.SelectedIndex == -1)
-                ParcelListView.ItemsSource = parcelToListGroping.Values.SelectMany(x => x);
+               // ParcelListView.ItemsSource = parcelToListGroping.Values.SelectMany(x => x);
+                ParcelListView.ItemsSource = parcelToListView;
 
             // ParcelListView.ItemsSource = parcelToListGroping.Where(x => x.Key.parcelStatus == BO.parcelStatus.associated);
         }
@@ -186,7 +196,6 @@ namespace PL
                             case MessageBoxResult.OK:
                                 int idParcel = blGui.addParsel(parcel);
                                 parcelToListView.Add(blGui.DisplaysIistOfparcels().First(i => i.Id == parcel.Id));
-
                                 MessageBox.Show("החבילה נוצרה בהצלחה\n מספר החבילה הוא:" + idParcel.ToString() + "\n מיד תוצג רשימת החבילות", "אישור");
                                 ListWindow();
                                 break;
@@ -239,6 +248,10 @@ namespace PL
                     }
                     else
                         Close();
+                    break;
+                case "ByCustomer":
+                    new CustomerWindow(blGui, "List").Show();
+                    Close();
                     break;
 
                 default:
