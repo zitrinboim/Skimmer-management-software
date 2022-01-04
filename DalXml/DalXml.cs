@@ -1,6 +1,7 @@
 ﻿using Dal;
 using DalApi;
 using DO;
+using DL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,11 +44,15 @@ namespace DalXml
         /// <returns></returns>
         public bool addDrone(Drone drone)
         {
-            int find = DataSource.drones.FindIndex(Drone => Drone.Id == drone.Id);
+            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
+
+            int find = drones.FindIndex(Drone => Drone.Id == drone.Id);
             //Safety mechanism to prevent the overrun of an existing entity with the same ID.
             if (find == -1)
             {
-                DataSource.drones.Add(drone);
+                drones.Add(drone);
+                XMLTools.SaveListToXMLSerializer(drones, DroneXml);
+
                 return true;
             }
             throw new IdExistExeptions("Sorry, i have already a drone with this id:" + drone.Id);
@@ -59,11 +64,13 @@ namespace DalXml
         /// <returns></returns>
         public bool addCustomer(Customer customer)
         {
-            int find = DataSource.drones.FindIndex(Customer => Customer.Id == customer.Id);
+            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CustomerXml);
+            int find = customers.FindIndex(Customer => Customer.Id == customer.Id);
             //Safety mechanism to prevent the overrun of an existing entity with the same ID.
             if (find <= 0)
             {
-                DataSource.customers.Add(customer);
+                customers.Add(customer);
+                XMLTools.SaveListToXMLSerializer(customers, CustomerXml);
                 return true;
             }
             throw new IdExistExeptions("Sorry, i have already a customer with this id:" + customer.Id);
@@ -76,7 +83,26 @@ namespace DalXml
         public int addParsel(Parcel parcel)
         {
             parcel.Id = DataSource.Config.ParcelIdRun;
-            DataSource.parcels.Add(parcel);
+
+            XElement elements = XMLTools.LoadListFromXMLElement(ParcelXml);
+            XElement parcelElement =  new XElement("Parcel", new XElement
+                                       ("Id", parcel.Id)
+                                       , new XElement("SenderId", parcel.SenderId)
+                                       , new XElement("TargetId", parcel.TargetId)
+                                       , new XElement("weight", parcel.weight)
+                                     , new XElement("priority", parcel.priority)
+                                     , new XElement("DroneId", parcel.DroneId)
+                                     , new XElement("Requested", parcel.Requested)
+                                     , new XElement("Scheduled", parcel.Scheduled)
+                                     , new XElement("PickedUp", parcel.PickedUp)
+                                     , new XElement("Delivered", parcel.Delivered));
+
+
+            elements.Add(parcelElement);
+
+            XMLTools.SaveListToXMLElement(elements, ParcelXml);
+
+
             return (DataSource.Config.ParcelIdRun++);
         }
         /// <summary>
@@ -85,7 +111,11 @@ namespace DalXml
         /// <param name="droneCarge"></param>
         public void addDroneCarge(DroneCarge droneCarge)
         {
-            DataSource.droneCarges.Add(droneCarge);
+            List<DroneCarge> droneCarges = XMLTools.LoadListFromXMLSerializer<DroneCarge>(DroneChargeXml);
+
+            droneCarges.Add(droneCarge);
+            XMLTools.SaveListToXMLSerializer(droneCarges, DroneChargeXml);
+
         }
 
         /// <summary>
@@ -212,17 +242,20 @@ namespace DalXml
         /// <returns></returns>
         public Station getStation(int Id)
         {
-            Station getStation = DataSource.stations.Find(Station => Station.Id == Id);
+            List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
+            Station getStation = stations.Find(Station => Station.Id == Id);
             return getStation.Id != default ? getStation : throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
         public DroneCarge getDroneCargeByStationId(int stationId)
         {
-            DroneCarge getDroneCarge = DataSource.droneCarges.Find(DroneCarge => DroneCarge.StationId == stationId);
+            List<DroneCarge> droneCarges = XMLTools.LoadListFromXMLSerializer<DroneCarge>(DroneChargeXml);
+            DroneCarge getDroneCarge = droneCarges.Find(DroneCarge => DroneCarge.StationId == stationId);
             return getDroneCarge.StationId != default ? getDroneCarge : throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
         public DroneCarge getDroneCargeByDroneId(int droneId)
         {
-            DroneCarge getDroneCarge = DataSource.droneCarges.Find(DroneCarge => DroneCarge.DroneID == droneId);
+            List<DroneCarge> droneCarges = XMLTools.LoadListFromXMLSerializer<DroneCarge>(DroneChargeXml);
+            DroneCarge getDroneCarge = droneCarges.Find(DroneCarge => DroneCarge.DroneID == droneId);
             return getDroneCarge.StationId != default ? getDroneCarge : throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
         /// <summary>
@@ -232,7 +265,8 @@ namespace DalXml
         /// <returns></returns>
         public Drone getDrone(int Id)
         {
-            Drone getDrone = DataSource.drones.Find(Drone => Drone.Id == Id);
+            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
+            Drone getDrone = drones.Find(Drone => Drone.Id == Id);
             return getDrone.Id != default ? getDrone : throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
         /// <summary>
@@ -242,7 +276,8 @@ namespace DalXml
         /// <returns></returns>
         public Customer getCustomer(int Id)
         {
-            Customer getCustomer = DataSource.customers.Find(Customer => Customer.Id == Id);
+            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CustomerXml);
+            Customer getCustomer = customers.Find(Customer => Customer.Id == Id);
             return getCustomer.Id != default ? getCustomer : throw new IdNotExistExeptions("sorry, this customer is not found.");
         }
         /// <summary>
@@ -261,7 +296,8 @@ namespace DalXml
         /// <returns></returns>
         public IEnumerable<Station> DisplaysIistOfStations(Predicate<Station> p = null)
         {
-            return DataSource.stations.Where(d => p == null ? true : p(d)).ToList();
+            List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
+            return stations.Where(d => p == null ? true : p(d)).ToList();
         }
         /// <summary>
         /// This function transmits data of all existing drones.
@@ -269,7 +305,9 @@ namespace DalXml
         /// <returns></returns>
         public IEnumerable<Drone> DisplaysTheListOfDrons(Predicate<Drone> p = null)
         {
-            return DataSource.drones.Where(d => p == null ? true : p(d)).ToList();
+            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
+
+            return drones.Where(d => p == null ? true : p(d)).ToList();
         }
         /// <summary>
         /// This function transmits data of all existing customers.
@@ -277,7 +315,9 @@ namespace DalXml
         /// <returns></returns>
         public IEnumerable<Customer> DisplaysIistOfCustomers(Predicate<Customer> p = null)
         {
-            return DataSource.customers.Where(d => p == null ? true : p(d)).ToList();
+            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CustomerXml);
+
+            return customers.Where(d => p == null ? true : p(d)).ToList();
         }
         /// <summary>
         /// This function transmits data of all existing parcels.
@@ -287,7 +327,7 @@ namespace DalXml
         {
             return DataSource.parcels.Where(d => p == null ? true : p(d)).ToList();
         }
-        public double[] PowerConsumptionRate()
+        public double[] PowerConsumptionRate()////////////////////////////////////////////////////האם זה צריך להיות פה או לעבור לקונפיג אקסאםעל
         {
             double[] powerConsumptionRate = new double[] {
                 DataSource.Config.available, DataSource.Config.easy,
@@ -298,30 +338,37 @@ namespace DalXml
         }
         public bool removeDrone(int id)
         {
-            int find = DataSource.drones.FindIndex(Drone => Drone.Id == id);
+            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
+
+            int find = drones.FindIndex(Drone => Drone.Id == id);
             if (find != -1)
             {
-                DataSource.drones.RemoveAt(find);
+                drones.RemoveAt(find);
+                XMLTools.SaveListToXMLSerializer(drones, DroneXml);
                 return true;
             }
             throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
         public bool removeStation(int id)
         {
-            int find = DataSource.stations.FindIndex(Station => Station.Id == id);
+            List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
+            int find = stations.FindIndex(Station => Station.Id == id);
             if (find != -1)
             {
-                DataSource.stations.RemoveAt(find);
+                stations.RemoveAt(find);
+                XMLTools.SaveListToXMLSerializer(stations, StationXml);
                 return true;
             }
             throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
         public bool removeCustomer(int id)
         {
-            int find = DataSource.customers.FindIndex(Customer => Customer.Id == id);
+            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CustomerXml);
+            int find = customers.FindIndex(Customer => Customer.Id == id);
             if (find != -1)
             {
-                DataSource.customers.RemoveAt(find);
+                customers.RemoveAt(find);
+                XMLTools.SaveListToXMLSerializer(customers, CustomerXml);
                 return true;
             }
             throw new IdNotExistExeptions("sorry, this customer is not found.");
