@@ -193,8 +193,8 @@
                                                 <GridView >
                                                     <GridViewColumn Header="מזהה משלוח" Width="150" DisplayMemberBinding="{Binding Id}"/>
                                                     <GridViewColumn Header="מצב משלוח" Width="150" DisplayMemberBinding="{Binding parcelStatus}"/>
-                                                    <GridViewColumn Header="מזהה לקוח" Width="150" DisplayMemberBinding="{Binding fromCustomer.CustomerInParcel.Id}"/>
-                                                    <GridViewColumn Header="שם לקוח" Width="150" DisplayMemberBinding="{Binding fromCustomer.CustomerInParcel.name}"/>
+                                                    <GridViewColumn Header="מזהה לקוח" Width="150" DisplayMemberBinding="{Binding CustomerInParcel.Id}"/>
+                                                    <GridViewColumn Header="שם לקוח" Width="150" DisplayMemberBinding="{Binding CustomerInParcel.name}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -212,8 +212,8 @@
                                                 <GridView >
                                                     <GridViewColumn Header="מזהה משלוח" Width="150" DisplayMemberBinding="{Binding Id}"/>
                                                     <GridViewColumn Header="מצב משלוח" Width="150" DisplayMemberBinding="{Binding parcelStatus}"/>
-                                                    <GridViewColumn Header="מזהה לקוח" Width="150" DisplayMemberBinding="{Binding toCustomer.CustomerInParcel.Id}"/>
-                                                    <GridViewColumn Header="שם לקוח" Width="150" DisplayMemberBinding="{Binding toCustomer.CustomerInParcel.name}"/>
+                                                    <GridViewColumn Header="מזהה לקוח" Width="150" DisplayMemberBinding="{Binding CustomerInParcel.Id}"/>
+                                                    <GridViewColumn Header="שם לקוח" Width="150" DisplayMemberBinding="{Binding CustomerInParcel.name}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
