@@ -64,16 +64,20 @@ namespace DalXml
         /// <returns></returns>
         public bool addCustomer(Customer customer)
         {
-            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CustomerXml);
-            int find = customers.FindIndex(Customer => Customer.Id == customer.Id);
-            //Safety mechanism to prevent the overrun of an existing entity with the same ID.
-            if (find <= 0)
-            {
-                customers.Add(customer);
-                XMLTools.SaveListToXMLSerializer(customers, CustomerXml);
-                return true;
-            }
-            throw new IdExistExeptions("Sorry, i have already a customer with this id:" + customer.Id);
+            XElement elements = XMLTools.LoadListFromXMLElement(CustomerXml);
+            XElement customerElement = (from element in elements.Elements()
+                                        where element.Element("Id").Value == customer.Id.ToString()
+                                        select element).FirstOrDefault() != default ?
+                                        throw new IdExistExeptions("Sorry, i have already a customer with this id:" + customer.Id) :
+                                        new XElement("Parcel", new XElement
+                                        ("Id", customer.Id)
+                                       , new XElement("name", customer.name)
+                                       , new XElement("phone", customer.phone)
+                                       , new XElement("longitude", customer.longitude)
+                                     , new XElement("lattitude", customer.lattitude));
+            elements.Add(customerElement);
+            XMLTools.SaveListToXMLElement(elements, CustomerXml);
+            return true;
         }
         /// <summary>
         ///This function allows the user to add a parcel to the list.
@@ -85,7 +89,7 @@ namespace DalXml
             parcel.Id = DataSource.Config.ParcelIdRun;
 
             XElement elements = XMLTools.LoadListFromXMLElement(ParcelXml);
-            XElement parcelElement =  new XElement("Parcel", new XElement
+            XElement parcelElement = new XElement("Parcel", new XElement
                                        ("Id", parcel.Id)
                                        , new XElement("SenderId", parcel.SenderId)
                                        , new XElement("TargetId", parcel.TargetId)
@@ -276,9 +280,20 @@ namespace DalXml
         /// <returns></returns>
         public Customer getCustomer(int Id)
         {
-            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CustomerXml);
-            Customer getCustomer = customers.Find(Customer => Customer.Id == Id);
-            return getCustomer.Id != default ? getCustomer : throw new IdNotExistExeptions("sorry, this customer is not found.");
+            XElement elements = XMLTools.LoadListFromXMLElement(CustomerXml);
+            Customer customer  = (from custom in elements.Elements()
+                                  where custom.Element("Id").Value == Id.ToString()
+                                  select new Customer()
+                                  {
+                                      Id = (int)Int32.Parse(custom.Element("Id").Value),
+                                      name = (custom.Element("name").Value),
+                                      phone = (custom.Element("phone").Value),
+                                      lattitude = (double)double.Parse(custom.Element("lattitude").Value),
+                                      longitude = (double)double.Parse(custom.Element("longitude").Value)
+                                  }
+                        ).FirstOrDefault();
+
+            return customer.Id == Id ? customer : throw new IdNotExistExeptions("sorry, this customer is not found.");
         }
         /// <summary>
         /// This function transmits the requested parcel data according to an identification number.
@@ -287,7 +302,8 @@ namespace DalXml
         /// <returns></returns>
         public Parcel getParcel(int Id)
         {
-            Parcel getParcel = DataSource.parcels.Find(Parcel => Parcel.Id == Id);
+            List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
+            Parcel getParcel = parcels.Find(Parcel => Parcel.Id == Id);
             return getParcel.Id != default ? getParcel : throw new IdNotExistExeptions("sorry, this Parcel is not found.");
         }
         /// <summary>
@@ -315,9 +331,18 @@ namespace DalXml
         /// <returns></returns>
         public IEnumerable<Customer> DisplaysIistOfCustomers(Predicate<Customer> p = null)
         {
-            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CustomerXml);
+            XElement elements = XMLTools.LoadListFromXMLElement(CustomerXml);
+            return (from custom in elements.Elements()
+                    select new Customer()
+                    {
 
-            return customers.Where(d => p == null ? true : p(d)).ToList();
+                        Id = (int)Int32.Parse(custom.Element("Id").Value),
+                        name = (custom.Element("name").Value),
+                        phone = (custom.Element("phone").Value),
+                        lattitude = (double)double.Parse(custom.Element("lattitude").Value),
+                        longitude = (double)double.Parse(custom.Element("longitude").Value)
+                    }
+                        ).Where(d => p == null || p(d)).ToList();      
         }
         /// <summary>
         /// This function transmits data of all existing parcels.
@@ -325,7 +350,9 @@ namespace DalXml
         /// <returns></returns>
         public IEnumerable<Parcel> DisplaysIistOfparcels(Predicate<Parcel> p = null)
         {
-            return DataSource.parcels.Where(d => p == null ? true : p(d)).ToList();
+            List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
+
+            return parcels.Where(d => p == null ? true : p(d)).ToList();
         }
         public double[] PowerConsumptionRate()////////////////////////////////////////////////////האם זה צריך להיות פה או לעבור לקונפיג אקסאםעל
         {
@@ -363,22 +390,28 @@ namespace DalXml
         }
         public bool removeCustomer(int id)
         {
-            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CustomerXml);
-            int find = customers.FindIndex(Customer => Customer.Id == id);
-            if (find != -1)
+            XElement elements = XMLTools.LoadListFromXMLElement(CustomerXml);
+           XElement xElement= elements.Elements().Where(elements => elements.Element("id").Value == id.ToString()).FirstOrDefault();
+            if (xElement != default)
             {
-                customers.RemoveAt(find);
-                XMLTools.SaveListToXMLSerializer(customers, CustomerXml);
+                elements.Elements().Where(elements => elements.Element("id").Value == id.ToString()).Remove();
+                XMLTools.SaveListToXMLElement(elements, CustomerXml);
                 return true;
             }
+            else
+            {
             throw new IdNotExistExeptions("sorry, this customer is not found.");
+            }
         }
         public bool removeParcel(int id)
         {
-            int find = DataSource.parcels.FindIndex(Parcel => Parcel.Id == id);
+            List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
+
+            int find = parcels.FindIndex(Parcel => Parcel.Id == id);
             if (find != -1)
             {
-                DataSource.parcels.RemoveAt(find);
+                parcels.RemoveAt(find);
+                XMLTools.SaveListToXMLSerializer(parcels, ParcelXml);
                 return true;
             }
             throw new IdNotExistExeptions("sorry, this Parcel is not found.");
