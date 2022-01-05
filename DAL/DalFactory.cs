@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DalApi;
+using Dal;
+using DO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +15,27 @@ namespace DalApi
         {
             if (str == "obj")
                 return Dal.DalObject.instatnce;
-            //else if (str == "xml")
-            //    /////
-            //else
-            //            throw;
-            return default;
+            else if (str == "DalXml")
+                return DalXml.
+            else
+                throw new ArgumentException($"{str}: isn't valid to \"DalFactory\"");
         }
     }
 }
+/*
+ 
+
+namespace DalApi
+{
+    public static class DalFactory
+    {
+        public static IDal GetDal(string str)
+        {
+            if (str == "DalXml")
+                return DalXml.DalXml.Instance;
+
+            throw new ArgumentException($"{str}: isn't valid to \"DalFactory\"");
+        }
+    }
+}
+ */
