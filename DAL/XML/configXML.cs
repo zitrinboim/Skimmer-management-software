@@ -8,7 +8,6 @@ namespace DalXml
 {
     class configXML
     {
-        private static string configXml = @"configXml.Xml";
 
         internal static int ParcelIdRun = 1000;
         internal static double available = 0.05;

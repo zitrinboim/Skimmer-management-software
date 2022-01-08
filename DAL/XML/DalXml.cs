@@ -16,11 +16,21 @@ namespace DalXml
         private static string CustomerXml = @"CustomerXml.Xml";
         private static string ParcelXml = @"ParcelXml.Xml";
         private static string DroneChargeXml = @" DroneChargeXml.Xml";
+        private static string configXml = @"configXML.Xml";
+
 
         static internal DalXml instatnce = new DalXml();
+        static DalXml()
+        {
+           DataSource.Initialize();
 
-        private DalXml() => DataSource.Initialize();
-
+            XMLTools.SaveListToXMLSerializer(DataSource.drones, DroneXml);
+            XMLTools.SaveListToXMLSerializer(DataSource.stations, StationXml);
+            XMLTools.SaveListToXMLSerializer(DataSource.customers, CustomerXml);
+            XMLTools.SaveListToXMLSerializer(DataSource.parcels, ParcelXml);
+            XMLTools.SaveListToXMLSerializer(DataSource.droneCarges, DroneChargeXml);
+        }
+        private DalXml() { }
         public bool addStation(Station station)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
@@ -87,7 +97,8 @@ namespace DalXml
         /// <returns></returns>
         public int addParsel(Parcel parcel)
         {
-            parcel.Id = DataSource.Config.ParcelIdRun;
+            XElement xElement = XMLTools.LoadListFromXMLElement(configXml);
+            parcel.Id = 1+int.Parse(xElement.Element("ParcelIdRun").Value);
 
             XElement elements = XMLTools.LoadListFromXMLElement(ParcelXml);
             XElement parcelElement = new XElement("Parcel", new XElement
@@ -103,8 +114,10 @@ namespace DalXml
                                      , new XElement("Delivered", parcel.Delivered));
 
             elements.Add(parcelElement);
+            xElement.Element("ParcelIdRun").Value = parcel.Id.ToString();
             XMLTools.SaveListToXMLElement(elements, ParcelXml);
-            return (DataSource.Config.ParcelIdRun++);
+            XMLTools.SaveListToXMLElement(xElement, configXml);
+            return parcel.Id;
         }
         /// <summary>
         ///  This function add element to the list of drinecarge.
