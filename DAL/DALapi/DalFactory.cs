@@ -1,6 +1,7 @@
 ﻿using DalApi;
 using Dal;
 using DO;
+using DalXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace DalApi
             if (str == "obj")
                 return Dal.DalObject.instatnce;
             else if (str == "DalXml")
-                return DalXml.
+                return DalXml.DalXml.instatnce;
             else
                 throw new ArgumentException($"{str}: isn't valid to \"DalFactory\"");
         }
