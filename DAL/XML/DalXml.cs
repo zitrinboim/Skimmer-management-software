@@ -19,7 +19,7 @@ namespace DalXml
         private static string configXml = @"configXML.Xml";
 
 
-        internal static DalXml instatnce = new DalXml() ;
+        internal static DalXml instatnce = new DalXml();
         //static DalXml()
         //{
         //   DataSource.Initialize();
@@ -98,7 +98,8 @@ namespace DalXml
         public int addParsel(Parcel parcel)
         {
             XElement xElement = XMLTools.LoadListFromXMLElement(configXml);
-            parcel.Id = 1+int.Parse(xElement.Element("ParcelIdRun").Value);
+            int idTmep= int.Parse(xElement.Value);
+            parcel.Id = 1 + idTmep;
 
             XElement elements = XMLTools.LoadListFromXMLElement(ParcelXml);
             XElement parcelElement = new XElement("Parcel", new XElement
@@ -114,7 +115,7 @@ namespace DalXml
                                      , new XElement("Delivered", parcel.Delivered));
 
             elements.Add(parcelElement);
-            xElement.Element("ParcelIdRun").Value = parcel.Id.ToString();
+            xElement.Value = parcel.Id.ToString();
             XMLTools.SaveListToXMLElement(elements, ParcelXml);
             XMLTools.SaveListToXMLElement(xElement, configXml);
             return parcel.Id;

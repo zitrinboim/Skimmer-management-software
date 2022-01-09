@@ -22,7 +22,7 @@ namespace PL
         Actions actions;
         string action;
 
-        public CustomerWindow(IBL bL, string _action = "")
+        public CustomerWindow(IBL bL, string _action = "", int id = 0)
         {
             blGui = bL;
             actions = new();
@@ -46,6 +46,10 @@ namespace PL
                 case "Add":
                     AddWindow();
                     break;
+                case "ByParcel":
+                    if (id != 0)
+                        UpdatingWindow(id);
+                    break;
                 default:
                     break;
             }
@@ -54,6 +58,7 @@ namespace PL
         private void AddWindow()
         {
             actions = Actions.ADD;
+            addButton.Visibility = Visibility.Visible;
             addButton.Content = "הוסף";
             Close.Content = "סגור";
             List.Visibility = Visibility.Hidden;
@@ -66,7 +71,7 @@ namespace PL
 
         private void ListWindow()
         {
-
+            addButton.Visibility = Visibility.Visible;
             CustomerListView.Items.Refresh();
             actions = Actions.LIST;
             addButton.Content = "הוסף לקוח";
@@ -78,8 +83,12 @@ namespace PL
         }
         private void UpdatingWindow(int id)
         {
+            if(action == "ByParcel")
+            {
+                customer = blGui.GetCustomer(id);
+            }
             actions = Actions.UPDATING;
-            addButton.Content = "עדכן";
+            addButton.Visibility=Visibility.Hidden;
             Close.Content = "סגור";
             List.Visibility = Visibility.Hidden;
             Updating.Visibility = Visibility.Visible;
@@ -170,13 +179,16 @@ namespace PL
                     else
                         Close();
                     break;
-
+                case "ByParcel":
+                    new ParcelWindow(blGui, "List").Show();
+                    Close();
+                    break;
                 default:
                     Close();
                     break;
             }
         }
-        
+
         private void fromCustomer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int idParcel = ((ParcelInCustomer)fromCustomer.SelectedItem).Id;
@@ -193,7 +205,7 @@ namespace PL
 
         private void CustomerListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           customerToList  = (CustomerToList)CustomerListView.SelectedItem;
+            customerToList = (CustomerToList)CustomerListView.SelectedItem;
             if (customerToList != null)
             {
                 UpdatingWindow(customerToList.Id);

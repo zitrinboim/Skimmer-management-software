@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PL", "PL\PL.csproj", "{E8EF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XMLfiles", "XMLfiles", "{E4C992BD-4ABB-458E-A11B-959F6EF6B6FD}"
 	ProjectSection(SolutionItems) = preProject
-		 DroneChargeXml.Xml =  DroneChargeXml.Xml
 		configXML.xml = configXML.xml
 		CustomerXml.Xml = CustomerXml.Xml
+		DroneChargeXml.Xml = DroneChargeXml.Xml
 		DroneXml.Xml = DroneXml.Xml
 		ParcelXml.Xml = ParcelXml.Xml
 		StationXml.Xml = StationXml.Xml

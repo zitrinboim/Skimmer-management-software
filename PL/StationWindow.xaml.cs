@@ -184,6 +184,7 @@ namespace PL
                                 _ = blGui.updateStationData(station.Id, station.name, station.freeChargeSlots);
                                 // droneToListsView[index] = blGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
                                 MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת התחנות", "אישור");
+                                StationListView.SelectedItem = null;
                                 ListWindow();
                                 break;
                             case MessageBoxResult.Cancel:

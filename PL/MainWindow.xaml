@@ -5,14 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-         Title="MainWindow" MinHeight="720" MinWidth="1020" Height="700" Width="1000"  WindowStyle="None" FlowDirection="RightToLeft"
-        AllowsTransparency="True" Background="{x:Null}" WindowState="Maximized">
+        Title="MainWindow" MinHeight="720" MinWidth="1020" Height="700" Width="1000"  
+        WindowStyle="None" FlowDirection="RightToLeft"
+        AllowsTransparency="True" Background="Transparent" WindowState="Maximized">
     <!--Closed="When_Window_CLosed"  MouseDown="Window_MouseDown" שינינו את הרקע ללבן ואת הגודל לנורמל-->
     <Border BorderThickness="5" BorderBrush="LightBlue" Background="LightBlue" CornerRadius="22">
         <Grid>
             <Grid.Background>
 
-                <ImageBrush ImageSource="/images.jpg" Stretch="Fill" TileMode="None" Opacity="0.6"/>
+                <ImageBrush ImageSource="/images.jpg" Stretch="Fill" TileMode="None" Opacity="0.2"/>
             </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
@@ -28,7 +29,7 @@
                         <GradientStop Offset="1" Color="gray"/>
                     </LinearGradientBrush>
                 </Border.Background>
-                <TextBlock Text="מערכת לניהול רחפנים-fly to you" Margin="40 10 0 0" FontSize="16"/>
+                <TextBlock Text="מערכת לניהול רחפנים-fly to you" Margin="40 10 0 0" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Stretch" />
             </Border>
             <StackPanel x:Name="ManageButtonStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 50 0">
                 <Button Click="Button_Click_MinimizeWindow" Width="25" Height="25" Template="{StaticResource TitleBarButtons}">
@@ -88,7 +89,7 @@
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text="ניהול תחנות" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="ניהול תחנות" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
                                             <Button Margin="5 20 5 5" Click="Button_Click_AddStation" >
                                                 <!--ToolTipService.ShowDuration="8000"-->
                                                 <TextBlock Text="הוספת תחנת בסיס" Margin="10 0"/>
@@ -116,7 +117,7 @@
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text="ניהול רחפנים" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="ניהול רחפנים" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
                                             <Button Margin="5 20 5 5" Click="Button_Click_AddDrone" >
                                                 <!--ToolTipService.ShowDuration="8000"-->
                                                 <TextBlock Text="הוספת רחפן" Margin="10 0"/>
@@ -158,18 +159,18 @@
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text="ניהול לקוחות" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="ניהול לקוחות" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
                                             <Button Margin="5 20 5 5" Click="Button_Click_AddNewCostumer" >
                                                 <!--ToolTipService.ShowDuration="8000"-->
                                                 <TextBlock Text="הוספת לקוח חדש" Margin="10 0"/>
                                             </Button>
                                             <Button  Grid.Row="1" Margin="5" Click="Button_Click_UpdateCostumerData" >
                                                 <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text="עדכון פרטי לקוח" Margin="10 0"/>
+                                                <TextBlock Text="הצגת פרטי לקוח" Margin="10 0"/>
                                             </Button>
                                             <Button Grid.Row="2" Margin="5" Click="Button_Click_RemoveCostumer" >
                                                 <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text="מחיקת מחיקת לקוח" Margin="10 0"/>
+                                                <TextBlock Text="מחיקת לקוח" Margin="10 0"/>
                                             </Button>
                                             <Button Grid.Row="3" Padding="5" Margin="5" Click="Button_Click_ListOfCostumers"  >
                                                 <!--ToolTipService.ShowDuration="8000"-->
@@ -187,7 +188,7 @@
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text="ניהול חבילות" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="ניהול חבילות"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
                                             <Button Margin="5 20 5 5" Click="Button_Click_AddParcel" >
                                                 <!--ToolTipService.ShowDuration="8000"-->
                                                 <TextBlock Text="הוספת חבילה" Margin="10 0"/>

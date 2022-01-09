@@ -64,6 +64,7 @@ namespace BL
                     if (find != -1)
                     {
                         drone.DroneStatuses = DroneStatuses.busy;
+                        drone.parcelNumber = PackagesInDelivery[find].Id;//הוסף
 
                         DO.Customer sander = customers.Find(customer => customer.Id == PackagesInDelivery[find].SenderId);
                         DO.Customer target = customers.Find(customer => customer.Id == PackagesInDelivery[find].TargetId);
@@ -90,7 +91,7 @@ namespace BL
                     {
                         int index;
 
-                        drone.DroneStatuses = (DroneStatuses)random.Next(1, 3);
+                        drone.DroneStatuses = DroneStatuses.maintenance;
                         if (drone.DroneStatuses == (DroneStatuses)1)
                         {
                             List<DO.Parcel> droneParcels = PackagesInDelivery.FindAll(i => i.Delivered != DateTime.MinValue);

@@ -99,7 +99,7 @@ namespace PL
             Add.Visibility = Visibility.Visible;
             prioritiCombo.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
             weightCombo.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
-            parcel = new() { Id = 0, Requested = DateTime.Now, Target=new(), Sender=new() };
+            parcel = new() { Id = 0, Requested = DateTime.Now, Target = new(), Sender = new() };
             DataContext = parcel;
         }
         private void UpdatingWindow(int id)
@@ -109,7 +109,7 @@ namespace PL
             //    station = blGui.GetStation(id);
             //}
             actions = Actions.UPDATING;
-            addButton.Visibility= Visibility.Hidden;
+            addButton.Visibility = Visibility.Hidden;
             Close.Content = "סגור";
             List.Visibility = Visibility.Hidden;
             Updating.Visibility = Visibility.Visible;
@@ -123,6 +123,7 @@ namespace PL
                     ScheduledTextBox.Text = "לא שוייך";
                     PickedUpTextBox.Text = "לא נאסף";
                     DeliveredTextBox.Text = "לא סופק";
+                    droneInParcelButton.Content = "החבילה לא שויכה לרחפן";
                     break;
                 case BO.parcelStatus.associated:
                     PickedUpTextBox.Text = "לא נאסף";
@@ -172,7 +173,7 @@ namespace PL
 
             //if (weight == WeightCategories.All && parcelStatus == parcelStatus.הכל && priorities == Priorities.הכל)
             if (weightSelector.SelectedIndex == -1 && prioritiSelector.SelectedIndex == -1 && StatusSelector.SelectedIndex == -1)
-               // ParcelListView.ItemsSource = parcelToListGroping.Values.SelectMany(x => x);
+                // ParcelListView.ItemsSource = parcelToListGroping.Values.SelectMany(x => x);
                 ParcelListView.ItemsSource = parcelToListView;
 
             // ParcelListView.ItemsSource = parcelToListGroping.Where(x => x.Key.parcelStatus == BO.parcelStatus.associated);
@@ -195,7 +196,7 @@ namespace PL
 
                             case MessageBoxResult.OK:
                                 int idParcel = blGui.addParsel(parcel);
-                                parcelToListView.Add(blGui.DisplaysIistOfparcels().First(i => i.Id == parcel.Id));
+                                parcelToListView.Add(blGui.DisplaysIistOfparcels().First(i => i.Id == idParcel));
                                 MessageBox.Show("החבילה נוצרה בהצלחה\n מספר החבילה הוא:" + idParcel.ToString() + "\n מיד תוצג רשימת החבילות", "אישור");
                                 ListWindow();
                                 break;
@@ -265,19 +266,20 @@ namespace PL
             parcelToList = (ParcelToList)ParcelListView.SelectedItem;
             if (parcelToList != null)
             {
-                 UpdatingWindow(parcelToList.Id);
+                UpdatingWindow(parcelToList.Id);
             }
         }
 
         private void targetButton_Click(object sender, RoutedEventArgs e)
         {
-            //פתיחה של חלון לקוח עם פרטי לקוח מקבל
+            new CustomerWindow(blGui, "ByParcel", parcel.Target.Id).Show();
+            Close();
         }
 
         private void sanderButton_Click(object sender, RoutedEventArgs e)
         {
-            //פתיחה של חלון לקוח עם פרטי לקוח שולח
-
+            new CustomerWindow(blGui, "ByParcel", parcel.Sender.Id).Show();
+            Close();
         }
 
         private void droneInParcelButton_Click(object sender, RoutedEventArgs e)

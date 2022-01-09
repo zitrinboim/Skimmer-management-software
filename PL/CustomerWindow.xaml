@@ -5,58 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="ParcelWindow" Height="450" Width="640" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="ParcelWindow" Height="450" Width="700" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent">
 
-    <Window.Resources>
-        <!--<local:ComboBoxSelectedItemToIsEnable x:Key="comboBoxIsSelectedToEnable"/>
-        <local:DateTimeToShortString x:Key="dateTimeToShortString"/>-->
-        <Style TargetType="{x:Type Label}">
-            <Setter Property="HorizontalContentAlignment" Value="Right"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-        <Style TargetType="{x:Type TextBox}">
-            <Setter Property="Padding" Value="3"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Background" Value="{x:Null}"/>
-        </Style>
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="Padding" Value="3"/>
-            <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Background" Value="{x:Null}"/>
-        </Style>
-        <Style TargetType="{x:Type ComboBox}">
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-
-        <Style TargetType="{x:Type ListView}">
-            <Setter Property="FontFamily" Value="Consolas"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-        <Style TargetType="{x:Type ListViewItem}">
-            <Setter  Property="HorizontalContentAlignment" Value="Center"/>
-        </Style>
-    </Window.Resources>
+   
     <Border BorderThickness="2" BorderBrush="LightBlue" Background="AliceBlue" CornerRadius="20" Padding="10">
 
         <Grid>
@@ -77,11 +29,11 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="מזהה"  Width="100" DisplayMemberBinding="{Binding Id}"/>
-                                <GridViewColumn Header="שם" Width="100" DisplayMemberBinding="{Binding name}"/>
-                                <GridViewColumn Header="פלאפון" Width="100" DisplayMemberBinding="{Binding phone}"/>
-                                <GridViewColumn Header="שסופקו" Width="100" DisplayMemberBinding="{Binding packagesProvided}"/>
-                                <GridViewColumn Header="שלא סופקו" Width="100" DisplayMemberBinding="{Binding packagesNotYetDelivered}"/>
-                                <GridViewColumn Header="שהתקבלו" Width="100" DisplayMemberBinding="{Binding receivedPackages}"/>
+                                <GridViewColumn Header="שם" Width="130" DisplayMemberBinding="{Binding name}"/>
+                                <GridViewColumn Header="פלאפון" Width="120" DisplayMemberBinding="{Binding phone}"/>
+                                <GridViewColumn Header="שסופקו" Width="70" DisplayMemberBinding="{Binding packagesProvided}"/>
+                                <GridViewColumn Header="שלא סופקו" Width="80" DisplayMemberBinding="{Binding packagesNotYetDelivered}"/>
+                                <GridViewColumn Header="שהתקבלו" Width="70" DisplayMemberBinding="{Binding receivedPackages}"/>
                                 <GridViewColumn Header="שלא התקבלו" Width="100" DisplayMemberBinding="{Binding PackagesOnTheWay}"/>
                             </GridView>
                         </ListView.View>
@@ -110,16 +62,19 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
 
                         </Grid.RowDefinitions>
                         <Label Grid.Column="2" Grid.Row="0" Content=":מזהה"    FontWeight="Bold"  />
                         <Label Grid.Column="2" Grid.Row="1" Content=":שם"    FontWeight="Bold"  />
                         <Label Grid.Column="2" Grid.Row="2" Content=":פלאפון" FontWeight="Bold" />
-                        <Label Grid.Column="2" Grid.Row="3" Content="דחיפות" FontWeight="Bold"  />
+                        <Label Grid.Column="2" Grid.Row="3" Content="מיקום-קו אורך" FontWeight="Bold"  />
+                        <Label Grid.Column="2" Grid.Row="4" Content="מיקום-קו רוחב" FontWeight="Bold"  />
                         <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Id}"         Background="{x:Null}" />
                         <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding name}"    Background="{x:Null}"/>
                         <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding phone}"    Background="{x:Null}"/>
-                        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding location}"    Background="{x:Null}"/>
+                        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding location.longitude}"    Background="{x:Null}"/>
+                        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding location.latitude}"    Background="{x:Null}"/>
                     </Grid>
 
                 </Grid>

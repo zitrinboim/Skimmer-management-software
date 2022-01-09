@@ -107,11 +107,12 @@ namespace PL
             {
                 drone = blGui.GetDrone(id);
             }
-            if (action == "ByStation")
+            else if (action == "ByStation" || action == "ByParcel")
             {
                 drone = blGui.GetDrone(id);
                 droneToList = blGui.DisplaysIistOfDrons().First(i => i.Id == id);
             }
+
             if (droneToList.DroneStatuses == BO.DroneStatuses.maintenance)
             {
                 BorderStation.Visibility = Visibility.Visible;
@@ -216,6 +217,7 @@ namespace PL
             droneToList = (DroneToList)DroneListView.SelectedItem;
             if (droneToList != null)
             {
+                drone = blGui.GetDrone(droneToList.Id);
                 UpdatingWindow(droneToList.Id);
             }
         }
@@ -285,6 +287,7 @@ namespace PL
                                 _ = blGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
                                 // droneToListsView[index] = blGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
                                 MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
+                                DroneListView.SelectedItem = null;
                                 ListWindow();
                                 break;
                             case MessageBoxResult.Cancel:
@@ -385,6 +388,7 @@ namespace PL
                 }
                 else
                 {
+                    drone = blGui.GetDrone(drone.Id);
                     UpdatingWindow(drone.Id);
                 }
             }
@@ -401,9 +405,9 @@ namespace PL
                 }
             }
         }
-    private void onlyNumbers(object sender , TextCompositionEventArgs e)
+        private void onlyNumbers(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new("^[0-9]$");
+            Regex regex = new("[^0-9]$");
             e.Handled = regex.IsMatch(e.Text);
         }
     }

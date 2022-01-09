@@ -35,6 +35,7 @@ namespace BL
                     TargetId = parcel.Target.Id,
                     weight = (DO.WeightCategories)parcel.weight,
                     priority = (DO.Priorities)parcel.priority,
+                    Requested = DateTime.Now
                 };
                 int addParcel = dal.addParsel(parcel1);
 

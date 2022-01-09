@@ -5,58 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="ParcelWindow" Height="450" Width="640" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="ParcelWindow" Height="450" Width="750" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent">
 
-    <Window.Resources>
-        <!--<local:ComboBoxSelectedItemToIsEnable x:Key="comboBoxIsSelectedToEnable"/>
-        <local:DateTimeToShortString x:Key="dateTimeToShortString"/>-->
-        <Style TargetType="{x:Type Label}">
-            <Setter Property="HorizontalContentAlignment" Value="Right"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-        <Style TargetType="{x:Type TextBox}">
-            <Setter Property="Padding" Value="3"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Background" Value="{x:Null}"/>
-        </Style>
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="Padding" Value="3"/>
-            <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Background" Value="{x:Null}"/>
-        </Style>
-        <Style TargetType="{x:Type ComboBox}">
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-
-        <Style TargetType="{x:Type ListView}">
-            <Setter Property="FontFamily" Value="Consolas"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-        <Style TargetType="{x:Type ListViewItem}">
-            <Setter  Property="HorizontalContentAlignment" Value="Center"/>
-        </Style>
-    </Window.Resources>
+   
     <Border BorderThickness="2" BorderBrush="LightBlue" Background="AliceBlue" CornerRadius="20" Padding="10">
 
         <Grid>
@@ -98,11 +50,11 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="מזהה"  Width="100" DisplayMemberBinding="{Binding Id}"/>
-                                <GridViewColumn Header="שולח" Width="100" DisplayMemberBinding="{Binding sanderName}"/>
-                                <GridViewColumn Header="מקבל" Width="100" DisplayMemberBinding="{Binding targetName}"/>
-                                <GridViewColumn Header="משקל" Width="100" DisplayMemberBinding="{Binding weight}"/>
-                                <GridViewColumn Header="עדיפות" Width="100" DisplayMemberBinding="{Binding priority}"/>
-                                <GridViewColumn Header="סטטוס" Width="100" DisplayMemberBinding="{Binding parcelStatus}"/>
+                                <GridViewColumn Header="שולח" Width="130" DisplayMemberBinding="{Binding sanderName}"/>
+                                <GridViewColumn Header="מקבל" Width="130" DisplayMemberBinding="{Binding targetName}"/>
+                                <GridViewColumn Header="משקל" Width="110" DisplayMemberBinding="{Binding weight}"/>
+                                <GridViewColumn Header="עדיפות" Width="120" DisplayMemberBinding="{Binding priority}"/>
+                                <GridViewColumn Header="סטטוס" Width="120" DisplayMemberBinding="{Binding parcelStatus}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -277,7 +229,7 @@
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <Label  Grid.Row="0" Content="רחפן מבצע"  HorizontalContentAlignment="Center" FontSize="18"  FontWeight="Bold" />
-                                        <Button x:Name="droneInParcelButton" Content="{Binding droneInParcel.Id}" Grid.Column="0" Grid.Row="1" Click="droneInParcelButton_Click"/>
+                                        <Button x:Name="droneInParcelButton" Content="{Binding droneInParcel.Id}"   Grid.Row="1" Click="droneInParcelButton_Click"/>
                                     </Grid>
                                 </Grid>
                             </Border>

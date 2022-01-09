@@ -5,57 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d" 
-        Title="DroneWindow" Height="450" Width="640" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
-    <Window.Resources>
-        <!--<local:ComboBoxSelectedItemToIsEnable x:Key="comboBoxIsSelectedToEnable"/>
-        <local:DateTimeToShortString x:Key="dateTimeToShortString"/>-->
-        <Style TargetType="{x:Type Label}">
-            <Setter Property="HorizontalContentAlignment" Value="Right"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-        <Style TargetType="{x:Type TextBox}">
-            <Setter Property="Padding" Value="3"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Background" Value="{x:Null}"/>
-        </Style>
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="Padding" Value="3"/>
-            <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Background" Value="{x:Null}"/>
-        </Style>
-        <Style TargetType="{x:Type ComboBox}">
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-
-        <Style TargetType="{x:Type ListView}">
-            <Setter Property="FontFamily" Value="Consolas"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-        <Style TargetType="{x:Type ListViewItem}">
-            <Setter  Property="HorizontalContentAlignment" Value="Center"/>
-        </Style>
-    </Window.Resources>
+        Title="DroneWindow" Height="450" Width="640" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent">
+    
     <Border BorderThickness="2" BorderBrush="LightBlue" Background="AliceBlue" CornerRadius="20" Padding="10">
 
         <Grid>
@@ -107,12 +59,12 @@
             <Border Name="Add" Grid.Row="0" Visibility="Hidden">
                 <Grid x:Name="add" >
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="0.3*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="1.5*"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                        <Label  Content="הכנס פרטי רחפן "  HorizontalAlignment="Center" FontSize="11"   FontWeight="Bold" Background="{x:Null}" />
+                        <Label  Content="הכנס פרטי רחפן "  HorizontalAlignment="Center" FontSize="5"   FontWeight="Bold" Background="{x:Null}" />
                     </Grid>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>

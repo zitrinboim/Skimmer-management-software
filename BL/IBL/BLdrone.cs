@@ -148,12 +148,14 @@ namespace BL
                 {
                     int droneIndex = droneToLists.FindIndex(i => i.Id == IdDrone);
                     drone.battery += (time * ChargingRate);
+                    if (drone.battery > 100)
+                        drone.battery = 100;
                     drone.DroneStatuses = DroneStatuses.available;
                     droneToLists[droneIndex] = drone;
 
-                    //     DO.DroneCarge droneCarge = dal.getDroneCargeByDroneId(IdDrone);
-                    //    bool addingTest = dal.addingCargeSlotsToStation(droneCarge.StationId);
-                    //   bool removeTest = dal.ReleaseDroneCarge(IdDrone);
+                    DO.DroneCarge droneCarge = dal.getDroneCargeByDroneId(IdDrone);
+                    bool addingTest = dal.addingCargeSlotsToStation(droneCarge.StationId);
+                    bool removeTest = dal.ReleaseDroneCarge(IdDrone);
                     return true;
                 }
                 //  throw new NotImplementedException();
@@ -181,10 +183,10 @@ namespace BL
                     throw new NotImplementedException();
 
                 bestParcel = (from Parcel in dal.DisplaysIistOfparcels().ToList()
-                                  //where Parcel.Scheduled == DateTime.MinValue
+                              where Parcel.Scheduled == DateTime.MinValue
                               orderby Parcel.priority descending
                               orderby Parcel.weight descending
-                              //where NewMethod(droneToList, Parcel)
+                              where batteryCalculation(droneToList, Parcel)
                               select Parcel).FirstOrDefault();
 
                 if (bestParcel.Id != 0)
@@ -213,7 +215,7 @@ namespace BL
         /// <param name="droneToList"></param>
         /// <param name="parcel"></param>
         /// <returns></returns>
-        private bool NewMethod(DroneToList droneToList, DO.Parcel parcel)
+        private bool batteryCalculation(DroneToList droneToList, DO.Parcel parcel)
         {
             DO.Customer sander = dal.getCustomer(parcel.SenderId);
             Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
@@ -297,11 +299,10 @@ namespace BL
                 int index = droneToLists.FindIndex(i => i.Id == IdDrone);
                 droneToLists[index].battery -= (d.DistanceBetweenPlaces(droneToLists[index].Location, sanderLocation) * available);
                 droneToLists[index].Location = sanderLocation;
-
-                dal.removeParcel(parcelsOfDrone.Id);//Update by deleting an object in a previous configuration and readjusting after changes.
-                parcelsOfDrone.PickedUp = DateTime.Now;
-                dal.addParsel(parcelsOfDrone);
-
+                dal.PackageCollectionByDrone(parcelsOfDrone.Id);
+                //dal.removeParcel(parcelsOfDrone.Id);//Update by deleting an object in a previous configuration and readjusting after changes.
+                //parcelsOfDrone.PickedUp = DateTime.Now;
+                //dal.addParsel(parcelsOfDrone);
                 return true;
             }
             catch (DO.IdExistExeptions Ex)
@@ -349,10 +350,10 @@ namespace BL
                 droneToLists[index].Location = targetLocation;
                 droneToLists[index].DroneStatuses = DroneStatuses.available;
                 droneToLists[index].parcelNumber = 0;
-
-                dal.removeParcel(parcelsOfDrone.Id);
-                parcelsOfDrone.Delivered = DateTime.Now;
-                dal.addParsel(parcelsOfDrone);
+                dal.DeliveryPackageToCustomer(parcelsOfDrone.Id);
+                //dal.removeParcel(parcelsOfDrone.Id);
+                //parcelsOfDrone.Delivered = DateTime.Now;
+                //dal.addParsel(parcelsOfDrone);
 
                 return true;
             }
