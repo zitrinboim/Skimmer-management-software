@@ -20,16 +20,16 @@ namespace DalXml
 
 
         static internal DalXml instatnce = new DalXml();
-        static DalXml()
-        {
-           DataSource.Initialize();
+        //static DalXml()
+        //{
+        //   DataSource.Initialize();
 
-            XMLTools.SaveListToXMLSerializer(DataSource.drones, DroneXml);
-            XMLTools.SaveListToXMLSerializer(DataSource.stations, StationXml);
-            XMLTools.SaveListToXMLSerializer(DataSource.customers, CustomerXml);
-            XMLTools.SaveListToXMLSerializer(DataSource.parcels, ParcelXml);
-            XMLTools.SaveListToXMLSerializer(DataSource.droneCarges, DroneChargeXml);
-        }
+        //    XMLTools.SaveListToXMLSerializer(DataSource.drones, DroneXml);
+        //    XMLTools.SaveListToXMLSerializer(DataSource.stations, StationXml);
+        //    XMLTools.SaveListToXMLSerializer(DataSource.customers, CustomerXml);
+        //    XMLTools.SaveListToXMLSerializer(DataSource.parcels, ParcelXml);
+        //    XMLTools.SaveListToXMLSerializer(DataSource.droneCarges, DroneChargeXml);
+        //}
         private DalXml() { }
         public bool addStation(Station station)
         {

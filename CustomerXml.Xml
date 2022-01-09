@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <Id>205683501</Id>
+    <name>שמעון ציטרינבאום</name>
+    <phone>052-718-4790</phone>
+    <longitude>32.115431</longitude>
+    <lattitude>34.840545</lattitude>
+  </Customer>
+  <Customer>
+    <Id>311210124</Id>
+    <name>יאיר בוסו</name>
+    <phone>058-442-3540</phone>
+    <longitude>32.08514</longitude>
+    <lattitude>34.885387</lattitude>
+  </Customer>
+  <Customer>
+    <Id>206302226</Id>
+    <name>אשר אלוס</name>
+    <phone>053-478-6278</phone>
+    <longitude>32.085638</longitude>
+    <lattitude>34.881424</lattitude>
+  </Customer>
+  <Customer>
+    <Id>225352376</Id>
+    <name>יונתן שלומוב</name>
+    <phone>050-4176977</phone>
+    <longitude>32.090177</longitude>
+    <lattitude>34.825682</lattitude>
+  </Customer>
+  <Customer>
+    <Id>346945332</Id>
+    <name>יואל סלושץ</name>
+    <phone>058-5906349</phone>
+    <longitude>32.089624</longitude>
+    <lattitude>34.877801</lattitude>
+  </Customer>
+  <Customer>
+    <Id>229195465</Id>
+    <name>דב ליברמנש</name>
+    <phone>0526705567</phone>
+    <longitude>32.068461</longitude>
+    <lattitude>34.916007</lattitude>
+  </Customer>
+  <Customer>
+    <Id>312858348</Id>
+    <name>דניאל בודנשטיין</name>
+    <phone>050-455-7765</phone>
+    <longitude>32.083335</longitude>
+    <lattitude>34.878194</lattitude>
+  </Customer>
+  <Customer>
+    <Id>311980988</Id>
+    <name>מנדי יוסוביץ</name>
+    <phone>058-342-7981</phone>
+    <longitude>32.34376</longitude>
+    <lattitude>34.860743</lattitude>
+  </Customer>
+</ArrayOfCustomer>

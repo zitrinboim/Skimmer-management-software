@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Station>
+    <Id>16</Id>
+    <name>תחנה מרכזית תל אביב</name>
+    <longitude>32.056105</longitude>
+    <lattitude>34.779242</lattitude>
+    <freeChargeSlots>1</freeChargeSlots>
+  </Station>
+  <Station>
+    <Id>14</Id>
+    <name>מבחר בני ברק</name>
+    <longitude>32.092998</longitude>
+    <lattitude>34.824273</lattitude>
+    <freeChargeSlots>3</freeChargeSlots>
+  </Station>
+</ArrayOfStation>

@@ -32,7 +32,7 @@ namespace BL
         {
             try
             {
-                dal = DalApi.DalFactory.GetDal("obj");
+                dal = DalApi.DalFactory.GetDal("DalXml");
                 droneToLists = new();
                 d = new();
                 double battryOfDelivery;
