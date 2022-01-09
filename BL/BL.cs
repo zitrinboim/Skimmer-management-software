@@ -96,9 +96,14 @@ namespace BL
                             List<DO.Parcel> droneParcels = PackagesInDelivery.FindAll(i => i.Delivered != DateTime.MinValue);
 
                             index = random.Next(0, droneParcels.Count);
-                            DO.Customer target = customers.Find(customer => customer.Id == droneParcels[index].TargetId);
-                            Location location = new() { latitude = target.lattitude, longitude = target.longitude };
-                            drone.Location = location;
+                            if(droneParcels.Count > 0)
+                            {
+                                DO.Customer target = customers.Find(customer => customer.Id == droneParcels[index].TargetId);
+                                Location location = new() { latitude = target.lattitude, longitude = target.longitude };
+                                drone.Location = location;
+                            }
+                            
+                            
 
                             battryOfDelivery = d.DistanceBetweenPlaces(drone.Location, TheLocationForTheNearestStation(drone.Location, stations)) * available;
                             drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + battryOfDelivery;

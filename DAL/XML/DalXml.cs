@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace DalXml
 {
-     class DalXml : IDal
+    class DalXml : IDal
     {
         private static string DroneXml = @"DroneXml.Xml";
         private static string StationXml = @"StationXml.Xml";
@@ -19,7 +19,7 @@ namespace DalXml
         private static string configXml = @"configXML.Xml";
 
 
-        static internal DalXml instatnce = new DalXml();
+        internal static DalXml instatnce = new DalXml() ;
         //static DalXml()
         //{
         //   DataSource.Initialize();

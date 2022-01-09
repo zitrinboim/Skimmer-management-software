@@ -10,11 +10,11 @@ namespace DL
     class XMLTools
     {
         static string dir = @"xml\";
-        static XMLTools()
-        {
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
-        }
+        //static XMLTools()
+        //{
+        //    if (!Directory.Exists(dir))
+        //        Directory.CreateDirectory(dir);
+        //}
 
         #region SaveLoadWithXElement
         public static void SaveListToXMLElement(XElement rootElem, string filePath)
@@ -74,11 +74,11 @@ namespace DL
         {
             try
             {
-                if (File.Exists(dir + filePath))
+                if (File.Exists(filePath))
                 {
                     List<T> list;
                     XmlSerializer x = new XmlSerializer(typeof(List<T>));
-                    FileStream file = new FileStream(dir + filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+                    FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
                     list = (List<T>)x.Deserialize(file);
                     file.Close();
                     return list;
