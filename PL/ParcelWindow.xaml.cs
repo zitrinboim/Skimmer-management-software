@@ -49,12 +49,18 @@ namespace PL
                 case "Updating":
                     BorderEnterNumber.Visibility = Visibility.Visible;
                     update.Visibility = Visibility.Hidden;
+                    List.Visibility = Visibility.Hidden;
+                    Updating.Visibility = Visibility.Visible;
+                    Add.Visibility = Visibility.Hidden;
                     addButton.Content = "הצג";
                     Close.Content = "סגור";
                     actions = Actions.UPDATING;
                     break;
                 case "Add":
                     AddWindow();
+                    break;
+                case "Remove":
+                    RemoveWindow();
                     break;
                 case "ByCustomer":
                     if (id != 0)
@@ -65,6 +71,18 @@ namespace PL
                 default:
                     break;
             }
+        }
+
+        private void RemoveWindow()
+        {
+            BorderEnterNumber.Visibility = Visibility.Visible;
+            update.Visibility = Visibility.Hidden;
+            List.Visibility = Visibility.Hidden;
+            Updating.Visibility = Visibility.Visible;
+            Add.Visibility = Visibility.Hidden;
+            addButton.Content = "מחק";
+            Close.Content = "סגור";
+            actions = Actions.REMOVE;
         }
 
         private void ListWindow()
@@ -264,7 +282,26 @@ namespace PL
 
                     break;
                 case Actions.REMOVE:
-                    break;
+                    MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר מחיקה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
+                    switch (messageBoxResult)
+                    {
+
+                        case MessageBoxResult.OK:
+                            blGui.r
+                            parcelToListView.Add(blGui.DisplaysIistOfparcels().First(i => i.Id == idParcel));
+                            MessageBox.Show("החבילה נוצרה בהצלחה\n מספר החבילה הוא:" + idParcel.ToString() + "\n מיד תוצג רשימת החבילות", "אישור");
+                            ListWindow();
+                            break;
+                        case MessageBoxResult.Cancel:
+                            break;
+                        default:
+                            break;
+
+                    }
+            }
+                    else
+                MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+            break;
                 default:
                     break;
             }

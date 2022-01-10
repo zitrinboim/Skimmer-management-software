@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    
+
     partial class BL : IBL
     {
-        static internal BL instatnce=new BL();
-        
+        static internal BL instatnce = new BL();
+
         List<DroneToList> droneToLists;
         DalApi.IDal dal;
         DistanceAlgorithm d;
@@ -90,33 +90,45 @@ namespace BL
                     else
                     {
                         int index;
+                        DO.DroneCarge droneCarge = new();
+                        try
+                        {
+                            droneCarge = dal.getDroneCargeByDroneId(drone.Id);
+                        }
+                        catch (DO.IdNotExistExeptions Ex)
+                        {
+                            droneCarge.DroneID = 0;
+                        }
+                        if (droneCarge.DroneID == 0)
+                            drone.DroneStatuses = DroneStatuses.available;
+                        else
+                        {
+                            drone.DroneStatuses = DroneStatuses.maintenance;
+                            DO.Station station = dal.getStation(droneCarge.StationId);
+                            drone.Location = new() { longitude = station.longitude, latitude = station.lattitude };
+                            drone.battery = random.NextDouble() * 20.0;
+                        }
 
-                        drone.DroneStatuses = DroneStatuses.maintenance;
-                        if (drone.DroneStatuses == (DroneStatuses)1)
+                        if (drone.DroneStatuses == DroneStatuses.available)
                         {
                             List<DO.Parcel> droneParcels = PackagesInDelivery.FindAll(i => i.Delivered != DateTime.MinValue);
 
                             index = random.Next(0, droneParcels.Count);
-                            if(droneParcels.Count > 0)
+                            if (droneParcels.Count > 0)
                             {
                                 DO.Customer target = customers.Find(customer => customer.Id == droneParcels[index].TargetId);
                                 Location location = new() { latitude = target.lattitude, longitude = target.longitude };
                                 drone.Location = location;
                             }
-                            
-                            
+
+
 
                             battryOfDelivery = d.DistanceBetweenPlaces(drone.Location, TheLocationForTheNearestStation(drone.Location, stations)) * available;
-                            drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + battryOfDelivery;
+                            drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + 30.0;
+                            if (drone.battery > 100.0)
+                                drone.battery = 100.0;
                         }
-                        else
-                        {
-                            index = random.Next(0, stations.Count);
-                            Location location = new() { latitude = stations[index].lattitude, longitude = stations[index].longitude };
-                            drone.Location=location;
-   
-                            drone.battery = random.NextDouble() * 20.0;
-                        }
+
                     }
 
                 }

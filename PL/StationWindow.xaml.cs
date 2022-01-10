@@ -185,6 +185,8 @@ namespace PL
                                 // droneToListsView[index] = blGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
                                 MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת התחנות", "אישור");
                                 StationListView.SelectedItem = null;
+                                StationListView.Items.Refresh();
+
                                 ListWindow();
                                 break;
                             case MessageBoxResult.Cancel:

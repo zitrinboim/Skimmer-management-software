@@ -19,6 +19,6 @@
     <name>מבחר בני ברק</name>
     <longitude>32.092998</longitude>
     <lattitude>34.824273</lattitude>
-    <freeChargeSlots>0</freeChargeSlots>
+    <freeChargeSlots>10</freeChargeSlots>
   </Station>
 </ArrayOfStation>

@@ -159,7 +159,8 @@ namespace PL
 
         private void Button_Click_RemoveParcel(object sender, RoutedEventArgs e)
         {
-         
+            new ParcelWindow(blGui, "Remove").Show();
+
         }
 
         private void Button_Click_ListOfParcels(object sender, RoutedEventArgs e)
