@@ -22,7 +22,7 @@ namespace PL
     /// </summary>
     public partial class ParcelWindow : Window
     {
-        Dictionary<parcelStatus_WeightCategories_Priorities, List<ParcelToList>> parcelToListGroping;
+        //Dictionary<parcelStatus_WeightCategories_Priorities, List<ParcelToList>> parcelToListGroping;
         private IBL blGui;
         ObservableCollection<ParcelToList> parcelToListView;
         private Parcel parcel;
@@ -31,7 +31,7 @@ namespace PL
         string action;
         public ParcelWindow(IBL bL, string _action = "", int id = 0)
         {
-            parcelToListGroping = new();
+            //parcelToListGroping = new();
 
             blGui = bL;
             actions = new();
@@ -81,12 +81,12 @@ namespace PL
             prioritiSelector.ItemsSource = Enum.GetValues(typeof(Priorities));
             StatusSelector.ItemsSource = Enum.GetValues(typeof(parcelStatus));
 
-            //weightSelector.SelectedIndex = 0;
-            //prioritiSelector.SelectedIndex = 0;
-            //StatusSelector.SelectedIndex = 0;
+            weightSelector.SelectedIndex = 0;
+            // prioritiSelector.SelectedIndex = 0;
+            // StatusSelector.SelectedIndex = 0;
 
-            //droneToListsView.CollectionChanged += DroneToListsView_CollectionChanged;
-            SearchBy();
+            parcelToListView.CollectionChanged += ParcelToListView_CollectionChanged;
+
         }
 
         private void AddWindow()
@@ -104,10 +104,7 @@ namespace PL
         }
         private void UpdatingWindow(int id)
         {
-            //if (action == "Updating")
-            //{
-            //    station = blGui.GetStation(id);
-            //}
+           
             actions = Actions.UPDATING;
             addButton.Visibility = Visibility.Hidden;
             Close.Content = "סגור";
@@ -150,33 +147,68 @@ namespace PL
             //                       .ToDictionary(X => X.Key, X => X.ToList());
 
         }
+        private void ParcelToListView_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Selectors();
+        }
 
         private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SearchBy();
+            Selectors();
         }
 
         private void prioritiSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SearchBy();
+            Selectors();
         }
 
         private void weightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SearchBy();
+            Selectors();
         }
-        private void SearchBy()
+        private void Selectors()
         {
-            //WeightCategories weight = (WeightCategories)weightSelector.SelectedItem;
-            //parcelStatus parcelStatus = (parcelStatus)StatusSelector.SelectedItem;
-            //Priorities priorities = (Priorities)prioritiSelector.SelectedItem;
+            if (prioritiSelector.SelectedIndex == -1)
+            {
+                prioritiSelector.SelectedIndex = 0;
+            }
+            if (StatusSelector.SelectedIndex == -1)
+            {
+                StatusSelector.SelectedIndex = 0;
+            }
+            WeightCategories weightCategories = (WeightCategories)weightSelector.SelectedItem;
+            parcelStatus parcelStatus = (parcelStatus)StatusSelector.SelectedItem;
+            Priorities priorities = (Priorities)prioritiSelector.SelectedItem;
 
-            //if (weight == WeightCategories.All && parcelStatus == parcelStatus.הכל && priorities == Priorities.הכל)
-            if (weightSelector.SelectedIndex == -1 && prioritiSelector.SelectedIndex == -1 && StatusSelector.SelectedIndex == -1)
-                // ParcelListView.ItemsSource = parcelToListGroping.Values.SelectMany(x => x);
+            if ((weightCategories == WeightCategories.All) && (parcelStatus == parcelStatus.הכל) && (priorities == Priorities.הכל))
                 ParcelListView.ItemsSource = parcelToListView;
 
-            // ParcelListView.ItemsSource = parcelToListGroping.Where(x => x.Key.parcelStatus == BO.parcelStatus.associated);
+
+            else if ((weightCategories != WeightCategories.All) && (parcelStatus == parcelStatus.הכל) && (priorities == Priorities.הכל))
+                ParcelListView.ItemsSource = parcelToListView.ToList().FindAll(i => i.weight == (BO.WeightCategories)weightCategories);
+
+            else if ((weightCategories == WeightCategories.All) && (parcelStatus != parcelStatus.הכל) && (priorities == Priorities.הכל))
+                ParcelListView.ItemsSource = parcelToListView.ToList().FindAll(i => i.parcelStatus == (BO.parcelStatus)parcelStatus);
+
+            else if ((weightCategories == WeightCategories.All) && (parcelStatus == parcelStatus.הכל) && (priorities != Priorities.הכל))
+                ParcelListView.ItemsSource = parcelToListView.ToList().FindAll(i => i.priority == (BO.Priorities)priorities);
+
+
+            else if ((weightCategories != WeightCategories.All) && (parcelStatus != parcelStatus.הכל) && (priorities == Priorities.הכל))
+                ParcelListView.ItemsSource = parcelToListView.ToList().FindAll(i => i.weight == (BO.WeightCategories)weightCategories &&
+                i.parcelStatus == (BO.parcelStatus)parcelStatus);
+
+            else if ((weightCategories != WeightCategories.All) && (parcelStatus == parcelStatus.הכל) && (priorities != Priorities.הכל))
+                ParcelListView.ItemsSource = parcelToListView.ToList().FindAll(i => i.weight == (BO.WeightCategories)weightCategories &&
+                i.priority == (BO.Priorities)priorities);
+
+            else if ((weightCategories == WeightCategories.All) && (parcelStatus != parcelStatus.הכל) && (priorities != Priorities.הכל))
+                ParcelListView.ItemsSource = parcelToListView.ToList().FindAll(i => i.priority == (BO.Priorities)priorities &&
+                i.parcelStatus == (BO.parcelStatus)parcelStatus);
+
+            else
+                ParcelListView.ItemsSource = parcelToListView.ToList().FindAll(i => i.priority == (BO.Priorities)priorities &&
+                i.parcelStatus == (BO.parcelStatus)parcelStatus && i.weight == (BO.WeightCategories)weightCategories);
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)

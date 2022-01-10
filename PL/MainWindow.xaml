@@ -11,10 +11,7 @@
     <!--Closed="When_Window_CLosed"  MouseDown="Window_MouseDown" שינינו את הרקע ללבן ואת הגודל לנורמל-->
     <Border BorderThickness="5" BorderBrush="LightBlue" Background="LightBlue" CornerRadius="22">
         <Grid>
-            <Grid.Background>
-
-                <ImageBrush ImageSource="/images.jpg" Stretch="Fill" TileMode="None" Opacity="0.2"/>
-            </Grid.Background>
+           
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
@@ -60,7 +57,11 @@
                     </MenuItem>
                 </Menu>
             </DockPanel>-->
-            <Grid Grid.Row="2" Margin="20">
+         
+            <Grid Grid.Row="3" Margin="20"> <Grid.Background>
+
+                        <ImageBrush ImageSource="/images.jpg" Stretch="Fill" TileMode="None" Opacity="0.2"/>
+                    </Grid.Background>
                 <TabControl x:Name="TabControl_Login" HorizontalAlignment="Stretch"  Background="{x:Null}" VerticalAlignment="Stretch"  SelectionChanged="TabControl_SelectionChanged">
                     <!--<TabControl.Background>
                         <RadialGradientBrush>
@@ -69,6 +70,7 @@
                             <GradientStop Color="Blue" Offset="1"/>
                         </RadialGradientBrush>
                     </TabControl.Background>-->
+                   
                     <TabItem Header="כניסת מנהל" Width="400" Height="30" FontSize="16">
                         <Grid>
                             <Grid.RowDefinitions>

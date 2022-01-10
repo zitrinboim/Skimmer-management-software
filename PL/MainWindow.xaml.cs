@@ -92,7 +92,7 @@ namespace PL
 
         private void Button_Click_RemoveStation(object sender, RoutedEventArgs e)
         {
-            new GetByIdWindow(blGui, "Station").Show();
+           
 
         }
 
@@ -136,7 +136,7 @@ namespace PL
 
         private void Button_Click_RemoveCostumer(object sender, RoutedEventArgs e)
         {
-            new GetByIdWindow(blGui, "Customer").Show();
+          
 
         }
 
@@ -159,8 +159,7 @@ namespace PL
 
         private void Button_Click_RemoveParcel(object sender, RoutedEventArgs e)
         {
-           // new GetByIdWindow(blGui, "Parcel").Show();
-
+         
         }
 
         private void Button_Click_ListOfParcels(object sender, RoutedEventArgs e)

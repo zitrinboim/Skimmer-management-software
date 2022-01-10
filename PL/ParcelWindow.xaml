@@ -57,6 +57,15 @@
                                 <GridViewColumn Header="סטטוס" Width="120" DisplayMemberBinding="{Binding parcelStatus}"/>
                             </GridView>
                         </ListView.View>
+                        <ListView.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ListView.GroupStyle>
                     </ListView>
                 </Grid>
             </Border>
