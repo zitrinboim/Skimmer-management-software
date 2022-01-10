@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="images.jpg" />
+    <None Remove="images5.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,11 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\images\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="images.jpg" />
+    <Resource Include="images5.jpg" />
   </ItemGroup>
 
 </Project>
