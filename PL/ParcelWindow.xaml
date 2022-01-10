@@ -23,7 +23,7 @@
             <Button x:Name="addButton" Grid.Row="1" VerticalAlignment="Top" FontWeight="Bold" Click="addButton_Click"/>
             <Button x:Name="Close" Grid.Row="1" VerticalAlignment="Bottom" FontWeight="Bold" Click="CloseButton_Click"/>
 
-            <Border Name="List" Visibility="Hidden" Grid.Row="0">
+            <Border Name="List" Visibility="Visible" Grid.Row="0">
                 <Grid Name="MainGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50*"/>
@@ -42,7 +42,7 @@
                         <Label Content="סטטוס" Grid.Column="1" HorizontalAlignment="Center"  />
                         <Label Content="קדימות" Grid.Column="3" HorizontalAlignment="Center"  />
                         <Label Content="משקל" Grid.Column="5" HorizontalAlignment="Center"  />
-                        <ComboBox Name="StatusSelector"  FontWeight="Bold"  Grid.Column="0" SelectionChanged="StatusSelector_SelectionChanged"   />
+                        <ComboBox Name="StatusSelector"  FontWeight="Bold"  Grid.Column="0" SelectionChanged="StatusSelector_SelectionChanged"    />
                         <ComboBox Name="prioritiSelector"  FontWeight="Bold"  Grid.Column="2" SelectionChanged="prioritiSelector_SelectionChanged"   />
                         <ComboBox Name="weightSelector"  FontWeight="Bold"  Grid.Column="4" SelectionChanged="weightSelector_SelectionChanged"   />
                     </Grid>
@@ -54,14 +54,14 @@
                                 <GridViewColumn Header="מקבל" Width="130" DisplayMemberBinding="{Binding targetName}"/>
                                 <GridViewColumn Header="משקל" Width="110" DisplayMemberBinding="{Binding weight}"/>
                                 <GridViewColumn Header="עדיפות" Width="120" DisplayMemberBinding="{Binding priority}"/>
-                                <GridViewColumn Header="סטטוס" Width="120" DisplayMemberBinding="{Binding parcelStatus}"/>
+                                <GridViewColumn Header="סטטוס" Width="120" DisplayMemberBinding="{Binding parcelStatus}" />
                             </GridView>
                         </ListView.View>
                         <ListView.GroupStyle>
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Name}"/>
+                                        <TextBlock  FontWeight="Bold" FontSize="15"  Text="{Binding Name}" Foreground="Black"/>
                                     </DataTemplate>
                                 </GroupStyle.HeaderTemplate>
                             </GroupStyle>
@@ -106,7 +106,7 @@
                 </Grid>
             </Border>
 
-            <Border Name="Updating" Grid.Row="0" Visibility="Visible">
+            <Border Name="Updating" Grid.Row="0" Visibility="Hidden">
 
 
                 <Grid  Margin="0,2,0,-2" Name="MainGrid1">
