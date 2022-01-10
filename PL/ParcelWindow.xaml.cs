@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Controls;
 using BO;
 using BlApi;
@@ -86,7 +87,7 @@ namespace PL
             // StatusSelector.SelectedIndex = 0;
 
             parcelToListView.CollectionChanged += ParcelToListView_CollectionChanged;
-
+            AddGrouping();
         }
 
         private void AddWindow()
@@ -319,6 +320,30 @@ namespace PL
             int idDrone = ((DroneInParcel)parcel.droneInParcel).Id;
             new DroneWindow(blGui, "ByParcel", idDrone).Show();
             Close();
+        }
+
+
+        CollectionView myView;
+        private void AddGrouping()
+        {
+            string choise = "parcelStatus";
+            myView = (CollectionView)CollectionViewSource.GetDefaultView(ParcelListView.ItemsSource);
+            if (myView.CanGroup == true)
+            {
+                PropertyGroupDescription groupDescription = new(choise);
+                myView.GroupDescriptions.Clear();
+                myView.GroupDescriptions.Add(groupDescription);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void RemoveGrouping(object sender, RoutedEventArgs e)
+        {
+            myView = (CollectionView)CollectionViewSource.GetDefaultView(ParcelListView.ItemsSource);
+            myView.GroupDescriptions.Clear();
         }
     }
 }
