@@ -92,17 +92,22 @@ namespace PL
         }
         private void UpdatingWindow(int id)
         {
-            //if (action == "Updating")
-            //{
-            //    station = blGui.GetStation(id);
-            //}
             actions = Actions.UPDATING;
             addButton.Content = "עדכן";
             Close.Content = "סגור";
             List.Visibility = Visibility.Hidden;
             Updating.Visibility = Visibility.Visible;
             Add.Visibility = Visibility.Hidden;
-            station = blGui.GetStation(id);
+            try
+            {
+                station = blGui.GetStation(id);
+            }
+            catch (BO.IdNotExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                return;
+            }
             Drones.ItemsSource = station.droneInCargeings.ToList();
             DataContext = station;
         }
@@ -147,7 +152,17 @@ namespace PL
                         {
 
                             case MessageBoxResult.OK:
-                                _ = blGui.addStation(station);
+                                try
+                                {
+                                    _ = blGui.addStation(station);
+                                }
+                                catch (BO.IdExistExeptions ex)
+                                {
+                                    MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error, 
+                                        MessageBoxResult.None,  MessageBoxOptions.RightAlign);
+                                    Close();
+                                    break;
+                                }
                                 StationsToListView.Add(blGui.DisplaysIistOfStations().First(i => i.Id == station.Id));
                                 MessageBox.Show("התחנה נוצרה בהצלחה\n מיד תוצג רשימת התחנות", "אישור");
                                 ListWindow();
@@ -184,8 +199,24 @@ namespace PL
                                
                                 stationToList.name = station.name;
                                 stationToList.freeChargeSlots = station.freeChargeSlots;
-                                _ = blGui.updateStationData(station.Id, station.name, station.freeChargeSlots);
-                                // droneToListsView[index] = blGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
+                                try
+                                {
+                                    _ = blGui.updateStationData(station.Id, station.name, station.freeChargeSlots);
+                                }
+                                catch (invalidValueForChargeSlots ex)
+                                {
+                                    MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                                        MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                                    Close();
+                                    break;
+                                } 
+                                catch (BO.IdNotExistExeptions ex)
+                                {
+                                    MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                                        MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                                    Close();
+                                    break;
+                                }
                                 MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת התחנות", "אישור");
                                 StationListView.SelectedItem = null;
                                 StationListView.Items.Refresh();

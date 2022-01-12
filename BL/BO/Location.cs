@@ -8,7 +8,7 @@ namespace BO
         public double latitude { get; set; }
         public override string ToString()
         {
-            return string.Format("{0}/{1}", (float)longitude,(float) latitude);
+            return string.Format("{0}/{1}", longitude, latitude);
         }
     }
 }
