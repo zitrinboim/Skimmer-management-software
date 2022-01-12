@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using BO;
 using BlApi;
 using System.Collections.ObjectModel;
-
+using System.Windows.Input;
 
 namespace PL
 {
@@ -378,7 +378,13 @@ namespace PL
                 return;
             }
         }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
 
-       
+            if (e.ChangedButton == MouseButton.Left)
+                DragMove();
+        }
+
+
     }
 }

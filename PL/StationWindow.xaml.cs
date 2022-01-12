@@ -286,5 +286,11 @@ namespace PL
             e.Handled = !(regexA.IsMatch(temp) || regexB.IsMatch(temp));
         }
 
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+            if (e.ChangedButton == MouseButton.Left)
+                DragMove();
+        }
     }
 }

@@ -424,5 +424,11 @@ namespace PL
             Regex regex = new("^[0-9]{0,9}$");
             e.Handled = !regex.IsMatch(temp);
         }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+            if (e.ChangedButton == MouseButton.Left)
+                DragMove();
+        }
     }
 }

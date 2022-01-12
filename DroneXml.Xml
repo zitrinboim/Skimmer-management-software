@@ -35,4 +35,9 @@
     <Model>F40</Model>
     <MaxWeight>heavy</MaxWeight>
   </Drone>
+  <Drone>
+    <Id>6565</Id>
+    <Model>hjj</Model>
+    <MaxWeight>heavy</MaxWeight>
+  </Drone>
 </ArrayOfDrone>

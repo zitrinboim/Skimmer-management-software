@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" MinHeight="720" MinWidth="1020" Height="700" Width="1000"  
         WindowStyle="None" FlowDirection="RightToLeft"
-        AllowsTransparency="True" Background="Transparent" WindowState="Maximized">
+        AllowsTransparency="True" Background="Transparent" WindowState="Maximized" MouseDown="Window_MouseDown">
     <!--Closed="When_Window_CLosed"  MouseDown="Window_MouseDown" שינינו את הרקע ללבן ואת הגודל לנורמל-->
     <Border BorderThickness="5" BorderBrush="LightBlue" Background="LightBlue" CornerRadius="22">
         <Grid>

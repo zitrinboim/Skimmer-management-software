@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
        Title="StationWindow" Height="450" Width="640" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" 
+     MouseDown="Window_MouseDown" 
        WindowStyle="None" AllowsTransparency="True" Background="Transparent">
    
     

@@ -241,5 +241,11 @@ namespace PL
             Regex regexB = new("^[3-4]{1,2}[.][0-9]{0,9}$");
             e.Handled = !(regexA.IsMatch(temp) || regexB.IsMatch(temp));
         }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+            if (e.ChangedButton == MouseButton.Left)
+                DragMove();
+        }
     }
 }
