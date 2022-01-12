@@ -290,7 +290,7 @@ namespace PL
         {
 
             if (e.ChangedButton == MouseButton.Left)
-                DragMove();
+                this.DragMove();
         }
     }
 }

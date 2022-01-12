@@ -105,7 +105,7 @@ namespace BL
                 if (ChargingSlots >= station.droneInCargeings.Count)
                     tempStation.freeChargeSlots = ChargingSlots - station.droneInCargeings.Count;
                 else
-                    throw new invalidValueForChargeSlots("");
+                    throw new invalidValueForChargeSlots("המספר שהכנסת אינו תקין יש לבחור מספר העולה על כמות הרחפנים הנטענים כרגע בתחנה");
                 dal.removeStation(Idstation);
                 bool test = dal.addStation(tempStation);//הנחתי שהבוליאניות היא רק לגבי ההוספה חזרה
                 return test ? true : false;
@@ -117,6 +117,10 @@ namespace BL
             catch (DO.IdNotExistExeptions Ex)
             {
                 throw new IdNotExistExeptions("ERORR" + Ex);
+            }
+            catch (invalidValueForChargeSlots Ex)
+            {
+                throw new invalidValueForChargeSlots("ERORR" + Ex);
             }
         }
         /// <summary>
