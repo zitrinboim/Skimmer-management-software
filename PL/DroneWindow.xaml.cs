@@ -189,14 +189,13 @@ namespace PL
             }
         }
 
-        public void InitList()//
+        public void InitList()
         {
             List<DroneToList> temp = blGui.DisplaysIistOfDrons().ToList();
             foreach (DroneToList item in temp)
-            {
                 droneToListsView.Add(item);
-            }
         }
+
         private void DroneToListsView_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             StatusSelectorAndWeightSelector();
@@ -238,98 +237,127 @@ namespace PL
 
         private void DroneListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            droneToList = (DroneToList)DroneListView.SelectedItem;
-            if (droneToList != null)
+            try
             {
-                drone = blGui.GetDrone(droneToList.Id);
-                UpdatingWindow(droneToList.Id);
+                droneToList = (DroneToList)DroneListView.SelectedItem;
+                if (droneToList != null)
+                {
+                    drone = blGui.GetDrone(droneToList.Id);
+                    UpdatingWindow(droneToList.Id);
+                }
+            }
+            catch (BO.IdNotExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
             }
         }
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            switch (actions)
+            try
             {
-                case Actions.LIST:
-                    AddWindow();
-                    break;
-                case Actions.ADD:
-
-                    if (drone.Id != default && drone.Model != default && drone.MaxWeight != default && idStation != default)//להעביר את הבדיקה לאיז אנעבלעד 
-                    {
-                        MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
-                        switch (messageBoxResult)
-                        {
-
-                            case MessageBoxResult.OK:
-                                try
-                                {
-                                    _ = blGui.addDrone(drone, idStation);
-                                    droneToListsView.Add(blGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
-                                    MessageBox.Show("הרחפן נוצר בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
-                                    ListWindow();
-                                }
-                                catch (invalidValueForChargeSlots ex)
-                                {
-                                    MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
-                                        MessageBoxResult.None, MessageBoxOptions.RightAlign);
-                                    Close();
-                                }
-                                catch (BO.IdNotExistExeptions ex)
-                                {
-                                    MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
-                                        MessageBoxResult.None, MessageBoxOptions.RightAlign);
-                                    Close();
-                                }
-                                break;
-                            case MessageBoxResult.Cancel:
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    else
-                        MessageBox.Show("נא השלם את השדות החסרים", "אישור");
-                    break;
-                case Actions.UPDATING:
-                    if (addButton.Content == "הצג")
-                    {
-                        BorderEnterNumber.Visibility = Visibility.Hidden;
-                        update.Visibility = Visibility.Visible;
-                        UpdatingWindow(drone.Id);
+                switch (actions)
+                {
+                    case Actions.LIST:
+                        AddWindow();
                         break;
-                    }
-                    if (drone.Model != default)//איז אנעבעלד
-                    {
-                        MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר עדכון זה", "אישור", MessageBoxButton.OKCancel);
-                        switch (messageBoxResult)
+                    case Actions.ADD:
+
+                        if (drone.Id != default && drone.Model != default && drone.MaxWeight != default && idStation != default)//להעביר את הבדיקה לאיז אנעבלעד 
                         {
-                            case MessageBoxResult.OK:
-                                if (relase.IsChecked == true)
-                                {
-                                    relase.IsChecked = false;
-                                    blGui.ReleaseDroneFromCharging(drone.Id, 7);
-                                    BorderStation.Visibility = Visibility.Hidden;
-                                }
-                                droneToList.Model = drone.Model;
-                                _ = blGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
-                                // droneToListsView[index] = blGui.DisplaysIistOfDrons().First(i => i.Id == droneToList.Id);
-                                MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
-                                DroneListView.SelectedItem = null;
-                                ListWindow();
-                                break;
-                            case MessageBoxResult.Cancel:
-                                break;
-                            default:
-                                break;
+                            MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
+                            switch (messageBoxResult)
+                            {
+
+                                case MessageBoxResult.OK:
+                                    try
+                                    {
+                                        _ = blGui.addDrone(drone, idStation);
+                                        droneToListsView.Add(blGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
+                                        MessageBox.Show("הרחפן נוצר בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
+                                        ListWindow();
+                                    }
+                                    catch (BO.IdExistExeptions ex)
+                                    {
+                                        MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                                            MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                                        Close();
+                                    }
+                                    catch (BO.IdNotExistExeptions ex)
+                                    {
+                                        MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                                            MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                                        Close();
+                                    }
+                                    break;
+                                case MessageBoxResult.Cancel:
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    }
-                    else
-                        MessageBox.Show("נא השלם את השדות החסרים", "אישור");
-                    break;
-                case Actions.REMOVE:
-                    break;
-                default:
-                    break;
+                        else
+                            MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+                        break;
+                    case Actions.UPDATING:
+                        if (addButton.Content == "הצג")
+                        {
+                            BorderEnterNumber.Visibility = Visibility.Hidden;
+                            update.Visibility = Visibility.Visible;
+                            UpdatingWindow(drone.Id);
+                            break;
+                        }
+                        if (drone.Model != default)//איז אנעבעלד
+                        {
+                            MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר עדכון זה", "אישור", MessageBoxButton.OKCancel);
+                            switch (messageBoxResult)
+                            {
+                                case MessageBoxResult.OK:
+                                    if (relase.IsChecked == true)
+                                    {
+                                        relase.IsChecked = false;
+                                        blGui.ReleaseDroneFromCharging(drone.Id, 7);
+                                        BorderStation.Visibility = Visibility.Hidden;
+                                    }
+                                    droneToList.Model = drone.Model;
+                                    _ = blGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
+                                    MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
+                                    DroneListView.SelectedItem = null;
+                                    ListWindow();
+                                    break;
+                                case MessageBoxResult.Cancel:
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        else
+                            MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+                        break;
+                    case Actions.REMOVE:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (BO.IdExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            }
+            catch (BO.IdNotExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            } 
+            catch (BO.ChargingExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
             }
         }
         private void stations_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
@@ -339,27 +367,48 @@ namespace PL
         }
         private void parcelToDrone_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לשייך חבילה ", "אישור", MessageBoxButton.OKCancel);
-            switch (messageBoxResult)
+            try
             {
-                case MessageBoxResult.OK:
-                    bool test = blGui.AssignPackageToDrone(drone.Id);
-                    if (test)
-                    {
-                        NoParcel.Visibility = Visibility.Hidden;
-                        YesParcel.Visibility = Visibility.Visible;
-                        drone = blGui.GetDrone(drone.Id);//שינינו שורות 73 74 בBLPARCEL
-                        UpdatingWindow(drone.Id);
-                    }
-                    else
-                    {
-                        MessageBox.Show("לא נמצאה חבילה מתאימה", "אישור");
-                    }
-                    break;
-                case MessageBoxResult.Cancel:
-                    break;
-                default:
-                    break;
+                MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לשייך חבילה ", "אישור", MessageBoxButton.OKCancel);
+                switch (messageBoxResult)
+                {
+                    case MessageBoxResult.OK:
+                        bool test = blGui.AssignPackageToDrone(drone.Id);
+                        if (test)
+                        {
+                            NoParcel.Visibility = Visibility.Hidden;
+                            YesParcel.Visibility = Visibility.Visible;
+                            drone = blGui.GetDrone(drone.Id);//שינינו שורות 73 74 בBLPARCEL
+                            UpdatingWindow(drone.Id);
+                        }
+                        else
+                        {
+                            MessageBox.Show("לא נמצאה חבילה מתאימה", "אישור");
+                        }
+                        break;
+                    case MessageBoxResult.Cancel:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (BO.IdNotExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            } 
+            catch (BO.IdExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            }
+            catch (BO.PackageAssociationExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
             }
         }
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -389,47 +438,86 @@ namespace PL
             }
         }
 
-
-
         private void sand_Click(object sender, RoutedEventArgs e)
         {
-
-            if (!blGui.SendDroneForCharging(drone.Id))
+            try
             {
-                MessageBox.Show("שליחה לטעינה נכשלה", "אישור");
+                if (!blGui.SendDroneForCharging(drone.Id))
+                {
+                    MessageBox.Show("שליחה לטעינה נכשלה", "אישור");
+                }
+                else
+                {
+                    UpdatingWindow(drone.Id);
+                }
             }
-            else
+            catch (BO.ChargingExeptions ex)
             {
-                UpdatingWindow(drone.Id);
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                                  MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            }
+            catch (BO.IdExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            }
+            catch (BO.IdNotExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
             }
         }
 
         private void ActionParcelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ActionParcelButton.Content == "איסוף חבילה")
+            try
             {
+                if (ActionParcelButton.Content == "איסוף חבילה")
+                {
 
-                if (!blGui.PackageCollectionByDrone(drone.Id))
-                {
-                    MessageBox.Show("איסוף חבילה נכשל", "אישור");
+                    if (!blGui.PackageCollectionByDrone(drone.Id))
+                    {
+                        MessageBox.Show("איסוף חבילה נכשל", "אישור");
+                    }
+                    else
+                    {
+                        drone = blGui.GetDrone(drone.Id);
+                        UpdatingWindow(drone.Id);
+                    }
                 }
-                else
+                else if (ActionParcelButton.Content == "אספקת חבילה")
                 {
-                    drone = blGui.GetDrone(drone.Id);
-                    UpdatingWindow(drone.Id);
+                    if (!blGui.DeliveryPackageToCustomer(drone.Id))
+                    {
+                        MessageBox.Show("איסוף חבילה נכשל", "אישור");
+                    }
+                    else
+                    {
+                        UpdatingWindow(drone.Id);
+
+                    }
                 }
             }
-            else if (ActionParcelButton.Content == "אספקת חבילה")
+            catch (BO.IdNotExistExeptions ex)
             {
-                if (!blGui.DeliveryPackageToCustomer(drone.Id))
-                {
-                    MessageBox.Show("איסוף חבילה נכשל", "אישור");
-                }
-                else
-                {
-                    UpdatingWindow(drone.Id);
-
-                }
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            }
+            catch (BO.IdExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            }
+            catch (BO.PackageAssociationExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
             }
         }
         CollectionView myView;

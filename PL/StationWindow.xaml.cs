@@ -88,7 +88,6 @@ namespace PL
             SlutsSelector.ItemsSource = Enum.GetValues(typeof(SlotsSTatus));
 
             SlutsSelector.SelectedIndex = 0;
-            //droneToListsView.CollectionChanged += DroneToListsView_CollectionChanged;
         }
         private void UpdatingWindow(int id)
         {
@@ -116,9 +115,7 @@ namespace PL
         {
             List<StationToList> temp = blGui.DisplaysIistOfStations().ToList();
             foreach (StationToList item in temp)
-            {
                 StationsToListView.Add(item);
-            }
         }
         private void SlutsSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -145,9 +142,10 @@ namespace PL
                     break;
                 case Actions.ADD:
 
-                    if (station.Id != default && station.name != default && station.location.longitude != default && station.location.latitude != default && station.freeChargeSlots != default)//להעביר את הבדיקה לאיז אנעבלעד 
+                    if (station.Id != default && station.name != default && station.location.longitude != default &&
+                        station.location.latitude != default && station.freeChargeSlots != default) 
                     {
-                        MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
+                        MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);
                         switch (messageBoxResult)
                         {
 

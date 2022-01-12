@@ -32,20 +32,13 @@ namespace PL
     public partial class MainWindow : Window
     {
         IBL blGui;
-      //  public ObservableCollection<DroneToList> droneToListsView;//
-      //  public ObservableCollection<StationToList> stationToListsView;//
-
 
         public MainWindow()
         {
-            
-        //    stationToListsView = new();
             blGui = BlFactory.GetBL();
-
             InitializeComponent();
         }
 
-       
         private void Button_Click_CloseWindow(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -67,45 +60,27 @@ namespace PL
             TabControl tabControl = sender as TabControl;
 
             if (tabControl.SelectedIndex == 1)
-            {
                 OfficeMainWindowBorder.Visibility = Visibility.Visible;
-                // OfficeStatistics.Visibility = Visibility.Visible;
-
-                //testersCollection = new ObservableCollection<Tester>(bl.GetTestersList());
-                //traineeCollection = new ObservableCollection<Trainee>(bl.GetTraineeList());
-                //testCollection = new ObservableCollection<Test>(bl.GetTestsList());
-                //ListView_Testers.ItemsSource = testersCollection;
-            }
         }
 
         private void Button_Click_AddStation(object sender, RoutedEventArgs e)
         {
             new StationWindow(blGui, "Add").Show();
-
         }
 
         private void Button_Click_UpdateStationData(object sender, RoutedEventArgs e)
         {
             new StationWindow(blGui, "Updating").Show();
-
-        }
-
-        private void Button_Click_RemoveStation(object sender, RoutedEventArgs e)
-        {
-           
-
         }
 
         private void Button_Click_ListOfStation(object sender, RoutedEventArgs e)
         {
             new StationWindow(blGui, "List").Show();
-
         }
 
         private void Button_Click_AddDrone(object sender, RoutedEventArgs e)
         {
             new DroneWindow(blGui, "Add").Show();
-
         }
 
         private void Button_Click_actionInDrone(object sender, RoutedEventArgs e)
@@ -113,14 +88,8 @@ namespace PL
             new DroneWindow(blGui, "Updating").Show();
         }
 
-        private void Button_Click_RemoveDrone(object sender, RoutedEventArgs e)
-        {
-            //new GetByIdWindow(blGui, "Drone").Show();
-        }
-
         private void Button_Click_ListOfDrones(object sender, RoutedEventArgs e)
         {
-            
             new DroneWindow(blGui, "List").Show();
         }
 
@@ -134,12 +103,6 @@ namespace PL
             new CustomerWindow(blGui, "Updating").Show();
         }
 
-        private void Button_Click_RemoveCostumer(object sender, RoutedEventArgs e)
-        {
-          
-
-        }
-
         private void Button_Click_ListOfCostumers(object sender, RoutedEventArgs e)
         {
             new CustomerWindow(blGui, "List").Show();
@@ -148,19 +111,16 @@ namespace PL
         private void Button_Click_AddParcel(object sender, RoutedEventArgs e)
         {
             new ParcelWindow(blGui, "Add").Show();
-
         }
 
         private void Button_Click_actionUnParcel(object sender, RoutedEventArgs e)
         {
             new ParcelWindow(blGui, "Updating").Show();
-
         }
 
         private void Button_Click_RemoveParcel(object sender, RoutedEventArgs e)
         {
             new ParcelWindow(blGui, "Remove").Show();
-
         }
 
         private void Button_Click_ListOfParcels(object sender, RoutedEventArgs e)
@@ -169,7 +129,6 @@ namespace PL
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
         }

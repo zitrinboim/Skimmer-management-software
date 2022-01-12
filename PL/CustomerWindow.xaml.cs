@@ -88,20 +88,35 @@ namespace PL
         }
         private void UpdatingWindow(int id)
         {
-            if(action == "ByParcel")
+            try
             {
+                if (action == "ByParcel")
+                {
+                    customer = blGui.GetCustomer(id);
+                }
+                actions = Actions.UPDATING;
+                addButton.Visibility = Visibility.Hidden;
+                Close.Content = "סגור";
+                List.Visibility = Visibility.Hidden;
+                Updating.Visibility = Visibility.Visible;
+                Add.Visibility = Visibility.Hidden;
                 customer = blGui.GetCustomer(id);
+                fromCustomer.ItemsSource = customer.fromCustomer.ToList();
+                toCustomer.ItemsSource = customer.toCustomer.ToList();
+                DataContext = customer;
             }
-            actions = Actions.UPDATING;
-            addButton.Visibility=Visibility.Hidden;
-            Close.Content = "סגור";
-            List.Visibility = Visibility.Hidden;
-            Updating.Visibility = Visibility.Visible;
-            Add.Visibility = Visibility.Hidden;
-            customer = blGui.GetCustomer(id);
-            fromCustomer.ItemsSource = customer.fromCustomer.ToList();
-            toCustomer.ItemsSource = customer.toCustomer.ToList();
-            DataContext = customer;
+            catch (BO.IdNotExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            }
+            catch (BO.IdExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            }
         }
 
         public void InitList()//
@@ -117,50 +132,65 @@ namespace PL
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
 
-            switch (actions)
+            try
             {
-                case Actions.LIST:
-                    AddWindow();
-                    break;
-                case Actions.ADD:
+                switch (actions)
+                {
+                    case Actions.LIST:
+                        AddWindow();
+                        break;
+                    case Actions.ADD:
 
-                    if (customer.Id != default && customer.name != default && customer.location.longitude != default && customer.location.latitude != default && customer.phone != default)//להעביר את הבדיקה לאיז אנעבלעד 
-                    {
-                        MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
-                        switch (messageBoxResult)
+                        if (customer.Id != default && customer.name != default && customer.location.longitude != default && customer.location.latitude != default && customer.phone != default)//להעביר את הבדיקה לאיז אנעבלעד 
                         {
+                            MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
+                            switch (messageBoxResult)
+                            {
 
-                            case MessageBoxResult.OK:
-                                _ = blGui.addCustomer(customer);
-                                CustomersToListView.Add(blGui.DisplaysIistOfCustomers().First(i => i.Id == customer.Id));
-                                MessageBox.Show("הלקוח נוצר  בהצלחה\n מיד תוצג רשימת הלקוחות", "אישור");
-                                ListWindow();
-                                break;
-                            case MessageBoxResult.Cancel:
-                                break;
-                            default:
-                                break;
+                                case MessageBoxResult.OK:
+                                    _ = blGui.addCustomer(customer);
+                                    CustomersToListView.Add(blGui.DisplaysIistOfCustomers().First(i => i.Id == customer.Id));
+                                    MessageBox.Show("הלקוח נוצר  בהצלחה\n מיד תוצג רשימת הלקוחות", "אישור");
+                                    ListWindow();
+                                    break;
+                                case MessageBoxResult.Cancel:
+                                    break;
+                                default:
+                                    break;
 
+                            }
                         }
-                    }
-                    else
-                        MessageBox.Show("נא השלם את השדות החסרים", "אישור");
-                    break;
-                case Actions.UPDATING:
-                    if (addButton.Content == "הצג")
-                    {
-                        customerToList = CustomersToListView.ToList().Find(i => i.Id == customer.Id);
-                        
+                        else
+                            MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+                        break;
+                    case Actions.UPDATING:
+                        if (addButton.Content == "הצג")
+                        {
+                            customerToList = CustomersToListView.ToList().Find(i => i.Id == customer.Id);
+
                             BorderEnterNumber.Visibility = Visibility.Hidden;
                             update.Visibility = Visibility.Visible;
                             UpdatingWindow(customerToList.Id);
-                        
-                    }
-                    break;
-                case Actions.REMOVE:
-                    break;
-                default:
-                    break;
+
+                        }
+                        break;
+                    case Actions.REMOVE:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (BO.IdNotExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            }
+            catch (BO.IdExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
             }
         }
 
