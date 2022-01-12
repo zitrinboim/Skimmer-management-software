@@ -109,68 +109,84 @@ namespace PL
 
         private void UpdatingWindow(int id)
         {
-            if (action == "Updating")
-            {
-                drone = blGui.GetDrone(id);
-                droneToList = blGui.DisplaysIistOfDrons().First(i => i.Id == id);
-            }
-            else if (action == "ByStation" || action == "ByParcel")
-            {
-                drone = blGui.GetDrone(id);
-                droneToList = blGui.DisplaysIistOfDrons().First(i => i.Id == id);
-            }
 
-            if (droneToList.DroneStatuses == BO.DroneStatuses.maintenance)
+            try
             {
-                BorderStation.Visibility = Visibility.Visible;
-                sandToStation.Visibility = Visibility.Hidden;
-                parcelToDrone.Visibility = Visibility.Hidden;
-                ActionInParcel.Visibility = Visibility.Hidden;
-                droneMaintenance.Visibility = Visibility.Visible;
-                packageAssociated.Text = "הרחפן בתחזוקה";
-                drone = blGui.GetDrone(droneToList.Id);
-                station = blGui.GetStation(blGui.GetTheIdOfCloseStation(drone));
-                stationIdltextBlock.Text = station.Id.ToString();
-                stationLoctionltextBlock.Text = station.location.ToString();
+                if (action == "Updating")
+                {
+                    drone = blGui.GetDrone(id);
+                    droneToList = blGui.DisplaysIistOfDrons().First(i => i.Id == id);
+                }
+                else if (action == "ByStation" || action == "ByParcel")
+                {
+                    drone = blGui.GetDrone(id);
+                    droneToList = blGui.DisplaysIistOfDrons().First(i => i.Id == id);
+                }
 
-            }
-            if (droneToList.DroneStatuses == BO.DroneStatuses.available)
-            {
-                BorderStation.Visibility = Visibility.Hidden;
-                sandToStation.Visibility = Visibility.Visible;
-                parcelToDrone.Visibility = Visibility.Visible;
-                droneMaintenance.Visibility = Visibility.Hidden;
-                ActionInParcel.Visibility = Visibility.Hidden;
-                packageAssociated.Text = "אין חבילה משוייכת לרחפן זה כרגע";
-            }
-            if (droneToList.DroneStatuses == BO.DroneStatuses.busy)
-            {
-                BorderStation.Visibility = Visibility.Hidden;
-                sandToStation.Visibility = Visibility.Hidden;
-                ActionInParcel.Visibility = Visibility.Visible;
-                if (drone.packageInTransfer.packageInTransferStatus == PackageInTransferStatus.awaitingCollection)
-                    ActionParcelButton.Content = "איסוף חבילה";
+                if (droneToList.DroneStatuses == BO.DroneStatuses.maintenance)
+                {
+                    BorderStation.Visibility = Visibility.Visible;
+                    sandToStation.Visibility = Visibility.Hidden;
+                    parcelToDrone.Visibility = Visibility.Hidden;
+                    ActionInParcel.Visibility = Visibility.Hidden;
+                    droneMaintenance.Visibility = Visibility.Visible;
+                    packageAssociated.Text = "הרחפן בתחזוקה";
+                    drone = blGui.GetDrone(droneToList.Id);
+                    station = blGui.GetStation(blGui.GetTheIdOfCloseStation(drone));
+                    stationIdltextBlock.Text = station.Id.ToString();
+                    stationLoctionltextBlock.Text = station.location.ToString();
+
+                }
+                if (droneToList.DroneStatuses == BO.DroneStatuses.available)
+                {
+                    BorderStation.Visibility = Visibility.Hidden;
+                    sandToStation.Visibility = Visibility.Visible;
+                    parcelToDrone.Visibility = Visibility.Visible;
+                    droneMaintenance.Visibility = Visibility.Hidden;
+                    ActionInParcel.Visibility = Visibility.Hidden;
+                    packageAssociated.Text = "אין חבילה משוייכת לרחפן זה כרגע";
+                }
+                if (droneToList.DroneStatuses == BO.DroneStatuses.busy)
+                {
+                    BorderStation.Visibility = Visibility.Hidden;
+                    sandToStation.Visibility = Visibility.Hidden;
+                    ActionInParcel.Visibility = Visibility.Visible;
+                    if (drone.packageInTransfer.packageInTransferStatus == PackageInTransferStatus.awaitingCollection)
+                        ActionParcelButton.Content = "איסוף חבילה";
+                    else
+                        ActionParcelButton.Content = "אספקת חבילה";
+                    NoParcel.Visibility = Visibility.Hidden;
+                    YesParcel.Visibility = Visibility.Visible;
+                }
                 else
-                    ActionParcelButton.Content = "אספקת חבילה";
-                NoParcel.Visibility = Visibility.Hidden;
-                YesParcel.Visibility = Visibility.Visible;
+                {
+                    NoParcel.Visibility = Visibility.Visible;
+                    YesParcel.Visibility = Visibility.Hidden;
+                    ActionInParcel.Visibility = Visibility.Hidden;
+
+                }
+                actions = Actions.UPDATING;
+                addButton.Content = "עדכן";
+                Close.Content = "סגור";
+                List.Visibility = Visibility.Hidden;
+                Updating.Visibility = Visibility.Visible;
+                Add.Visibility = Visibility.Hidden;
+                drone = blGui.GetDrone(id);
+
+                DataContext = drone;
             }
-            else
+            catch (invalidValueForChargeSlots ex)
             {
-                NoParcel.Visibility = Visibility.Visible;
-                YesParcel.Visibility = Visibility.Hidden;
-                ActionInParcel.Visibility = Visibility.Hidden;
-
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
             }
-            actions = Actions.UPDATING;
-            addButton.Content = "עדכן";
-            Close.Content = "סגור";
-            List.Visibility = Visibility.Hidden;
-            Updating.Visibility = Visibility.Visible;
-            Add.Visibility = Visibility.Hidden;
-            drone = blGui.GetDrone(id);
-
-            DataContext = drone;
+            catch (BO.IdNotExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            }
         }
 
         public void InitList()//
@@ -245,10 +261,25 @@ namespace PL
                         {
 
                             case MessageBoxResult.OK:
-                                _ = blGui.addDrone(drone, idStation);
-                                droneToListsView.Add(blGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
-                                MessageBox.Show("הרחפן נוצר בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
-                                ListWindow();
+                                try
+                                {
+                                    _ = blGui.addDrone(drone, idStation);
+                                    droneToListsView.Add(blGui.DisplaysIistOfDrons().First(i => i.Id == drone.Id));
+                                    MessageBox.Show("הרחפן נוצר בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
+                                    ListWindow();
+                                }
+                                catch (invalidValueForChargeSlots ex)
+                                {
+                                    MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                                        MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                                    Close();
+                                }
+                                catch (BO.IdNotExistExeptions ex)
+                                {
+                                    MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                                        MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                                    Close();
+                                }
                                 break;
                             case MessageBoxResult.Cancel:
                                 break;

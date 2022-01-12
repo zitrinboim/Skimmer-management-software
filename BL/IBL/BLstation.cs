@@ -107,8 +107,8 @@ namespace BL
                 else
                     throw new invalidValueForChargeSlots("המספר שהכנסת אינו תקין יש לבחור מספר העולה על כמות הרחפנים הנטענים כרגע בתחנה");
                 dal.removeStation(Idstation);
-                bool test = dal.addStation(tempStation);//הנחתי שהבוליאניות היא רק לגבי ההוספה חזרה
-                return test ? true : false;
+              _ = dal.addStation(tempStation);
+                return true;
             }
             catch (DO.IdExistExeptions Ex)
             {
@@ -118,10 +118,7 @@ namespace BL
             {
                 throw new IdNotExistExeptions("ERORR" + Ex);
             }
-            catch (invalidValueForChargeSlots Ex)
-            {
-                throw new invalidValueForChargeSlots("ERORR" + Ex);
-            }
+           
         }
         /// <summary>
         /// This function returns the logical entity station.
@@ -134,18 +131,18 @@ namespace BL
             {
                 DO.Station dalStation = dal.getStation(stationId);
 
-                Location location = new() { latitude = dalStation.lattitude, longitude = dalStation.longitude };
                 Station station = new()
                 {
                     Id = dalStation.Id,
                     name = dalStation.name,
                     freeChargeSlots = dalStation.freeChargeSlots,
-                    location = location,
+                    location = new() { latitude = dalStation.lattitude, longitude = dalStation.longitude },
                     droneInCargeings = new()
                 };
                 foreach (DroneToList item in droneToLists)
                 {
-                    if (item.Location.latitude == station.location.latitude && item.Location.longitude == station.location.longitude && item.DroneStatuses == DroneStatuses.maintenance)
+                    if (item.Location.latitude == station.location.latitude && item.Location.longitude == station.location.longitude &&
+                        item.DroneStatuses == DroneStatuses.maintenance)
                         station.droneInCargeings.Add(new() { Id = item.Id, battery = item.battery });
                 }
 

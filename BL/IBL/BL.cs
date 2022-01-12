@@ -38,12 +38,12 @@ namespace BL
                 double battryOfDelivery;
                 random = new Random(DateTime.Now.Millisecond);
 
-                double[] power = dal.PowerConsumptionRate();//לאתחל את הערכים של הצריכה 
+                double[] power = dal.PowerConsumptionRate();
                 available = power[0];
                 easy = power[1];
                 medium = power[2];
                 Heavy = power[3];
-                ChargingRate = power[4];//אולי להוציא לפונ' נפרדת.
+                ChargingRate = power[4];
 
                 stations = dal.DisplaysIistOfStations().ToList();
                 customers = dal.DisplaysIistOfCustomers().ToList();
@@ -64,7 +64,7 @@ namespace BL
                     if (find != -1)
                     {
                         drone.DroneStatuses = DroneStatuses.busy;
-                        drone.parcelNumber = PackagesInDelivery[find].Id;//הוסף
+                        drone.parcelNumber = PackagesInDelivery[find].Id;
 
                         DO.Customer sander = customers.Find(customer => customer.Id == PackagesInDelivery[find].SenderId);
                         DO.Customer target = customers.Find(customer => customer.Id == PackagesInDelivery[find].TargetId);
@@ -82,7 +82,8 @@ namespace BL
                         else
                         {
                             drone.Location = sanderLocation;
-                            battryOfDelivery = (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * power[(int)PackagesInDelivery[find].weight])//להסביר
+                            battryOfDelivery = (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * 
+                                power[(int)PackagesInDelivery[find].weight])
                             + (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
                             drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + battryOfDelivery;
                         }
@@ -121,7 +122,7 @@ namespace BL
                                 drone.Location = location;
                             }
 
-
+                
 
                             battryOfDelivery = d.DistanceBetweenPlaces(drone.Location, TheLocationForTheNearestStation(drone.Location, stations)) * available;
                             drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + 30.0;

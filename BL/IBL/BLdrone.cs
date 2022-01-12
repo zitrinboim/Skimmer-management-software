@@ -15,8 +15,7 @@ namespace BL
             try
             {
                 DO.Station station = dal.getStation(idStation);
-                Location location = new() { latitude = station.lattitude, longitude = station.longitude };
-                drone.Location = location;
+                drone.Location = new() { latitude = station.lattitude, longitude = station.longitude };
 
                 DO.Drone dalDrone = new()
                 {
@@ -24,15 +23,10 @@ namespace BL
                     Model = drone.Model,
                     MaxWeight = (DO.WeightCategories)drone.MaxWeight
                 };
-                bool test = dal.addDrone(dalDrone);
-                if (!test)
-                    throw new NotImplementedException();
 
-                bool cargeTest = dal.reductionCargeSlotsToStation(idStation);//Reduces loading slot.
-                if (!cargeTest)
-                    throw new NotImplementedException();
+                _ = dal.addDrone(dalDrone);
 
-
+                _ = dal.reductionCargeSlotsToStation(idStation);//Reduces loading slot.
 
                 DO.DroneCarge droneCarge = new() { DroneID = drone.Id, StationId = idStation };
                 dal.addDroneCarge(droneCarge);//Builds a drone entity by charging.
@@ -61,20 +55,11 @@ namespace BL
         {
             try
             {
-                //Drone tempDrone = GetDrone(IdDrone);
-                //int stationId = stations.Find(i => i.lattitude == tempDrone.Location.latitude && i.longitude == tempDrone.Location.longitude).Id;
-                //dal.removeDrone(IdDrone);
-                //droneToLists[droneToLists.FindIndex(i => i.Id == IdDrone)].Model = newModel;
                 DO.Drone tempDrone = dal.getDrone(IdDrone);
                 dal.removeDrone(IdDrone);
                 tempDrone.Model = newModel;
-                bool test = dal.addDrone(tempDrone);
-                //tempDrone.Model = newModel;
-                //bool test = addDrone(tempDrone, stationId);
-                if (test)
-                    return true;
-                else
-                    throw new NotImplementedException();
+                _ = dal.addDrone(tempDrone);
+                return true;
             }
             catch (DO.IdExistExeptions Ex)
             {
@@ -91,7 +76,7 @@ namespace BL
             {
                 DroneToList drone = droneToLists.Find(i => i.Id == IdDrone);
                 if (drone.DroneStatuses != DroneStatuses.available || drone.Id == 0)
-                    throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
+                    throw new ChargingExeptions("לא יכול להשלח לטעינה");
                 else
                 {
                     List<DO.Station> stationWithFreeSlots = dal.DisplaysIistOfStations(i => i.freeChargeSlots > 0).ToList();
@@ -101,7 +86,7 @@ namespace BL
                     double KM = d.DistanceBetweenPlaces(drone.Location, stationLocation);//Looking for the nearest available station.
 
                     if (drone.battery < (KM * available))
-                        throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
+                        throw new ChargingExeptions("אין מספיק בטרייה להגעה לתחנה"); 
                     else
                     {
                         int droneIndex = droneToLists.FindIndex(i => i.Id == IdDrone);
@@ -110,11 +95,8 @@ namespace BL
                         drone.DroneStatuses = DroneStatuses.maintenance;
                         droneToLists[droneIndex] = drone;
 
-                        bool cargeTest = dal.reductionCargeSlotsToStation(closeStation.Id);//לבדוק מה קורה עם השגיאה שתיזרק מהפונ' הזו.
-                        if (!cargeTest)
-                            throw new NotImplementedException();
-                        DO.DroneCarge droneCarge = new() { DroneID = drone.Id, StationId = closeStation.Id };
-                        dal.addDroneCarge(droneCarge);
+                        _ = dal.reductionCargeSlotsToStation(closeStation.Id);
+                        dal.addDroneCarge(new() { DroneID = drone.Id, StationId = closeStation.Id });
                         return true;
                     }
                 }
@@ -143,7 +125,7 @@ namespace BL
             {
                 DroneToList drone = droneToLists.Find(i => i.Id == IdDrone);
                 if (drone.DroneStatuses != DroneStatuses.maintenance || drone.Id == 0)
-                    throw new();//לטפל בחריגה המתאימה כאן ///////////////////////////////////////////////////////
+                    throw new ChargingExeptions("אין רחפן כזה בטעינה");
                 else
                 {
                     int droneIndex = droneToLists.FindIndex(i => i.Id == IdDrone);
@@ -158,7 +140,6 @@ namespace BL
                     bool removeTest = dal.ReleaseDroneCarge(IdDrone);
                     return true;
                 }
-                //  throw new NotImplementedException();
             }
             catch (DO.IdExistExeptions Ex)
             {
@@ -180,7 +161,7 @@ namespace BL
                 int droneFind = droneToLists.FindIndex(i => i.Id == IdDrone);
 
                 if (droneToList.DroneStatuses != DroneStatuses.available)//Checks if the drone is available.
-                    throw new NotImplementedException();
+                    throw new PackageAssociationExeptions("רחפן לא פנוי למשלוח");
 
                 bestParcel = (from Parcel in dal.DisplaysIistOfparcels().ToList()
                               where Parcel.Scheduled == DateTime.MinValue
@@ -198,7 +179,7 @@ namespace BL
                     return true;
                 }
                 else
-                    throw new NotImplementedException();
+                    throw new PackageAssociationExeptions("אין חבילה מתאימה עבור רחפן זה");
             }
             catch (DO.IdExistExeptions Ex)
             {
@@ -241,7 +222,8 @@ namespace BL
 
             if ((d.DistanceBetweenPlaces(droneToList.Location, sanderLocation) * available) +
                 (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight) +
-                (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available) <= droneToList.battery)
+                (d.DistanceBetweenPlaces(targetLocation,
+                TheLocationForTheNearestStation(targetLocation, stations)) * available) <= droneToList.battery)
                 return true;
             else
                 return false;
@@ -290,19 +272,14 @@ namespace BL
             try
             {
                 DO.Parcel parcelsOfDrone = dal.DisplaysIistOfparcels(i => i.DroneId == IdDrone && i.PickedUp == DateTime.MinValue).First();
-                if (parcelsOfDrone.DroneId != IdDrone)
-                    throw new NotImplementedException();
 
                 DO.Customer sander = dal.getCustomer(parcelsOfDrone.SenderId);
                 Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
                 int index = droneToLists.FindIndex(i => i.Id == IdDrone);
-                droneToLists[index].battery -= (d.DistanceBetweenPlaces(droneToLists[index].Location, sanderLocation) * available);
+                droneToLists[index].battery -= d.DistanceBetweenPlaces(droneToLists[index].Location, sanderLocation) * available;
                 droneToLists[index].Location = sanderLocation;
                 dal.PackageCollectionByDrone(parcelsOfDrone.Id);
-                //dal.removeParcel(parcelsOfDrone.Id);//Update by deleting an object in a previous configuration and readjusting after changes.
-                //parcelsOfDrone.PickedUp = DateTime.Now;
-                //dal.addParsel(parcelsOfDrone);
                 return true;
             }
             catch (DO.IdExistExeptions Ex)
@@ -319,9 +296,7 @@ namespace BL
             try
             {
                 DO.Parcel parcelsOfDrone = dal.DisplaysIistOfparcels(i => i.DroneId == IdDrone && i.PickedUp != DateTime.MinValue && i.Delivered == DateTime.MinValue).First();
-                if (parcelsOfDrone.DroneId != IdDrone)
-                    throw new NotImplementedException();
-
+               
                 DO.Customer sander = dal.getCustomer(parcelsOfDrone.SenderId);
                 Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
@@ -346,14 +321,11 @@ namespace BL
                         break;
                 }
 
-                droneToLists[index].battery -= (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight);
+                droneToLists[index].battery -= d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight;
                 droneToLists[index].Location = targetLocation;
                 droneToLists[index].DroneStatuses = DroneStatuses.available;
                 droneToLists[index].parcelNumber = 0;
                 dal.DeliveryPackageToCustomer(parcelsOfDrone.Id);
-                //dal.removeParcel(parcelsOfDrone.Id);
-                //parcelsOfDrone.Delivered = DateTime.Now;
-                //dal.addParsel(parcelsOfDrone);
 
                 return true;
             }
@@ -405,8 +377,7 @@ namespace BL
         {
             DroneToList droneToList = droneToLists.Find(i => i.Id == droneId);
             if (droneToList.Id == 0)
-                throw new NotImplementedException();
-
+                throw new IdNotExistExeptions("אין רחפן עם מזהה זה");
             DroneInParcel droneInParcel = new()
             {
                 Id = droneToList.Id,

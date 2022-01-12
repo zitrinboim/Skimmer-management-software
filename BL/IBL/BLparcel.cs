@@ -23,11 +23,11 @@ namespace BL
             try
             {
                 var sanderTest = dal.DisplaysIistOfCustomers(i => i.Id == parcel.Sender.Id);
-                if(sanderTest==default)
-                    throw new NotImplementedException();
+                if (sanderTest == default)
+                    throw new IdNotExistExeptions("אין לקוח כזה");
                 var targetTest = dal.DisplaysIistOfCustomers(i => i.Id == parcel.Target.Id);
                 if (targetTest == default)
-                    throw new NotImplementedException();
+                    throw new IdNotExistExeptions("אין לקוח כזה");
 
                 DO.Parcel parcel1 = new()
                 {
@@ -39,8 +39,6 @@ namespace BL
                 };
                 int addParcel = dal.addParsel(parcel1);
 
-                if (addParcel <= 0)
-                    throw new NotImplementedException();
                 return addParcel;
             }
             catch (DO.IdExistExeptions Ex)
@@ -85,9 +83,6 @@ namespace BL
             {
                 DO.Parcel parcel = dal.getParcel(parcelId);
 
-                //if (parcel.Scheduled == DateTime.MinValue || parcel.Delivered != DateTime.MinValue)
-                //  throw new NotImplementedException();//כי אין חבילה כזו בהעברה.
-
                 DO.Customer sander = dal.getCustomer(parcel.SenderId);
                 Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
@@ -118,12 +113,10 @@ namespace BL
             }
             catch (DO.IdExistExeptions Ex)
             {
-
                 throw new IdExistExeptions("ERORR", Ex);
             }
             catch (DO.IdNotExistExeptions Ex)
             {
-
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
@@ -150,12 +143,10 @@ namespace BL
             }
             catch (DO.IdExistExeptions Ex)
             {
-
                 throw new IdExistExeptions("ERORR", Ex);
             }
             catch (DO.IdNotExistExeptions Ex)
             {
-
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
@@ -166,35 +157,41 @@ namespace BL
                 Parcel parcel = GetParcel(parcelId);
                 if (parcel.Scheduled == DateTime.MinValue)
                 {
-                   return dal.removeParcel(parcelId);
+                    return dal.removeParcel(parcelId);
                 }
                 return false;
             }
-            
+
             catch (DO.IdNotExistExeptions Ex)
             {
-
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
 
         }
         public ParcelToList GetParcelToList(int parcelId)
         {
-            Parcel parcel = GetParcel(parcelId);
-
-            ParcelToList parcelToList = new()
+            try
             {
-                Id = parcel.Id,
-                priority = parcel.priority,
-                weight = parcel.weight,
-                sanderName = parcel.Sender.name,
-                targetName = parcel.Target.name
-            };
-            parcelToList.parcelStatus = (parcel.Scheduled == DateTime.MinValue) ? parcelStatus.defined :
-                (parcel.PickedUp == DateTime.MinValue) ? parcelStatus.associated :
-                (parcel.Delivered == DateTime.MinValue) ? parcelStatus.collected : parcelStatus.Provided;
+                Parcel parcel = GetParcel(parcelId);
 
-            return parcelToList;
+                ParcelToList parcelToList = new()
+                {
+                    Id = parcel.Id,
+                    priority = parcel.priority,
+                    weight = parcel.weight,
+                    sanderName = parcel.Sender.name,
+                    targetName = parcel.Target.name
+                };
+                parcelToList.parcelStatus = (parcel.Scheduled == DateTime.MinValue) ? parcelStatus.defined :
+                    (parcel.PickedUp == DateTime.MinValue) ? parcelStatus.associated :
+                    (parcel.Delivered == DateTime.MinValue) ? parcelStatus.collected : parcelStatus.Provided;
+
+                return parcelToList;
+            }
+            catch (DO.IdNotExistExeptions Ex)
+            {
+                throw new IdNotExistExeptions("ERORR", Ex);
+            }
         }
         /// <summary>
         /// Displays the list of all the drones.

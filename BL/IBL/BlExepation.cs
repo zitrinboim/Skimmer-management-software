@@ -27,4 +27,12 @@ namespace BO
     {
         public invalidValueForChargeSlots(string messge) : base(messge) { }
     }
+    public class ChargingExeptions : Exception
+    {
+        public ChargingExeptions(string messge) : base(messge) { }
+    }
+    public class PackageAssociationExeptions : Exception
+    {
+        public PackageAssociationExeptions(string messge) : base(messge) { }
+    }
 }

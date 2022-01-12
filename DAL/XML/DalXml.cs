@@ -261,7 +261,7 @@ namespace DalXml
                 return true;
             }
             else
-                throw new IdNotExistExeptions("sorry, this Drone is not found.");
+                throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
         /// <summary>
         /// This function transmits the data of the requested station according to an identification number.
@@ -376,7 +376,7 @@ namespace DalXml
 
             return parcels.Where(d => p == null ? true : p(d)).ToList();
         }
-        public double[] PowerConsumptionRate()////////////////////////////////////////////////////האם זה צריך להיות פה או לעבור לקונפיג אקסאםעל
+        public double[] PowerConsumptionRate()
         {
             double[] powerConsumptionRate = new double[] {
                 DataSource.Config.available, DataSource.Config.easy,

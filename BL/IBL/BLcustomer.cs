@@ -22,15 +22,15 @@ namespace BL
                     lattitude = customer.location.latitude,
                     longitude = customer.location.longitude
                 };
-                bool test = dal.addCustomer(dalCustomer);
-                return test ? true : false;
+                _ = dal.addCustomer(dalCustomer);
+                return true;
             }
             catch (DO.IdExistExeptions Ex)
             {
-
                 throw new IdExistExeptions("ERORR" + Ex);
             }
         }
+
         public bool updateCustomerData(int IdCustomer, string newName, string newPhone)
         {
             try
@@ -40,13 +40,17 @@ namespace BL
                     tempCustomer.name = newName;
                 if (newPhone != "X" && newPhone != "x")
                     tempCustomer.phone = newPhone;
-                bool test = dal.addCustomer(tempCustomer);
-                dal.removeCustomer(IdCustomer);
-                return test ? true : false;
+                _ = dal.removeCustomer(IdCustomer);
+                _ = dal.addCustomer(tempCustomer);
+                return true;
             }
             catch (DO.IdExistExeptions Ex)
             {
                 throw new IdExistExeptions("ERORR" + Ex);
+            }
+            catch (DO.IdNotExistExeptions Ex)
+            {
+                throw new IdNotExistExeptions("ERORR" + Ex);
             }
         }
 
@@ -62,13 +66,12 @@ namespace BL
             {
                 throw new IdNotExistExeptions("Error: " + ex);
             }
-
         }
         public Customer GetCustomer(int customerId)
         {
             try
             {
-                DO.Customer dalCustomer =dal.getCustomer(customerId);
+                DO.Customer dalCustomer = dal.getCustomer(customerId);
 
                 Customer customer = new()
                 {
@@ -146,7 +149,7 @@ namespace BL
                     customerToLists.Add(GetCustomerToList(item.Id));
                 }
                 return customerToLists.Where(d => p == null ? true : p(d)).ToList();
-            } 
+            }
             catch (DO.IdNotExistExeptions Ex)
             {
                 throw new IdNotExistExeptions("ERORR" + Ex);
