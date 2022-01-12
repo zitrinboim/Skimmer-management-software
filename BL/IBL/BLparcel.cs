@@ -159,6 +159,25 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        public bool remuveParcel(int parcelId)
+        {
+            try
+            {
+                Parcel parcel = GetParcel(parcelId);
+                if (parcel.Scheduled == DateTime.MinValue)
+                {
+                   return dal.removeParcel(parcelId);
+                }
+                return false;
+            }
+            
+            catch (DO.IdNotExistExeptions Ex)
+            {
+
+                throw new IdNotExistExeptions("ERORR", Ex);
+            }
+
+        }
         public ParcelToList GetParcelToList(int parcelId)
         {
             Parcel parcel = GetParcel(parcelId);

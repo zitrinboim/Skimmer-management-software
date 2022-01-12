@@ -5,20 +5,20 @@
     <name>תחנה מרכזית תל אביב</name>
     <longitude>32.056105</longitude>
     <lattitude>34.779242</lattitude>
-    <freeChargeSlots>9</freeChargeSlots>
+    <freeChargeSlots>8</freeChargeSlots>
   </Station>
   <Station>
     <Id>127</Id>
     <name>הבית של הודיה</name>
     <longitude>32.08514</longitude>
     <lattitude>34.88538</lattitude>
-    <freeChargeSlots>14</freeChargeSlots>
+    <freeChargeSlots>13</freeChargeSlots>
   </Station>
   <Station>
     <Id>14</Id>
     <name>מבחר בני ברק</name>
     <longitude>32.092998</longitude>
     <lattitude>34.824273</lattitude>
-    <freeChargeSlots>10</freeChargeSlots>
+    <freeChargeSlots>11</freeChargeSlots>
   </Station>
 </ArrayOfStation>

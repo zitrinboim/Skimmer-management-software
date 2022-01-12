@@ -97,10 +97,10 @@
                         <Label Grid.Column="2" Grid.Row="1" Content=":מזהה מקבל"    FontWeight="Bold" Background="{x:Null}" />
                         <Label Grid.Column="2" Grid.Row="2" Content=":קטגוריית משקל" FontWeight="Bold"  Background="{x:Null}"/>
                         <Label Grid.Column="2" Grid.Row="3" Content="דחיפות" FontWeight="Bold"  Background="{x:Null}"/>
-                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Sender.Id}"         Background="{x:Null}" />
-                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Target.Id}"      Background="{x:Null}"/>
                         <ComboBox Name="weightCombo"  FontWeight="Bold"  Grid.Column="1"  Grid.Row="2"  SelectedItem="{Binding weight}"/>
                         <ComboBox Name="prioritiCombo"  FontWeight="Bold" Grid.Column="1"  Grid.Row="3" SelectedItem="{Binding priority}"/>
+                        <ComboBox x:Name="comboBoxOfsander" Grid.Row="0" Grid.Column="1"  SelectedItem="{Binding Sender.Id}"  />
+                        <ComboBox x:Name="comboBoxOftarget" Grid.Row="1" Grid.Column="1"  SelectedItem="{Binding Target.Id}"  />
                     </Grid>
 
                 </Grid>
@@ -126,7 +126,7 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <Label Grid.Row="0" Content="בחירת חבילה לעדכון" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16" />
+                                <Label Grid.Row="0" Content="בחר חבילה" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16" />
                                 <Label Grid.Row="2" Content="הכנס מספר" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" />
                                 <TextBox x:Name="TxtBx_ID" Grid.Row="3" Text="&#xD;&#xA;" />
                             </Grid>

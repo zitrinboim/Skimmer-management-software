@@ -120,6 +120,14 @@ namespace PL
             weightCombo.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             parcel = new() { Id = 0, Requested = DateTime.Now, Target = new(), Sender = new() };
             DataContext = parcel;
+            List<CustomerToList> customerTos = blGui.DisplaysIistOfCustomers().ToList();
+            var customers = from item in customerTos
+                            select item.Id;
+                         
+            comboBoxOfsander.ItemsSource = customers;
+            comboBoxOftarget.ItemsSource = customers;
+            
+
         }
         private void UpdatingWindow(int id)
         {
@@ -282,26 +290,28 @@ namespace PL
 
                     break;
                 case Actions.REMOVE:
-                    MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר מחיקה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
-                    switch (messageBoxResult)
+                    MessageBoxResult messageBoxResult1 = MessageBox.Show("האם ברצונך לאשר מחיקה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
+                    switch (messageBoxResult1)
                     {
 
                         case MessageBoxResult.OK:
-                            blGui.r
-                            parcelToListView.Add(blGui.DisplaysIistOfparcels().First(i => i.Id == idParcel));
-                            MessageBox.Show("החבילה נוצרה בהצלחה\n מספר החבילה הוא:" + idParcel.ToString() + "\n מיד תוצג רשימת החבילות", "אישור");
-                            ListWindow();
+                            if (blGui.remuveParcel(int.Parse(TxtBx_ID.Text.ToString())))
+                                MessageBox.Show("הפעולה בוצעה בהצלחה" + "\n מיד תוצג רשימת החבילות", "אישור");
+                            else
+                                MessageBox.Show("החבילה לא ניתנת למחיקה" + "\n מיד תוצג רשימת החבילות", "אישור");
+                            new ParcelWindow(blGui, "List").Show();
+                            Close();
                             break;
+
                         case MessageBoxResult.Cancel:
                             break;
                         default:
                             break;
 
+                            //    }
                     }
-            }
-                    else
-                MessageBox.Show("נא השלם את השדות החסרים", "אישור");
-            break;
+                   
+                    break;
                 default:
                     break;
             }
@@ -363,7 +373,7 @@ namespace PL
         CollectionView myView;
         private void AddGrouping()
         {
-            string choise = "parcelStatus";
+            string choise = "sanderName";
             myView = (CollectionView)CollectionViewSource.GetDefaultView(ParcelListView.ItemsSource);
             if (myView.CanGroup == true)
             {
@@ -377,10 +387,6 @@ namespace PL
             }
         }
 
-        private void RemoveGrouping(object sender, RoutedEventArgs e)
-        {
-            myView = (CollectionView)CollectionViewSource.GetDefaultView(ParcelListView.ItemsSource);
-            myView.GroupDescriptions.Clear();
-        }
+       
     }
 }

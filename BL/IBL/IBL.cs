@@ -181,7 +181,12 @@ namespace BlApi
         /// <param name="p"></param>
         /// <returns></returns>
         public IEnumerable<CustomerToList> DisplaysIistOfCustomers(Predicate<CustomerToList> p = null);
-
+        /// <summary>
+        /// This function deletes a package if it has not yet been associated with a drone.
+        /// </summary>
+        /// <param name="parcelId"></param>
+        /// <returns></returns>
+        public bool remuveParcel(int parcelId);
 
 
 

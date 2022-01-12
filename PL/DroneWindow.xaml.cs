@@ -8,6 +8,8 @@ using BlApi;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Text.RegularExpressions;
+using System.Windows.Data;
+
 
 namespace PL
 {
@@ -199,6 +201,7 @@ namespace PL
 
             else
                 DroneListView.ItemsSource = droneToListsView.ToList().FindAll(i => i.MaxWeight == (BO.WeightCategories)weightCategories && i.DroneStatuses == (BO.DroneStatuses)droneStatuses);
+            AddGrouping();
         }
 
         private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -405,7 +408,23 @@ namespace PL
                 }
             }
         }
-        private void onlyNumbers(object sender, TextCompositionEventArgs e)
+        CollectionView myView;
+        private void AddGrouping()
+        {
+            string choise = "DroneStatuses";
+            myView = (CollectionView)CollectionViewSource.GetDefaultView(DroneListView.ItemsSource);
+            if (myView.CanGroup == true)
+            {
+                PropertyGroupDescription groupDescription = new(choise);
+                myView.GroupDescriptions.Clear();
+                myView.GroupDescriptions.Add(groupDescription);
+            }
+            else
+            {
+                return;
+            }
+        }
+        private void onlyNumbersForID(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new("[^0-9]$");
             e.Handled = regex.IsMatch(e.Text);

@@ -6,7 +6,8 @@ using System.Windows.Controls;
 using BO;
 using BlApi;
 using System.Collections.ObjectModel;
-
+using System.Windows.Input;
+using System.Text.RegularExpressions;
 
 namespace PL
 {
@@ -210,6 +211,37 @@ namespace PL
             {
                 UpdatingWindow(customerToList.Id);
             }
+        }
+        private void onlyNumbersForID(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new("[^0-9]$");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+        private void phonePattren(object sender, TextCompositionEventArgs e)
+        {
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regex = new("^[0][0-9]{0,9}$");
+            e.Handled = !regex.IsMatch(temp);
+        }
+        private void onlyAlphaBeta(object sender, TextCompositionEventArgs e)
+        {
+            
+            Regex regex = new("[^א-ת]$");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+        private void lungetudePattren(object sender, TextCompositionEventArgs e)
+        {
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regexA = new("^[2-3]{1,2}[.]{0,1}$");
+            Regex regexB = new("^[2-3]{1,2}[.][0-9]{0,9}$");
+            e.Handled = !(regexA.IsMatch(temp) || regexB.IsMatch(temp));
+        }
+        private void lattitudePattren(object sender, TextCompositionEventArgs e)
+        {
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regexA = new("^[3-4]{1,2}[.]{0,1}$");
+            Regex regexB = new("^[3-4]{1,2}[.][0-9]{0,9}$");
+            e.Handled = !(regexA.IsMatch(temp) || regexB.IsMatch(temp));
         }
     }
 }

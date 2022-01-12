@@ -41,12 +41,21 @@
                     <ListView x:Name="StationListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}" SelectionChanged="StationListView_SelectionChanged">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="מזהה"  Width="130" DisplayMemberBinding="{Binding Id}"/>
+                                <GridViewColumn Header="מזהה"  Width="130" DisplayMemberBinding="{Binding Id}"   />
                                 <GridViewColumn Header="שם תחנה" Width="180" DisplayMemberBinding="{Binding name}"/>
                                 <GridViewColumn Header="חריצי טעינה פנויים" Width="145" DisplayMemberBinding="{Binding freeChargeSlots}"/>
                                 <GridViewColumn Header="חריצי טעינה תפוסים" Width="145" DisplayMemberBinding="{Binding busyChargeSlots}"/>
                             </GridView>
                         </ListView.View>
+                        <ListView.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  FontWeight="Bold" FontSize="15"  Text="{Binding Name}" Foreground="Black"/>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ListView.GroupStyle>
                     </ListView>
                 </Grid>
 
@@ -82,11 +91,11 @@
                         <Label Grid.Column="2" Grid.Row="3" Content="מיקום התחנה" FontWeight="Bold"  Background="{x:Null}"/>
                         <Label Grid.Column="2" Grid.Row="4" Content=":קו אורך" FontWeight="Bold"  Background="{x:Null}"/>
                         <Label Grid.Column="2" Grid.Row="5" Content=":קו רוחב" FontWeight="Bold"  Background="{x:Null}"/>
-                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Id}"         Background="{x:Null}" />
+                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Id}"         Background="{x:Null}" PreviewTextInput="onlyNumbersForID" />
                         <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding name}"      Background="{x:Null}"/>
-                        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding freeChargeSlots}"      Background="{x:Null}"/>
-                        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding location.longitude}"      Background="{x:Null}"/>
-                        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding location.latitude}"      Background="{x:Null}"/>
+                        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding freeChargeSlots}"      Background="{x:Null}" PreviewTextInput="onlytwoNumbers"/>
+                        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding location.longitude}"      Background="{x:Null}" PreviewTextInput="lungetudePattren"/>
+                        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding location.latitude}"      Background="{x:Null}" PreviewTextInput="lattitudePattren"/>
 
                     </Grid>
                    

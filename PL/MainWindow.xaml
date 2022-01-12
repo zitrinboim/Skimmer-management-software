@@ -92,7 +92,7 @@
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="1.5*"/>
                                                 <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
+                                                <!--<RowDefinition Height="*"/>-->
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
                                             <TextBlock Text="ניהול תחנות" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
@@ -104,10 +104,10 @@
                                                 <!--ToolTipService.ShowDuration="8000"-->
                                                 <TextBlock Text="עדכון נתוני תחנה" Margin="10 0"/>
                                             </Button>
-                                            <Button Grid.Row="2" Margin="5" Click="Button_Click_RemoveStation" >
-                                                <!--ToolTipService.ShowDuration="8000"-->
+                                            <!--<Button Grid.Row="2" Margin="5" Click="Button_Click_RemoveStation" >
+                                                --><!--ToolTipService.ShowDuration="8000"--><!--
                                                 <TextBlock Text="מחיקת תחנת בסיס" Margin="10 0"/>
-                                            </Button>
+                                            </Button>-->
                                             <Button Grid.Row="3" Padding="5" Margin="5" Click="Button_Click_ListOfStation"  >
                                                 <!--ToolTipService.ShowDuration="8000"-->
                                                 <TextBlock Text=" הצג רשימת תחנות" Margin="10 0"/>
@@ -120,7 +120,7 @@
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="1.5*"/>
                                                 <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
+                                                <!--<RowDefinition Height="*"/>-->
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
                                             <TextBlock Text="ניהול רחפנים" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
@@ -132,10 +132,10 @@
                                                 <!--ToolTipService.ShowDuration="8000"-->
                                                 <TextBlock Text="ביצוע פעולות ברחפן" Margin="10 0"/>
                                             </Button>
-                                            <Button Grid.Row="2" Margin="5" Click="Button_Click_RemoveDrone" >
-                                                <!--ToolTipService.ShowDuration="8000"-->
+                                            <!--<Button Grid.Row="2" Margin="5" Click="Button_Click_RemoveDrone" >
+                                                --><!--ToolTipService.ShowDuration="8000"--><!--
                                                 <TextBlock Text="מחיקת רחפן" Margin="10 0"/>
-                                            </Button>
+                                            </Button>-->
                                             <Button Grid.Row="3" Padding="5" Margin="5" Click="Button_Click_ListOfDrones"  >
                                                 <!--ToolTipService.ShowDuration="8000"-->
                                                 <TextBlock Text=" הצג רשימת רחפנים" Margin="10 0"/>
@@ -162,7 +162,7 @@
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="1.5*"/>
                                                 <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
+                                                <!--<RowDefinition Height="*"/>-->
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
                                             <TextBlock Text="ניהול לקוחות" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
@@ -174,10 +174,10 @@
                                                 <!--ToolTipService.ShowDuration="8000"-->
                                                 <TextBlock Text="הצגת פרטי לקוח" Margin="10 0"/>
                                             </Button>
-                                            <Button Grid.Row="2" Margin="5" Click="Button_Click_RemoveCostumer" >
-                                                <!--ToolTipService.ShowDuration="8000"-->
+                                            <!--<Button Grid.Row="2" Margin="5" Click="Button_Click_RemoveCostumer" >
+                                                --><!--ToolTipService.ShowDuration="8000"--><!--
                                                 <TextBlock Text="מחיקת לקוח" Margin="10 0"/>
-                                            </Button>
+                                            </Button>-->
                                             <Button Grid.Row="3" Padding="5" Margin="5" Click="Button_Click_ListOfCostumers"  >
                                                 <!--ToolTipService.ShowDuration="8000"-->
                                                 <TextBlock Text="הצג רשימת לקוחות" Margin="10 0"/>

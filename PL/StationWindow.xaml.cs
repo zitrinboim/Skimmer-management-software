@@ -6,6 +6,9 @@ using System.Windows.Controls;
 using BO;
 using BlApi;
 using System.Collections.ObjectModel;
+using System.Windows.Data;
+using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 namespace PL
 {
@@ -119,6 +122,7 @@ namespace PL
 
             else if (slotsSTatus == SlotsSTatus.מלא)
                 StationListView.ItemsSource = StationsToListView.ToList().FindAll(i => i.freeChargeSlots <= 0);
+            AddGrouping();
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
@@ -240,5 +244,46 @@ namespace PL
             new DroneWindow(blGui, "ByStation", idDrone).Show();
             Close();
         }
+        CollectionView myView;
+        private void AddGrouping()
+        {
+            string choise = "freeChargeSlots";
+            myView = (CollectionView)CollectionViewSource.GetDefaultView(StationListView.ItemsSource);
+            if (myView.CanGroup == true)
+            {
+                PropertyGroupDescription groupDescription = new(choise);
+                myView.GroupDescriptions.Clear();
+                myView.GroupDescriptions.Add(groupDescription);
+            }
+            else
+            {
+                return;
+            }
+        }
+        private void onlyNumbersForID(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new("[^0-9]$");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+        private void onlytwoNumbers(object sender, TextCompositionEventArgs e)
+        {
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regex = new("^[0-9]{1,2}$");
+            e.Handled = !regex.IsMatch(temp);
+        }
+        private void lungetudePattren(object sender, TextCompositionEventArgs e)
+        {
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regexA = new("^[2-3]{1,2}[.]{0,1}$");
+            Regex regexB = new("^[2-3]{1,2}[.][0-9]{0,9}$");
+            e.Handled = !(regexA.IsMatch(temp)|| regexB.IsMatch(temp));
+        } private void lattitudePattren(object sender, TextCompositionEventArgs e)
+        {
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regexA = new("^[3-4]{1,2}[.]{0,1}$");
+            Regex regexB = new("^[3-4]{1,2}[.][0-9]{0,9}$");
+            e.Handled = !(regexA.IsMatch(temp) || regexB.IsMatch(temp));
+        }
+
     }
 }
