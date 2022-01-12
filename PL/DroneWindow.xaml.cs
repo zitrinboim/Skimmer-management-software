@@ -37,6 +37,8 @@ namespace PL
             action = _action;
             droneToListsView = new();
             droneToList = new();
+            drone = new();
+            DataContext = drone;
             InitList();
             InitializeComponent();
 
@@ -51,6 +53,10 @@ namespace PL
                     addButton.Content = "הצג";
                     Close.Content = "סגור";
                     actions = Actions.UPDATING;
+                    List<DroneToList> drones = blGui.DisplaysIistOfDrons().ToList();
+                    var droneCombo = from item in drones
+                                     select item.Id;
+                    comboID.ItemsSource = droneCombo;
                     break;
                 case "Add":
                     AddWindow();
@@ -97,8 +103,6 @@ namespace PL
             Updating.Visibility = Visibility.Hidden;
             Add.Visibility = Visibility.Visible;
             MaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
-            drone = new();
-            DataContext = drone;
             WeightSelector.SelectedIndex = -1;
             stations.ItemsSource = blGui.DisplaysIistOfStations(i => i.freeChargeSlots > 0);
         }
@@ -108,6 +112,7 @@ namespace PL
             if (action == "Updating")
             {
                 drone = blGui.GetDrone(id);
+                droneToList = blGui.DisplaysIistOfDrons().First(i => i.Id == id);
             }
             else if (action == "ByStation" || action == "ByParcel")
             {
@@ -249,7 +254,6 @@ namespace PL
                                 break;
                             default:
                                 break;
-
                         }
                     }
                     else
@@ -258,20 +262,9 @@ namespace PL
                 case Actions.UPDATING:
                     if (addButton.Content == "הצג")
                     {
-                        droneToList = droneToListsView.ToList().Find(i => i.Id == int.Parse(TxtBx_ID.Text.ToString()));
-                        if (droneToList.Id != 0)
-                        {
-
-                            BorderEnterNumber.Visibility = Visibility.Hidden;
-                            update.Visibility = Visibility.Visible;
-                            UpdatingWindow(droneToList.Id);
-
-                        }
-                        else
-                        {
-                            MessageBox.Show("לא נמצא הרחפן", "אישור");
-                            Close();
-                        }
+                        BorderEnterNumber.Visibility = Visibility.Hidden;
+                        update.Visibility = Visibility.Visible;
+                        UpdatingWindow(drone.Id);
                         break;
                     }
                     if (drone.Model != default)//איז אנעבעלד
@@ -426,8 +419,10 @@ namespace PL
         }
         private void onlyNumbersForID(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new("[^0-9]$");
-            e.Handled = regex.IsMatch(e.Text);
+
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regex = new("^[0-9]{0,9}$");
+            e.Handled = !regex.IsMatch(temp);
         }
     }
 }

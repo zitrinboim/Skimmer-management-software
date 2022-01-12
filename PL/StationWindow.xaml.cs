@@ -25,6 +25,7 @@ namespace PL
         private StationToList stationToList;
         Actions actions;
         string action;
+
         public StationWindow(IBL bL, string _action = "")
         {
             blGui = bL;
@@ -32,6 +33,9 @@ namespace PL
             action = _action;
             StationsToListView = new();
             stationToList = new();
+            station = new();
+            station.location = new();
+            DataContext = station;
             InitList();
             InitializeComponent();
             switch (action)
@@ -45,6 +49,10 @@ namespace PL
                     addButton.Content = "הצג";
                     Close.Content = "סגור";
                     actions = Actions.UPDATING;
+                    List<StationToList> stations  = blGui.DisplaysIistOfStations().ToList();
+                    var stationCombo = from item in stations
+                                        select item.Id;
+                    comboID.ItemsSource = stationCombo;
                     break;
                 case "Add":
                     AddWindow();
@@ -64,9 +72,6 @@ namespace PL
             List.Visibility = Visibility.Hidden;
             Updating.Visibility = Visibility.Hidden;
             Add.Visibility = Visibility.Visible;
-            station = new();
-            station.location = new();
-            DataContext = station;
         }
 
         private void ListWindow()
@@ -160,18 +165,12 @@ namespace PL
                 case Actions.UPDATING:
                     if (addButton.Content == "הצג")
                     {
-                        var idFind = StationsToListView.ToList().Find(i => i.Id == int.Parse(TxtBx_ID.Text.ToString()));
-                        if (idFind != default)
-                        {
+                      stationToList = StationsToListView.ToList().Find(i => i.Id == station.Id);
+                       
                             BorderEnterNumber.Visibility = Visibility.Hidden;
                             update.Visibility = Visibility.Visible;
-                            UpdatingWindow(idFind.Id);
-                        }
-                        else
-                        {
-                            MessageBox.Show("התחנה המבוקשת לא נמצאה", "אישור");
-                            Close();
-                        }
+                            UpdatingWindow(stationToList.Id);
+                       
                         break;
                     }
 
@@ -262,8 +261,10 @@ namespace PL
         }
         private void onlyNumbersForID(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new("[^0-9]$");
-            e.Handled = regex.IsMatch(e.Text);
+
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regex = new("^[0-9]{0,9}$");
+            e.Handled = !regex.IsMatch(temp);
         }
         private void onlytwoNumbers(object sender, TextCompositionEventArgs e)
         {

@@ -127,8 +127,8 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Label Grid.Row="0" Content="בחר חבילה" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16" />
-                                <Label Grid.Row="2" Content="הכנס מספר" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" />
-                                <TextBox x:Name="TxtBx_ID" Grid.Row="3" Text="&#xD;&#xA;" />
+                                <Label Name="parcelLab" Grid.Row="2" Content="הכנס מספר" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" />
+                                <ComboBox x:Name="comboID" Grid.Row="3" SelectedItem="{Binding Id}" />
                             </Grid>
                         </Grid>
                     </Border>

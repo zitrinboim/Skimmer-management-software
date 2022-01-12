@@ -28,6 +28,7 @@ namespace PL
         ObservableCollection<ParcelToList> parcelToListView;
         private Parcel parcel;
         private ParcelToList parcelToList;
+        List<ParcelToList> parcels;
         Actions actions;
         string action;
         public ParcelWindow(IBL bL, string _action = "", int id = 0)
@@ -39,6 +40,8 @@ namespace PL
             action = _action;
             parcelToListView = new();
             parcelToList = new();
+            parcel = new() { Id = 0, Requested = DateTime.Now, Target = new(), Sender = new() };
+            DataContext = parcel;
             InitList();
             InitializeComponent();
             switch (action)
@@ -55,6 +58,10 @@ namespace PL
                     addButton.Content = "הצג";
                     Close.Content = "סגור";
                     actions = Actions.UPDATING;
+                    parcels  = blGui.DisplaysIistOfparcels().ToList();
+                    var parcelCombo = from item in parcels
+                                     select item.Id;
+                    comboID.ItemsSource = parcelCombo;
                     break;
                 case "Add":
                     AddWindow();
@@ -83,6 +90,15 @@ namespace PL
             addButton.Content = "מחק";
             Close.Content = "סגור";
             actions = Actions.REMOVE;
+            parcels = blGui.DisplaysIistOfparcels(i=>i.parcelStatus==BO.parcelStatus.defined).ToList();
+            var parcelCombo = from item in parcels
+                              select item.Id;
+            comboID.ItemsSource = parcelCombo;
+            if (parcels.Count == 0)
+            {
+                parcelLab.Content = "אין חבילות למחיקה";
+                addButton.IsEnabled = false;
+            }
         }
 
         private void ListWindow()
@@ -118,8 +134,6 @@ namespace PL
             Add.Visibility = Visibility.Visible;
             prioritiCombo.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
             weightCombo.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
-            parcel = new() { Id = 0, Requested = DateTime.Now, Target = new(), Sender = new() };
-            DataContext = parcel;
             List<CustomerToList> customerTos = blGui.DisplaysIistOfCustomers().ToList();
             var customers = from item in customerTos
                             select item.Id;
@@ -161,18 +175,11 @@ namespace PL
             }
         }
 
-        public void InitList()//
+        public void InitList()
         {
             List<ParcelToList> temp = blGui.DisplaysIistOfparcels().ToList();
             foreach (ParcelToList item in temp)
-            {
                 parcelToListView.Add(item);
-            }
-            //parcelToListGroping = (from parcel in temp
-            //                       group parcel by new parcelStatus_WeightCategories_Priorities
-            //                       { parcelStatus = parcel.parcelStatus, priority = parcel.priority, weight = parcel.weight })
-            //                       .ToDictionary(X => X.Key, X => X.ToList());
-
         }
         private void ParcelToListView_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -252,7 +259,6 @@ namespace PL
                         MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
                         switch (messageBoxResult)
                         {
-
                             case MessageBoxResult.OK:
                                 int idParcel = blGui.addParsel(parcel);
                                 parcelToListView.Add(blGui.DisplaysIistOfparcels().First(i => i.Id == idParcel));
@@ -272,45 +278,31 @@ namespace PL
                 case Actions.UPDATING:
                     if (addButton.Content == "הצג")
                     {
-                        parcelToList = parcelToListView.ToList().Find(i => i.Id == int.Parse(TxtBx_ID.Text.ToString()));
-                        if (parcelToList.Id != 0)
-                        {
-
+                        parcelToList = parcelToListView.ToList().Find(i => i.Id == parcel.Id);
                             BorderEnterNumber.Visibility = Visibility.Hidden;
                             update.Visibility = Visibility.Visible;
                             UpdatingWindow(parcelToList.Id);
-
-                        }
-                        else
-                        {
-                            MessageBox.Show("החבילה המבוקשת לא נמצאה", "אישור");
-                            Close();
-                        }
                     }
 
                     break;
                 case Actions.REMOVE:
-                    MessageBoxResult messageBoxResult1 = MessageBox.Show("האם ברצונך לאשר מחיקה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
-                    switch (messageBoxResult1)
-                    {
+                        MessageBoxResult messageBoxResolt = MessageBox.Show("האם ברצונך לאשר מחיקה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
+                        switch (messageBoxResolt)
+                        {
+                            case MessageBoxResult.OK:
+                                if (blGui.remuveParcel(parcel.Id))
+                                    MessageBox.Show("הפעולה בוצעה בהצלחה" + "\n מיד תוצג רשימת החבילות", "אישור");
+                                else
+                                    MessageBox.Show("החבילה לא ניתנת למחיקה" + "\n מיד תוצג רשימת החבילות", "אישור");
+                                new ParcelWindow(blGui, "List").Show();
+                                Close();
+                                break;
 
-                        case MessageBoxResult.OK:
-                            if (blGui.remuveParcel(int.Parse(TxtBx_ID.Text.ToString())))
-                                MessageBox.Show("הפעולה בוצעה בהצלחה" + "\n מיד תוצג רשימת החבילות", "אישור");
-                            else
-                                MessageBox.Show("החבילה לא ניתנת למחיקה" + "\n מיד תוצג רשימת החבילות", "אישור");
-                            new ParcelWindow(blGui, "List").Show();
-                            Close();
-                            break;
-
-                        case MessageBoxResult.Cancel:
-                            break;
-                        default:
-                            break;
-
-                            //    }
-                    }
-                   
+                            case MessageBoxResult.Cancel:
+                                break;
+                            default:
+                                break;
+                        }
                     break;
                 default:
                     break;

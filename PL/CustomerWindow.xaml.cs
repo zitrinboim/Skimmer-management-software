@@ -30,6 +30,9 @@ namespace PL
             action = _action;
             CustomersToListView = new();
             customerToList = new();
+            customer = new();
+            customer.location = new();
+            DataContext = customer;
             InitList();
             InitializeComponent();
             switch (action)
@@ -43,6 +46,10 @@ namespace PL
                     addButton.Content = "הצג";
                     Close.Content = "סגור";
                     actions = Actions.UPDATING;
+                    List<CustomerToList> customers   = blGui.DisplaysIistOfCustomers().ToList();
+                    var customerCombo = from item in customers
+                                     select item.Id;
+                    comboID.ItemsSource = customerCombo;
                     break;
                 case "Add":
                     AddWindow();
@@ -65,9 +72,6 @@ namespace PL
             List.Visibility = Visibility.Hidden;
             Updating.Visibility = Visibility.Hidden;
             Add.Visibility = Visibility.Visible;
-            customer = new();
-            customer.location = new();
-            DataContext = customer;
         }
 
         private void ListWindow()
@@ -145,19 +149,12 @@ namespace PL
                 case Actions.UPDATING:
                     if (addButton.Content == "הצג")
                     {
-                        var idFind = CustomersToListView.ToList().Find(i => i.Id == int.Parse(TxtBx_ID.Text.ToString()));
-                        if (idFind != default)
-                        {
+                        customerToList = CustomersToListView.ToList().Find(i => i.Id == customer.Id);
+                        
                             BorderEnterNumber.Visibility = Visibility.Hidden;
                             update.Visibility = Visibility.Visible;
-                            UpdatingWindow(idFind.Id);
-                        }
-                        else
-                        {
-                            MessageBox.Show("הלקוח המבוקש לא נמצא", "אישור");
-                            Close();
-                        }
-                        break;
+                            UpdatingWindow(customerToList.Id);
+                        
                     }
                     break;
                 case Actions.REMOVE:
@@ -214,8 +211,9 @@ namespace PL
         }
         private void onlyNumbersForID(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new("[^0-9]$");
-            e.Handled = regex.IsMatch(e.Text);
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regex = new("^[0-9]{0,9}$");
+            e.Handled = !regex.IsMatch(temp);
         }
         private void phonePattren(object sender, TextCompositionEventArgs e)
         {
