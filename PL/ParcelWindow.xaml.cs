@@ -33,8 +33,6 @@ namespace PL
         string action;
         public ParcelWindow(IBL bL, string _action = "", int id = 0)
         {
-            //parcelToListGroping = new();
-
             blGui = bL;
             actions = new();
             action = _action;
@@ -133,13 +131,12 @@ namespace PL
             List<CustomerToList> customerTos = blGui.DisplaysIistOfCustomers().ToList();
             var customers = from item in customerTos
                             select item.Id;
-
-            comboBoxOfsander.ItemsSource = customers;
-            comboBoxOftarget.ItemsSource = customers;
+            comboBoxOfsander.ItemsSource = customerTos;
+            comboBoxOftarget.ItemsSource = customerTos;
         }
+
         private void UpdatingWindow(int id)
         {
-
             try
             {
                 actions = Actions.UPDATING;
@@ -175,7 +172,6 @@ namespace PL
                 MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
                 MessageBoxResult.None, MessageBoxOptions.RightAlign);
             }
-
         }
 
         public void InitList()
@@ -274,7 +270,6 @@ namespace PL
                                     break;
                                 default:
                                     break;
-
                             }
                         }
                         else
@@ -302,7 +297,6 @@ namespace PL
                                 new ParcelWindow(blGui, "List").Show();
                                 Close();
                                 break;
-
                             case MessageBoxResult.Cancel:
                                 break;
                             default:
@@ -317,7 +311,7 @@ namespace PL
             {
                 MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
                 MessageBoxResult.None, MessageBoxOptions.RightAlign);
-            } 
+            }
             catch (BO.IdExistExeptions ex)
             {
                 MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
@@ -342,7 +336,6 @@ namespace PL
                     new CustomerWindow(blGui, "List").Show();
                     Close();
                     break;
-
                 default:
                     Close();
                     break;
@@ -377,7 +370,6 @@ namespace PL
             Close();
         }
 
-
         CollectionView myView;
         private void AddGrouping()
         {
@@ -390,17 +382,12 @@ namespace PL
                 myView.GroupDescriptions.Add(groupDescription);
             }
             else
-            {
                 return;
-            }
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
         }
-
-
     }
 }

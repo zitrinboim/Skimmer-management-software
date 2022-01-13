@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d" 
-        Title="DroneWindow" Height="450" Width="640" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Title="DroneWindow" Height="450" Width="640" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"     MouseDown="Window_MouseDown" >
     
     <Border BorderThickness="2" BorderBrush="LightBlue" Background="AliceBlue" CornerRadius="20" Padding="10">

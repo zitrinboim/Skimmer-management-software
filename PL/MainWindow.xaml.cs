@@ -41,7 +41,8 @@ namespace PL
 
         private void Button_Click_CloseWindow(object sender, RoutedEventArgs e)
         {
-            this.Close();
+
+            Application.Current.Shutdown();//לבדוק שזה מסתדר עם הסימולטור שלא ייסגר באמצע פעולה.
         }
         private void Button_Click_MinimizeWindow(object sender, RoutedEventArgs e)
         {

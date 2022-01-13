@@ -95,7 +95,7 @@ namespace PL
                     customer = blGui.GetCustomer(id);
                 }
                 actions = Actions.UPDATING;
-                addButton.Visibility = Visibility.Hidden;
+                addButton.Content = "עדכן";
                 Close.Content = "סגור";
                 List.Visibility = Visibility.Hidden;
                 Updating.Visibility = Visibility.Visible;
@@ -171,8 +171,31 @@ namespace PL
                             BorderEnterNumber.Visibility = Visibility.Hidden;
                             update.Visibility = Visibility.Visible;
                             UpdatingWindow(customerToList.Id);
-
+                            break;
                         }
+                        if (customer.name != default&&customer.phone!=default)
+                        {
+                            MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר עדכון זה", "אישור", MessageBoxButton.OKCancel);
+                            switch (messageBoxResult)
+                            {
+                                case MessageBoxResult.OK:
+                                   
+                                    customerToList.name = customer.name;
+                                    customerToList.phone = customer.phone;
+                                    _ = blGui.updateCustomerData(customerToList.Id, customerToList.name, customerToList.phone);
+                                    MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
+                                    CustomerListView.SelectedItem = null;
+                                    ListWindow();
+                                    break;
+                                case MessageBoxResult.Cancel:
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        else
+                            MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+                        break;
                         break;
                     case Actions.REMOVE:
                         break;

@@ -413,18 +413,29 @@ namespace DalXml
         }
         public bool removeCustomer(int id)
         {
-            XElement elements = XMLTools.LoadListFromXMLElement(CustomerXml);
-            XElement xElement = elements.Elements().Where(elements => elements.Element("id").Value == id.ToString()).FirstOrDefault();
-            if (xElement != default)
+            //XElement elements = XMLTools.LoadListFromXMLElement(CustomerXml);
+            //XElement xElement = elements.Elements().Where(elements => elements.Element("id").Value == id.ToString()).FirstOrDefault();
+            //if (xElement != default)
+            //{
+            //    elements.Elements().Where(elements => elements.Element("id").Value == id.ToString()).Remove();
+            //    XMLTools.SaveListToXMLElement(elements, CustomerXml);
+            //    return true;
+            //}
+            //else
+            //{
+            //    throw new IdNotExistExeptions("sorry, this customer is not found.");
+            //}
+
+            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CustomerXml);
+
+            int find = customers.FindIndex(Customer => Customer.Id == id);
+            if (find != -1)
             {
-                elements.Elements().Where(elements => elements.Element("id").Value == id.ToString()).Remove();
-                XMLTools.SaveListToXMLElement(elements, CustomerXml);
+                customers.RemoveAt(find);
+                XMLTools.SaveListToXMLSerializer(customers, CustomerXml);
                 return true;
             }
-            else
-            {
-                throw new IdNotExistExeptions("sorry, this customer is not found.");
-            }
+            throw new IdNotExistExeptions("sorry, this customer is not found.");
         }
         public bool removeParcel(int id)
         {

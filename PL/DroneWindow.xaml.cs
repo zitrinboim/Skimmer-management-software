@@ -61,7 +61,13 @@ namespace PL
                 case "Add":
                     AddWindow();
                     break;
-                case "ByStation":
+                case "ByStation" :
+                    if (id != 0)
+                    {
+                        UpdatingWindow(id);
+                    }
+                    break;
+                case "ByDrone":
                     if (id != 0)
                     {
                         UpdatingWindow(id);
@@ -242,8 +248,10 @@ namespace PL
                 droneToList = (DroneToList)DroneListView.SelectedItem;
                 if (droneToList != null)
                 {
-                    drone = blGui.GetDrone(droneToList.Id);
-                    UpdatingWindow(droneToList.Id);
+                    new DroneWindow(blGui, "ByDrone", droneToList.Id).Show();
+
+                    //  drone = blGui.GetDrone(droneToList.Id);
+                    //  UpdatingWindow(droneToList.Id);
                 }
             }
             catch (BO.IdNotExistExeptions ex)
@@ -264,9 +272,9 @@ namespace PL
                         break;
                     case Actions.ADD:
 
-                        if (drone.Id != default && drone.Model != default && drone.MaxWeight != default && idStation != default)//להעביר את הבדיקה לאיז אנעבלעד 
+                        if (drone.Id != default && drone.Model != default && drone.MaxWeight != default && idStation != default) 
                         {
-                            MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
+                            MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);
                             switch (messageBoxResult)
                             {
 
@@ -308,7 +316,7 @@ namespace PL
                             UpdatingWindow(drone.Id);
                             break;
                         }
-                        if (drone.Model != default)//איז אנעבעלד
+                        if (drone.Model != default)
                         {
                             MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר עדכון זה", "אישור", MessageBoxButton.OKCancel);
                             switch (messageBoxResult)
