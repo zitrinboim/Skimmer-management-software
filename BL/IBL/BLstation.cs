@@ -2,6 +2,7 @@
 using BO;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,6 +64,7 @@ namespace BL
         /// </summary>
         /// <param name="station"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool addStation(Station station)//לזכור לעשות try catch 
         {
             try
@@ -93,6 +95,7 @@ namespace BL
         /// <param name="newName"></param>
         /// <param name="ChargingSlots"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool updateStationData(int Idstation, string newName, int ChargingSlots)
         {
             try
@@ -125,6 +128,7 @@ namespace BL
         /// </summary>
         /// <param name="stationId"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int stationId)
         {
             try
@@ -160,6 +164,7 @@ namespace BL
         /// </summary>
         /// <param name="stationId"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public StationToList GetStationToList(int stationId)
         {
             try
@@ -188,6 +193,7 @@ namespace BL
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> DisplaysIistOfStations(Predicate<StationToList> p = null)
         {
             try

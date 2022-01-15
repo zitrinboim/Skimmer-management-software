@@ -2,6 +2,7 @@
 using BO;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace BL
         /// <param name="weightCategories"></param>
         /// <param name="priorities"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int addParsel(Parcel parcel)
         {
             try
@@ -47,6 +49,12 @@ namespace BL
                 throw new IdExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parcelId"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int parcelId)
         {
             try
@@ -77,7 +85,14 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
-        public PackageInTransfer GetPackageInTransfer(int parcelId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="parcelId"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public PackageInTransfer GetPackageInTransfer(Location location, int parcelId)
         {
             try
             {
@@ -97,16 +112,22 @@ namespace BL
                 };
 
                 if (parcel.PickedUp == DateTime.MinValue)
+                {
                     packageInTransfer.packageInTransferStatus = PackageInTransferStatus.awaitingCollection;
+                    packageInTransfer.distance = d.DistanceBetweenPlaces(location, sanderLocation);
+                }
                 else
+                {
                     packageInTransfer.packageInTransferStatus = PackageInTransferStatus.OnTheWay;
+                    packageInTransfer.distance = d.DistanceBetweenPlaces(sanderLocation, targetLocation);
+
+                }
 
                 packageInTransfer.sander = GetCustomerInParcel(parcel.SenderId);
                 packageInTransfer.target = GetCustomerInParcel(parcel.TargetId);
 
                 packageInTransfer.targetPoint = targetLocation;
                 packageInTransfer.startingPoint = sanderLocation;
-                packageInTransfer.distance = d.DistanceBetweenPlaces(sanderLocation, targetLocation);
 
                 return packageInTransfer;
 
@@ -120,6 +141,13 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parcelId"></param>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public ParcelInCustomer GetParcelInCustomer(int parcelId, int customerId)
         {
             try
@@ -150,6 +178,12 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parcelId"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool remuveParcel(int parcelId)
         {
             try
@@ -168,6 +202,12 @@ namespace BL
             }
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parcelId"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public ParcelToList GetParcelToList(int parcelId)
         {
             try
@@ -198,6 +238,7 @@ namespace BL
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> DisplaysIistOfparcels(Predicate<ParcelToList> p = null)
         {
             List<ParcelToList> parcelToLists = new();

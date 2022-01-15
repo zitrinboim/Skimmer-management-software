@@ -32,6 +32,7 @@ namespace DalXml
         //    XMLTools.SaveListToXMLSerializer(DataSource.droneCarges, DroneChargeXml);
         //}
         private DalXml() { }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool addStation(Station station)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
@@ -54,6 +55,7 @@ namespace DalXml
         /// </summary>
         /// <param name="drone"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool addDrone(Drone drone)
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
@@ -74,6 +76,7 @@ namespace DalXml
         /// </summary>
         /// <param name="customer"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool addCustomer(Customer customer)
         {
             XElement elements = XMLTools.LoadListFromXMLElement(CustomerXml);
@@ -96,6 +99,7 @@ namespace DalXml
         /// </summary>
         /// <param name="parcel"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int addParsel(Parcel parcel)
         {
             XElement xElement = XMLTools.LoadListFromXMLElement(configXml);
@@ -125,6 +129,7 @@ namespace DalXml
         ///  This function add element to the list of drinecarge.
         /// </summary>
         /// <param name="droneCarge"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void addDroneCarge(DroneCarge droneCarge)
         {
             List<DroneCarge> droneCarges = XMLTools.LoadListFromXMLSerializer<DroneCarge>(DroneChargeXml);
@@ -139,6 +144,7 @@ namespace DalXml
         /// <param name="parcelId"></param>
         /// <param name="droneId"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool AssignPackageToDrone(int parcelId, int droneId)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
@@ -165,6 +171,7 @@ namespace DalXml
         /// <param name="parcelId"></param>
         /// <param name="droneId"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool PackageCollectionByDrone(int parcelId)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
@@ -187,6 +194,7 @@ namespace DalXml
         /// <param name="parcelId"></param>
         /// <param name="droneId"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool DeliveryPackageToCustomer(int parcelId)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
@@ -208,6 +216,7 @@ namespace DalXml
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool ReleaseDroneCarge(int droneId)
         {
             List<DroneCarge> droneCarges = XMLTools.LoadListFromXMLSerializer<DroneCarge>(DroneChargeXml);
@@ -226,6 +235,7 @@ namespace DalXml
         /// </summary>
         /// <param name="stationId"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool addingCargeSlotsToStation(int stationId)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
@@ -248,6 +258,7 @@ namespace DalXml
         /// <param name="droneId"></param>
         /// <param name="stationId"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool reductionCargeSlotsToStation(int stationId)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
@@ -269,18 +280,31 @@ namespace DalXml
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station getStation(int Id)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
             Station getStation = stations.Find(Station => Station.Id == Id);
             return getStation.Id != default ? getStation : throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stationId"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCarge getDroneCargeByStationId(int stationId)
         {
             List<DroneCarge> droneCarges = XMLTools.LoadListFromXMLSerializer<DroneCarge>(DroneChargeXml);
             DroneCarge getDroneCarge = droneCarges.Find(DroneCarge => DroneCarge.StationId == stationId);
             return getDroneCarge.StationId != default ? getDroneCarge : throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCarge getDroneCargeByDroneId(int droneId)
         {
             List<DroneCarge> droneCarges = XMLTools.LoadListFromXMLSerializer<DroneCarge>(DroneChargeXml);
@@ -292,6 +316,7 @@ namespace DalXml
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone getDrone(int Id)
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
@@ -303,6 +328,7 @@ namespace DalXml
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer getCustomer(int Id)
         {
             XElement elements = XMLTools.LoadListFromXMLElement(CustomerXml);
@@ -325,6 +351,7 @@ namespace DalXml
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel getParcel(int Id)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
@@ -335,6 +362,7 @@ namespace DalXml
         /// This function transmits data of all existing stations.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> DisplaysIistOfStations(Predicate<Station> p = null)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
@@ -344,6 +372,7 @@ namespace DalXml
         /// This function transmits data of all existing drones.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> DisplaysTheListOfDrons(Predicate<Drone> p = null)
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
@@ -354,6 +383,7 @@ namespace DalXml
         /// This function transmits data of all existing customers.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> DisplaysIistOfCustomers(Predicate<Customer> p = null)
         {
             XElement elements = XMLTools.LoadListFromXMLElement(CustomerXml);
@@ -371,12 +401,14 @@ namespace DalXml
         /// This function transmits data of all existing parcels.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> DisplaysIistOfparcels(Predicate<Parcel> p = null)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
 
             return parcels.Where(d => p == null ? true : p(d)).ToList();
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] PowerConsumptionRate()
         {
             double[] powerConsumptionRate = new double[] {
@@ -386,6 +418,12 @@ namespace DalXml
             };
             return powerConsumptionRate;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool removeDrone(int id)
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
@@ -399,6 +437,12 @@ namespace DalXml
             }
             throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool removeStation(int id)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
@@ -411,21 +455,14 @@ namespace DalXml
             }
             throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool removeCustomer(int id)
         {
-            //XElement elements = XMLTools.LoadListFromXMLElement(CustomerXml);
-            //XElement xElement = elements.Elements().Where(elements => elements.Element("id").Value == id.ToString()).FirstOrDefault();
-            //if (xElement != default)
-            //{
-            //    elements.Elements().Where(elements => elements.Element("id").Value == id.ToString()).Remove();
-            //    XMLTools.SaveListToXMLElement(elements, CustomerXml);
-            //    return true;
-            //}
-            //else
-            //{
-            //    throw new IdNotExistExeptions("sorry, this customer is not found.");
-            //}
-
             List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CustomerXml);
 
             int find = customers.FindIndex(Customer => Customer.Id == id);
@@ -437,6 +474,12 @@ namespace DalXml
             }
             throw new IdNotExistExeptions("sorry, this customer is not found.");
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool removeParcel(int id)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);

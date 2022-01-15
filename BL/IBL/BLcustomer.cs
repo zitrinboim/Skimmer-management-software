@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,12 @@ namespace BL
 {
     public partial class BL : IBL
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool addCustomer(Customer customer)
         {
             try
@@ -30,7 +37,14 @@ namespace BL
                 throw new IdExistExeptions("ERORR" + Ex);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="IdCustomer"></param>
+        /// <param name="newName"></param>
+        /// <param name="newPhone"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool updateCustomerData(int IdCustomer, string newName, string newPhone)
         {
             try
@@ -53,7 +67,12 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR" + Ex);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public CustomerInParcel GetCustomerInParcel(int customerId)
         {
             try
@@ -67,6 +86,12 @@ namespace BL
                 throw new IdNotExistExeptions("Error: " + ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int customerId)
         {
             try
@@ -105,6 +130,12 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR" + Ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="customerID"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public CustomerToList GetCustomerToList(int customerID)
         {
             try
@@ -137,6 +168,12 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR" + Ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerToList> DisplaysIistOfCustomers(Predicate<CustomerToList> p = null)
         {
             try

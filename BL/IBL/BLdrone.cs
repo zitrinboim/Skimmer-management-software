@@ -2,6 +2,7 @@
 using BO;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,23 @@ namespace BL
 {
     public partial class BL : IBL
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <param name="updateDrone"></param>
+        /// <param name="cancellationThreading"></param>
+        public void droneSimolat(int droneId, Action updateDrone, Func<bool> cancellationThreading)
+        {
+            new DroneSimulator(this, droneId, updateDrone, cancellationThreading);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <param name="idStation"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool addDrone(Drone drone, int idStation = 0)
         {
             try
@@ -51,6 +69,13 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="newModel"></param>
+        /// <param name="IdDrone"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool updateModelOfDrone(string newModel, int IdDrone)
         {
             try
@@ -70,6 +95,12 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="IdDrone"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool SendDroneForCharging(int IdDrone)
         {
             try
@@ -110,15 +141,26 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
-
-        public int GetTheIdOfCloseStation(Drone drone)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="idDrone"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public int GetTheIdOfCloseStation(int idDrone)
         {
+            Drone drone = GetDrone(idDrone);
             List<DO.Station> stationWithFreeSlots = dal.DisplaysIistOfStations().ToList();
             DO.Station closeStation = TheNearestStation(drone.Location, stationWithFreeSlots);
             return closeStation.Id;
         }
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="IdDrone"></param>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool ReleaseDroneFromCharging(int IdDrone, int time)
         {
             try
@@ -150,6 +192,12 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="IdDrone"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool AssignPackageToDrone(int IdDrone)
         {
             try
@@ -235,6 +283,7 @@ namespace BL
         /// <param name="droneToList"></param>
         /// <param name="parcels"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Parcel TheNearestParcelToAssign(DroneToList droneToList, List<DO.Parcel> parcels)
         {
             try
@@ -267,6 +316,12 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="IdDrone"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool PackageCollectionByDrone(int IdDrone)
         {
             try
@@ -291,6 +346,12 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="IdDrone"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool DeliveryPackageToCustomer(int IdDrone)
         {
             try
@@ -340,6 +401,12 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int droneId)
         {
             try
@@ -358,7 +425,7 @@ namespace BL
                     Model = droneToList.Model
                 };
                 if (droneToList.parcelNumber != 0)
-                    drone.packageInTransfer = GetPackageInTransfer(droneToList.parcelNumber);
+                    drone.packageInTransfer = GetPackageInTransfer(droneToList.Location, droneToList.parcelNumber);
 
                 return drone;
             }
@@ -373,6 +440,12 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneInParcel GetDroneInParcel(int droneId)
         {
             DroneToList droneToList = droneToLists.Find(i => i.Id == droneId);
@@ -386,6 +459,12 @@ namespace BL
             };
             return droneInParcel;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> DisplaysIistOfDrons(Predicate<DroneToList> p = null)
         {
             return droneToLists.Where(d => p == null ? true : p(d)).ToList();

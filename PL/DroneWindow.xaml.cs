@@ -9,7 +9,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Text.RegularExpressions;
 using System.Windows.Data;
-
+using System.ComponentModel;
+using System.Threading;
 
 namespace PL
 {
@@ -118,12 +119,7 @@ namespace PL
 
             try
             {
-                if (action == "Updating")
-                {
-                    drone = blGui.GetDrone(id);
-                    droneToList = blGui.DisplaysIistOfDrons().First(i => i.Id == id);
-                }
-                else if (action == "ByStation" || action == "ByParcel")
+                 if (action == "ByStation" || action == "ByParcel"|| action == "Updating" || action == " ByDrone")
                 {
                     drone = blGui.GetDrone(id);
                     droneToList = blGui.DisplaysIistOfDrons().First(i => i.Id == id);
@@ -138,7 +134,7 @@ namespace PL
                     droneMaintenance.Visibility = Visibility.Visible;
                     packageAssociated.Text = "הרחפן בתחזוקה";
                     drone = blGui.GetDrone(droneToList.Id);
-                    station = blGui.GetStation(blGui.GetTheIdOfCloseStation(drone));
+                    station = blGui.GetStation(blGui.GetTheIdOfCloseStation(drone.Id));
                     stationIdltextBlock.Text = station.Id.ToString();
                     stationLoctionltextBlock.Text = station.location.ToString();
 
@@ -249,9 +245,6 @@ namespace PL
                 if (droneToList != null)
                 {
                     new DroneWindow(blGui, "ByDrone", droneToList.Id).Show();
-
-                    //  drone = blGui.GetDrone(droneToList.Id);
-                    //  UpdatingWindow(droneToList.Id);
                 }
             }
             catch (BO.IdNotExistExeptions ex)
@@ -386,7 +379,7 @@ namespace PL
                         {
                             NoParcel.Visibility = Visibility.Hidden;
                             YesParcel.Visibility = Visibility.Visible;
-                            drone = blGui.GetDrone(drone.Id);//שינינו שורות 73 74 בBLPARCEL
+                            drone = blGui.GetDrone(drone.Id);
                             UpdatingWindow(drone.Id);
                         }
                         else
@@ -419,8 +412,19 @@ namespace PL
                 Close();
             }
         }
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+
+        /* 
+         if(((button)sender)
+         */
+        private void CloseButton_Click(object sender, RoutedEventArgs e)//***********************
         {
+            BackgroundWorker backgroundWorker=new();
+            if (backgroundWorker != null && backgroundWorker.IsBusy == true)
+            {
+                //s = true;
+                MessageBox.Show("יש להפסיק את פעולת הסימולטור טרם סגירה");
+            }
+            //listOfIdDrons.remove(droneId);
             switch (action)
             {
                 case "List":

@@ -137,7 +137,7 @@ namespace BlApi
         /// </summary>
         /// <param name="parcelId"></param>
         /// <returns></returns>
-        public PackageInTransfer GetPackageInTransfer(int parcelId);
+        public PackageInTransfer GetPackageInTransfer(Location location,  int parcelId);
         /// <summary>
         /// This function returns the logical entity ParcelToList.
         /// </summary>
@@ -168,7 +168,7 @@ namespace BlApi
         /// </summary>
         /// <param name="drone"></param>
         /// <returns></returns>
-        public int GetTheIdOfCloseStation(Drone drone);
+        public int GetTheIdOfCloseStation(int idDrone);
         /// <summary>
         ///  this function get the id of close parcels to the drone.
         /// </summary>
