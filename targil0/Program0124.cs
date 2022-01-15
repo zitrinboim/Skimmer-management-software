@@ -3,9 +3,9 @@ namespace Targil0
 {
 	partial class program
 	{
-		static partial void welcome0124()
-		{
-            Console.WriteLine("I am also here!");
-		}
+		//static partial void Welcome0124()
+		//{
+  //          Console.WriteLine("I am also here!");
+		//}
 	}
 }

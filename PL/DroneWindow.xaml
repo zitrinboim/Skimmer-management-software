@@ -169,8 +169,7 @@
 
                                 </Grid.RowDefinitions>
 
-                                <Label Grid.Column="1" Grid.Row="0" Content="פרטי" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontWeight="Bold" />
-                                <Label Grid.Column="0" Grid.Row="0" Content=":הרחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontWeight="Bold" />
+                                <Label Grid.Column="1" Grid.Row="0" Content=":פרטי הרחפן" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontWeight="Bold" />
                                 <Label Grid.Column="1" Grid.Row="1" Content=":מספר מזהה"  />
                                 <Label Grid.Column="1" Grid.Row="2" Content=":מודל רחפן" />
                                 <Label Grid.Column="1" Grid.Row="3" Content=":משקל מקסימלי" FontSize="13" />
@@ -178,7 +177,7 @@
                                 <Label Grid.Column="1" Grid.Row="5" Content=":סטטוס רחפן"  />
                                 <Label Grid.Column="1" Grid.Row="6" Content=":מיקום"  />
 
-                                <!--לבדוק  האם יש צורך בבלוקים או שאפשר לעשות ריד אונלי וכדו'-->
+                                <Button x:Name="simolatorButton"  Grid.Column="0" Grid.Row="0" Content="סימולטור" Click="simolatorButton_Click"/>
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Id}"  />
                                 <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding Model}" />
                                 <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding MaxWeight}" />

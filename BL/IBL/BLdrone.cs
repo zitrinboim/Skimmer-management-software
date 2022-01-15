@@ -17,7 +17,7 @@ namespace BL
         /// <param name="droneId"></param>
         /// <param name="updateDrone"></param>
         /// <param name="cancellationThreading"></param>
-        public void droneSimolat(int droneId, Action updateDrone, Func<bool> cancellationThreading)
+        public void newSimulator(int droneId, Action updateDrone, Func<bool> cancellationThreading)
         {
             new DroneSimulator(this, droneId, updateDrone, cancellationThreading);
         }

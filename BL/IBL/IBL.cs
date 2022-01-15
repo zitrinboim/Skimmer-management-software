@@ -187,22 +187,12 @@ namespace BlApi
         /// <param name="parcelId"></param>
         /// <returns></returns>
         public bool remuveParcel(int parcelId);
-
-
-
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <param name="updateDrone"></param>
+        /// <param name="cancellationThreading"></param>
+        public void newSimulator(int droneId, Action updateDrone, Func<bool> cancellationThreading);
     }
-
-    //class Singelton { 
-    //    private Singelton() { }
-    //    public static Singelton instance;
-    //    public static Singelton getSingelton()
-    //    {
-    //        if (instance == null) 
-    //            instance = new Singelton();
-    //        return instance;
-    //    }
-    //}
-
 }

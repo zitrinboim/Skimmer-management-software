@@ -22,6 +22,7 @@ namespace PL
     public partial class DroneWindow : Window
     {
         private IBL blGui;
+        BackgroundWorker backgroundWorker;
         ObservableCollection<DroneToList> droneToListsView;
         private Drone drone;
         private DroneToList droneToList;
@@ -30,8 +31,9 @@ namespace PL
         Actions actions;
         string action;
         Station station;
+        DroneWindow parent;
 
-        public DroneWindow(IBL bL, string _action = "", int id = 0)
+        public DroneWindow(IBL bL, string _action = "", int id = 0, DroneWindow droneWindow = null)
         {
             blGui = bL;
             actions = new();
@@ -40,6 +42,7 @@ namespace PL
             droneToList = new();
             drone = new();
             DataContext = drone;
+            parent = droneWindow;
             InitList();
             InitializeComponent();
 
@@ -62,7 +65,7 @@ namespace PL
                 case "Add":
                     AddWindow();
                     break;
-                case "ByStation" :
+                case "ByStation":
                     if (id != 0)
                     {
                         UpdatingWindow(id);
@@ -119,7 +122,7 @@ namespace PL
 
             try
             {
-                 if (action == "ByStation" || action == "ByParcel"|| action == "Updating" || action == " ByDrone")
+                if (action == "ByStation" || action == "ByParcel" || action == "Updating" || action == "ByDrone")
                 {
                     drone = blGui.GetDrone(id);
                     droneToList = blGui.DisplaysIistOfDrons().First(i => i.Id == id);
@@ -244,7 +247,7 @@ namespace PL
                 droneToList = (DroneToList)DroneListView.SelectedItem;
                 if (droneToList != null)
                 {
-                    new DroneWindow(blGui, "ByDrone", droneToList.Id).Show();
+                    new DroneWindow(blGui, "ByDrone", droneToList.Id, this).Show();
                 }
             }
             catch (BO.IdNotExistExeptions ex)
@@ -265,7 +268,7 @@ namespace PL
                         break;
                     case Actions.ADD:
 
-                        if (drone.Id != default && drone.Model != default && drone.MaxWeight != default && idStation != default) 
+                        if (drone.Id != default && drone.Model != default && drone.MaxWeight != default && idStation != default)
                         {
                             MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);
                             switch (messageBoxResult)
@@ -320,9 +323,11 @@ namespace PL
                                         relase.IsChecked = false;
                                         blGui.ReleaseDroneFromCharging(drone.Id, 7);
                                         BorderStation.Visibility = Visibility.Hidden;
+                                        
                                     }
                                     droneToList.Model = drone.Model;
                                     _ = blGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
+                                    refreshParent();
                                     MessageBox.Show("העדכון בוצע בהצלחה\n מיד תוצג רשימת הרחפנים", "אישור");
                                     DroneListView.SelectedItem = null;
                                     ListWindow();
@@ -353,7 +358,7 @@ namespace PL
                 MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
                     MessageBoxResult.None, MessageBoxOptions.RightAlign);
                 Close();
-            } 
+            }
             catch (BO.ChargingExeptions ex)
             {
                 MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
@@ -380,7 +385,9 @@ namespace PL
                             NoParcel.Visibility = Visibility.Hidden;
                             YesParcel.Visibility = Visibility.Visible;
                             drone = blGui.GetDrone(drone.Id);
+                            refreshParent();
                             UpdatingWindow(drone.Id);
+                            
                         }
                         else
                         {
@@ -398,7 +405,7 @@ namespace PL
                 MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
                     MessageBoxResult.None, MessageBoxOptions.RightAlign);
                 Close();
-            } 
+            }
             catch (BO.IdExistExeptions ex)
             {
                 MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
@@ -413,12 +420,10 @@ namespace PL
             }
         }
 
-        /* 
-         if(((button)sender)
-         */
+
         private void CloseButton_Click(object sender, RoutedEventArgs e)//***********************
         {
-            BackgroundWorker backgroundWorker=new();
+            BackgroundWorker backgroundWorker = new();
             if (backgroundWorker != null && backgroundWorker.IsBusy == true)
             {
                 //s = true;
@@ -460,6 +465,7 @@ namespace PL
                 }
                 else
                 {
+                    refreshParent();
                     UpdatingWindow(drone.Id);
                 }
             }
@@ -496,6 +502,7 @@ namespace PL
                     }
                     else
                     {
+                        refreshParent();
                         drone = blGui.GetDrone(drone.Id);
                         UpdatingWindow(drone.Id);
                     }
@@ -508,6 +515,7 @@ namespace PL
                     }
                     else
                     {
+                        drone = blGui.GetDrone(drone.Id);
                         UpdatingWindow(drone.Id);
 
                     }
@@ -561,5 +569,112 @@ namespace PL
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
         }
+        private void refreshParent()
+        {
+
+            if (parent != null)
+            {
+                parent.DroneListView.Items.Refresh();
+                parent.AddGrouping();
+            }
+        }
+
+        private void helpProgressChanged() => backgroundWorker.ReportProgress(0);
+
+        private bool helpRunWorkerCompleted() => backgroundWorker.CancellationPending;
+
+        /// <summary>
+        /// start or stop simulation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void simolatorButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (simolatorButton.Content.ToString() == "סימולטור")
+            {
+                visibilatyButtonsFunction(false);
+
+                simolatorButton.Content = "עצור סימולטור";
+                backgroundWorker = new BackgroundWorker()
+                {
+                    WorkerSupportsCancellation = true,
+                    WorkerReportsProgress = true
+                };
+
+                backgroundWorker.DoWork += BackgroundWorker_DoWork;
+                backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
+                backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
+                backgroundWorker?.RunWorkerAsync();
+            }
+            else
+            {
+                simolatorButton.Content = "סימולטור";
+                // backgroundWorker.WorkerSupportsCancellation = false;
+                backgroundWorker?.CancelAsync();
+
+                //the drone in simulation
+                while (backgroundWorker != null && backgroundWorker.IsBusy == true)
+                {
+                    MessageBox.Show("Wait patiently for the simulator to close");
+                }
+                visibilatyButtonsFunction(true);
+
+            }
+        }
+
+        private void visibilatyButtonsFunction(bool bol)
+        {
+
+            if (bol == true)
+            {
+                parcelToDrone.Visibility = Visibility.Visible;
+                sand.Visibility = Visibility.Visible;
+                ActionParcelButton.Visibility = Visibility.Visible;
+                addButton.Visibility = Visibility.Visible;
+                Close.Visibility = Visibility.Visible;
+                relase.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                parcelToDrone.Visibility = Visibility.Hidden;
+                sand.Visibility = Visibility.Hidden;
+                ActionParcelButton.Visibility = Visibility.Hidden;
+                addButton.Visibility = Visibility.Hidden;
+                Close.Visibility = Visibility.Hidden;
+                relase.Visibility = Visibility.Hidden;
+            }
+        }
+        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+
+        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            refreshParent();
+        }
+        /// <summary>
+        /// refresh the window status drone propertis ans update source
+        /// </summary>
+        //private void refreshWindow()
+        //{
+        //    //update the po drone
+        //    MyDrone.updateFromBO(bl.GetDrone(MyDrone.Id));
+        //    //update the status of the window
+        //    updateWStatus();
+        //    //update the list in the source window
+        //    updateSourceWindow();
+        //}
+        /// <summary>
+        /// create and starte the drone simulation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            blGui.newSimulator(droneId, helpProgressChanged, helpRunWorkerCompleted);
+        }
+
+
     }
 }
