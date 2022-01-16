@@ -645,23 +645,7 @@ namespace PL
             refreshParent();
             UpdatingWindow(drone.Id);
         }
-        /// <summary>
-        /// refresh the window status drone propertis ans update source
-        /// </summary>
-        //private void refreshWindow()
-        //{
-        //    //update the po drone
-        //    MyDrone.updateFromBO(bl.GetDrone(MyDrone.Id));
-        //    //update the status of the window
-        //    updateWStatus();
-        //    //update the list in the source window
-        //    updateSourceWindow();
-        //}
-        /// <summary>
-        /// create and starte the drone simulation
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+      
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             blGui.newSimulator(drone.Id, helpProgressChanged, helpRunWorkerCompleted);
