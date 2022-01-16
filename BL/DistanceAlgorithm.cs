@@ -33,7 +33,7 @@ namespace BO
         internal  double DistanceBetweenPlaces( Location l1,Location l2)
         {
             double dlon = Radians(l2.longitude - l1.longitude);
-            double dlat = Radians(l2.longitude - l2.latitude);
+            double dlat = Radians(l2.latitude - l1.latitude);
 
             double a = (Math.Sin(dlat / 2) * Math.Sin(dlat / 2)) + Math.Cos(Radians(l1.latitude)) * Math.Cos(Radians(l2.latitude)) * (Math.Sin(dlon / 2) * Math.Sin(dlon / 2));
             double angle = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));

@@ -23,7 +23,6 @@ namespace PL
     /// </summary>
     public partial class ParcelWindow : Window
     {
-        //Dictionary<parcelStatus_WeightCategories_Priorities, List<ParcelToList>> parcelToListGroping;
         private IBL blGui;
         ObservableCollection<ParcelToList> parcelToListView;
         private Parcel parcel;
@@ -131,8 +130,8 @@ namespace PL
             List<CustomerToList> customerTos = blGui.DisplaysIistOfCustomers().ToList();
             var customers = from item in customerTos
                             select item.Id;
-            comboBoxOfsander.ItemsSource = customerTos;
-            comboBoxOftarget.ItemsSource = customerTos;
+            comboBoxOfsander.ItemsSource = customers;
+            comboBoxOftarget.ItemsSource = customers;
         }
 
         private void UpdatingWindow(int id)

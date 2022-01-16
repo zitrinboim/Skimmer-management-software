@@ -24,7 +24,7 @@ namespace Dal
             internal static double easy = 0.2;
             internal static double medium = 0.3;
             internal static double Heavy = 0.4;
-            internal static double ChargingRate =1.5;
+            internal static double ChargingRate =1.0;
         }
         /// <summary>
         /// Function for filling the lists with random values for checking the correctness of the data

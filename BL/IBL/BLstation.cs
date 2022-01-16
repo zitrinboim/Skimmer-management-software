@@ -17,7 +17,7 @@ namespace BL
         /// <param name="customerLocation"></param>
         /// <param name="stations"></param>
         /// <returns></returns>
-        private Location TheLocationForTheNearestStation(Location customerLocation, List<DO.Station> stations)
+        public Location TheLocationForTheNearestStation(Location customerLocation, List<DO.Station> stations)
         {
             DO.Station closeStation = stations[0];
             double distance = double.MaxValue;
@@ -189,7 +189,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// Displays the list of all the drones.
+        /// Displays the list of all the stations.
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>

@@ -194,5 +194,13 @@ namespace BlApi
         /// <param name="updateDrone"></param>
         /// <param name="cancellationThreading"></param>
         public void newSimulator(int droneId, Action updateDrone, Func<bool> cancellationThreading);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="customerLocation"></param>
+        /// <param name="stations"></param>
+        /// <returns></returns>
+        public Location TheLocationForTheNearestStation(Location customerLocation, List<DO.Station> stations);
+
     }
 }

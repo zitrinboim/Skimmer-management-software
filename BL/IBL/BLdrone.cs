@@ -172,7 +172,7 @@ namespace BL
                 {
                     int droneIndex = droneToLists.FindIndex(i => i.Id == IdDrone);
                     drone.battery += (time * ChargingRate);
-                    if (drone.battery > 100)
+                    if (drone.battery > 100|| drone.battery < 100)
                         drone.battery = 100;
                     drone.DroneStatuses = DroneStatuses.available;
                     droneToLists[droneIndex] = drone;
@@ -190,6 +190,19 @@ namespace BL
             catch (DO.IdNotExistExeptions Ex)
             {
                 throw new IdNotExistExeptions("ERORR", Ex);
+            }
+        }
+        private double dddd(int droneId)
+        {
+            try
+            {
+                Drone drone = GetDrone(droneId);
+                return 1.0;
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
         /// <summary>

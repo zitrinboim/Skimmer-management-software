@@ -1,0 +1,18 @@
+﻿<Window x:Class="PL.PleaseWaitWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+         Title="PleaseWaitWindow" Height="180" Width="400" WindowStyle="None" FlowDirection="RightToLeft"
+        AllowsTransparency="True" Background="Transparent" >
+
+    <Border BorderThickness="5" BorderBrush="LightBlue" Background="AliceBlue" CornerRadius="20" Padding="10">
+        <StackPanel>
+            <TextBlock Margin="0 20 0 15" Text="אנא המתן לסגירת הסימולטור..." FontSize="20" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <TextBlock Margin="0 0 0 10" Text="פעולה זו עשויה להימשך זמן מה. נא התאזר בסבלנות." FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <ProgressBar x:Name="ProgressBarSimulator" Minimum="0" Maximum="100" IsIndeterminate="True" Height="30" Margin="5 10"/>
+        </StackPanel>
+    </Border>
+</Window>

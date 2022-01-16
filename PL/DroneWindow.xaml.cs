@@ -27,7 +27,6 @@ namespace PL
         private Drone drone;
         private DroneToList droneToList;
         private int idStation;
-        int droneId;
         Actions actions;
         string action;
         Station station;
@@ -421,15 +420,9 @@ namespace PL
         }
 
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)//***********************
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            BackgroundWorker backgroundWorker = new();
-            if (backgroundWorker != null && backgroundWorker.IsBusy == true)
-            {
-                //s = true;
-                MessageBox.Show("יש להפסיק את פעולת הסימולטור טרם סגירה");
-            }
-            //listOfIdDrons.remove(droneId);
+           
             switch (action)
             {
                 case "List":
@@ -590,35 +583,33 @@ namespace PL
         /// <param name="e"></param>
         private void simolatorButton_Click(object sender, RoutedEventArgs e)
         {
+            PleaseWaitWindow pleaseWaitWindow=new PleaseWaitWindow();
             if (simolatorButton.Content.ToString() == "סימולטור")
             {
                 visibilatyButtonsFunction(false);
 
                 simolatorButton.Content = "עצור סימולטור";
-                backgroundWorker = new BackgroundWorker()
-                {
-                    WorkerSupportsCancellation = true,
-                    WorkerReportsProgress = true
-                };
-
+                backgroundWorker = new BackgroundWorker();
                 backgroundWorker.DoWork += BackgroundWorker_DoWork;
                 backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
                 backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
+                backgroundWorker.WorkerSupportsCancellation = true;
+                backgroundWorker.WorkerReportsProgress = true;
                 backgroundWorker?.RunWorkerAsync();
             }
             else
             {
                 simolatorButton.Content = "סימולטור";
-                // backgroundWorker.WorkerSupportsCancellation = false;
                 backgroundWorker?.CancelAsync();
 
                 //the drone in simulation
                 while (backgroundWorker != null && backgroundWorker.IsBusy == true)
                 {
-                    MessageBox.Show("Wait patiently for the simulator to close");
+                    pleaseWaitWindow.ShowDialog();
                 }
+                pleaseWaitWindow.Close();
                 visibilatyButtonsFunction(true);
-
+              
             }
         }
 
@@ -652,6 +643,7 @@ namespace PL
         private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             refreshParent();
+            UpdatingWindow(drone.Id);
         }
         /// <summary>
         /// refresh the window status drone propertis ans update source
@@ -672,7 +664,7 @@ namespace PL
         /// <param name="e"></param>
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            blGui.newSimulator(droneId, helpProgressChanged, helpRunWorkerCompleted);
+            blGui.newSimulator(drone.Id, helpProgressChanged, helpRunWorkerCompleted);
         }
 
 
