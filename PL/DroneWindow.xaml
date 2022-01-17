@@ -4,9 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
-        mc:Ignorable="d" 
+        xmlns:con="clr-namespace:PL"
+    mc:Ignorable="d" 
         Title="DroneWindow" Height="450" Width="640" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"     MouseDown="Window_MouseDown" >
+    <Window.Resources>
+        <con:ConertLattedue x:Key="ConertLattedue"/>
+        <con:ConertLongetude x:Key="ConertLongetude"/>
+
+    </Window.Resources>
     
     <Border BorderThickness="2" BorderBrush="LightBlue" Background="AliceBlue" CornerRadius="20" Padding="10">
 
@@ -44,23 +50,28 @@
                     <ListView x:Name="DroneListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}" SelectionChanged="DroneListView_SelectionChanged"  >
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="מזהה"  Width="80" DisplayMemberBinding="{Binding Id}"/>
-                                <GridViewColumn Header="סוללה" Width="80" DisplayMemberBinding="{Binding battery, StringFormat=0.00}"/>
-                                <GridViewColumn Header="מיקום" Width="180" DisplayMemberBinding="{Binding Location}"/>
-                                <GridViewColumn Header="דגם" Width="80" DisplayMemberBinding="{Binding Model}"/>
-                                <GridViewColumn Header="משקל" Width="80" DisplayMemberBinding="{Binding MaxWeight}"/>
-                                <GridViewColumn Header="סטטוס" Width="100" DisplayMemberBinding="{Binding DroneStatuses}"/>
+                                <GridViewColumn Header="????"  Width="75" DisplayMemberBinding="{Binding Id}"/>
+                                <GridViewColumn Header="?????" Width="80" DisplayMemberBinding="{Binding battery, StringFormat=0.00}"/>
+                                <GridViewColumn Header="???" Width="75" DisplayMemberBinding="{Binding Model}"/>
+                                <GridViewColumn Header="????" Width="80" DisplayMemberBinding="{Binding MaxWeight}"/>
+                                <GridViewColumn Header="?????" Width="100" DisplayMemberBinding="{Binding DroneStatuses}"/>
+                                <GridViewColumn Header="?????" Width="190">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0}/{1}">
+                                                        <Binding Path="Location.longitude" Converter="{StaticResource ConertLongetude}"/>
+                                                        <Binding Path="Location.latitude" Converter="{StaticResource ConertLattedue}"/>
+
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
-                        <ListView.GroupStyle>
-                            <GroupStyle>
-                                <GroupStyle.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock  FontWeight="Bold" FontSize="15"  Text="{Binding Name}" Foreground="Black"/>
-                                    </DataTemplate>
-                                </GroupStyle.HeaderTemplate>
-                            </GroupStyle>
-                        </ListView.GroupStyle>
                     </ListView>
                 </Grid>
 
@@ -183,7 +194,14 @@
                                 <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding MaxWeight}" />
                                 <TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding battery, StringFormat=0.00 }"/>
                                 <TextBlock Grid.Column="0" Grid.Row="5" Text="{Binding DroneStatuses}" />
-                                <TextBlock Grid.Column="0" Grid.Row="6" Text="{Binding  Location}" />
+                                <TextBlock Grid.Column="0" Grid.Row="6">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}/{1}">
+                                            <Binding Path="Location.longitude" Converter="{StaticResource ConertLongetude}"/>
+                                            <Binding Path="Location.latitude" Converter="{StaticResource ConertLattedue}"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
                             </Grid>
                         </Border>
                         <Grid Grid.Column="0">
