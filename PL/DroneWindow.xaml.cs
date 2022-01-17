@@ -247,6 +247,7 @@ namespace PL
                 if (droneToList != null)
                 {
                     new DroneWindow(blGui, "ByDrone", droneToList.Id, this).Show();
+                    DroneListView.SelectedItem = null;
                 }
             }
             catch (BO.IdNotExistExeptions ex)
@@ -581,20 +582,23 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void simolatorButton_Click(object sender, RoutedEventArgs e)
+     
+       
+         private void simolatorButton_Click(object sender, RoutedEventArgs e)
         {
-            PleaseWaitWindow pleaseWaitWindow=new PleaseWaitWindow();
+            //PleaseWaitWindow pleaseWaitWindow=new PleaseWaitWindow();
             if (simolatorButton.Content.ToString() == "סימולטור")
             {
                 visibilatyButtonsFunction(false);
 
                 simolatorButton.Content = "עצור סימולטור";
                 backgroundWorker = new BackgroundWorker();
+                backgroundWorker.WorkerSupportsCancellation = true;
+                backgroundWorker.WorkerReportsProgress = true;
                 backgroundWorker.DoWork += BackgroundWorker_DoWork;
                 backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
                 backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
-                backgroundWorker.WorkerSupportsCancellation = true;
-                backgroundWorker.WorkerReportsProgress = true;
+               
                 backgroundWorker?.RunWorkerAsync();
             }
             else
@@ -603,11 +607,12 @@ namespace PL
                 backgroundWorker?.CancelAsync();
 
                 //the drone in simulation
-                while (backgroundWorker != null && backgroundWorker.IsBusy == true)
+                while(backgroundWorker != null && backgroundWorker.IsBusy == true)
                 {
-                    pleaseWaitWindow.ShowDialog();
+                    MessageBox.Show( "אנא המתן לסיום התהליך");
+                    //new PleaseWaitWindow().ShowDialog();
                 }
-                pleaseWaitWindow.Close();
+                //pleaseWaitWindow.Close();
                 visibilatyButtonsFunction(true);
               
             }
@@ -618,12 +623,9 @@ namespace PL
 
             if (bol == true)
             {
-                parcelToDrone.Visibility = Visibility.Visible;
-                sand.Visibility = Visibility.Visible;
-                ActionParcelButton.Visibility = Visibility.Visible;
+                UpdatingWindow(drone.Id);
                 addButton.Visibility = Visibility.Visible;
                 Close.Visibility = Visibility.Visible;
-                relase.Visibility = Visibility.Visible;
             }
             else
             {
@@ -650,7 +652,6 @@ namespace PL
         {
             blGui.newSimulator(drone.Id, helpProgressChanged, helpRunWorkerCompleted);
         }
-
-
+         
     }
 }

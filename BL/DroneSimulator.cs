@@ -115,9 +115,10 @@ namespace BL
 
                             if (drone.packageInTransfer.packageInTransferStatus == PackageInTransferStatus.awaitingCollection)
                             {
-                                locationDinamic(sander);
+                                locationDinamic(sander, available);
                                 lock (BL)
                                 {
+                                    drone.battery += drone.packageInTransfer.distance * available;
                                     BL.PackageCollectionByDrone(droneId);
                                     actionInSimulator();
                                 }
@@ -125,9 +126,25 @@ namespace BL
                             }
                             else
                             {
-                                locationDinamic(target);
+                                double weight = easy;
+                                switch (drone.packageInTransfer.weight)
+                                {
+                                    case WeightCategories.easy:
+                                        weight = easy;
+                                        break;
+                                    case WeightCategories.medium:
+                                        weight = medium;
+                                        break;
+                                    case WeightCategories.heavy:
+                                        weight = Heavy;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                locationDinamic(target, weight);
                                 lock (BL)
                                 {
+                                    drone.battery += drone.packageInTransfer.distance * weight;
                                     BL.DeliveryPackageToCustomer(droneId);
                                     actionInSimulator();
                                 }
@@ -140,7 +157,7 @@ namespace BL
 
         }
 
-        private void locationDinamic(Customer customer)
+        private void locationDinamic(Customer customer, double weight)
         {
             km = (int)drone.packageInTransfer.distance;
             disLocationsX = customer.location.longitude - drone.Location.longitude;
@@ -149,6 +166,7 @@ namespace BL
             {
                 droneToList.Location.longitude += (disLocationsX / km);
                 droneToList.Location.latitude += (disLocationsY / km);
+                droneToList.battery -= weight;
                 actionInSimulator();
                 Thread.Sleep(DELAY);
 

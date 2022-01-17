@@ -17,9 +17,9 @@
     <Border BorderThickness="2" BorderBrush="LightBlue" Background="AliceBlue" CornerRadius="20" Padding="10">
 
         <Grid>
-            <Grid.Background>
+            <!--<Grid.Background>
                 <ImageBrush ImageSource="/images.jpg" Stretch="Fill" TileMode="None" Opacity="0.6"/>
-            </Grid.Background>
+            </Grid.Background>-->
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="5*"/>
@@ -50,12 +50,12 @@
                     <ListView x:Name="DroneListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}" SelectionChanged="DroneListView_SelectionChanged"  >
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="????"  Width="75" DisplayMemberBinding="{Binding Id}"/>
-                                <GridViewColumn Header="?????" Width="80" DisplayMemberBinding="{Binding battery, StringFormat=0.00}"/>
-                                <GridViewColumn Header="???" Width="75" DisplayMemberBinding="{Binding Model}"/>
-                                <GridViewColumn Header="????" Width="80" DisplayMemberBinding="{Binding MaxWeight}"/>
-                                <GridViewColumn Header="?????" Width="100" DisplayMemberBinding="{Binding DroneStatuses}"/>
-                                <GridViewColumn Header="?????" Width="190">
+                                <GridViewColumn Header="מזהה"  Width="75" DisplayMemberBinding="{Binding Id}"/>
+                                <GridViewColumn Header="סוללה" Width="80" DisplayMemberBinding="{Binding battery, StringFormat=0.00}"/>
+                                <GridViewColumn Header="דגם" Width="75" DisplayMemberBinding="{Binding Model}"/>
+                                <GridViewColumn Header="משקל" Width="80" DisplayMemberBinding="{Binding MaxWeight}"/>
+                                <GridViewColumn Header="סטטוס" Width="100" DisplayMemberBinding="{Binding DroneStatuses}"/>
+                                <GridViewColumn Header="מיקום" Width="190">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock>
