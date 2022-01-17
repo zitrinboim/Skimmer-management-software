@@ -69,7 +69,7 @@ namespace BlApi
         /// <param name="IdDrone"></param>
         /// <param name="time"></param>
         /// <returns></returns>
-        bool ReleaseDroneFromCharging(int IdDrone, int time);
+        bool ReleaseDroneFromCharging(int IdDrone);
         /// <summary>
         /// This function assigns a package to the drone.(By three functions: AssignStep1, AssignStep2, and TheNearestParcelToAssign).
         /// </summary>

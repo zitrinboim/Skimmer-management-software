@@ -321,7 +321,7 @@ namespace PL
                                     if (relase.IsChecked == true)
                                     {
                                         relase.IsChecked = false;
-                                        blGui.ReleaseDroneFromCharging(drone.Id, 7);
+                                        blGui.ReleaseDroneFromCharging(drone.Id);
                                         BorderStation.Visibility = Visibility.Hidden;
                                         
                                     }

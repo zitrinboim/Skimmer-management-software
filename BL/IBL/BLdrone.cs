@@ -117,7 +117,7 @@ namespace BL
                     double KM = d.DistanceBetweenPlaces(drone.Location, stationLocation);//Looking for the nearest available station.
 
                     if (drone.battery < (KM * available))
-                        throw new ChargingExeptions("אין מספיק בטרייה להגעה לתחנה"); 
+                        throw new ChargingExeptions("אין מספיק בטרייה להגעה לתחנה");
                     else
                     {
                         int droneIndex = droneToLists.FindIndex(i => i.Id == IdDrone);
@@ -127,7 +127,7 @@ namespace BL
                         droneToLists[droneIndex] = drone;
 
                         _ = dal.reductionCargeSlotsToStation(closeStation.Id);
-                        dal.addDroneCarge(new() { DroneID = drone.Id, StationId = closeStation.Id });
+                        dal.addDroneCarge(new() { DroneID = drone.Id, StationId = closeStation.Id, startTime = DateTime.Now });
                         return true;
                     }
                 }
@@ -161,7 +161,7 @@ namespace BL
         /// <param name="time"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public bool ReleaseDroneFromCharging(int IdDrone, int time)
+        public bool ReleaseDroneFromCharging(int IdDrone)
         {
             try
             {
@@ -171,13 +171,15 @@ namespace BL
                 else
                 {
                     int droneIndex = droneToLists.FindIndex(i => i.Id == IdDrone);
-                    drone.battery += (time * ChargingRate);
-                    if (drone.battery > 100|| drone.battery < 100)
-                        drone.battery = 100;
+                    //calculate the time that drone was in charging
+                    var droneCarge = dal.getDroneCargeByDroneId(IdDrone);
+                    TimeSpan chargingTime = DateTime.Now - droneCarge.startTime;
+
+                    //add to drone battery (charging time)*(charging per hour)  or max value  for battery "100"
+                    drone.battery = Math.Min(100, (double)drone.battery + chargingTime.TotalSeconds * ChargingRate);
                     drone.DroneStatuses = DroneStatuses.available;
                     droneToLists[droneIndex] = drone;
 
-                    DO.DroneCarge droneCarge = dal.getDroneCargeByDroneId(IdDrone);
                     bool addingTest = dal.addingCargeSlotsToStation(droneCarge.StationId);
                     bool removeTest = dal.ReleaseDroneCarge(IdDrone);
                     return true;
@@ -190,19 +192,6 @@ namespace BL
             catch (DO.IdNotExistExeptions Ex)
             {
                 throw new IdNotExistExeptions("ERORR", Ex);
-            }
-        }
-        private double dddd(int droneId)
-        {
-            try
-            {
-                Drone drone = GetDrone(droneId);
-                return 1.0;
-            }
-            catch (Exception)
-            {
-
-                throw;
             }
         }
         /// <summary>

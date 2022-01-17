@@ -6,33 +6,13 @@
     <MaxWeight>easy</MaxWeight>
   </Drone>
   <Drone>
-    <Id>1213</Id>
-    <Model>F41</Model>
-    <MaxWeight>heavy</MaxWeight>
-  </Drone>
-  <Drone>
-    <Id>15</Id>
-    <Model>F40</Model>
-    <MaxWeight>medium</MaxWeight>
-  </Drone>
-  <Drone>
     <Id>10</Id>
     <Model>F40</Model>
     <MaxWeight>heavy</MaxWeight>
   </Drone>
   <Drone>
-    <Id>6565</Id>
-    <Model>hjj</Model>
-    <MaxWeight>heavy</MaxWeight>
-  </Drone>
-  <Drone>
     <Id>5</Id>
     <Model>F40</Model>
-    <MaxWeight>easy</MaxWeight>
-  </Drone>
-  <Drone>
-    <Id>205</Id>
-    <Model>njn</Model>
     <MaxWeight>easy</MaxWeight>
   </Drone>
   <Drone>
@@ -44,5 +24,25 @@
     <Id>1233</Id>
     <Model>555</Model>
     <MaxWeight>easy</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>6565</Id>
+    <Model>hjj</Model>
+    <MaxWeight>heavy</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>205</Id>
+    <Model>njn</Model>
+    <MaxWeight>easy</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>15</Id>
+    <Model>F40</Model>
+    <MaxWeight>medium</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>1213</Id>
+    <Model>F41</Model>
+    <MaxWeight>heavy</MaxWeight>
   </Drone>
 </ArrayOfDrone>

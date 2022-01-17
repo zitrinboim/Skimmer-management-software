@@ -7,17 +7,18 @@ using System.Threading.Tasks;
 
 
 
-    namespace DO
+namespace DO
+{
+    public struct DroneCarge
     {
-        public struct DroneCarge
+        public int DroneID { get; set; }
+        public int StationId { get; set; }
+        public DateTime startTime { get; set; }
+        public override string ToString()
         {
-            public int DroneID { get; set; }
-            public int StationId { get; set; }
-            public override string ToString()
-            {
-                return string.Format("DroneCarge\nDrone I.D{0}\t Station I.D{1}", DroneID, StationId);
-            }
+            return string.Format("DroneCarge\nDrone I.D{0}\t Station I.D{1}", DroneID, StationId);
         }
     }
+}
 
 

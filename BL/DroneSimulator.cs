@@ -73,7 +73,7 @@ namespace BL
                                     {
                                         StationToList stationToList = BL.DisplaysIistOfStations(i => i.Id == BL.GetTheIdOfCloseStation(droneId)).First();
                                         Station station = BL.GetStation(stationToList.Id);
-                                        BL.ReleaseDroneFromCharging(station.droneInCargeings.First().Id, 7);
+                                        BL.ReleaseDroneFromCharging(station.droneInCargeings.First().Id);
                                         BL.SendDroneForCharging(droneId);
                                         actionInSimulator();
                                         Thread.Sleep(DELAY * 2);
@@ -92,16 +92,16 @@ namespace BL
                             while (droneToList.battery < 100)
                             {
                                 if (droneToList.battery + 3.0 < 100)
-                                    droneToList.battery += 3.0;
+                                    droneToList.battery += 1.0;
                                 else
                                     droneToList.battery = 100.0;
 
-                                Thread.Sleep(DELAY * 3);
+                                Thread.Sleep(DELAY /3);
                                 actionInSimulator();
                             }
                             lock (BL)
                             {
-                                BL.ReleaseDroneFromCharging(droneId, 1);
+                                BL.ReleaseDroneFromCharging(droneId);
                                 actionInSimulator();
                             }
                             Thread.Sleep(DELAY * 2);
