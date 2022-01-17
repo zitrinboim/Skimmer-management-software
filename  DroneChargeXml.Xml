@@ -1,7 +1,2 @@
 <?xml version="1.0"?>
-<ArrayOfDroneCarge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <DroneCarge>
-    <DroneID>1233</DroneID>
-    <StationId>127</StationId>
-  </DroneCarge>
-</ArrayOfDroneCarge>
+<ArrayOfDroneCarge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />

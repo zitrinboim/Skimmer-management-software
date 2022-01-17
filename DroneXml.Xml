@@ -26,11 +26,6 @@
     <MaxWeight>heavy</MaxWeight>
   </Drone>
   <Drone>
-    <Id>1233</Id>
-    <Model>555</Model>
-    <MaxWeight>easy</MaxWeight>
-  </Drone>
-  <Drone>
     <Id>5</Id>
     <Model>F40</Model>
     <MaxWeight>easy</MaxWeight>
@@ -44,5 +39,10 @@
     <Id>25</Id>
     <Model>F40</Model>
     <MaxWeight>heavy</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>1233</Id>
+    <Model>555</Model>
+    <MaxWeight>easy</MaxWeight>
   </Drone>
 </ArrayOfDrone>
