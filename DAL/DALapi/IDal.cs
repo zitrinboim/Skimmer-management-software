@@ -36,6 +36,7 @@ namespace DalApi
         bool removeStation(int id);
         bool removeCustomer(int id);
         bool removeParcel(int id);
+        public int PasswordDL();
 
     }
 }

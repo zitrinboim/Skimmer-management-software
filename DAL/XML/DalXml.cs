@@ -21,16 +21,7 @@ namespace DalXml
 
 
         internal static DalXml instatnce = new DalXml();
-        //static DalXml()
-        //{
-        //   DataSource.Initialize();
-
-        //    XMLTools.SaveListToXMLSerializer(DataSource.drones, DroneXml);
-        //    XMLTools.SaveListToXMLSerializer(DataSource.stations, StationXml);
-        //    XMLTools.SaveListToXMLSerializer(DataSource.customers, CustomerXml);
-        //    XMLTools.SaveListToXMLSerializer(DataSource.parcels, ParcelXml);
-        //    XMLTools.SaveListToXMLSerializer(DataSource.droneCarges, DroneChargeXml);
-        //}
+       
         private DalXml() { }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool addStation(Station station)
@@ -103,7 +94,7 @@ namespace DalXml
         public int addParsel(Parcel parcel)
         {
             XElement xElement = XMLTools.LoadListFromXMLElement(configXml);
-            int idTmep= int.Parse(xElement.Value);
+            int idTmep = int.Parse(xElement.Value);
             parcel.Id = 1 + idTmep;
 
             XElement elements = XMLTools.LoadListFromXMLElement(ParcelXml);
@@ -418,6 +409,11 @@ namespace DalXml
             };
             return powerConsumptionRate;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int PasswordDL() { return DataSource.Config.password; }
         /// <summary>
         /// 
         /// </summary>

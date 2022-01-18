@@ -114,7 +114,7 @@ namespace BL
                     DO.Station closeStation = TheNearestStation(drone.Location, stationWithFreeSlots);
                     Location stationLocation = new() { latitude = closeStation.lattitude, longitude = closeStation.longitude };
 
-                    double KM = d.DistanceBetweenPlaces(drone.Location, stationLocation);//Looking for the nearest available station.
+                    double KM = distanceAlgorithm.DistanceBetweenPlaces(drone.Location, stationLocation);//Looking for the nearest available station.
 
                     if (drone.battery < (KM * available))
                         throw new ChargingExeptions("אין מספיק בטרייה להגעה לתחנה");
@@ -270,9 +270,9 @@ namespace BL
                     break;
             }
 
-            if ((d.DistanceBetweenPlaces(droneToList.Location, sanderLocation) * available) +
-                (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight) +
-                (d.DistanceBetweenPlaces(targetLocation,
+            if ((distanceAlgorithm.DistanceBetweenPlaces(droneToList.Location, sanderLocation) * available) +
+                (distanceAlgorithm.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight) +
+                (distanceAlgorithm.DistanceBetweenPlaces(targetLocation,
                 TheLocationForTheNearestStation(targetLocation, stations)) * available) <= droneToList.battery)
                 return true;
             else
@@ -300,7 +300,7 @@ namespace BL
                     DO.Customer sander = dal.getCustomer(item.SenderId);
                     Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
-                    double distance1 = d.DistanceBetweenPlaces(droneToList.Location, sanderLocation);
+                    double distance1 = distanceAlgorithm.DistanceBetweenPlaces(droneToList.Location, sanderLocation);
                     if (distance1 < distance)
                     {
                         distance = distance1;
@@ -334,7 +334,7 @@ namespace BL
                 Location sanderLocation = new() { latitude = sander.lattitude, longitude = sander.longitude };
 
                 int index = droneToLists.FindIndex(i => i.Id == IdDrone);
-                droneToLists[index].battery -= d.DistanceBetweenPlaces(droneToLists[index].Location, sanderLocation) * available;
+                droneToLists[index].battery -= distanceAlgorithm.DistanceBetweenPlaces(droneToLists[index].Location, sanderLocation) * available;
                 droneToLists[index].Location = sanderLocation;
                 dal.PackageCollectionByDrone(parcelsOfDrone.Id);
                 return true;
@@ -384,7 +384,7 @@ namespace BL
                         break;
                 }
 
-                droneToLists[index].battery -= d.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight;
+                droneToLists[index].battery -= distanceAlgorithm.DistanceBetweenPlaces(sanderLocation, targetLocation) * weight;
                 droneToLists[index].Location = targetLocation;
                 droneToLists[index].DroneStatuses = DroneStatuses.available;
                 droneToLists[index].parcelNumber = 0;

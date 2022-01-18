@@ -308,6 +308,15 @@ namespace Dal
         {
             return DataSource.parcels.Where(d => p == null ? true : p(d)).ToList();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int PasswordDL() { return DataSource.Config.password; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] PowerConsumptionRate()
         {

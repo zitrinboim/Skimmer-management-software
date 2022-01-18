@@ -8,10 +8,9 @@
         Title="MainWindow" MinHeight="720" MinWidth="1020" Height="700" Width="1000"  
         WindowStyle="None" FlowDirection="RightToLeft"
         AllowsTransparency="True" Background="Transparent" WindowState="Maximized" MouseDown="Window_MouseDown">
-    <!--Closed="When_Window_CLosed"  MouseDown="Window_MouseDown" שינינו את הרקע ללבן ואת הגודל לנורמל-->
     <Border BorderThickness="5" BorderBrush="LightBlue" Background="LightBlue" CornerRadius="22">
         <Grid>
-           
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
@@ -31,199 +30,196 @@
             </Border>
             <StackPanel x:Name="ManageButtonStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 50 0">
                 <Button Click="Button_Click_MinimizeWindow" Width="25" Height="25" Template="{StaticResource TitleBarButtons}">
-                    <!--  MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"-->
-                    <!--<Button.Content>
-                        <Image Source="Icons/minusIcon.png" Margin="5"/>
-                    </Button.Content>-->
                 </Button>
                 <Button Click="Button_Click_MaximizeWindow" Width="25" Height="25"  Margin="10 0" Template="{StaticResource TitleBarButtons}">
-
-                    <!--<Button.Content>
-                        <Image Source="Icons/squareIcon.png" Margin="5"/>
-                    </Button.Content>-->
                 </Button>
                 <Button Click="Button_Click_CloseWindow" Width="25" Height="25" Template="{StaticResource TitleBarButtons}">
-
-                    <!--<Button.Content>
-                        <Image Source="Icons/xIcon.png" Margin="5"/>
-                    </Button.Content>-->
-                </Button>
+               </Button>
             </StackPanel>
-            <!--<DockPanel Grid.Row="1">
-                <Menu DockPanel.Dock="Top" VerticalAlignment="Center">
-                    <MenuItem Header="אפשרויות">
-                        <MenuItem Header="פתח חלון נוסף" Click="MenuItem_Click_OpenAnotherWindow"/>
-                        <MenuItem Header="הורד רשימת כתובות מעודכנת" Click="MenuItem_Click_UpdateAddresses"/>
-                        <MenuItem Header="התנתק" Click="MenuItem_Click_LogOut"/>
-                    </MenuItem>
-                </Menu>
-            </DockPanel>-->
             <Grid Grid.Row="2">
                 <Image Source="/images.jpg" Stretch="UniformToFill" StretchDirection="UpOnly"/>
             </Grid>
-         
-            <Grid Grid.Row="3" Margin="20"> <Grid.Background>
 
-                        <ImageBrush ImageSource="/images.jpg" Stretch="Fill" TileMode="None" Opacity="0.2"/>
-                    </Grid.Background>
+            <Grid Grid.Row="3" Margin="20">
+                <Grid.Background>
+
+                    <ImageBrush ImageSource="/images.jpg" Stretch="Fill" TileMode="None" Opacity="0.2"/>
+                </Grid.Background>
                 <TabControl x:Name="TabControl_Login" HorizontalAlignment="Stretch"  Background="{x:Null}" VerticalAlignment="Stretch"  SelectionChanged="TabControl_SelectionChanged">
-                    <!--<TabControl.Background>
-                        <RadialGradientBrush>
-                            <GradientStop Color="Blue"/>
-                            <GradientStop Color="Pink" Offset="0.481"/>
-                            <GradientStop Color="Blue" Offset="1"/>
-                        </RadialGradientBrush>
-                    </TabControl.Background>-->
                    
                     <TabItem Header="כניסת מנהל" Width="400" Height="30" FontSize="16">
+
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Border x:Name="OfficeMainWindowBorder" Grid.Column="0" Margin="10" Visibility="Visible">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0"  BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
-                                        <Grid>
+                            <Grid  x:Name="GridSystemAdministrator" Grid.Row="0" Visibility="Hidden">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Border x:Name="OfficeMainWindowBorder" Grid.Column="0" Margin="10" Visibility="Visible">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0"  BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1.5*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="ניהול תחנות" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+                                                <Button Margin="5 20 5 5" Click="Button_Click_AddStation" >
+                                                    <TextBlock Text="הוספת תחנת בסיס" Margin="10 0"/>
+                                                </Button>
+                                                <Button  Grid.Row="1" Margin="5" Click="Button_Click_UpdateStationData" >
+                                                    <TextBlock Text="עדכון נתוני תחנה" Margin="10 0"/>
+                                                </Button>
+                                                <Button Grid.Row="3" Padding="5" Margin="5" Click="Button_Click_ListOfStation"  >
+                                                    <TextBlock Text=" הצג רשימת תחנות" Margin="10 0"/>
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+
+                                        <Border Grid.Column="1" BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1.5*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="ניהול רחפנים" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+                                                <Button Margin="5 20 5 5" Click="Button_Click_AddDrone" >
+                                                    <TextBlock Text="הוספת רחפן" Margin="10 0"/>
+                                                </Button>
+                                                <Button  Grid.Row="1" Margin="5" Click="Button_Click_actionInDrone" >
+                                                    <TextBlock Text="ביצוע פעולות ברחפן" Margin="10 0"/>
+                                                </Button>
+                                                <Button Grid.Row="3" Padding="5" Margin="5" Click="Button_Click_ListOfDrones"  >
+                                                    <TextBlock Text=" הצג רשימת רחפנים" Margin="10 0"/>
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                <Border x:Name="OfficeMainWindowBorder2" Grid.Row="1" Margin="10" Visibility="Visible">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Grid.Column="0" BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
+
+                                            <Grid>
+
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1.5*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="ניהול לקוחות" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+                                                <Button Margin="5 20 5 5" Click="Button_Click_AddNewCostumer" >
+                                                    <TextBlock Text="הוספת לקוח חדש" Margin="10 0"/>
+                                                </Button>
+                                                <Button  Grid.Row="1" Margin="5" Click="Button_Click_UpdateCostumerData" >
+                                                    <TextBlock Text="הצגת פרטי לקוח" Margin="10 0"/>
+                                                </Button>
+                                                <Button Grid.Row="3" Padding="5" Margin="5" Click="Button_Click_ListOfCostumers"  >
+                                                    <TextBlock Text="הצג רשימת לקוחות" Margin="10 0"/>
+                                                </Button>
+                                            </Grid>
+
+                                        </Border>
+
+                                        <Border Grid.Column="1" BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1.5*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="ניהול חבילות"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+                                                <Button Margin="5 20 5 5" Click="Button_Click_AddParcel" >
+                                                    <TextBlock Text="הוספת חבילה" Margin="10 0"/>
+                                                </Button>
+                                                <Button  Grid.Row="1" Margin="5" Click="Button_Click_actionUnParcel" >
+                                                    <TextBlock Text="ביצוע פעולות בחבילה" Margin="10 0"/>
+                                                </Button>
+                                                <Button Grid.Row="2" Margin="5" Click="Button_Click_RemoveParcel" >
+                                                    <TextBlock Text="ביטול משלוח" Margin="10 0"/>
+                                                </Button>
+                                                <Button Grid.Row="3" Padding="5" Margin="5" Click="Button_Click_ListOfParcels"  >
+                                                    <TextBlock Text=" הצג רשימת חבילות" Margin="10 0"/>
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                            <Grid x:Name="GridEntrance" Grid.Row="0" Visibility="Visible">
+                                <Border  Name="BorderEnterNumber" BorderThickness="2" BorderBrush="LightBlue" Background="{x:Null}"  CornerRadius="20" Padding="10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions >
+                                        <Grid Grid.Column="1">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="1.5*"/>
                                                 <RowDefinition Height="*"/>
-                                                <!--<RowDefinition Height="*"/>-->
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text="ניהול תחנות" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-                                            <Button Margin="5 20 5 5" Click="Button_Click_AddStation" >
-                                                <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text="הוספת תחנת בסיס" Margin="10 0"/>
-                                            </Button>
-                                            <Button  Grid.Row="1" Margin="5" Click="Button_Click_UpdateStationData" >
-                                                <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text="עדכון נתוני תחנה" Margin="10 0"/>
-                                            </Button>
-                                            <!--<Button Grid.Row="2" Margin="5" Click="Button_Click_RemoveStation" >
-                                                --><!--ToolTipService.ShowDuration="8000"--><!--
-                                                <TextBlock Text="מחיקת תחנת בסיס" Margin="10 0"/>
-                                            </Button>-->
-                                            <Button Grid.Row="3" Padding="5" Margin="5" Click="Button_Click_ListOfStation"  >
-                                                <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text=" הצג רשימת תחנות" Margin="10 0"/>
-                                            </Button>
+                                            <Label Grid.Row="0" Content="כניסת מנהל מערכת" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16" />
+                                            <Label Grid.Row="3" Content="הכנס סיסמא" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" />
+                                            <TextBox x:Name="TextBoxPassword" Grid.Row="4"  PreviewTextInput="onlyNumbers"/>
+                                            <Button x:Name="ButtonEntrance" Grid.Row="5" Content="כניסה" Click="ButtonEntrance_Click"/>
                                         </Grid>
-                                    </Border>
-
-                                    <Border Grid.Column="1" BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="1.5*"/>
-                                                <RowDefinition Height="*"/>
-                                                <!--<RowDefinition Height="*"/>-->
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Text="ניהול רחפנים" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-                                            <Button Margin="5 20 5 5" Click="Button_Click_AddDrone" >
-                                                <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text="הוספת רחפן" Margin="10 0"/>
-                                            </Button>
-                                            <Button  Grid.Row="1" Margin="5" Click="Button_Click_actionInDrone" >
-                                                <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text="ביצוע פעולות ברחפן" Margin="10 0"/>
-                                            </Button>
-                                            <!--<Button Grid.Row="2" Margin="5" Click="Button_Click_RemoveDrone" >
-                                                --><!--ToolTipService.ShowDuration="8000"--><!--
-                                                <TextBlock Text="מחיקת רחפן" Margin="10 0"/>
-                                            </Button>-->
-                                            <Button Grid.Row="3" Padding="5" Margin="5" Click="Button_Click_ListOfDrones"  >
-                                                <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text=" הצג רשימת רחפנים" Margin="10 0"/>
-                                            </Button>
-                                        </Grid>
-                                    </Border>
-
-
-
-
-                                </Grid>
-                            </Border>
-                            <Border x:Name="OfficeMainWindowBorder2" Grid.Row="1" Margin="10" Visibility="Visible">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Border Grid.Column="0" BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
-
-                                        <Grid>
-
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="1.5*"/>
-                                                <RowDefinition Height="*"/>
-                                                <!--<RowDefinition Height="*"/>-->
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Text="ניהול לקוחות" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-                                            <Button Margin="5 20 5 5" Click="Button_Click_AddNewCostumer" >
-                                                <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text="הוספת לקוח חדש" Margin="10 0"/>
-                                            </Button>
-                                            <Button  Grid.Row="1" Margin="5" Click="Button_Click_UpdateCostumerData" >
-                                                <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text="הצגת פרטי לקוח" Margin="10 0"/>
-                                            </Button>
-                                            <!--<Button Grid.Row="2" Margin="5" Click="Button_Click_RemoveCostumer" >
-                                                --><!--ToolTipService.ShowDuration="8000"--><!--
-                                                <TextBlock Text="מחיקת לקוח" Margin="10 0"/>
-                                            </Button>-->
-                                            <Button Grid.Row="3" Padding="5" Margin="5" Click="Button_Click_ListOfCostumers"  >
-                                                <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text="הצג רשימת לקוחות" Margin="10 0"/>
-                                            </Button>
-                                        </Grid>
-
-                                    </Border>
-
-                                    <Border Grid.Column="1" BorderThickness="5" BorderBrush="LightBlue" CornerRadius="15" Margin="4" Padding="10">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="1.5*"/>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Text="ניהול חבילות"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-                                            <Button Margin="5 20 5 5" Click="Button_Click_AddParcel" >
-                                                <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text="הוספת חבילה" Margin="10 0"/>
-                                            </Button>
-                                            <Button  Grid.Row="1" Margin="5" Click="Button_Click_actionUnParcel" >
-                                                <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text="ביצוע פעולות בחבילה" Margin="10 0"/>
-                                            </Button>
-                                            <Button Grid.Row="2" Margin="5" Click="Button_Click_RemoveParcel" >
-                                                <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text="ביטול משלוח" Margin="10 0"/>
-                                            </Button>
-                                            <Button Grid.Row="3" Padding="5" Margin="5" Click="Button_Click_ListOfParcels"  >
-                                                <!--ToolTipService.ShowDuration="8000"-->
-                                                <TextBlock Text=" הצג רשימת חבילות" Margin="10 0"/>
-                                            </Button>
-                                        </Grid>
-                                    </Border>
-                                </Grid>
-
-                            </Border>
-
+                                    </Grid>
+                                </Border>
+                            </Grid>
                         </Grid>
+
                     </TabItem>
                     <TabItem Header="כניסת לקוח" Width="400" Height="30" FontSize="16">
-
+                        <Border   BorderThickness="2" BorderBrush="LightBlue" Background="{x:Null}"  CornerRadius="20" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions >
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Content="כניסת לקוחות" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16" />
+                                    <Label Grid.Row="3" Content="הכנס מספר מזהה" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" />
+                                    <TextBox x:Name="TextBox_ID_Custumer" Grid.Row="4"  PreviewTextInput="onlyNumbers"/>
+                                    <Button x:Name="ButtonID_Custumer" Grid.Row="5" Content="כניסה" Click="ButtonID_Custumer_Click"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
                     </TabItem>
-                    <!--<Button Content="כניסה" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Button_Click"  Height="120" Width="220" Background="White" Opacity="0.3" 
-                Foreground="Black" FontSize="36"  FontWeight="Bold" FontFamily="Segoe UI" BorderBrush="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,207,0,0" />-->
                 </TabControl>
             </Grid>
         </Grid>

@@ -114,12 +114,12 @@ namespace BL
                 if (parcel.PickedUp == DateTime.MinValue)
                 {
                     packageInTransfer.packageInTransferStatus = PackageInTransferStatus.awaitingCollection;
-                    packageInTransfer.distance = d.DistanceBetweenPlaces(location, sanderLocation);
+                    packageInTransfer.distance = distanceAlgorithm.DistanceBetweenPlaces(location, sanderLocation);
                 }
                 else
                 {
                     packageInTransfer.packageInTransferStatus = PackageInTransferStatus.OnTheWay;
-                    packageInTransfer.distance = d.DistanceBetweenPlaces(sanderLocation, targetLocation);
+                    packageInTransfer.distance = distanceAlgorithm.DistanceBetweenPlaces(sanderLocation, targetLocation);
 
                 }
 

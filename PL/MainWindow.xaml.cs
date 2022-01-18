@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace PL
 {
@@ -23,8 +24,8 @@ namespace PL
     public enum WeightCategories { All, easy, medium, heavy };
     public enum Actions { LIST, ADD, UPDATING, REMOVE };
     public enum DroneStatuses { All, available, maintenance, busy };
-    public enum Priorities {הכל, רגיל , מהיר, דחוף };
-    public enum parcelStatus {הכל, הוגדר , שוייך, נאסף, סופק };
+    public enum Priorities { הכל, רגיל, מהיר, דחוף };
+    public enum parcelStatus { הכל, הוגדר, שוייך, נאסף, סופק };
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -134,7 +135,36 @@ namespace PL
                 DragMove();
         }
 
+        private void ButtonEntrance_Click(object sender, RoutedEventArgs e)
+        {
+            if (blGui.Password() == int.Parse(TextBoxPassword.Text.ToString()))
+            {
+                GridEntrance.Visibility = Visibility.Hidden;
+                GridSystemAdministrator.Visibility = Visibility.Visible;
+            }
+            else
+                MessageBox.Show("הסיסמא אינה נכונה\n אנא נסה שוב", "אישור");
+        }
+        private void onlyNumbers(object sender, TextCompositionEventArgs e)
+        {
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regex = new("^[0-9]{0,9}$");
+            e.Handled = !regex.IsMatch(temp);
+        }
 
-
+        private void ButtonID_Custumer_Click(object sender, RoutedEventArgs e)
+        {
+            List<CustomerToList> customers = blGui.DisplaysIistOfCustomers().ToList();
+            var customerCombo = from item in customers
+                                select item.Id;
+           int find = customerCombo.FirstOrDefault(i => i == int.Parse(TextBox_ID_Custumer.Text.ToString()));
+            if(find != default)
+            {
+                int ID_Customer = int.Parse(find.ToString());
+                new CustomerLoginWindow(blGui, "ByCustomer", ID_Customer).Show();
+            }
+            else
+                MessageBox.Show("מספר המשתמש אינו קיים\n אנא נסה שוב", "אישור");
+        }
     }
 }

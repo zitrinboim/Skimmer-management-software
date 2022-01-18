@@ -69,7 +69,7 @@
                     </ListView>
                 </Grid>
             </Border>
-            <Border Name="Add" Grid.Row="0" Visibility="Visible">
+            <Border Name="Add" Grid.Row="0" Visibility="Hidden">
                 <Grid x:Name="add" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.2*"/>
@@ -106,7 +106,7 @@
                 </Grid>
             </Border>
 
-            <Border Name="Updating" Grid.Row="0" Visibility="Hidden">
+            <Border Name="Updating" Grid.Row="0" Visibility="Visible">
 
 
                 <Grid  Margin="0,2,0,-2" Name="MainGrid1">

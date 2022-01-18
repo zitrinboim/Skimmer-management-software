@@ -201,6 +201,10 @@ namespace BlApi
         /// <param name="stations"></param>
         /// <returns></returns>
         public Location TheLocationForTheNearestStation(Location customerLocation, List<DO.Station> stations);
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int Password();
     }
 }

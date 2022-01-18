@@ -25,7 +25,7 @@ namespace BL
             for (int i = 0; i < stations.Count; i++)
             {
                 Location stationLocation = new() { latitude = stations[i].lattitude, longitude = stations[i].longitude };
-                double distance1 = d.DistanceBetweenPlaces(stationLocation, customerLocation);
+                double distance1 = distanceAlgorithm.DistanceBetweenPlaces(stationLocation, customerLocation);
                 if (distance1 < distance)
                 {
                     distance = distance1;
@@ -49,7 +49,7 @@ namespace BL
             for (int i = 0; i < stations.Count; i++)
             {
                 Location stationLocation = new() { latitude = stations[i].lattitude, longitude = stations[i].longitude };
-                double distance1 = d.DistanceBetweenPlaces(stationLocation, customerLocation);
+                double distance1 = distanceAlgorithm.DistanceBetweenPlaces(stationLocation, customerLocation);
                 if (distance1 < distance)
                 {
                     distance = distance1;

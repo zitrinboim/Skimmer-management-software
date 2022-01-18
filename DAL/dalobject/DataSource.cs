@@ -24,7 +24,8 @@ namespace Dal
             internal static double easy = 0.2;
             internal static double medium = 0.3;
             internal static double Heavy = 0.4;
-            internal static double ChargingRate =1.0;
+            internal static double ChargingRate = 1.0;
+            internal static int password = 1111;
         }
         /// <summary>
         /// Function for filling the lists with random values for checking the correctness of the data
@@ -97,7 +98,7 @@ namespace Dal
                 Id = 311210124,
                 name = "יאיר בוסו",
                 phone = "058-442-3540",
-                longitude =32.085140 ,
+                longitude = 32.085140,
                 lattitude = 34.885387
             });
             customers.Add(new Customer()
@@ -148,65 +149,63 @@ namespace Dal
                 longitude = 32.343760,
                 lattitude = 34.860743
             });
-                      
+
             //שמעון יאיר
-                parcels.Add(new Parcel()
-                {
-                    Id = Config.ParcelIdRun++,
-                    SenderId = 205683501,
-                    TargetId = 311210124,
-                    weight = WeightCategories.easy,
-                    priority = Priorities.emergency,
-                    DroneId = 0,
-                    Requested = DateTime.Now,
-                    Scheduled = DateTime.MinValue,
-                    PickedUp = DateTime.MinValue,
-                    Delivered = DateTime.MinValue
-                });
-              //אשר ךיונתן
-                parcels.Add(new Parcel()
-                {
-                    Id = Config.ParcelIdRun++,
-                    SenderId = 206302226,
-                    TargetId = 225352376,
-                    weight = WeightCategories.easy,
-                    priority = Priorities.emergency,
-                    DroneId = 0,
-                    Requested = DateTime.Now,
-                    Scheduled = DateTime.MinValue,
-                    PickedUp = DateTime.MinValue,
-                    Delivered = DateTime.MinValue
-                });
-              //יואל לדב
-                parcels.Add(new Parcel()
-                {
-                    Id = Config.ParcelIdRun++,
-                    SenderId = 346945332,
-                    TargetId = 229195465,
-                    weight = WeightCategories.easy,
-                    priority = Priorities.emergency,
-                    DroneId = 0,
-                    Requested = DateTime.Now,
-                    Scheduled = DateTime.MinValue,
-                    PickedUp = DateTime.MinValue,
-                    Delivered = DateTime.MinValue
-                });
-              //דניאל למנדי
-                parcels.Add(new Parcel()
-                {
-                    Id = Config.ParcelIdRun++,
-                    SenderId = 312858348,
-                    TargetId = 311980988,
-                    weight = WeightCategories.easy,
-                    priority = Priorities.emergency,
-                    DroneId = 0,
-                    Requested = DateTime.Now,
-                    Scheduled = DateTime.MinValue,
-                    PickedUp = DateTime.MinValue,
-                    Delivered = DateTime.MinValue
-                });
-              
-            
+            parcels.Add(new Parcel()
+            {
+                Id = Config.ParcelIdRun++,
+                SenderId = 205683501,
+                TargetId = 311210124,
+                weight = WeightCategories.easy,
+                priority = Priorities.emergency,
+                DroneId = 0,
+                Requested = DateTime.Now,
+                Scheduled = DateTime.MinValue,
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue
+            });
+            //אשר ךיונתן
+            parcels.Add(new Parcel()
+            {
+                Id = Config.ParcelIdRun++,
+                SenderId = 206302226,
+                TargetId = 225352376,
+                weight = WeightCategories.easy,
+                priority = Priorities.emergency,
+                DroneId = 0,
+                Requested = DateTime.Now,
+                Scheduled = DateTime.MinValue,
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue
+            });
+            //יואל לדב
+            parcels.Add(new Parcel()
+            {
+                Id = Config.ParcelIdRun++,
+                SenderId = 346945332,
+                TargetId = 229195465,
+                weight = WeightCategories.easy,
+                priority = Priorities.emergency,
+                DroneId = 0,
+                Requested = DateTime.Now,
+                Scheduled = DateTime.MinValue,
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue
+            });
+            //דניאל למנדי
+            parcels.Add(new Parcel()
+            {
+                Id = Config.ParcelIdRun++,
+                SenderId = 312858348,
+                TargetId = 311980988,
+                weight = WeightCategories.easy,
+                priority = Priorities.emergency,
+                DroneId = 0,
+                Requested = DateTime.Now,
+                Scheduled = DateTime.MinValue,
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue
+            });
         }
     }
 }

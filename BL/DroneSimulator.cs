@@ -91,7 +91,7 @@ namespace BL
 
                             while (droneToList.battery < 100)
                             {
-                                if (droneToList.battery + 3.0 < 100)
+                                if (droneToList.battery + 1.0 < 100)
                                     droneToList.battery += 1.0;
                                 else
                                     droneToList.battery = 100.0;
@@ -164,8 +164,8 @@ namespace BL
             disLocationsY = customer.location.latitude - drone.Location.latitude;
             for (int i = km; i > 0; i--)
             {
-                droneToList.Location.longitude += (disLocationsX / km);
-                droneToList.Location.latitude += (disLocationsY / km);
+                droneToList.Location.longitude += disLocationsX / km;
+                droneToList.Location.latitude += disLocationsY / km;
                 droneToList.battery -= weight;
                 actionInSimulator();
                 Thread.Sleep(DELAY);

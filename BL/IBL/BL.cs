@@ -17,7 +17,8 @@ namespace BL
 
         List<DroneToList> droneToLists;
         DalApi.IDal dal;
-        DistanceAlgorithm d;
+        DistanceAlgorithm distanceAlgorithm;
+
         Random random;
         List<DO.Station> stations;
         List<DO.Customer> customers;
@@ -29,13 +30,14 @@ namespace BL
         internal static double medium;
         internal static double Heavy;
         internal static double ChargingRate;
+
         private BL()
         {
             try
             {
                 dal = DalApi.DalFactory.GetDal("DalXml");
                 droneToLists = new();
-                d = new();
+                distanceAlgorithm = new();
                 double battryOfDelivery;
                 random = new Random(DateTime.Now.Millisecond);
 
@@ -75,17 +77,17 @@ namespace BL
                         if (PackagesInDelivery[find].PickedUp == DateTime.MinValue)
                         {
                             drone.Location = TheLocationForTheNearestStation(sanderLocation, stations);
-                            battryOfDelivery = (d.DistanceBetweenPlaces(drone.Location, sanderLocation) * available)
-                            + (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * power[(int)PackagesInDelivery[find].weight])
-                            + (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
+                            battryOfDelivery = (distanceAlgorithm.DistanceBetweenPlaces(drone.Location, sanderLocation) * available)
+                            + (distanceAlgorithm.DistanceBetweenPlaces(sanderLocation, targetLocation) * power[(int)PackagesInDelivery[find].weight])
+                            + (distanceAlgorithm.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
                             drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + battryOfDelivery;
                         }
                         else
                         {
                             drone.Location = sanderLocation;
-                            battryOfDelivery = (d.DistanceBetweenPlaces(sanderLocation, targetLocation) * 
+                            battryOfDelivery = (distanceAlgorithm.DistanceBetweenPlaces(sanderLocation, targetLocation) *
                                 power[(int)PackagesInDelivery[find].weight])
-                            + (d.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
+                            + (distanceAlgorithm.DistanceBetweenPlaces(targetLocation, TheLocationForTheNearestStation(targetLocation, stations)) * available);
                             drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + battryOfDelivery;
                         }
                     }
@@ -123,30 +125,25 @@ namespace BL
                                 drone.Location = location;
                             }
 
-                
-
-                            battryOfDelivery = d.DistanceBetweenPlaces(drone.Location, TheLocationForTheNearestStation(drone.Location, stations)) * available;
+                            battryOfDelivery = distanceAlgorithm.DistanceBetweenPlaces(drone.Location, TheLocationForTheNearestStation(drone.Location, stations)) * available;
                             drone.battery = (random.NextDouble() * (100.0 - battryOfDelivery)) + 30.0;
                             if (drone.battery > 100.0)
                                 drone.battery = 100.0;
                         }
-
                     }
-
                 }
             }
 
             catch (DO.IdExistExeptions Ex)
             {
-
                 throw new IdExistExeptions("ERORR", Ex);
             }
             catch (DO.IdNotExistExeptions Ex)
-            {
-
+            { 
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        public int Password(){ return dal.PasswordDL(); }
     }
 }
 
