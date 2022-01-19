@@ -73,7 +73,7 @@
                                 <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="False">
-                                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                <Setter TargetName="Border" Property="Background" Value="LightBlue" />
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True" SourceName="Border">
                                 <Setter TargetName="Border" Property="Background" Value="GhostWhite"/>
