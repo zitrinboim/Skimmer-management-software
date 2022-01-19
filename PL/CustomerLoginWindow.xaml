@@ -13,9 +13,10 @@
                 <ImageBrush ImageSource="/images.jpg" Stretch="Fill" TileMode="None" Opacity="0.2"/>
             </Grid.Background>
             <Grid.RowDefinitions>
-                <RowDefinition Height="8*"/>
+                <RowDefinition Height="5*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <Button x:Name="Update" Grid.Row="1"  VerticalAlignment="Top" Content="עדכן" FontWeight="Bold" Click="UpdateButton_Click"/>
             <Button x:Name="Close" Grid.Row="1" VerticalAlignment="Bottom" Content="סגור" FontWeight="Bold" Click="CloseButton_Click"/>
             <Grid x:Name="update" Visibility="Visible">
                 <Border BorderThickness="2"  Grid.Column="1" Grid.Row="0" BorderBrush="LightBlue"  CornerRadius="20" Padding="10">
@@ -44,8 +45,8 @@
                             <Label Grid.Column="1" Grid.Row="1" Content="מיקום"  />
 
                             <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Id}"  />
-                            <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding name}"  />
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding phone}"  />
+                            <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding name}"  />
+                            <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding phone}"  />
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding location}"  />
                         </Grid>
                         <Grid Grid.Row="2">

@@ -1,13 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Customer>
-    <Id>311210124</Id>
-    <name>יאיר בוסו</name>
-    <phone>058-442-3540</phone>
-    <longitude>32.08514</longitude>
-    <lattitude>34.885387</lattitude>
-  </Customer>
-  <Customer>
     <Id>206302226</Id>
     <name>אשר אלוס</name>
     <phone>053-478-6278</phone>
@@ -49,11 +42,18 @@
     <longitude>32.34376</longitude>
     <lattitude>34.860743</lattitude>
   </Customer>
-  <Parcel>
+  <Customer>
     <Id>205683501</Id>
     <name>שמעון ציטרינבוים</name>
     <phone>052-718-4790</phone>
     <longitude>32.115431</longitude>
     <lattitude>34.840545</lattitude>
+  </Customer>
+  <Parcel>
+    <Id>311210124</Id>
+    <name>יאירוש בוסו</name>
+    <phone>058-442-3540</phone>
+    <longitude>32.08514</longitude>
+    <lattitude>34.885387</lattitude>
   </Parcel>
 </ArrayOfCustomer>

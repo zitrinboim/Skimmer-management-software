@@ -196,7 +196,6 @@ namespace PL
                         else
                             MessageBox.Show("נא השלם את השדות החסרים", "אישור");
                         break;
-                        break;
                     case Actions.REMOVE:
                         break;
                     default:

@@ -71,5 +71,41 @@ namespace PL
             new CustomerPackageWindow(blGui, idParcel).Show();
             Close();
         }
+
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (customer.name != default && customer.phone != default)
+                {
+                    MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר עדכון זה", "אישור", MessageBoxButton.OKCancel);
+                    switch (messageBoxResult)
+                    {
+                        case MessageBoxResult.OK:
+                            _ = blGui.updateCustomerData(customer.Id, customer.name, customer.phone);
+                            MessageBox.Show("העדכון בוצע בהצלחה", "אישור");
+                            break;
+                        case MessageBoxResult.Cancel:
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                    MessageBox.Show("נא השלם את השדות החסרים", "אישור");
+            }
+            catch (BO.IdNotExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            }
+            catch (BO.IdExistExeptions ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                    MessageBoxResult.None, MessageBoxOptions.RightAlign);
+                Close();
+            }
+        }
     }
 }
