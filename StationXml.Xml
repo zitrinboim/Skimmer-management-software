@@ -21,4 +21,11 @@
     <lattitude>34.824273</lattitude>
     <freeChargeSlots>11</freeChargeSlots>
   </Station>
+  <Station>
+    <Id>11111111</Id>
+    <name>חגהב</name>
+    <longitude>32.57654235</longitude>
+    <lattitude>34.323767</lattitude>
+    <freeChargeSlots>1</freeChargeSlots>
+  </Station>
 </ArrayOfStation>

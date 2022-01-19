@@ -33,11 +33,15 @@ namespace PL
     public partial class MainWindow : Window
     {
         IBL blGui;
+        Customer customer;
 
         public MainWindow()
         {
             blGui = BlFactory.GetBL();
             InitializeComponent();
+            customer = new();
+            customer.location = new();
+            DataContext = customer;
         }
 
         private void Button_Click_CloseWindow(object sender, RoutedEventArgs e)
@@ -165,6 +169,63 @@ namespace PL
             }
             else
                 MessageBox.Show("מספר המשתמש אינו קיים\n אנא נסה שוב", "אישור");
+        }
+        private void onlyNumbersForID(object sender, TextCompositionEventArgs e)
+        {
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regex = new("^[0-9]{0,9}$");
+            e.Handled = !regex.IsMatch(temp);
+        }
+        private void phonePattren(object sender, TextCompositionEventArgs e)
+        {
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regex = new("^[0][0-9]{0,9}$");
+            e.Handled = !regex.IsMatch(temp);
+        }
+        private void onlyAlphaBeta(object sender, TextCompositionEventArgs e)
+        {
+
+            Regex regex = new("[^א-ת]$");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+        private void lungetudePattren(object sender, TextCompositionEventArgs e)
+        {
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regexA = new("^[2-3]{1,2}[.]{0,1}$");
+            Regex regexB = new("^[2-3]{1,2}[.][0-9]{0,9}$");
+            e.Handled = !(regexA.IsMatch(temp) || regexB.IsMatch(temp));
+        }
+        private void lattitudePattren(object sender, TextCompositionEventArgs e)
+        {
+            string temp = ((TextBox)sender).Text + e.Text;
+            Regex regexA = new("^[3-4]{1,2}[.]{0,1}$");
+            Regex regexB = new("^[3-4]{1,2}[.][0-9]{0,9}$");
+            e.Handled = !(regexA.IsMatch(temp) || regexB.IsMatch(temp));
+        }
+
+        private void ButtonNewClient_Click(object sender, RoutedEventArgs e)
+        {
+           
+            if (customer.Id != default && customer.name != default && customer.location.longitude != default && customer.location.latitude != default && customer.phone != default)
+            {
+                MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
+                switch (messageBoxResult)
+                {
+
+                    case MessageBoxResult.OK:
+                        _ = blGui.addCustomer(customer);
+                        MessageBox.Show("הלקוח נוצר  בהצלחה\n מיד יוצגו פרטי לקוח", "אישור");
+                        new CustomerLoginWindow(blGui, "ByCustomer", customer.Id).Show();
+                        break;
+                    case MessageBoxResult.Cancel:
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+            else
+                MessageBox.Show("נא השלם את השדות החסרים", "אישור");
         }
     }
 }

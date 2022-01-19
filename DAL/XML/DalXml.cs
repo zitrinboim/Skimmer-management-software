@@ -75,7 +75,7 @@ namespace DalXml
                                         where element.Element("Id").Value == customer.Id.ToString()
                                         select element).FirstOrDefault() != default ?
                                         throw new IdExistExeptions("Sorry, i have already a customer with this id:" + customer.Id) :
-                                        new XElement("Parcel", new XElement
+                                        new XElement("Customer", new XElement
                                         ("Id", customer.Id)
                                        , new XElement("name", customer.name)
                                        , new XElement("phone", customer.phone)

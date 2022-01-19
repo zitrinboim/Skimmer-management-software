@@ -34,7 +34,7 @@
                 <Button Click="Button_Click_MaximizeWindow" Width="25" Height="25"  Margin="10 0" Template="{StaticResource TitleBarButtons}">
                 </Button>
                 <Button Click="Button_Click_CloseWindow" Width="25" Height="25" Template="{StaticResource TitleBarButtons}">
-               </Button>
+                </Button>
             </StackPanel>
             <Grid Grid.Row="2">
                 <Image Source="/images.jpg" Stretch="UniformToFill" StretchDirection="UpOnly"/>
@@ -46,7 +46,7 @@
                     <ImageBrush ImageSource="/images.jpg" Stretch="Fill" TileMode="None" Opacity="0.2"/>
                 </Grid.Background>
                 <TabControl x:Name="TabControl_Login" HorizontalAlignment="Stretch"  Background="{x:Null}" VerticalAlignment="Stretch"  SelectionChanged="TabControl_SelectionChanged">
-                   
+
                     <TabItem Header="כניסת מנהל" Width="400" Height="30" FontSize="16">
 
                         <Grid>
@@ -216,6 +216,48 @@
                                     <Label Grid.Row="3" Content="הכנס מספר מזהה" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" />
                                     <TextBox x:Name="TextBox_ID_Custumer" Grid.Row="4"  PreviewTextInput="onlyNumbers"/>
                                     <Button x:Name="ButtonID_Custumer" Grid.Row="5" Content="כניסה" Click="ButtonID_Custumer_Click"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </TabItem>
+                    <TabItem Header="לקוח חדש" Width="400" Height="30" FontSize="16">
+                        <Border   BorderThickness="2" BorderBrush="LightBlue" Background="{x:Null}"  CornerRadius="20" Padding="10">
+
+
+                            <Grid x:Name="add" Grid.Row="0" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.2*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Label  Content="הכנס פרטי לקוח "  HorizontalAlignment="Center" FontSize="20"   FontWeight="Bold" Background="{x:Null}" />
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Column="1" Grid.Row="0" Content="מזהה" HorizontalContentAlignment="Center" FontWeight="Bold"  />
+                                    <Label Grid.Column="1" Grid.Row="1" Content="שם" HorizontalContentAlignment="Center" FontWeight="Bold"  />
+                                    <Label Grid.Column="1" Grid.Row="2" Content="פלאפון" HorizontalContentAlignment="Center" FontWeight="Bold" />
+                                    <Label Grid.Column="1" Grid.Row="3" Content="מיקום-קו אורך" HorizontalContentAlignment="Center" FontWeight="Bold"  />
+                                    <Label Grid.Column="1" Grid.Row="4" Content="מיקום-קו רוחב" HorizontalContentAlignment="Center" FontWeight="Bold"  />
+                                    <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding Id}"         Background="{x:Null}" PreviewTextInput="onlyNumbersForID" />
+                                    <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding name}"    Background="{x:Null}" PreviewTextInput="onlyAlphaBeta"/>
+                                    <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding phone}"    Background="{x:Null}" />
+                                    <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding location.longitude}"    Background="{x:Null}" PreviewTextInput="lungetudePattren"/>
+                                    <TextBox Grid.Column="2" Grid.Row="4" Text="{Binding location.latitude}"    Background="{x:Null}" PreviewTextInput="lattitudePattren"/>
+                                    <Button x:Name="ButtonNewClient" Grid.Row="5" Grid.Column="2" Content="הירשם" Click="ButtonNewClient_Click"/>
                                 </Grid>
                             </Grid>
                         </Border>

@@ -300,4 +300,16 @@
     <PickedUp>2022-01-18T22:18:09.7987871+02:00</PickedUp>
     <Delivered>2022-01-18T22:18:14.8241356+02:00</Delivered>
   </Parcel>
+  <Parcel>
+    <Id>1029</Id>
+    <SenderId>311980988</SenderId>
+    <TargetId>229195465</TargetId>
+    <weight>easy</weight>
+    <priority>normal</priority>
+    <DroneId>5</DroneId>
+    <Requested>2022-01-19T14:55:32.5463641+02:00</Requested>
+    <Scheduled>2022-01-19T14:55:36.2592419+02:00</Scheduled>
+    <PickedUp>2022-01-19T14:56:01.2948556+02:00</PickedUp>
+    <Delivered>2022-01-19T14:56:28.3260297+02:00</Delivered>
+  </Parcel>
 </ArrayOfParcel>

@@ -141,7 +141,7 @@ namespace PL
                         break;
                     case Actions.ADD:
 
-                        if (customer.Id != default && customer.name != default && customer.location.longitude != default && customer.location.latitude != default && customer.phone != default)//להעביר את הבדיקה לאיז אנעבלעד 
+                        if (customer.Id != default && customer.name != default && customer.location.longitude != default && customer.location.latitude != default && customer.phone != default) 
                         {
                             MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);//לשפר סטייל של ההודעה
                             switch (messageBoxResult)
