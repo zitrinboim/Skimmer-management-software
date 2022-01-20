@@ -47,7 +47,7 @@ namespace PL
         private void Button_Click_CloseWindow(object sender, RoutedEventArgs e)
         {
 
-            Application.Current.Shutdown();//לבדוק שזה מסתדר עם הסימולטור שלא ייסגר באמצע פעולה.
+            Application.Current.Shutdown();
         }
         private void Button_Click_MinimizeWindow(object sender, RoutedEventArgs e)
         {
@@ -202,7 +202,11 @@ namespace PL
             Regex regexB = new("^[3-4]{1,2}[.][0-9]{0,9}$");
             e.Handled = !(regexA.IsMatch(temp) || regexB.IsMatch(temp));
         }
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonNewClient_Click(object sender, RoutedEventArgs e)
         {
            

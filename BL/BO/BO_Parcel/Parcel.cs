@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// class for parcel.
+    /// </summary>
     public class Parcel : abstractParcel
     {
         public CustomerInParcel Sender { get; set; }

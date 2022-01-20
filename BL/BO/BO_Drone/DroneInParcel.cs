@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// Class for DroneInParcel.
+    /// </summary>
     public class DroneInParcel : DroneInCargeing
     {
         public Location Location { get; set; }

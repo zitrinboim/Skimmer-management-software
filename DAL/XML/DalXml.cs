@@ -23,6 +23,11 @@ namespace DalXml
         internal static DalXml instatnce = new DalXml();
        
         private DalXml() { }
+        /// <summary>
+        /// This function allows the user to add a base station to the list.
+        /// </summary>
+        /// <param name="station"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool addStation(Station station)
         {
@@ -279,7 +284,7 @@ namespace DalXml
             return getStation.Id != default ? getStation : throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
         /// <summary>
-        /// 
+        /// This function returns a charging entity by ID.
         /// </summary>
         /// <param name="stationId"></param>
         /// <returns></returns>
@@ -291,7 +296,7 @@ namespace DalXml
             return getDroneCarge.StationId != default ? getDroneCarge : throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
         /// <summary>
-        /// 
+        /// This function returns a charging entity by ID.
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
@@ -399,6 +404,10 @@ namespace DalXml
 
             return parcels.Where(d => p == null ? true : p(d)).ToList();
         }
+        /// <summary>
+        /// This function returns information about the battery consumption in the drone.
+        /// </summary>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] PowerConsumptionRate()
         {
@@ -410,12 +419,12 @@ namespace DalXml
             return powerConsumptionRate;
         }
         /// <summary>
-        /// 
+        /// This function returns a login password.
         /// </summary>
         /// <returns></returns>
         public int PasswordDL() { return DataSource.Config.password; }
         /// <summary>
-        /// 
+        /// This function deletes an object by ID
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -434,7 +443,7 @@ namespace DalXml
             throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
         /// <summary>
-        /// 
+        /// This function deletes an object by ID.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -452,7 +461,7 @@ namespace DalXml
             throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
         /// <summary>
-        /// 
+        /// This function deletes an object by ID.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -471,7 +480,7 @@ namespace DalXml
             throw new IdNotExistExeptions("sorry, this customer is not found.");
         }
         /// <summary>
-        /// 
+        ///This function deletes an object by ID.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

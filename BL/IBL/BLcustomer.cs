@@ -12,7 +12,7 @@ namespace BL
     public partial class BL : IBL
     {
         /// <summary>
-        /// 
+        /// This function adds a customer.
         /// </summary>
         /// <param name="customer"></param>
         /// <returns></returns>
@@ -38,7 +38,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function updates information of the object
         /// </summary>
         /// <param name="IdCustomer"></param>
         /// <param name="newName"></param>
@@ -68,7 +68,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function returns an instance of the object by ID.
         /// </summary>
         /// <param name="customerId"></param>
         /// <returns></returns>
@@ -87,7 +87,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function returns an instance of the object by ID.
         /// </summary>
         /// <param name="customerId"></param>
         /// <returns></returns>
@@ -131,7 +131,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function returns an instance of the object by ID.
         /// </summary>
         /// <param name="customerID"></param>
         /// <returns></returns>
@@ -169,7 +169,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// Displays the list of all the customers.
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>

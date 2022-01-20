@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
     namespace BO
     {
-        public class Drone : abstractDrone
+    /// <summary>
+    /// Class for Drone.
+    /// </summary>
+    public class Drone : abstractDrone
         {
             public PackageInTransfer packageInTransfer { get; set; }
             public override string ToString()

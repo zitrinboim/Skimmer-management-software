@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// class for parcel to list.
+    /// </summary>
     public class ParcelToList : abstractParcel
     {
         public string sanderName { get; set; }

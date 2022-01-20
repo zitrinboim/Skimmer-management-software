@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using DO;
 
 namespace BO
-{
+{/// <summary>
+/// Class for abstractDrone.
+/// </summary>
     public class abstractDrone : DroneInParcel
     {
         public string Model { get; set; }

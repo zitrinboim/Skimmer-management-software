@@ -8,6 +8,9 @@ using System.Windows.Data;
 
 namespace PL
 {
+    /// <summary>
+    /// This class converts a position coordinate display to a display of degrees and seconds.
+    /// </summary>
     public class ConertLongetude : IValueConverter
     {
         ConvertDecimalToDegMinSec minSec;
@@ -25,6 +28,9 @@ namespace PL
             throw new NotImplementedException();
         }
     }
+    /// <summary>
+    /// This class converts a position coordinate display to a display of degrees and seconds.
+    /// </summary>
     public class ConertLattedue : IValueConverter
     {
         ConvertDecimalToDegMinSec minSec;

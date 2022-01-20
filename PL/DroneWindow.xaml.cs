@@ -86,7 +86,9 @@ namespace PL
                     break;
             }
         }
-
+        /// <summary>
+        /// This function determines the display of the window according to the position of the selected view status.
+        /// </summary>
         private void ListWindow()
         {
             DroneListView.Items.Refresh();
@@ -102,7 +104,9 @@ namespace PL
             StatusSelector.SelectedIndex = 0;
             droneToListsView.CollectionChanged += DroneToListsView_CollectionChanged;
         }
-
+        /// <summary>
+        /// This function determines the display of the window according to the position of the selected view status.
+        /// </summary>
         private void AddWindow()
         {
             actions = Actions.ADD;
@@ -115,7 +119,10 @@ namespace PL
             WeightSelector.SelectedIndex = -1;
             stations.ItemsSource = blGui.DisplaysIistOfStations(i => i.freeChargeSlots > 0);
         }
-
+        /// <summary>
+        /// This function determines the display of the window according to the position of the selected view status.
+        /// </summary>
+        /// <param name="id"></param>
         private void UpdatingWindow(int id)
         {
 
@@ -257,6 +264,11 @@ namespace PL
                 Close();
             }
         }
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -323,7 +335,7 @@ namespace PL
                                         relase.IsChecked = false;
                                         blGui.ReleaseDroneFromCharging(drone.Id);
                                         BorderStation.Visibility = Visibility.Hidden;
-                                        
+
                                     }
                                     droneToList.Model = drone.Model;
                                     _ = blGui.updateModelOfDrone(droneToList.Model, droneToList.Id);
@@ -371,6 +383,11 @@ namespace PL
             StationToList station = (StationToList)stations.SelectedItem;
             idStation = station.Id;
         }
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void parcelToDrone_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -387,7 +404,7 @@ namespace PL
                             drone = blGui.GetDrone(drone.Id);
                             refreshParent();
                             UpdatingWindow(drone.Id);
-                            
+
                         }
                         else
                         {
@@ -419,11 +436,14 @@ namespace PL
                 Close();
             }
         }
-
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-           
+
             switch (action)
             {
                 case "List":
@@ -448,7 +468,11 @@ namespace PL
                     break;
             }
         }
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void sand_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -482,7 +506,11 @@ namespace PL
                 Close();
             }
         }
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ActionParcelButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -534,7 +562,11 @@ namespace PL
                 Close();
             }
         }
+
         CollectionView myView;
+        /// <summary>
+        /// grouping functaion by DroneStatuses
+        /// </summary>
         private void AddGrouping()
         {
             string choise = "DroneStatuses";
@@ -550,6 +582,11 @@ namespace PL
                 return;
             }
         }
+        /// <summary>
+        /// regular expration funcation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onlyNumbersForID(object sender, TextCompositionEventArgs e)
         {
 
@@ -582,9 +619,7 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-     
-       
-         private void simolatorButton_Click(object sender, RoutedEventArgs e)
+        private void simolatorButton_Click(object sender, RoutedEventArgs e)
         {
             //PleaseWaitWindow pleaseWaitWindow=new PleaseWaitWindow();
             if (simolatorButton.Content.ToString() == "סימולטור")
@@ -598,7 +633,7 @@ namespace PL
                 backgroundWorker.DoWork += BackgroundWorker_DoWork;
                 backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
                 backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
-               
+
                 backgroundWorker?.RunWorkerAsync();
             }
             else
@@ -606,18 +641,18 @@ namespace PL
                 simolatorButton.Content = "סימולטור";
                 backgroundWorker?.CancelAsync();
 
-                //the drone in simulation
-                while(backgroundWorker != null && backgroundWorker.IsBusy == true)
+                while (backgroundWorker != null && backgroundWorker.IsBusy == true)
                 {
-                    MessageBox.Show( "אנא המתן לסיום התהליך");
-                    //new PleaseWaitWindow().ShowDialog();
+                    MessageBox.Show("אנא המתן לסיום התהליך");
                 }
-                //pleaseWaitWindow.Close();
                 visibilatyButtonsFunction(true);
-              
+
             }
         }
-
+        /// <summary>
+        /// Sets the button display mode.
+        /// </summary>
+        /// <param name="bol"></param>
         private void visibilatyButtonsFunction(bool bol)
         {
 
@@ -647,11 +682,11 @@ namespace PL
             refreshParent();
             UpdatingWindow(drone.Id);
         }
-      
+
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             blGui.newSimulator(drone.Id, helpProgressChanged, helpRunWorkerCompleted);
         }
-         
+
     }
 }

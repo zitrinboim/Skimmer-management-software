@@ -23,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XMLfiles", "XMLfiles", "{E4
 		DroneXml.Xml = DroneXml.Xml
 		ParcelXml.Xml = ParcelXml.Xml
 		StationXml.Xml = StationXml.Xml
+		מיני פרוייקט במערכות חלונות.docx = מיני פרוייקט במערכות חלונות.docx
 	EndProjectSection
 EndProject
 Global

@@ -7,6 +7,9 @@ using DO;
 
 namespace BO
 {
+    /// <summary>
+    /// class for abstractParcel.
+    /// </summary>
     public class abstractParcel
     {
         public int Id { get; set; }

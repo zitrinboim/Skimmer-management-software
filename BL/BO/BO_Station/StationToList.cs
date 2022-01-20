@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// class for station to list.
+    /// </summary>
     public class StationToList : abstractStationBase
     {
         public int busyChargeSlots { get; set; }

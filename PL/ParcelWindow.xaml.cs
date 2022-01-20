@@ -30,6 +30,12 @@ namespace PL
         List<ParcelToList> parcels;
         Actions actions;
         string action;
+        /// <summary>
+        /// c-tor.
+        /// </summary>
+        /// <param name="bL"></param>
+        /// <param name="_action"></param>
+        /// <param name="id"></param>
         public ParcelWindow(IBL bL, string _action = "", int id = 0)
         {
             blGui = bL;
@@ -76,7 +82,9 @@ namespace PL
                     break;
             }
         }
-
+        /// <summary>
+        /// This function determines the display of the window according to the position of the selected view status.
+        /// </summary>
         private void RemoveWindow()
         {
             BorderEnterNumber.Visibility = Visibility.Visible;
@@ -97,7 +105,9 @@ namespace PL
                 addButton.IsEnabled = false;
             }
         }
-
+        /// <summary>
+        /// This function determines the display of the window according to the position of the selected view status.
+        /// </summary>
         private void ListWindow()
         {
             ParcelListView.Items.Refresh();
@@ -116,7 +126,9 @@ namespace PL
             parcelToListView.CollectionChanged += ParcelToListView_CollectionChanged;
             AddGrouping();
         }
-
+        /// <summary>
+        /// This function determines the display of the window according to the position of the selected view status.
+        /// </summary>
         private void AddWindow()
         {
             actions = Actions.ADD;
@@ -133,7 +145,10 @@ namespace PL
             comboBoxOfsander.ItemsSource = customers;
             comboBoxOftarget.ItemsSource = customers;
         }
-
+        /// <summary>
+        /// This function determines the display of the window according to the position of the selected view status.
+        /// </summary>
+        /// <param name="id"></param>
         private void UpdatingWindow(int id)
         {
             try
@@ -242,7 +257,11 @@ namespace PL
                 ParcelListView.ItemsSource = parcelToListView.ToList().FindAll(i => i.priority == (BO.Priorities)priorities &&
                 i.parcelStatus == (BO.parcelStatus)parcelStatus && i.weight == (BO.WeightCategories)weightCategories);
         }
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -317,7 +336,11 @@ namespace PL
                 MessageBoxResult.None, MessageBoxOptions.RightAlign);
             }
         }
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             switch (action)
@@ -349,19 +372,31 @@ namespace PL
                 UpdatingWindow(parcelToList.Id);
             }
         }
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void targetButton_Click(object sender, RoutedEventArgs e)
         {
             new CustomerWindow(blGui, "ByParcel", parcel.Target.Id).Show();
             Close();
         }
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void sanderButton_Click(object sender, RoutedEventArgs e)
         {
             new CustomerWindow(blGui, "ByParcel", parcel.Sender.Id).Show();
             Close();
         }
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void droneInParcelButton_Click(object sender, RoutedEventArgs e)
         {
             int idDrone = (parcel.droneInParcel).Id;
@@ -370,6 +405,9 @@ namespace PL
         }
 
         CollectionView myView;
+        /// <summary>
+        /// grouping functaion by sanderName.
+        /// </summary>
         private void AddGrouping()
         {
             string choise = "sanderName";

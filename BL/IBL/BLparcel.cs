@@ -50,7 +50,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function returns an instance of the object by ID
         /// </summary>
         /// <param name="parcelId"></param>
         /// <returns></returns>
@@ -86,7 +86,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function returns an instance of the object by ID and location
         /// </summary>
         /// <param name="location"></param>
         /// <param name="parcelId"></param>
@@ -142,7 +142,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function returns an instance of the object by ID.
         /// </summary>
         /// <param name="parcelId"></param>
         /// <param name="customerId"></param>
@@ -179,7 +179,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function deletes an instance of a package.
         /// </summary>
         /// <param name="parcelId"></param>
         /// <returns></returns>
@@ -203,7 +203,7 @@ namespace BL
 
         }
         /// <summary>
-        /// 
+        /// This function returns an instance of the object by ID.
         /// </summary>
         /// <param name="parcelId"></param>
         /// <returns></returns>
@@ -234,7 +234,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// Displays the list of all the drones.
+        /// Displays the list of all the parcels.
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>

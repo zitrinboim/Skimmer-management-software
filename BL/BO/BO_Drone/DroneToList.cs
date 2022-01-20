@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// Class for DroneToList.
+    /// </summary>
     public class DroneToList : abstractDrone
     {
         public int parcelNumber { get; set; }

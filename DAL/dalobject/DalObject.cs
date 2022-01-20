@@ -227,12 +227,22 @@ namespace Dal
             Station getStation = DataSource.stations.Find(Station => Station.Id == Id);
             return getStation.Id != default ? getStation : throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
+        /// <summary>
+        /// This function returns a charging entity by ID.
+        /// </summary>
+        /// <param name="stationId"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCarge getDroneCargeByStationId(int stationId)
         {
             DroneCarge getDroneCarge = DataSource.droneCarges.Find(DroneCarge => DroneCarge.StationId == stationId);
             return getDroneCarge.StationId != default ? getDroneCarge : throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
+        /// <summary>
+        /// This function returns a charging entity by ID.
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCarge getDroneCargeByDroneId(int droneId)
         {
@@ -309,12 +319,12 @@ namespace Dal
             return DataSource.parcels.Where(d => p == null ? true : p(d)).ToList();
         }
         /// <summary>
-        /// 
+        /// This function returns a login password.
         /// </summary>
         /// <returns></returns>
         public int PasswordDL() { return DataSource.Config.password; }
         /// <summary>
-        /// 
+        /// This function returns information about the battery consumption in the drone.
         /// </summary>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -327,6 +337,11 @@ namespace Dal
             };
             return powerConsumptionRate;
         }
+        /// <summary>
+        /// This function deletes an object by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool removeDrone(int id)
         {
@@ -338,6 +353,11 @@ namespace Dal
             }
             throw new IdNotExistExeptions("sorry, this Drone is not found.");
         }
+        /// <summary>
+        /// This function deletes an object by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool removeStation(int id)
         {
@@ -349,6 +369,11 @@ namespace Dal
             }
             throw new IdNotExistExeptions("sorry, this Station is not found.");
         }
+        /// <summary>
+        /// This function deletes an object by ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool removeCustomer(int id)
         {
@@ -360,6 +385,11 @@ namespace Dal
             }
             throw new IdNotExistExeptions("sorry, this customer is not found.");
         }
+        /// <summary>
+        /// This function deletes an object by ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool removeParcel(int id)
         {

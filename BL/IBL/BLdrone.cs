@@ -22,7 +22,7 @@ namespace BL
             new DroneSimulator(this, droneId, updateDrone, cancellationThreading);
         }
         /// <summary>
-        /// 
+        /// This function adds a drone.
         /// </summary>
         /// <param name="drone"></param>
         /// <param name="idStation"></param>
@@ -70,7 +70,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function updates information of the object.
         /// </summary>
         /// <param name="newModel"></param>
         /// <param name="IdDrone"></param>
@@ -96,7 +96,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function sends a drone for charging.
         /// </summary>
         /// <param name="IdDrone"></param>
         /// <returns></returns>
@@ -155,7 +155,7 @@ namespace BL
             return closeStation.Id;
         }
         /// <summary>
-        /// 
+        /// This function Release a drone from charging
         /// </summary>
         /// <param name="IdDrone"></param>
         /// <param name="time"></param>
@@ -195,7 +195,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function is assigned to a drone package.
         /// </summary>
         /// <param name="IdDrone"></param>
         /// <returns></returns>
@@ -319,7 +319,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function performs package collection by drone.
         /// </summary>
         /// <param name="IdDrone"></param>
         /// <returns></returns>
@@ -349,7 +349,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function performs package delivery by drone.
         /// </summary>
         /// <param name="IdDrone"></param>
         /// <returns></returns>
@@ -404,7 +404,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function returns an instance of the object by ID.
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
@@ -443,7 +443,7 @@ namespace BL
             }
         }
         /// <summary>
-        /// 
+        /// This function returns an instance of the object by ID.
         /// </summary>
         /// <param name="droneId"></param>
         /// <returns></returns>
@@ -462,7 +462,7 @@ namespace BL
             return droneInParcel;
         }
         /// <summary>
-        /// 
+        /// Displays the list of all the drons.
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// class for PackageInTransfer.
+    /// </summary>
     public class PackageInTransfer : abstractParcel
     {
         public PackageInTransferStatus packageInTransferStatus { get; set; }

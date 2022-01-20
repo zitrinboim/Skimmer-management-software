@@ -24,7 +24,12 @@ namespace PL
     {
         private IBL blGui;
         private Customer customer;
-        
+        /// <summary>
+        /// c-tor.
+        /// </summary>
+        /// <param name="bL"></param>
+        /// <param name="_action"></param>
+        /// <param name="id"></param>
         public CustomerLoginWindow(IBL bL, string _action = "", int id = 0)
         {
             InitializeComponent();
@@ -52,7 +57,11 @@ namespace PL
                 Close();
             }
         }
-        
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -71,7 +80,11 @@ namespace PL
             new CustomerPackageWindow(blGui, idParcel).Show();
             Close();
         }
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             try

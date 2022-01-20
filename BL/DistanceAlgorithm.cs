@@ -7,6 +7,9 @@ using BO;
 
 namespace BO
 {
+    /// <summary>
+    /// class for distance calculations.
+    /// </summary>
     internal class DistanceAlgorithm
     {
         const double PIx = 3.141592653589793;

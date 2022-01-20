@@ -22,7 +22,12 @@ namespace PL
         private CustomerToList customerToList;
         Actions actions;
         string action;
-
+        /// <summary>
+        /// c-tor
+        /// </summary>
+        /// <param name="bL"></param>
+        /// <param name="_action"></param>
+        /// <param name="id"></param>
         public CustomerWindow(IBL bL, string _action = "", int id = 0)
         {
             blGui = bL;
@@ -63,6 +68,9 @@ namespace PL
             }
 
         }
+        /// <summary>
+        /// This function determines the display of the window according to the position of the selected view status.
+        /// </summary>
         private void AddWindow()
         {
             actions = Actions.ADD;
@@ -73,7 +81,9 @@ namespace PL
             Updating.Visibility = Visibility.Hidden;
             Add.Visibility = Visibility.Visible;
         }
-
+        /// <summary>
+        /// This function determines the display of the window according to the position of the selected view status.
+        /// </summary>
         private void ListWindow()
         {
             addButton.Visibility = Visibility.Visible;
@@ -86,6 +96,10 @@ namespace PL
             Add.Visibility = Visibility.Hidden;
             CustomerListView.ItemsSource = CustomersToListView;
         }
+        /// <summary>
+        /// This function determines the display of the window according to the position of the selected view status.
+        /// </summary>
+        /// <param name="id"></param>
         private void UpdatingWindow(int id)
         {
             try
@@ -119,7 +133,7 @@ namespace PL
             }
         }
 
-        public void InitList()//
+        public void InitList()
         {
             List<CustomerToList> temp = blGui.DisplaysIistOfCustomers().ToList();
             foreach (CustomerToList item in temp)
@@ -127,8 +141,11 @@ namespace PL
                 CustomersToListView.Add(item);
             }
         }
-
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -215,7 +232,11 @@ namespace PL
                 Close();
             }
         }
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             switch (action)
@@ -261,24 +282,44 @@ namespace PL
                 UpdatingWindow(customerToList.Id);
             }
         }
+        /// <summary>
+        /// regular expration funcation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onlyNumbersForID(object sender, TextCompositionEventArgs e)
         {
             string temp = ((TextBox)sender).Text + e.Text;
             Regex regex = new("^[0-9]{0,9}$");
             e.Handled = !regex.IsMatch(temp);
         }
+        /// <summary>
+        /// regular expration funcation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void phonePattren(object sender, TextCompositionEventArgs e)
         {
             string temp = ((TextBox)sender).Text + e.Text;
             Regex regex = new("^[0][0-9]{0,9}$");
             e.Handled = !regex.IsMatch(temp);
         }
+        /// <summary>
+        /// regular expration funcation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onlyAlphaBeta(object sender, TextCompositionEventArgs e)
         {
             
             Regex regex = new("[^א-ת]$");
             e.Handled = regex.IsMatch(e.Text);
         }
+        /// <summary>
+        /// regular expration funcation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lungetudePattren(object sender, TextCompositionEventArgs e)
         {
             string temp = ((TextBox)sender).Text + e.Text;
@@ -286,6 +327,11 @@ namespace PL
             Regex regexB = new("^[2-3]{1,2}[.][0-9]{0,9}$");
             e.Handled = !(regexA.IsMatch(temp) || regexB.IsMatch(temp));
         }
+        /// <summary>
+        /// regular expration funcation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lattitudePattren(object sender, TextCompositionEventArgs e)
         {
             string temp = ((TextBox)sender).Text + e.Text;
@@ -293,6 +339,11 @@ namespace PL
             Regex regexB = new("^[3-4]{1,2}[.][0-9]{0,9}$");
             e.Handled = !(regexA.IsMatch(temp) || regexB.IsMatch(temp));
         }
+        /// <summary>
+        /// MouseDown event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
 

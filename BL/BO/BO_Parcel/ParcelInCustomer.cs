@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// clas for parcel in customer.
+    /// </summary>
     public class ParcelInCustomer : abstractParcel
     {
         public parcelStatus parcelStatus { get; set; }

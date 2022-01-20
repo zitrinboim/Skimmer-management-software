@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// class for station.
+    /// </summary>
     public class Station : abstractStationBase
     {
         public Location location { get; set; }

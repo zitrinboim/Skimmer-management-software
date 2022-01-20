@@ -25,7 +25,11 @@ namespace PL
         private StationToList stationToList;
         Actions actions;
         string action;
-
+        /// <summary>
+        /// c-tor.
+        /// </summary>
+        /// <param name="bL"></param>
+        /// <param name="_action"></param>
         public StationWindow(IBL bL, string _action = "")
         {
             blGui = bL;
@@ -49,9 +53,9 @@ namespace PL
                     addButton.Content = "הצג";
                     Close.Content = "סגור";
                     actions = Actions.UPDATING;
-                    List<StationToList> stations  = blGui.DisplaysIistOfStations().ToList();
+                    List<StationToList> stations = blGui.DisplaysIistOfStations().ToList();
                     var stationCombo = from item in stations
-                                        select item.Id;
+                                       select item.Id;
                     comboID.ItemsSource = stationCombo;
                     break;
                 case "Add":
@@ -63,7 +67,9 @@ namespace PL
             }
 
         }
-
+        /// <summary>
+        /// This function determines the display of the window according to the position of the selected view status.
+        /// </summary>
         private void AddWindow()
         {
             actions = Actions.ADD;
@@ -73,7 +79,9 @@ namespace PL
             Updating.Visibility = Visibility.Hidden;
             Add.Visibility = Visibility.Visible;
         }
-
+        /// <summary>
+        /// This function determines the display of the window according to the position of the selected view status.
+        /// </summary>
         private void ListWindow()
         {
 
@@ -89,6 +97,10 @@ namespace PL
 
             SlutsSelector.SelectedIndex = 0;
         }
+        /// <summary>
+        /// This function determines the display of the window according to the position of the selected view status.
+        /// </summary>
+        /// <param name="id"></param>
         private void UpdatingWindow(int id)
         {
             actions = Actions.UPDATING;
@@ -111,7 +123,7 @@ namespace PL
             DataContext = station;
         }
 
-        public void InitList()//
+        public void InitList()
         {
             List<StationToList> temp = blGui.DisplaysIistOfStations().ToList();
             foreach (StationToList item in temp)
@@ -131,7 +143,11 @@ namespace PL
                 StationListView.ItemsSource = StationsToListView.ToList().FindAll(i => i.freeChargeSlots <= 0);
             AddGrouping();
         }
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -143,7 +159,7 @@ namespace PL
                 case Actions.ADD:
 
                     if (station.Id != default && station.name != default && station.location.longitude != default &&
-                        station.location.latitude != default && station.freeChargeSlots != default) 
+                        station.location.latitude != default && station.freeChargeSlots != default)
                     {
                         MessageBoxResult messageBoxResult = MessageBox.Show("האם ברצונך לאשר הוספה זו", "אישור", MessageBoxButton.OKCancel);
                         switch (messageBoxResult)
@@ -156,8 +172,8 @@ namespace PL
                                 }
                                 catch (BO.IdExistExeptions ex)
                                 {
-                                    MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error, 
-                                        MessageBoxResult.None,  MessageBoxOptions.RightAlign);
+                                    MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
+                                        MessageBoxResult.None, MessageBoxOptions.RightAlign);
                                     Close();
                                     break;
                                 }
@@ -178,12 +194,12 @@ namespace PL
                 case Actions.UPDATING:
                     if (addButton.Content == "הצג")
                     {
-                      stationToList = StationsToListView.ToList().Find(i => i.Id == station.Id);
-                       
-                            BorderEnterNumber.Visibility = Visibility.Hidden;
-                            update.Visibility = Visibility.Visible;
-                            UpdatingWindow(stationToList.Id);
-                       
+                        stationToList = StationsToListView.ToList().Find(i => i.Id == station.Id);
+
+                        BorderEnterNumber.Visibility = Visibility.Hidden;
+                        update.Visibility = Visibility.Visible;
+                        UpdatingWindow(stationToList.Id);
+
                         break;
                     }
 
@@ -194,7 +210,7 @@ namespace PL
                         switch (messageBoxResult)
                         {
                             case MessageBoxResult.OK:
-                               
+
                                 stationToList.name = station.name;
                                 stationToList.freeChargeSlots = station.freeChargeSlots;
                                 try
@@ -207,7 +223,7 @@ namespace PL
                                         MessageBoxResult.None, MessageBoxOptions.RightAlign);
                                     Close();
                                     break;
-                                } 
+                                }
                                 catch (BO.IdNotExistExeptions ex)
                                 {
                                     MessageBox.Show(ex.Message, "שגיאה פנימית", MessageBoxButton.OK, MessageBoxImage.Error,
@@ -236,7 +252,11 @@ namespace PL
                     break;
             }
         }
-
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             switch (action)
@@ -273,6 +293,9 @@ namespace PL
             Close();
         }
         CollectionView myView;
+        /// <summary>
+        /// grouping functaion by freeChargeSlots.
+        /// </summary>
         private void AddGrouping()
         {
             string choise = "freeChargeSlots";
@@ -288,6 +311,11 @@ namespace PL
                 return;
             }
         }
+        /// <summary>
+        /// regular expration funcation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onlyNumbersForID(object sender, TextCompositionEventArgs e)
         {
 
@@ -295,19 +323,35 @@ namespace PL
             Regex regex = new("^[0-9]{0,9}$");
             e.Handled = !regex.IsMatch(temp);
         }
+        /// <summary>
+        /// regular expration funcation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onlytwoNumbers(object sender, TextCompositionEventArgs e)
         {
             string temp = ((TextBox)sender).Text + e.Text;
             Regex regex = new("^[0-9]{1,2}$");
             e.Handled = !regex.IsMatch(temp);
         }
+        /// <summary>
+        /// regular expration funcation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lungetudePattren(object sender, TextCompositionEventArgs e)
         {
             string temp = ((TextBox)sender).Text + e.Text;
             Regex regexA = new("^[2-3]{1,2}[.]{0,1}$");
             Regex regexB = new("^[2-3]{1,2}[.][0-9]{0,9}$");
-            e.Handled = !(regexA.IsMatch(temp)|| regexB.IsMatch(temp));
-        } private void lattitudePattren(object sender, TextCompositionEventArgs e)
+            e.Handled = !(regexA.IsMatch(temp) || regexB.IsMatch(temp));
+        }
+        /// <summary>
+        /// regular expration funcation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lattitudePattren(object sender, TextCompositionEventArgs e)
         {
             string temp = ((TextBox)sender).Text + e.Text;
             Regex regexA = new("^[3-4]{1,2}[.]{0,1}$");

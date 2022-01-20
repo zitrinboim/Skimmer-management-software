@@ -26,7 +26,11 @@ namespace PL
 
         private Parcel parcel;
         private ParcelToList parcelToList;
-
+        /// <summary>
+        /// c-tor
+        /// </summary>
+        /// <param name="bL"></param>
+        /// <param name="id"></param>
         public CustomerPackageWindow(IBL bL, int id = 0)
         {
             InitializeComponent();
@@ -61,6 +65,11 @@ namespace PL
                 MessageBoxResult.None, MessageBoxOptions.RightAlign);
             }
         }
+        /// <summary>
+        /// This function defines the actions behind the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();

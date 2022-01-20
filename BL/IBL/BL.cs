@@ -31,6 +31,9 @@ namespace BL
         internal static double Heavy;
         internal static double ChargingRate;
 
+        /// <summary>
+        /// c-tor
+        /// </summary>
         private BL()
         {
             try
@@ -143,6 +146,10 @@ namespace BL
                 throw new IdNotExistExeptions("ERORR", Ex);
             }
         }
+        /// <summary>
+        /// This function brings up the password.
+        /// </summary>
+        /// <returns></returns>
         public int Password(){ return dal.PasswordDL(); }
     }
 }
