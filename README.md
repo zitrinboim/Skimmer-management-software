@@ -3,6 +3,7 @@
 ## Overview
 This C# project simulates software for managing a product courier company utilizing drones for deliveries. It includes features such as drone management (battery percentages, locations, carrying capacity), docking stations for charging, customer management (locations), and package management.
 
+## Technologies Used
 C#: Primary programming language used for developing the application.
 XML: Used for storing and managing data such as drone information, customer details, and package data in structured format.
 WPF (Windows Presentation Foundation): Used for building the graphical user interface (GUI) of the application, providing a visually appealing and interactive way for users to interact with the system.
